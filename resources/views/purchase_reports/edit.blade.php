@@ -56,9 +56,9 @@
                                     @method('PUT')
                                     <div class="col-6">
                                         <input type="hidden" id="invoice_type" class="form-control" name="v_type"
-                                            value="BPN"  readonly>
+                                            value="BPN" required readonly>
                                         <input type="hidden" id="invoice" class="form-control" name="invoice_number"
-                                            >
+                                            required>
                                         <input type="hidden" id="totalAmount" name="total_amount">
                                         <input type="hidden" id="totalWeight" name="total_weight">
                                         <input type="hidden" id="entryCash" class="form-control" name="cash" value="{{ $purchaseAccount ? $purchaseAccount->id : '' }}">
@@ -79,7 +79,7 @@
                                         <div class="mb-3">
                                             <label for="entryParty" class="form-label">Supplier</label>
                                             <select name="account" class="form-control select2" data-toggle="select2"
-                                                id="entryParty" >
+                                                id="entryParty" required>
                                                 <option value="">Select</option>
                                                 @foreach  ($accountSuppliers as $accountSupplie)
                                                 <option value="{{ $accountSupplie->id }}">
@@ -92,7 +92,7 @@
                                         <div class="mb-3">
                                             <label for="itemTitle" class="form-label">Item Title</label>
                                             <select name="item" class="form-control select2" data-toggle="select2"
-                                                id="itemTitle" >
+                                                id="itemTitle" required>
                                                 <option value="">Select</option>
                                                 @foreach ($items as $item)
                                                 <option value="{{ $item->id }}">

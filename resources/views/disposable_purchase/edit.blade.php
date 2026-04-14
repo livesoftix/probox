@@ -46,7 +46,7 @@
                                         @method('PUT')
                                         <div class="col-6">
                                             <input type="hidden" id="invoice_type" class="form-control" name="v_type"
-                                                value="DPN" required readonly>
+                                                value="DPN"  readonly>
                                             <input type="hidden" id="totalAmount" name="total_amount" value="0">
                                             
                                             <div class="mb-3">
@@ -55,7 +55,7 @@
 
                                             <div class="mb-3">
                                                 <label for="entryDate" class="form-label">Date</label>
-                                                <input type="date" id="entryDate" class="form-control" name="date" required>
+                                                <input type="date" id="entryDate" class="form-control" name="date" >
                                             </div>
 
                                             <div class="mb-3">
@@ -66,7 +66,7 @@
 
                                             <div class="mb-3">
                                                 <label for="entryParty" class="form-label">Supplier</label>
-                                                <select name="supplier" class="form-control select2" data-toggle="select2" id="entryParty" required>
+                                                <select name="supplier" class="form-control select2" data-toggle="select2" id="entryParty" >
                                                     <option value="">Select Supplier</option>
                                                     @foreach($suppliers as $supplier)
                                                         <option value="{{ $supplier->id }}">
@@ -78,7 +78,7 @@
 
                                             <div class="mb-3">
                                                 <label for="item_id" class="form-label">Item</label>
-                                                <select name="item_id" class="form-control select2" data-toggle="select2" id="item_id" required>
+                                                <select name="item_id" class="form-control select2" data-toggle="select2" id="item_id" >
                                                     <option value="">Select Item</option>
                                                     @foreach ($items as $item)
                                                         <option value="{{ $item->id }}" data-rate="{{ $item->purchase ?? 0 }}">
@@ -90,12 +90,12 @@
 
                                             <div class="mb-3">
                                                 <label for="qty" class="form-label">Quantity</label>
-                                                <input type="number" id="qty" class="form-control" name="qty" step="0.01" required>
+                                                <input type="number" id="qty" class="form-control" name="qty" step="0.01" >
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="weight_type" class="form-label">Unit</label>
-                                                <select id="weight_type" class="form-control" name="weight_type" required>
+                                                <select id="weight_type" class="form-control" name="weight_type" >
                                                     <option value="">Select Unit</option>
                                                     <option value="litre">Litre (L)</option>
                                                     <option value="ml">Millilitre (ml)</option>
@@ -106,7 +106,7 @@
 
                                             <div class="mb-3">
                                                 <label for="rate" class="form-label">Rate</label>
-                                                <input type="number" id="rate" class="form-control" name="rate" step="0.01" required>
+                                                <input type="number" id="rate" class="form-control" name="rate" step="0.01" >
                                             </div>
 
                                             <div class="mb-3">
@@ -378,8 +378,8 @@
             });
 
             // Submit form via AJAX to auto-save
-            var form = document.getElementById('voucherForm');
-            var formData = new FormData(form);
+            // var form = document.getElementById('voucherForm');
+            // var formData = new FormData(form);
             // $.ajax({
             //     url: form.action,
             //     method: form.method,
