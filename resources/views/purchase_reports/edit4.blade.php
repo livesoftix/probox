@@ -111,7 +111,8 @@
                                                 <label for="freight" class="form-label">Freight</label>
                                                 <input type="number" id="freight" class="form-control" name="freight" value="0" readonly>
                                             </div>
-<button type="submit" id="updateInvoice" class="btn btn-primary">Add Entry</button>
+                                                        <button type="submit" id="updateInvoice" class="btn btn-primary">Add Entry</button>
+                                                       <button type="submit" class="btn btn-success">Update Invoice</button>
 
                                         </div>
 
@@ -291,20 +292,20 @@
 
             // Submit the form using AJAX to avoid page reload
             var form = document.getElementById('voucherForm');
-            var formData = new FormData(form);
-            $.ajax({
-                url: form.action,  // Form action URL
-                method: form.method, // POST method
-                data: formData, // The form data
-                processData: false, // Don't process the data
-                contentType: false, // Don't set content type
-                success: function(response) {
-                    // Do nothing on success, as no message should be shown
-                },
-                error: function(xhr, status, error) {
-                    // Do nothing on error, as no message should be shown
-                }
-            });
+            // var formData = new FormData(form);
+            // $.ajax({
+            //     url: form.action,  // Form action URL
+            //     method: form.method, // POST method
+            //     data: formData, // The form data
+            //     processData: false, // Don't process the data
+            //     contentType: false, // Don't set content type
+            //     success: function(response) {
+            //         // Do nothing on success, as no message should be shown
+            //     },
+            //     error: function(xhr, status, error) {
+            //         // Do nothing on error, as no message should be shown
+            //     }
+            // });
         });
     });
     

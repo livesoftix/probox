@@ -57,6 +57,7 @@ $newInvoiceNumber = $maxVoucherNo ? ((int) $maxVoucherNo + 1) : 1;
             'amount' => $entry['amount'] ?? 0,
             'vorcher_no' => $newInvoiceNumber,
             'freight' => $entry['freight'] ?? null,
+            'v_date'   =>$entry['date']
         ]);
         $trndtl = TRNDTL::create([
             'v_no' => $newInvoiceNumber,
@@ -84,7 +85,7 @@ $newInvoiceNumber = $maxVoucherNo ? ((int) $maxVoucherNo + 1) : 1;
         if ($entry['freight'] > 0) {
             TRNDTL::create([
         'v_no' => $newInvoiceNumber,
-        'date' => Carbon::now(),
+         'v_date'   =>$entry['date'],
         'account_id' => $PurfreightExp,
         'cash_id' => $Purfreight,
         'preparedby' => $entry['prepared_by'] ?? null,
@@ -223,6 +224,7 @@ public function update(Request $request, $id)
                 'amount' => $entry['amount'] ?? 0,
                 'vorcher_no' => $id,
                 'freight' => $entry['freight'] ?? null,
+                 'v_date'   =>$entry['date']
             ]);
 
             TRNDTL::create([
@@ -263,9 +265,11 @@ public function update(Request $request, $id)
 
         DB::commit();
 
-        return $request->ajax()
-            ? response()->json(['success' => 'New entries have been added successfully for PIN-' . $id], 200)
-            : redirect()->back()->with('success', 'New entries have been added successfully for PIN-' . $id);
+        // return $request->ajax()
+        //     ? response()->json(['success' => 'New entries have been added successfully for PIN-' . $id], 200)
+        //     : redirect()->back()->with('success', 'New entries have been added successfully for PIN-' . $id);
+            return redirect()->route('ink_purchase.reports')->with('success', 'Voucher No.  PIN-' . $id . ' has been updated successfully.');
+
     } catch (\Exception $e) {
         DB::rollBack();
 

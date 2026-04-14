@@ -19,7 +19,8 @@ class DisposablePurchase extends Model
         'voucher_no',
         'freight',
         'freight_type',
-        'image'
+        'image',
+        'v_date'
     ];
 
     public function item()

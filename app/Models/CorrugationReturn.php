@@ -15,6 +15,7 @@ class CorrugationReturn extends Model
         'size',
         'vorcher_no',
         'item_id',
+        'v_date'
     ];
     public function trndtls()
     {

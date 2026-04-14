@@ -14,6 +14,7 @@ class InkReturn extends Model
         'rate',
         'amount',
         'vorcher_no',
+        'v_date'
     ];
     public function trndtls()
     {

@@ -106,8 +106,8 @@
                                                 <label for="freight" class="form-label">Freight</label>
                                                 <input type="number" id="freight" class="form-control" name="freight" value="0" readonly>
                                             </div>
-<button type="submit" id="updateInvoice" class="btn btn-primary">Add Entry</button>
-
+<button type="button" id="updateInvoice" class="btn btn-primary">Add Entry</button>
+<button type="submit" class="btn btn-success">Update Invoice</button>
                                         </div>
 
                                         <!-- Entries Table -->
@@ -134,7 +134,7 @@
                                                     {{-- @foreach ($purchaseDetails as $purchase) --}}
                                                         {{-- @php
                                                             // Get all related trndtl records for this purchase detail by matching voucher number (v_no)
-                                                            $relatedTrndtls = $trndtls->where('v_no', $purchase->vorcher_no);
+                                                            $relatedTrndtls = $trndtls->where('v_no', $purchase->v_no);
                                                         @endphp --}}
 
                                                         @if ($voucher->isNotEmpty())
@@ -287,19 +287,19 @@
             // Submit the form using AJAX to avoid page reload
             var form = document.getElementById('voucherForm');
             var formData = new FormData(form);
-            $.ajax({
-                url: form.action,  // Form action URL
-                method: form.method, // POST method
-                data: formData, // The form data
-                processData: false, // Don't process the data
-                contentType: false, // Don't set content type
-                success: function(response) {
-                       location.reload();
-                },
-                error: function(xhr, status, error) {
-                    // Do nothing on error, as no message should be shown
-                }
-            });
+            // $.ajax({
+            //     url: form.action,  // Form action URL
+            //     method: form.method, // POST method
+            //     data: formData, // The form data
+            //     processData: false, // Don't process the data
+            //     contentType: false, // Don't set content type
+            //     success: function(response) {
+            //            location.reload();
+            //     },
+            //     error: function(xhr, status, error) {
+            //         // Do nothing on error, as no message should be shown
+            //     }
+            // });
         });
     });
     

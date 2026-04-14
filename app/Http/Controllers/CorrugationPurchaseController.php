@@ -60,11 +60,12 @@ class CorrugationPurchaseController extends Controller
                 'amount' => $entry['amount'] ?? 0,
                 'vorcher_no' => $newInvoiceNumber,
                 'freight' => $entry['freight'] ?? null,
+                'date'=>$entry['date']
             ]);
 
             $trndtl = TRNDTL::create([
                 'v_no' => $newInvoiceNumber,
-                'date' => Carbon::now(),
+               'date'=>$entry['date'],
                 'account_id' => $entry['supplier'] ?? null,
                 'preparedby' => $entry['prepared_by'] ?? null,
                 'cash_id' => $entry['cash'] ?? null,
@@ -232,6 +233,7 @@ class CorrugationPurchaseController extends Controller
                 'amount' => $entry['amount'] ?? 0,
                 'vorcher_no' => $id,
                 'freight' => $entry['freight'] ?? null,
+                'date'=>$entry['date']
             ]);
         }
 

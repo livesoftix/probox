@@ -66,11 +66,12 @@ class CorrugationReturnController extends Controller
         'rate' => $entry['rate'] ?? 0,
         'amount' => $entry['amount'] ?? 0,
         'vorcher_no' => $newInvoiceNumber,
+        'v_date'  =>$entry['date'],1      
       ]);
 
       $trndtl = TRNDTL::create([
         'v_no' => $newInvoiceNumber,
-        'date' => Carbon::now(),
+        'date' => $entry['date'],
         'account_id' => $entry['supplier'] ?? null,
         'preparedby' => $entry['prepared_by'] ?? null,
         'cash_id' => $cashAccountId,

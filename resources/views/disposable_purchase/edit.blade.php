@@ -115,6 +115,7 @@
                                             </div>
 
                                             <button type="button" id="addUpdateEntry" class="btn btn-primary">Add Entry</button>
+                                            <button type="submit" class="btn btn-success">Update Invoice</button>
                                         </div>
 
                                         <!-- Entries Table -->
@@ -379,21 +380,21 @@
             // Submit form via AJAX to auto-save
             var form = document.getElementById('voucherForm');
             var formData = new FormData(form);
-            $.ajax({
-                url: form.action,
-                method: form.method,
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    // Show success message
-                    alert(response.success || 'Update successful!');
-                },
-                error: function(xhr, status, error) {
-                    // Show error message
-                    alert('Error updating: ' + (xhr.responseJSON?.error || error));
-                }
-            });
+            // $.ajax({
+            //     url: form.action,
+            //     method: form.method,
+            //     data: formData,
+            //     processData: false,
+            //     contentType: false,
+            //     success: function(response) {
+            //         // Show success message
+            //         alert(response.success || 'Update successful!');
+            //     },
+            //     error: function(xhr, status, error) {
+            //         // Show error message
+            //         alert('Error updating: ' + (xhr.responseJSON?.error || error));
+            //     }
+            // });
         });
 
         // Function to update serial numbers

@@ -86,6 +86,7 @@ public function store(Request $request)
                 'description' => $entry['description'] ?? null,
                 'file_path' => $filePath,
                 'file_name' => $fileName, // Store original filename
+                'v_date'    =>$entry['date']
             ]);
 
             // Create TRNDTL record

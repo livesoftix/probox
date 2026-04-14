@@ -18,6 +18,7 @@ class DyePurchase extends Model
     'freight_type',
     'item_code',
     'qty',
+    'v_date',
     ];
 
     public function trndtls()

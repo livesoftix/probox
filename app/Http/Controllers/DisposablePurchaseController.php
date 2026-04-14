@@ -76,6 +76,7 @@ class DisposablePurchaseController extends Controller
                     'voucher_no' => $voucherNo,
                     'freight'    => $entry['freight'] ?? 0,
                     'image' => $imagePath,
+                      'v_date' =>$request->input('date'),
                 ]);
 
                 // Insert into TRNDTL (main entry)
@@ -298,6 +299,7 @@ class DisposablePurchaseController extends Controller
                         'amount' => $amount,
                         'voucher_no' => $v_no,
                         'freight' => $entryData['freight'] ?? 0,
+                          'v_date' => $date,
                     ];
                     
                     // Handle image for new entry
@@ -311,7 +313,7 @@ class DisposablePurchaseController extends Controller
 
                     TRNDTL::create([
                         'v_no' => $v_no,
-                        'date' => $date,
+                        'date' => $request->input('date'),
                         'account_id' => $entryData['supplier'] ?? null,
                         'cash_id' => null,
                         'preparedby' => $entryData['prepared_by'] ?? Auth::user()->name,
@@ -381,48 +383,83 @@ class DisposablePurchaseController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
-        $trndtlEntry = TRNDTL::find($id);
-        $v_no = $trndtlEntry->v_no;
+    // public function destroy($id)
+    // {
+    //     $trndtlEntry = TRNDTL::find($id);
+    //     $v_no = $trndtlEntry->v_no;
 
-        if (!$trndtlEntry) {
-            return redirect()->back()->with('error', 'Record not found.');
-        }
+    //     if (!$trndtlEntry) {
+    //         return redirect()->back()->with('error', 'Record not found.');
+    //     }
 
-        DB::beginTransaction();
-        try {
-            if ($trndtlEntry->v_type == 'DSPN' && $trndtlEntry->debit == 0) {
-                $r_id = $trndtlEntry->r_id;
+    //     DB::beginTransaction();
+    //     try {
+    //         if ($trndtlEntry->v_type == 'DSPN' && $trndtlEntry->debit == 0) {
+    //             $r_id = $trndtlEntry->r_id;
 
-                if ($r_id) {
-                    TRNDTL::where('r_id', $r_id)
-                        ->where('v_type', 'DSPN')
-                        ->delete();
+    //             if ($r_id) {
+    //                 TRNDTL::where('r_id', $r_id)
+    //                     ->where('v_type', 'DSPN')
+    //                     ->delete();
 
-                    DisposablePurchase::where('id', $r_id)->delete();
-                } else {
-                    $trndtlEntry->delete();
-                }
+    //                 DisposablePurchase::where('id', $r_id)->delete();
+    //             } else {
+    //                 $trndtlEntry->delete();
+    //             }
 
-                DB::commit();
-                return redirect()->route('disposable_purchase.edit', $v_no)
-                     ->with('success', 'Entry deleted successfully.');
-            }
+    //             DB::commit();
+    //             return redirect()->route('disposable_purchase.edit', $v_no)
+    //                  ->with('success', 'Entry deleted successfully.');
+    //         }
 
-            $trndtlEntry->delete();
-            DB::commit();
-            return redirect()->route('disposable_purchase.reports')->with('success', 'Record deleted successfully.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Delete failed: ' . $e->getMessage());
-        }
+    //         $trndtlEntry->delete();
+    //         DB::commit();
+    //          return redirect()->back()->with('success', 'Record deleted successfully.');
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         return redirect()->back()->with('error', 'Delete failed: ' . $e->getMessage());
+    //     }
+    // }
+
+    // public function delete($id)
+    // {
+    //     return $this->destroy($id);
+    // }
+
+
+    
+public function destroy($id)
+{
+    $trndtl = TRNDTL::find($id);
+
+    if (!$trndtl) {
+        return redirect()->back()->with('error', 'Record not found.');
     }
 
-    public function delete($id)
-    {
-        return $this->destroy($id);
+    if ($trndtl->v_type === 'BPN') {
+        // Delete all related TRNDTL records where r_id matches
+        TRNDTL::where('r_id', $trndtl->r_id)
+        ->where('v_type', 'BPN')->delete();
+
+        // Delete the related ShipperPurchases record if it exists
+        $purchaseDetail = PurchaseDetail::find($trndtl->r_id);
+        if ($purchaseDetail) {
+            $purchaseDetail->delete();
+        }
+    } else {
+        // Delete only the individual TRNDTL record
+        $trndtl->delete();
     }
+
+    return redirect()->back()->with('success', 'Record deleted successfully.');
+}
+
+
+public function delete($id)
+{
+    
+    return $this->destroy($id);
+}
         public function editFreight($v_no)
     {
         // Query the TRNDTL model to find freight data for this voucher

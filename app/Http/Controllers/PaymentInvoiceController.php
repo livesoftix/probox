@@ -56,6 +56,7 @@ class PaymentInvoiceController extends Controller
 
 public function store(Request $request)
 {
+    // dd("jncn");
     // Get the highest v_no for this v_type
     $lastInvoiceNumber = TRNDTL::where('v_type', $request->v_type)
         ->max('v_no');
@@ -90,6 +91,7 @@ public function store(Request $request)
             'total_wt'   => $entry['weight'] ?? 0,
             'freight'    => $entry['freight'] ?? 0,
             'vorcher_no' => $newInvoiceNumber,
+            'v_date'     =>$entry['date'],
         ]);
 
         // Save main TRNDTL
@@ -268,7 +270,9 @@ public function update(Request $request, $id)
                 'total_wt' => $entry['weight'] ?? 0,
                 'freight' =>0,
                 'vorcher_no' => $id,
+                'v_date'     =>$entry['date'],
             ]);
+            // dd($purchaseDetail);
 
             // Create a new TRNDTL record for the new purchase detail
             TRNDTL::create([
@@ -329,7 +333,7 @@ public function update(Request $request, $id)
             ? response()->json(['error' => 'An error occurred while adding new entries. Please try again.'], 500)
             : redirect()->back()->withErrors(['error' => 'An error occurred while adding new entries.']);
     }
-}
+ }
 
  
 

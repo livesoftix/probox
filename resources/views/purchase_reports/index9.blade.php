@@ -306,7 +306,7 @@ const freightContent = `
     });
 
     // Calculate total quantities
-    $totalQtys = $trndtl->pluck('shipperpurchases')->where('vorcher_no')->sum('qty');
+    $totalQtys = $trndtl->pluck('shipperpurchases')->where('v_no')->sum('qty');
 @endphp
 
     @if($freightDetails->isNotEmpty())

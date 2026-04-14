@@ -56,10 +56,11 @@ class ShipperReturnController extends Controller
         'amount' => $entry['amount'] ?? 0,
         'vorcher_no' => $newInvoiceNumber,
         'freight' => $entry['freight'] ?? null,
+        'v_date'   =>$entry['date'],
       ]);
       $trndtl = TRNDTL::create([
         'v_no' => $newInvoiceNumber,
-        'date' => Carbon::now(),
+        'date' => $entry['date'],
         'account_id' => $entry['supplier'] ?? null,
         'preparedby' => $entry['prepared_by'] ?? null,
         'cash_id' => $cashAccountId,

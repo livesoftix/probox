@@ -16,6 +16,7 @@ class DyeReturn extends Model
     'file_path',
     'item_code',
     'qty',
+    'v_date'
     ];
 
     public function trndtls()

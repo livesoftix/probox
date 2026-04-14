@@ -88,12 +88,13 @@ class PlatePurchaseController extends Controller
                 'amount' => $entry['amount'] ?? 0,
                 'vorcher_no' => $newInvoiceNumber,   // Associate with the voucher
                 'freight' => $entry['freight'] ?? null,
+                'v_date'=>$entry['date'],
             ]);
 
              // Create a new TRNDTL record with the same voucher number
              $trndtl = TRNDTL::create([
                 'v_no' => $newInvoiceNumber,
-                'date' => Carbon::now(),
+                'date' => $entry['date'],
                 'account_id' => $entry['supplier'] ?? null,
                 'preparedby' => $entry['prepared_by'] ?? null,
                 'cash_id' => $entry['cash'] ?? null,
@@ -259,6 +260,7 @@ public function update(Request $request, $id)
                     'amount' => $entry['amount'] ?? 0,
                     'vorcher_no' => $id,
                     'freight' => $entry['freight'] ?? null,
+                    'v_date'  =>$entry['date']
             ]);
 
             // Create a new TRNDTL record for the new purchase detail

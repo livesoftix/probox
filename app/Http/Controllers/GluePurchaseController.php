@@ -65,12 +65,13 @@ $newInvoiceNumber = $lastInvoiceNumber + 1;
                 'amount' => $entry['amount'] ?? 0,
                 'vorcher_no' => $newInvoiceNumber, 
                 'freight' => $entry['freight'] ?? null,// Associate with the voucher
+                'v_date' =>$entry['date']
             ]);
 
              // Create a new TRNDTL record with the same voucher number
              $trndtl = TRNDTL::create([
                 'v_no' => $newInvoiceNumber,
-                'date' => Carbon::now(),
+              'date' =>$entry['date'],
                 'account_id' => $entry['supplier'] ?? null,
                 'preparedby' => $entry['prepared_by'] ?? null,
                 'cash_id' => $entry['cash'] ?? null,
@@ -95,7 +96,7 @@ $newInvoiceNumber = $lastInvoiceNumber + 1;
         if ($entry['freight'] > 0) {
             TRNDTL::create([
         'v_no' => $newInvoiceNumber,
-        'date' => Carbon::now(),
+        'date' => $entry['date'],
         'account_id' => $PurfreightExp,
         'cash_id' => $Purfreight,
         'preparedby' => $entry['prepared_by'] ?? null,
@@ -259,6 +260,7 @@ public function update(Request $request, $id)
                 'amount' => $entry['amount'] ?? 0,
                 'vorcher_no' => $id,
                 'freight' => $entry['freight'] ?? null,
+                  'v_date' =>$entry['date']
             ]);
 
             TRNDTL::create([

@@ -19,6 +19,7 @@ class PurchaseReturn extends Model
         'amount',
         'vorcher_no',
                 'freight',
+                'v_date'
     ];
     public function trndtls()
     {

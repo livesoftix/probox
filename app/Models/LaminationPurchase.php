@@ -17,6 +17,7 @@ class LaminationPurchase extends Model
         'item_id',
                 'freight',
                 'freight_type',
+                'v_date'
     ];
     public function trndtls()
     {

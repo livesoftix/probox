@@ -33,7 +33,7 @@ class PurchaseReturnController extends Controller
             $supplierLevelId = $erpParams->first()->supplier_level;
             // Fetch AccountMasters associated with the cash_level
             $accountMasters = AccountMaster::where('level2_id', $cashLevelId)->get();
-            $accountSuppliers = AccountMaster::where('level2_id', 4)->get();
+            $accountSuppliers = AccountMaster::where('level2_id', $supplierLevelId)->get();
             $purchaseAccountId = $erpParams->first()->purchase_account;
             $purchaseAccount = AccountMaster::find($purchaseAccountId);
         }
@@ -100,12 +100,13 @@ class PurchaseReturnController extends Controller
         'total_wt' => $entry['weight'] ?? 0,
         'vorcher_no' => $newInvoiceNumber,
         'freight' => $entry['freight'] ?? 0,
+        'v_date'   =>$entry['date'],
     ]);
 
     // Create a new TRNDTL record
     $trndtl = TRNDTL::create([
         'v_no' => $newInvoiceNumber,
-        'date' => Carbon::now(),
+        'date' => $entry['date'],
         'account_id' => $entry['supplier'] ?? null,
         'preparedby' => $entry['prepared_by'] ?? null,
         'cash_id' =>  $cashAccountId,
@@ -287,6 +288,7 @@ public function update(Request $request, $id)
                 'total_wt' => $entry['weight'] ?? 0,
                 'vorcher_no' => $id,
                 'freight' => $entry['freight'] ?? 0,
+                 'v_date'   => $entry['date'],
             ]);
 
             // Create a new TRNDTL record for the new purchase detail
@@ -294,7 +296,7 @@ public function update(Request $request, $id)
                 'v_no' => $id, 
                 'v_type' => 'PRN', 
                 'r_id' => $purchaseReturn->id,
-                'date' => Carbon::now(),
+                'date' => $entry['date'],
                 'account_id' => $entry['supplier'] ?? null,
                 'preparedby' => $entry['prepared_by'] ?? null,
                 'cash_id' => $entry['cash'] ?? null,

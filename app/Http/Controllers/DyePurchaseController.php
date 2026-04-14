@@ -43,7 +43,7 @@ class DyePurchaseController extends Controller
         try {
             $lastEntry = DyePurchase::orderBy('v_no', 'desc')->first();
             $newVoucherNo = $lastEntry ? (int)$lastEntry->v_no + 1 : 1;
-
+    //    dd($newVoucherNo);
             $erpParam = ErpParam::first();
             if (!$erpParam || !$erpParam->purchase_account) {
                 return redirect()->back()->with('error', 'Cash Account is not configured in ERP Params.');
@@ -74,7 +74,9 @@ class DyePurchaseController extends Controller
                     'description' => $entry['description'] ?? null,
                     'file_path' => $filePath,
                     'file_name' => $fileName,
+                    'v_date' => $entry['date'],
                 ]);
+                // dd($dyePurchase);
 
                 TRNDTL::create([
                     'v_no' => $newVoucherNo,
@@ -89,12 +91,13 @@ class DyePurchaseController extends Controller
                     'v_type' => 'DPN',
                     'r_id' => $dyePurchase->id,
                 ]);
+                dd("cnxcn0");
             }
 
             DB::commit();
             return redirect()->route('dye_purchases.reports')->with([
                 'success' => 'Voucher No. ' . $newVoucherNo . ' has been saved successfully.',
-                'voucher_no' => $newVoucherNo
+                'v_no' => $newVoucherNo
             ]);
 
         } catch (\Exception $e) {
@@ -213,6 +216,7 @@ class DyePurchaseController extends Controller
                     'description' => $entry['description'] ?? null,
                     'file_path' => $filePath,
                     'file_name' => $fileName,
+                    'v_date' => $entry['date'],
                 ]);
 
                 TRNDTL::create([

@@ -22,6 +22,7 @@ class PlateReturn extends Model
         'amount',
         'vorcher_no',
         'country',
+        'v_date'
     ];
     public function trndtls()
     {

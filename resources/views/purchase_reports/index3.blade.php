@@ -155,18 +155,33 @@
                                    {{ $data->status == 'official' ? 'checked' : '' }}>
                         </td>
                         <td class="no-print">
-                            <div class="action-btns" style="display: flex; gap: 6px; align-items: center; justify-content: center;">
-                                <form action="{{ route('plate_purchase.destroy', ['v_no' => $data->v_no, 'id' => $data->id]) }}" method="POST" class="delete-entry-form" onsubmit="return false;" style="margin:0;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="action-icon-btn bg-danger" onclick="confirmDeleteAjaxIndex3(this, {{ $data->id }})" title="Delete">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
-                                </form>
-                                <a href="{{ route('plate_purchase.edit', ['v_no' => $data->v_no]) }}" class="action-icon-btn bg-warning" onclick="return checkPermissionEdit()" title="Edit">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                            </div>
+                           <div style="display:flex; gap:8px; align-items:center; justify-content:center;">
+
+    <form action="{{ route('plate_purchase.destroy', ['v_no' => $data->v_no, 'id' => $data->id]) }}" 
+          method="POST" 
+          onsubmit="return false;" 
+          style="margin:0; display:flex;">
+        @csrf
+        @method('DELETE')
+
+        <button type="button"
+                onclick="confirmDeleteAjaxIndex3(this, {{ $data->id }})"
+                title="Delete"
+                class="bg-danger"
+                style="width:56px; height:36px; display:flex; align-items:center; justify-content:center; border:none; border-radius:6px; color:#fff; padding:0; flex-shrink:0;">
+            <i class="bi bi-trash3" style="font-size:14px;color:#fff;">Delete</i>
+        </button>
+    </form>
+
+    <a href="{{ route('plate_purchase.edit', ['v_no' => $data->v_no]) }}"
+       onclick="return checkPermissionEdit()"
+       title="Edit"
+       class="bg-warning"
+       style="width:56px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:6px; color:#000; text-decoration:none; flex-shrink:0;">
+        <i class="bi bi-pencil" style="font-size:14px;color:#fff;">Edit</i>
+    </a>
+
+</div>
                         </td>
                     </tr>
                     @endforeach

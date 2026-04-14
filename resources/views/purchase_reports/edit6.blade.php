@@ -113,7 +113,8 @@
                                                 <input type="number" id="freight" class="form-control" name="freight" value="0" readonly>
                                             </div>
                                           
-                                            <button type="submit" id="addUpdateEntry" class="btn btn-primary">Add Entry</button>
+                                            <button type="button" id="addUpdateEntry" class="btn btn-primary">Add Entry</button>
+                                            <button type="submit" class="btn btn-success">Update Invoice</button>
                                         </div>
 
                                         <!-- Entries Table -->
@@ -315,19 +316,19 @@
             // After adding entry, submit the form using AJAX to update the invoice
             var form = document.getElementById('voucherForm');
             var formData = new FormData(form);
-            $.ajax({
-                url: form.action,  // Form action URL
-                method: form.method, // POST method
-                data: formData, // The form data
-                processData: false, // Don't process the data
-                contentType: false, // Don't set content type
-                success: function(response) {
-                    // Do nothing on success
-                },
-                error: function(xhr, status, error) {
-                    // Do nothing on error
-                }
-            });
+            // $.ajax({
+            //     url: form.action,  // Form action URL
+            //     method: form.method, // POST method
+            //     data: formData, // The form data
+            //     processData: false, // Don't process the data
+            //     contentType: false, // Don't set content type
+            //     success: function(response) {
+            //         // Do nothing on success
+            //     },
+            //     error: function(xhr, status, error) {
+            //         // Do nothing on error
+            //     }
+            // });
         });
     });
 

@@ -75,12 +75,13 @@ class PlateReturnController extends Controller
                 'country' => $entry['country'] ?? 0,
                 'rate' => $entry['rate'] ?? 0,
                 'amount' => $entry['amount'] ?? 0,
-                'vorcher_no' => $newInvoiceNumber,   
+                'vorcher_no' => $newInvoiceNumber,  
+                'v_date'  => $entry['date'] 
             ]);
 
              $trndtl = TRNDTL::create([
                 'v_no' => $newInvoiceNumber,
-                'date' => Carbon::now(),
+                'date' => $entry['date'],
                 'account_id' => $entry['supplier'] ?? null,
                 'preparedby' => $entry['prepared_by'] ?? null,
                 'cash_id' =>  $cashAccountId,
@@ -112,7 +113,7 @@ class PlateReturnController extends Controller
         $endDate = $request->input('end_date');
         $status = $request->input('status'); // New status filter
         $v_no = $request->input('v_no');
-    $account_id = $request->input('account_id');
+        $account_id = $request->input('account_id');
 
         // Build the query with date range and status filters
         $query = TRNDTL::where('v_type', 'Plate-Return')->where('credit', 0)->where('account_id', '!=', 35)->with('platereturns');
