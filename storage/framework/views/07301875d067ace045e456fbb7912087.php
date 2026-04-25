@@ -1,34 +1,32 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container pt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="mb-0">Job Detail</h2>
-        <a href="{{ route('packaging-specs.create') }}" class="btn btn-success">
+        <a href="<?php echo e(route('packaging-specs.create')); ?>" class="btn btn-success">
             <i class="fa fa-plus"></i> New Entry
         </a>
     </div>
 
-    {{-- Filter Section --}}
+    
     <div class="card shadow-sm mb-3">
         <div class="card-body py-2">
             <form method="GET" class="row g-2 align-items-center">
                 <!-- <div class="col-md-3">
                     <input type="date" name="date" class="form-control form-control-sm"
-                           value="{{ request('date') }}" placeholder="Date">
+                           value="<?php echo e(request('date')); ?>" placeholder="Date">
                 </div> -->
                 <!-- <div class="col-md-3">
                     <input type="text" name="company_name"  class="form-control form-control-sm"
-                           value="{{ request('company_name') }}" placeholder="Company Name">
+                           value="<?php echo e(request('company_name')); ?>" placeholder="Company Name">
                 </div>
                 <div class="col-md-3">
                     <input type="text" name="item_name" class="form-control form-control-sm"
-                           value="{{ request('item_name') }}" placeholder="Item Name">
+                           value="<?php echo e(request('item_name')); ?>" placeholder="Item Name">
                 </div> -->
                 <div class="col-md-3 position-relative">
     <input type="text" id="company_name" name="company_name"
            class="form-control form-control-sm"
-           value="{{ request('company_name') }}"
+           value="<?php echo e(request('company_name')); ?>"
            placeholder="Company Name">
     <div id="company_suggestions" class="list-group position-absolute w-100"></div>
 </div>
@@ -36,7 +34,7 @@
 <div class="col-md-3 position-relative">
     <input type="text" id="item_name" name="item_name"
            class="form-control form-control-sm"
-           value="{{ request('item_name') }}"
+           value="<?php echo e(request('item_name')); ?>"
            placeholder="Item Name">
     <div id="item_suggestions" class="list-group position-absolute w-100"></div>
 </div>
@@ -44,7 +42,7 @@
                     <button type="submit" class="btn btn-secondary btn-sm">
                         <i class="fa fa-search"></i> Filter
                     </button>
-                    <a href="{{ route('packaging-specs.index') }}" class="btn btn-outline-dark btn-sm">
+                    <a href="<?php echo e(route('packaging-specs.index')); ?>" class="btn btn-outline-dark btn-sm">
                         Reset
                     </a>
                 </div> -->
@@ -52,7 +50,7 @@
         </div>
     </div>
 
-    {{-- Table --}}
+    
     <div class="table-responsive">
         <table class="table table-sm table-bordered table-striped table-hover align-middle">
             <thead class="table-light">
@@ -64,30 +62,30 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($specs as $spec)
+                <?php $__empty_1 = true; $__currentLoopData = $specs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $spec): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <tr>
-                        <td>{{ \Carbon\Carbon::parse($spec->date)->format('d-m-Y') }}</td>
-                        <td>{{ $spec->company_name }}</td>
-                        <td>{{ $spec->item_name }}</td>
+                        <td><?php echo e(\Carbon\Carbon::parse($spec->date)->format('d-m-Y')); ?></td>
+                        <td><?php echo e($spec->company_name); ?></td>
+                        <td><?php echo e($spec->item_name); ?></td>
                         <td class="text-center">
                             <div class="d-inline-flex gap-1 justify-content-center flex-nowrap">
-                                <a href="{{ route('packaging-specs.show', $spec) }}" 
+                                <a href="<?php echo e(route('packaging-specs.show', $spec)); ?>" 
                                    class="btn btn-icon btn-light btn-sm" title="View">
                                     <i class="uil uil-eye text-primary"></i>
                                 </a>
-                                <a href="{{ route('packaging-specs.edit', $spec) }}" 
+                                <a href="<?php echo e(route('packaging-specs.edit', $spec)); ?>" 
                                    class="btn btn-icon btn-light btn-sm" title="Edit">
                                     <i class="uil uil-edit text-warning"></i>
                                 </a>
-                                <a href="{{ route('packaging-specs.print', $spec) }}" 
+                                <a href="<?php echo e(route('packaging-specs.print', $spec)); ?>" 
                                    class="btn btn-icon btn-light btn-sm" title="Print" target="_blank">
                                     <i class="uil uil-print text-success"></i>
                                 </a>
-                                <form action="{{ route('packaging-specs.destroy', $spec) }}" 
+                                <form action="<?php echo e(route('packaging-specs.destroy', $spec)); ?>" 
                                       method="POST" class="d-inline"
                                       onsubmit="return confirm('Are you sure you want to delete this packaging spec?');">
-                                    @csrf
-                                    @method('DELETE')
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
                                     <button type="submit" class="btn btn-icon btn-light btn-sm" title="Delete">
                                         <i class="uil uil-trash text-danger"></i>
                                     </button>
@@ -95,11 +93,11 @@
                             </div>
                         </td>
                     </tr>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <tr>
                         <td colspan="5" class="text-center text-muted">No packaging specs found.</td>
                     </tr>
-                @endforelse
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
@@ -107,7 +105,7 @@
    
     
 </div>
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script>
 $(document).ready(function () {
 
@@ -148,15 +146,15 @@ $(document).ready(function () {
         });
     }
 
-    setupAutocomplete('#company_name', '#company_suggestions', "{{ url('/probox/search-company') }}");
-    setupAutocomplete('#item_name', '#item_suggestions', "{{ url('/probox/search-item') }}");
+    setupAutocomplete('#company_name', '#company_suggestions', "<?php echo e(url('/probox/search-company')); ?>");
+    setupAutocomplete('#item_name', '#item_suggestions', "<?php echo e(url('/probox/search-item')); ?>");
 
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
-{{-- Custom Styling --}}
-@push('styles')
+
+<?php $__env->startPush('styles'); ?>
 <style>
     .btn-icon {
         padding: 2px 5px;
@@ -186,5 +184,7 @@ $(document).ready(function () {
         white-space: nowrap;
     }
 </style>
-@endpush
-@endsection
+<?php $__env->stopPush(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/packaging_specs/index.blade.php ENDPATH**/ ?>

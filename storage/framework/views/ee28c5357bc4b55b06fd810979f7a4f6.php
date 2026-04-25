@@ -1,33 +1,31 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container pt-4">
 
-    {{-- Error & Success Messages --}}
-    @if($errors->any())
+    
+    <?php if($errors->any()): ?>
         <div class="alert alert-danger">
             <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
+                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <li><?php echo e($error); ?></li>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </ul>
         </div>
-    @endif
+    <?php endif; ?>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+    <?php if(session('success')): ?>
+        <div class="alert alert-success"><?php echo e(session('success')); ?></div>
+    <?php endif; ?>
 
     <h2 class="mb-4">Create Job Detail</h2>
 
-    <form action="{{ route('packaging-specs.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+    <form action="<?php echo e(route('packaging-specs.store')); ?>" method="POST" enctype="multipart/form-data">
+        <?php echo csrf_field(); ?>
 
-        {{-- Basic Info --}}
+        
         <div class="row g-3">
             <div class="col-md-4">
                 <label class="form-label">Date</label>
-                <input type="date" name="date" class="form-control" value="{{ old('date', date('Y-m-d')) }}">
+                <input type="date" name="date" class="form-control" value="<?php echo e(old('date', date('Y-m-d'))); ?>">
             </div>
             <div class="col-md-4">
                 <label class="form-label">Company Name</label>
@@ -45,7 +43,7 @@
             </div>
         </div>
 
-        {{-- UPS / Printing / Board Size Section --}}
+        
         <div class="row mt-4">
             <div class="col-12">
                 <label class="form-label">Printing / Board / UPS </label>
@@ -71,7 +69,7 @@
             </div>
         </div>
 
-        {{-- Main Packaging Specs --}}
+        
         <div class="row mt-4 g-3">
             <div class="col-md-2">
                 <label class="form-label">Unit</label>
@@ -84,34 +82,34 @@
             </div>
             <div class="col-md-3">
                 <label class="form-label">Length</label>
-                <input type="text" name="length" class="form-control" value="{{ old('length') }}">
+                <input type="text" name="length" class="form-control" value="<?php echo e(old('length')); ?>">
             </div>
             <div class="col-md-3">
                 <label class="form-label">Width</label>
-                <input type="text" name="width" class="form-control" value="{{ old('width') }}">
+                <input type="text" name="width" class="form-control" value="<?php echo e(old('width')); ?>">
             </div>
             <div class="col-md-4">
                 <label class="form-label">Height</label>
-                <input type="text" name="height" class="form-control" value="{{ old('height') }}">
+                <input type="text" name="height" class="form-control" value="<?php echo e(old('height')); ?>">
             </div>
         </div>
 
         <div class="row mt-3 g-3">
             <div class="col-md-4">
                 <label class="form-label">Lamination Size</label>
-                <input type="text" name="lam_size" class="form-control" value="{{ old('lam_size') }}">
+                <input type="text" name="lam_size" class="form-control" value="<?php echo e(old('lam_size')); ?>">
             </div>
             <div class="col-md-4">
                 <label class="form-label">Flute Size</label>
-                <input type="text" name="flute_size" class="form-control" value="{{ old('flute_size') }}">
+                <input type="text" name="flute_size" class="form-control" value="<?php echo e(old('flute_size')); ?>">
             </div>
             <div class="col-md-4">
                 <label class="form-label">UV Size</label>
-                <input type="text" name="uv_size" class="form-control" value="{{ old('uv_size') }}">
+                <input type="text" name="uv_size" class="form-control" value="<?php echo e(old('uv_size')); ?>">
             </div>
         </div>
 
-        {{-- Box Type --}}
+        
         <div class="row mt-3">
             <div class="col-md-4">
                 <label class="form-label">Box Type</label>
@@ -144,7 +142,7 @@
             </div>
         </div>
 
-        {{-- Box Details --}}
+        
         <h4 class="mt-4">Box Details</h4>
         <div class="row g-3">
             <div class="col-md-3">
@@ -165,11 +163,11 @@
             </div>
         </div>
 
-        {{-- Designing Color & Printing Side --}}
+        
         <div class="row mt-3 g-3">
             <div class="col-md-6">
                 <label class="form-label">Designing Color</label>
-                <input type="text" name="designing_color" class="form-control" value="{{ old('designing_color') }}">
+                <input type="text" name="designing_color" class="form-control" value="<?php echo e(old('designing_color')); ?>">
             </div>
             <div class="col-md-6">
                 <label class="form-label">Printing Side</label>
@@ -181,7 +179,7 @@
             </div>
         </div>
 
-        {{-- Finishing Options --}}
+        
         <h4 class="mt-4">Finishing Options</h4>
         <div class="row g-3">
             <div class="col-md-3">
@@ -207,7 +205,7 @@
             </div>
         </div>
 
-        {{-- Image Upload --}}
+        
         <div class="mt-4">
             <label class="form-label">Upload Image (optional)</label>
             <input type="file" name="image_path" class="form-control">
@@ -219,9 +217,9 @@
     </form>
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script>
     console.log('Create page scripts loaded'); // debug
     $(document).ready(function () {
@@ -265,8 +263,8 @@ console.log('Query:', query); // debug
         });
     }
 
-    setupAutocomplete('#company_name', '#company_suggestions', "{{ url('/probox/search-company') }}");
-    setupAutocomplete('#item_name', '#item_suggestions', "{{ url('/probox/search-item') }}");
+    setupAutocomplete('#company_name', '#company_suggestions', "<?php echo e(url('/probox/search-company')); ?>");
+    setupAutocomplete('#item_name', '#item_suggestions', "<?php echo e(url('/probox/search-item')); ?>");
 
 });
 document.addEventListener('DOMContentLoaded', function() {
@@ -314,5 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/packaging_specs/create.blade.php ENDPATH**/ ?>

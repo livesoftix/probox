@@ -1,18 +1,16 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container my-3">
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="fw-semibold m-0">Packaging Specification Details</h4>
         <div class="d-flex gap-2">
-            <a href="{{ route('packaging-specs.print', $packagingSpec->id) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+            <a href="<?php echo e(route('packaging-specs.print', $packagingSpec->id)); ?>" target="_blank" class="btn btn-sm btn-outline-primary">
                 <i class="bi bi-printer"></i> Print
             </a>
-            <a href="{{ route('packaging-specs.edit', $packagingSpec->id) }}" class="btn btn-sm btn-outline-secondary">
+            <a href="<?php echo e(route('packaging-specs.edit', $packagingSpec->id)); ?>" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-pencil"></i> Edit
             </a>
-            <a href="{{ route('packaging-specs.index') }}" class="btn btn-sm btn-outline-dark">
+            <a href="<?php echo e(route('packaging-specs.index')); ?>" class="btn btn-sm btn-outline-dark">
                 <i class="bi bi-arrow-left"></i> Back
             </a>
         </div>
@@ -227,31 +225,31 @@
             }
         </style>
 
-        {{-- HEADER --}}
+        
         <div class="header-section">
             <div class="header-item">
                 <span class="spec-label bold-large">Company Name</span>:
-                <span class="spec-value bold-large">{{ $packagingSpec->company_name }}</span>
+                <span class="spec-value bold-large"><?php echo e($packagingSpec->company_name); ?></span>
             </div>
             <div class="header-item">
                 <span class="spec-label">Date</span>:
-                <span class="spec-value">{{ $packagingSpec->date }}</span>
+                <span class="spec-value"><?php echo e($packagingSpec->date); ?></span>
             </div>
         </div>
 
         <div class="spec-row mb-2">
             <span class="spec-label bold-large">Item Name</span>:
-            <span class="spec-value bold-large">{{ $packagingSpec->item_name }}</span>
+            <span class="spec-value bold-large"><?php echo e($packagingSpec->item_name); ?></span>
         </div>
 
         <div class="main-layout">
             <div class="left-col">
 
-                {{-- SIZES TABLE --}}
+                
                 <div class="spec-row">
                     <span class="spec-label">Sizes</span>:
                     <div class="spec-value" style="flex:1; display:block;">
-                        @if ($packagingSpec->details && $packagingSpec->details->count())
+                        <?php if($packagingSpec->details && $packagingSpec->details->count()): ?>
                             <table class="ups-table">
                                 <thead>
                                     <tr>
@@ -261,82 +259,83 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($packagingSpec->details as $d)
+                                    <?php $__currentLoopData = $packagingSpec->details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $d): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <tr>
-                                            <td>{{ $d->ups }}</td>
-                                            <td>{{ $d->printing_size }}</td>
-                                            <td>{{ $d->board_size }}</td>
+                                            <td><?php echo e($d->ups); ?></td>
+                                            <td><?php echo e($d->printing_size); ?></td>
+                                            <td><?php echo e($d->board_size); ?></td>
                                         </tr>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>
                             </table>
-                        @else
+                        <?php else: ?>
                             <div style="display:flex; gap:10px;">
-                                <span style="flex:1;">{{ $packagingSpec->printing_size ?? '—' }}</span>
-                                <span style="flex:1;">{{ $packagingSpec->board_size ?? '—' }}</span>
-                                <span style="flex:1;">{{ $packagingSpec->ups ?? '—' }}</span>
+                                <span style="flex:1;"><?php echo e($packagingSpec->printing_size ?? '—'); ?></span>
+                                <span style="flex:1;"><?php echo e($packagingSpec->board_size ?? '—'); ?></span>
+                                <span style="flex:1;"><?php echo e($packagingSpec->ups ?? '—'); ?></span>
                             </div>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
 
 
-                {{-- CUSTOM TWO-COLUMN SPECS LAYOUT --}}
+                
                 <div class="custom-specs-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 40px; margin-bottom: 15px;">
                     <!-- Row 1 -->
-                    <div class="spec-row"><span class="spec-label">Designing Color</span>: <span class="spec-value">{{ $packagingSpec->designing_color ?? '—' }}</span></div>
-                    <div class="spec-row"><span class="spec-label">Length</span>: <span class="spec-value">{{ $packagingSpec->length }}</span> <span class="unit">{{ $packagingSpec->unit }}</span></div>
+                    <div class="spec-row"><span class="spec-label">Designing Color</span>: <span class="spec-value"><?php echo e($packagingSpec->designing_color ?? '—'); ?></span></div>
+                    <div class="spec-row"><span class="spec-label">Length</span>: <span class="spec-value"><?php echo e($packagingSpec->length); ?></span> <span class="unit"><?php echo e($packagingSpec->unit); ?></span></div>
                     <!-- Row 2 -->
-                    <div class="spec-row"><span class="spec-label">Printing Side</span>: <span class="spec-value">{{ $packagingSpec->printing_side ?? '—' }}</span></div>
-                    <div class="spec-row"><span class="spec-label">Width</span>: <span class="spec-value">{{ $packagingSpec->width }}</span> <span class="unit">{{ $packagingSpec->unit }}</span></div>
+                    <div class="spec-row"><span class="spec-label">Printing Side</span>: <span class="spec-value"><?php echo e($packagingSpec->printing_side ?? '—'); ?></span></div>
+                    <div class="spec-row"><span class="spec-label">Width</span>: <span class="spec-value"><?php echo e($packagingSpec->width); ?></span> <span class="unit"><?php echo e($packagingSpec->unit); ?></span></div>
                     <!-- Row 3 -->
-                    <div class="spec-row"><span class="spec-label">Lamination Size</span>: <span class="spec-value">{{ $packagingSpec->lam_size }}</span></div>
-                    <div class="spec-row"><span class="spec-label">Height</span>: <span class="spec-value">{{ $packagingSpec->height }}</span> <span class="unit">{{ $packagingSpec->unit }}</span></div>
+                    <div class="spec-row"><span class="spec-label">Lamination Size</span>: <span class="spec-value"><?php echo e($packagingSpec->lam_size); ?></span></div>
+                    <div class="spec-row"><span class="spec-label">Height</span>: <span class="spec-value"><?php echo e($packagingSpec->height); ?></span> <span class="unit"><?php echo e($packagingSpec->unit); ?></span></div>
                     <!-- Row 4 -->
-                    <div class="spec-row"><span class="spec-label">Flute Size</span>: <span class="spec-value">{{ $packagingSpec->flute_size }}</span></div>
-                    <div class="spec-row"><span class="spec-label">UV Size</span>: <span class="spec-value">{{ $packagingSpec->uv_size }}</span></div>
+                    <div class="spec-row"><span class="spec-label">Flute Size</span>: <span class="spec-value"><?php echo e($packagingSpec->flute_size); ?></span></div>
+                    <div class="spec-row"><span class="spec-label">UV Size</span>: <span class="spec-value"><?php echo e($packagingSpec->uv_size); ?></span></div>
                  
                     <div>
-                           <div class="spec-row"><span class="spec-label">Country</span>: <span class="spec-value">{{ $packagingSpec->country }}</span></div>
+                           <div class="spec-row"><span class="spec-label">Country</span>: <span class="spec-value"><?php echo e($packagingSpec->country); ?></span></div>
                     </div>
                 </div>
 
-                {{-- BOX TYPE --}}
+                
                 <div class="box-type-row">
                     <span class="spec-label">Box Type</span>:
                     <span class="spec-value" style="max-width: 180px; font-size: 0.95em; padding: 1px 4px;">
-                        {{ optional($packagingSpec->boxType)->item_code ?? ($packagingSpec->box_type ?? 'N/A') }}
+                        <?php echo e(optional($packagingSpec->boxType)->item_code ?? ($packagingSpec->box_type ?? 'N/A')); ?>
+
                     </span>
                 </div>
 
-                {{-- FINISHING OPTIONS --}}
+                
                 <div class="finishing-wrapper">
                     <div class="finishing-col">
                         <div class="col-label">Finishing</div>
-                        <label class="finishing-item"><span class="checkbox-box{{ $packagingSpec->emboss ? ' checkbox-checked' : '' }}"></span>Emboss</label>
-                        <label class="finishing-item"><span class="checkbox-box{{ $packagingSpec->demboss ? ' checkbox-checked' : '' }}"></span>Deboss</label>
-                        <label class="finishing-item"><span class="checkbox-box{{ $packagingSpec->gold_finish ? ' checkbox-checked' : '' }}"></span>Gold finish</label>
-                        <label class="finishing-item"><span class="checkbox-box{{ $packagingSpec->silver_finish ? ' checkbox-checked' : '' }}"></span>Silver finish</label>
-                        <label class="finishing-item"><span class="checkbox-box{{ $packagingSpec->varnish ? ' checkbox-checked' : '' }}"></span>Varnish</label>
+                        <label class="finishing-item"><span class="checkbox-box<?php echo e($packagingSpec->emboss ? ' checkbox-checked' : ''); ?>"></span>Emboss</label>
+                        <label class="finishing-item"><span class="checkbox-box<?php echo e($packagingSpec->demboss ? ' checkbox-checked' : ''); ?>"></span>Deboss</label>
+                        <label class="finishing-item"><span class="checkbox-box<?php echo e($packagingSpec->gold_finish ? ' checkbox-checked' : ''); ?>"></span>Gold finish</label>
+                        <label class="finishing-item"><span class="checkbox-box<?php echo e($packagingSpec->silver_finish ? ' checkbox-checked' : ''); ?>"></span>Silver finish</label>
+                        <label class="finishing-item"><span class="checkbox-box<?php echo e($packagingSpec->varnish ? ' checkbox-checked' : ''); ?>"></span>Varnish</label>
                     </div>
 
                     <div class="finishing-col">
                         <div class="col-label">UV</div>
-                        <label class="finishing-item"><span class="checkbox-box{{ $packagingSpec->uv_plain ? ' checkbox-checked' : '' }}"></span>Plain</label>
-                        <label class="finishing-item"><span class="checkbox-box{{ $packagingSpec->uv_spot ? ' checkbox-checked' : '' }}"></span>Spot</label>
-                        <label class="finishing-item"><span class="checkbox-box{{ $packagingSpec->uv_drip ? ' checkbox-checked' : '' }}"></span>Drip</label>
+                        <label class="finishing-item"><span class="checkbox-box<?php echo e($packagingSpec->uv_plain ? ' checkbox-checked' : ''); ?>"></span>Plain</label>
+                        <label class="finishing-item"><span class="checkbox-box<?php echo e($packagingSpec->uv_spot ? ' checkbox-checked' : ''); ?>"></span>Spot</label>
+                        <label class="finishing-item"><span class="checkbox-box<?php echo e($packagingSpec->uv_drip ? ' checkbox-checked' : ''); ?>"></span>Drip</label>
                     </div>
 
                     <div class="finishing-col">
                         <div class="col-label">Window</div>
-                        <label class="finishing-item"><span class="checkbox-box{{ $packagingSpec->window_lamination ? ' checkbox-checked' : '' }}"></span>Lamination</label>
-                        <label class="finishing-item"><span class="checkbox-box{{ $packagingSpec->window_glass ? ' checkbox-checked' : '' }}"></span>Glass</label>
+                        <label class="finishing-item"><span class="checkbox-box<?php echo e($packagingSpec->window_lamination ? ' checkbox-checked' : ''); ?>"></span>Lamination</label>
+                        <label class="finishing-item"><span class="checkbox-box<?php echo e($packagingSpec->window_glass ? ' checkbox-checked' : ''); ?>"></span>Glass</label>
                     </div>
 
                     <div class="finishing-col">
                         <div class="col-label">Lamination</div>
-                        <label class="finishing-item"><span class="checkbox-box{{ $packagingSpec->shine_lamination ? ' checkbox-checked' : '' }}"></span>Shine</label>
-                        <label class="finishing-item"><span class="checkbox-box{{ $packagingSpec->matte_lamination ? ' checkbox-checked' : '' }}"></span>Matt</label>
+                        <label class="finishing-item"><span class="checkbox-box<?php echo e($packagingSpec->shine_lamination ? ' checkbox-checked' : ''); ?>"></span>Shine</label>
+                        <label class="finishing-item"><span class="checkbox-box<?php echo e($packagingSpec->matte_lamination ? ' checkbox-checked' : ''); ?>"></span>Matt</label>
                     </div>
                 </div>
 
@@ -344,29 +343,29 @@
 
             <div class="right-col" style="position: relative; min-height: 350px;">
 
-                {{-- BOX DETAILS --}}
+                
                 <div class="box-details">
                     <div class="box-details-title">Box Details</div>
-                    <div><strong>Glue Flap:</strong> {{ $packagingSpec->glue_flap }}</div>
-                    <div><strong>Folding Flap:</strong> {{ $packagingSpec->holding_flap }}</div>
-                    <div><strong>Pendi:</strong> {{ $packagingSpec->pendi }}</div>
-                    <div><strong>Die Grip:</strong> {{ $packagingSpec->die_grip }}</div>
-                    <div><strong>Die Pattern:</strong> {{ $packagingSpec->die_pattern }}</div>
+                    <div><strong>Glue Flap:</strong> <?php echo e($packagingSpec->glue_flap); ?></div>
+                    <div><strong>Folding Flap:</strong> <?php echo e($packagingSpec->holding_flap); ?></div>
+                    <div><strong>Pendi:</strong> <?php echo e($packagingSpec->pendi); ?></div>
+                    <div><strong>Die Grip:</strong> <?php echo e($packagingSpec->die_grip); ?></div>
+                    <div><strong>Die Pattern:</strong> <?php echo e($packagingSpec->die_pattern); ?></div>
                 </div>
 
-                {{-- DIAGRAM SECTION AT BOTTOM RIGHT --}}
+                
                 <div style="position: absolute; bottom: 0; right: 0; width: 500px; height: 320px;">
                     <div class="diagram-section" style="width: 100%; height: 100%;">
-                        @if ($packagingSpec->image_path)
-                            @php $ext = pathinfo($packagingSpec->image_path, PATHINFO_EXTENSION); @endphp
-                            @if (strtolower($ext) === 'pdf')
-                                <embed src="{{ asset('storage/' . $packagingSpec->image_path) }}" type="application/pdf" class="diagram-embed" />
-                            @else
-                                <img src="{{ asset('storage/' . $packagingSpec->image_path) }}" class="diagram-img" />
-                            @endif
-                        @else
+                        <?php if($packagingSpec->image_path): ?>
+                            <?php $ext = pathinfo($packagingSpec->image_path, PATHINFO_EXTENSION); ?>
+                            <?php if(strtolower($ext) === 'pdf'): ?>
+                                <embed src="<?php echo e(asset('storage/' . $packagingSpec->image_path)); ?>" type="application/pdf" class="diagram-embed" />
+                            <?php else: ?>
+                                <img src="<?php echo e(asset('storage/' . $packagingSpec->image_path)); ?>" class="diagram-img" />
+                            <?php endif; ?>
+                        <?php else: ?>
                             <span class="text-muted small">No image uploaded</span>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -374,4 +373,5 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/packaging_specs/show.blade.php ENDPATH**/ ?>

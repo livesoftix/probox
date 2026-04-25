@@ -28,6 +28,8 @@ class PackagingSpec extends Model
         'lamination',
         'shine_lamination',
         'matte_lamination',
+        'varnish',
+        'uv_size',
         'uv_plain',
         'uv_spot',
         'uv_drip',

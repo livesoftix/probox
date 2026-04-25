@@ -453,6 +453,7 @@
                         <span class="spec-label">Lamination Size</span>: <span
                             class="spec-value">{{ $packagingSpec->lam_size }}</span>
                     </div>
+                    
                     <div class="spec-row" style="grid-column: 2;">
                         <span class="spec-label">Length</span>: <span
                             class="spec-value size-small">{{ $packagingSpec->length }}</span> <span
@@ -467,15 +468,19 @@
                             class="spec-value size-small">{{ $packagingSpec->width }}</span> <span
                             class="unit">{{ $packagingSpec->unit }}</span>
                     </div>
-                    
                     <div class="spec-row" style="grid-column: 1;">
-                        <span class="spec-label">Country</span>: <span
-                            class="spec-value">{{ $packagingSpec->country ?? '—' }}</span>
+                        <span class="spec-label">UV Size</span>: <span
+                            class="spec-value">{{ $packagingSpec->uv_size }}</span>
                     </div>
+                    
                     <div class="spec-row" style="grid-column: 2;">
                         <span class="spec-label">Height</span>: <span
                             class="spec-value size-small">{{ $packagingSpec->height }}</span> <span
                             class="unit">{{ $packagingSpec->unit }}</span>
+                    </div>
+                    <div class="spec-row" style="grid-column: 1;">
+                        <span class="spec-label">Country</span>: <span
+                            class="spec-value">{{ $packagingSpec->country ?? '—' }}</span>
                     </div>
                 </div>
 
@@ -506,6 +511,11 @@
                             <span
                                 class="checkbox-box{{ $packagingSpec->silver_finish ? ' checkbox-checked' : '' }}"></span>
                             Silver finish
+                        </label>
+                        <label class="finishing-item">
+                            <span
+                                class="checkbox-box{{ $packagingSpec->varnish ? ' checkbox-checked' : '' }}"></span>
+                            Varnish
                         </label>
                         
                     </div>

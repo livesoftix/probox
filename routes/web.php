@@ -356,7 +356,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('/probox/packaging-specs', PackagingSpecController::class);
     // Route::get('packaging-specs/{packagingSpec}/pdf', [PackagingSpecController::class, 'downloadPDF'])->name('packaging-specs.pdf');
     Route::get('/probox/packaging-specs/{packagingSpec}/print', [PackagingSpecController::class, 'print'])->name('packaging-specs.print');
-
+    
+    //search routes for packaging specs
+    Route::get('/probox/search-company', [PackagingSpecController::class, 'searchCompany']);
+Route::get('/probox/search-item', [PackagingSpecController::class, 'searchItem']);
 
     Route::get('/probox/journal_voucher', [JournalVoucherController::class, 'index'])->name('journal_voucher.list');
     Route::post('/probox/journal_voucher', [JournalVoucherController::class, 'store'])->name('journal_voucher.store');

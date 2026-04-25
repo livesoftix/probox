@@ -64,6 +64,7 @@ class PackagingSpecController extends Controller
             'die_pattern' => 'nullable|string|max:255',
             'unit' => 'nullable|string|max:255',
             'lam_size' => 'nullable|string|max:255',
+            'uv_size' => 'nullable|string|max:255',
             'flute_size' => 'nullable|string|max:255',
             'box_type' => 'nullable|string|max:255',
             'box_type_other' => 'nullable|string|max:255',
@@ -91,6 +92,7 @@ class PackagingSpecController extends Controller
             'demboss' => 'nullable|boolean',
             'gold_finish' => 'nullable|boolean',
             'silver_finish' => 'nullable|boolean',
+            'varnish' => 'nullable|boolean',
 
             'image_path' => 'nullable|file|mimes:jpg,jpeg,png,gif,pdf|max:2048',
 
@@ -99,6 +101,7 @@ class PackagingSpecController extends Controller
             'details.*.printing_size' => 'nullable|string|max:255',
             'details.*.board_size' => 'nullable|string|max:255',
             'details.*.ups' => 'nullable|string|max:255',
+            
         ]);
 
         DB::beginTransaction();
@@ -194,11 +197,13 @@ class PackagingSpecController extends Controller
         // Boolean flags
         'shine_lamination' => 'nullable|boolean',
         'matte_lamination' => 'nullable|boolean',
+        'uv_size' => 'nullable|string|max:255',
         'uv_plain' => 'nullable|boolean',
         'uv_spot' => 'nullable|boolean',
         'uv_drip' => 'nullable|boolean',
         'window_glass' => 'nullable|boolean',
         'window_lamination' => 'nullable|boolean',
+        'varnish' => 'nullable|boolean',
         'emboss' => 'nullable|boolean',
         'demboss' => 'nullable|boolean',
         'gold_finish' => 'nullable|boolean',
@@ -306,4 +311,26 @@ class PackagingSpecController extends Controller
             ->route('packaging-specs.index')
             ->with('success', 'Packaging Spec deleted successfully.');
     }
+    //search for company name and item name for autocomplete in the create and edit forms
+    public function searchCompany(Request $request)
+{
+    $term = $request->get('term');
+
+    $companies = PackagingSpec::where('company_name', 'like', "%{$term}%")
+        ->distinct()
+        ->pluck('company_name');
+
+    return response()->json($companies);
+}
+
+public function searchItem(Request $request)
+{
+    $term = $request->get('term');
+
+    $items = PackagingSpec::where('item_name', 'like', "%{$term}%")
+        ->distinct()
+        ->pluck('item_name');
+
+    return response()->json($items);
+}
 }
