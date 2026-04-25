@@ -223,9 +223,9 @@
 
 @section('scripts')
 <script>
-    console.log('Create page scripts loaded'); // debug
+    // console.log('Create page scripts loaded'); // debug
     $(document).ready(function () {
-console.log('Document ready'); // debug 
+// console.log('Document ready'); // debug 
     function setupAutocomplete(inputId, suggestionBoxId, url) {
         $(inputId).on('keyup', function () {
             let query = $(this).val();
@@ -235,14 +235,14 @@ console.log('Document ready'); // debug
                 return;
             }
 
-console.log('Query:', query); // debug
+// console.log('Query:', query); // debug
             $.ajax({
                 url: url,
                 method: "GET",
                 data: { term: query },
                 success: function (data) {
-                    console.log('DATA:', data); // debug
-                    console.log('Query:', query); // debug
+                    // console.log('DATA:', data); // debug
+                    // console.log('Query:', query); // debug
 
                     let html = '';
                     data.forEach(function (item) {
