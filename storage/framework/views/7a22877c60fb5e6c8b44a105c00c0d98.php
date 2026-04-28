@@ -101,7 +101,10 @@
         <!-- Assigned Products Section -->
 <div class="card mt-4">
     <div class="card-header bg-primary text-white">
-        <h5> Assigned Products</h5>
+    <h5>
+    Assigned Products - <?php echo e(auth()->user()->name ?? 'User'); ?>
+
+</h5>
     </div>
 
     <div class="card-body">
