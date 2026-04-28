@@ -8,7 +8,7 @@
                 <h4 class="page-title mb-0">Product Details</h4>
                 <div>
                     <a href="<?php echo e(route('registration_form.reports')); ?>" class="btn btn-secondary me-1">Back</a>
-                    <a href="<?php echo e(route('registration_form.edit', $product->id)); ?>" class="btn btn-primary me-1">Edit</a>
+                    <a href="<?php echo e(route('registration_form.edit', $product?->id)); ?>" class="btn btn-primary me-1">Edit</a>
                     <button type="button" class="btn btn-info" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
                 </div>
             </div>
