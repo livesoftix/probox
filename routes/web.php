@@ -614,6 +614,7 @@ Route::get('/probox/search-item', [PackagingSpecController::class, 'searchItem']
         Route::get('/probox/registration_form/{id}', [RegistrationFormController::class, 'show'])->name('registration_form.show');
 
     Route::get('/probox/registration_form/edit/{id}', [RegistrationFormController::class, 'edit'])->name('registration_form.edit');
+    Route::get('/probox/search-users', [RegistrationFormController::class, 'searchUsers'])->name('search.users');
     Route::put('/probox/registration_form/update/{id}', [RegistrationFormController::class, 'update'])->name('registration_form.update');
     Route::delete('/probox/registration_form/{id}', [RegistrationFormController::class, 'destroy'])->name('registration_form.destroy');
     Route::delete('/probox/registration_form/remove-image/{id}', [RegistrationFormController::class, 'removeImage'])->name('remove.image');

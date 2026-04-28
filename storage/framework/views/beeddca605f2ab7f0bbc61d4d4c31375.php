@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <div class="container-fluid">
     <!-- Page Header (Screen Only) -->
@@ -9,8 +7,8 @@
             <div class="page-title-box d-flex justify-content-between align-items-center my-3">
                 <h4 class="page-title mb-0">Product Details</h4>
                 <div>
-                    <a href="{{ route('registration_form.reports') }}" class="btn btn-secondary me-1">Back</a>
-                    <a href="{{ route('registration_form.edit', $product?->id) }}" class="btn btn-primary me-1">Edit</a>
+                    <a href="<?php echo e(route('registration_form.reports')); ?>" class="btn btn-secondary me-1">Back</a>
+                    <a href="<?php echo e(route('registration_form.edit', $product->id)); ?>" class="btn btn-primary me-1">Edit</a>
                     <button type="button" class="btn btn-info" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
                 </div>
             </div>
@@ -37,55 +35,55 @@
                                 <tbody>
                                     <tr>
                                         <th width="35%">Product Name</th>
-                                        <td class="fw-bold fs-5">{{ $product->prod_name ?? 'N/A' }}</td>
+                                        <td class="fw-bold fs-5"><?php echo e($product->prod_name ?? 'N/A'); ?></td>
                                     </tr>
                                     <tr>
                                         <th>Party (Account)</th>
-                                        <td>{{ $product->account->title ?? 'N/A' }}</td>
+                                        <td><?php echo e($product->account->title ?? 'N/A'); ?></td>
                                     </tr>
                                     <tr>
                                         <th>Product Type</th>
-                                        <td>{{ $product->product_type ?? 'N/A' }}</td>
+                                        <td><?php echo e($product->product_type ?? 'N/A'); ?></td>
                                     </tr>
                                     <tr>
                                         <th>Job Assigning</th>
-                                        <td>{{ $product->job_assign ?? 'N/A' }}</td>
+                                        <td><?php echo e($product->job_assign ?? 'N/A'); ?></td>
                                     </tr>
                                     <tr>
                                         <th>Item Type</th>
-                                        <td>{{ $product->items->item_code ?? 'N/A' }}</td>
+                                        <td><?php echo e($product->items->item_code ?? 'N/A'); ?></td>
                                     </tr>
                                     <tr>
                                         <th>Dimensions (H x W)</th>
-                                        <td>{{ $product->length ?? '-' }} x {{ $product->width ?? '-' }}</td>
+                                        <td><?php echo e($product->length ?? '-'); ?> x <?php echo e($product->width ?? '-'); ?></td>
                                     </tr>
                                     <tr>
                                         <th>Grammage</th>
-                                        <td>{{ $product->grammage ?? 'N/A' }}</td>
+                                        <td><?php echo e($product->grammage ?? 'N/A'); ?></td>
                                     </tr>
                                     <tr>
                                         <th>Grain / Hard Side</th>
-                                        <td>{{ $product->grain_hard_side ?? 'N/A' }}</td>
+                                        <td><?php echo e($product->grain_hard_side ?? 'N/A'); ?></td>
                                     </tr>
                                     <tr>
                                         <th>Ups</th>
-                                        <td>{{ $product->ups ?? 'N/A' }}</td>
+                                        <td><?php echo e($product->ups ?? 'N/A'); ?></td>
                                     </tr>
                                     <tr>
                                         <th>Country</th>
-                                        <td>{{ $product->country->country_name ?? 'N/A' }}</td>
+                                        <td><?php echo e($product->country->country_name ?? 'N/A'); ?></td>
                                     </tr>
                                     <tr>
                                         <th>Product Rate</th>
-                                        <td>{{ $product->rate ?? '-' }}</td>
+                                        <td><?php echo e($product->rate ?? '-'); ?></td>
                                     </tr>
                                     <tr>
                                         <th>Auto Pasting Rate (CTN)</th>
-                                        <td>{{ $product->auto_pasting_rate ?? '-' }}</td>
+                                        <td><?php echo e($product->auto_pasting_rate ?? '-'); ?></td>
                                     </tr>
                                     <tr>
                                         <th>Manual Pasting Rate (CTN)</th>
-                                        <td>{{ $product->manual_pasting_rate ?? '-' }}</td>
+                                        <td><?php echo e($product->manual_pasting_rate ?? '-'); ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -95,14 +93,14 @@
                         <div class="col-4 image-column text-center">
                             <h5 class="text-primary text-uppercase mb-3 section-title">Product Image</h5>
                             <div class="img-wrapper border rounded p-2">
-                                @if($product->file_path)
-                                    <img src="{{ asset('storage/' . $product->file_path) }}" alt="Product Image" class="img-fluid rounded">
-                                @else
+                                <?php if($product->file_path): ?>
+                                    <img src="<?php echo e(asset('storage/' . $product->file_path)); ?>" alt="Product Image" class="img-fluid rounded">
+                                <?php else: ?>
                                     <div class="text-muted py-5">
                                         <i class="fa fa-image fa-3x mb-2"></i><br>
                                         No Image Available
                                     </div>
-                                @endif
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -114,90 +112,93 @@
                         <h5 class="text-primary text-uppercase mb-3 section-title">Manufacturing Option</h5>
                         <table class="table table-borderless table-sm detail-table">
                             <tbody>
-                                @if($product->lamination)
+                                <?php if($product->lamination): ?>
                                 <tr>
                                     <th>Lamination</th>
                                     <td>
-                                        Type: {{ $product->lamItem->item_code ?? 'N/A' }},
-                                        Size: {{ $product->lam_size ?? 'N/A' }},
-                                        Impressions: {{ $product->limpression ?? 'N/A' }}
+                                        Type: <?php echo e($product->lamItem->item_code ?? 'N/A'); ?>,
+                                        Size: <?php echo e($product->lam_size ?? 'N/A'); ?>,
+                                        Impressions: <?php echo e($product->limpression ?? 'N/A'); ?>
+
                                     </td>
                                 </tr>
-                                @endif
-                                @if($product->uv)
+                                <?php endif; ?>
+                                <?php if($product->uv): ?>
                                 <tr>
                                     <th>UV Coating</th>
                                     <td>
-                                        @if($product->simple) Simple (Rate: {{ $product->simple_rate }}) @endif
-                                        @if($product->spot) Spot (Rate: {{ $product->spot_rate }}) @endif
-                                        @if($product->tripof) Trip Of (Rate: {{ $product->tripof_rate }}) @endif
+                                        <?php if($product->simple): ?> Simple (Rate: <?php echo e($product->simple_rate); ?>) <?php endif; ?>
+                                        <?php if($product->spot): ?> Spot (Rate: <?php echo e($product->spot_rate); ?>) <?php endif; ?>
+                                        <?php if($product->tripof): ?> Trip Of (Rate: <?php echo e($product->tripof_rate); ?>) <?php endif; ?>
                                     </td>
                                 </tr>
-                                @endif
-                                @if($product->corrugation)
+                                <?php endif; ?>
+                                <?php if($product->corrugation): ?>
                                 <tr>
                                     <th>Corrugation</th>
                                     <td>
-                                        Size: {{ $product->curr_size ?? 'N/A' }},
-                                        Type: {{ $product->currItem->item_code ?? 'N/A' }},
-                                        Labour: {{ $product->clabour ?? 'N/A' }}
+                                        Size: <?php echo e($product->curr_size ?? 'N/A'); ?>,
+                                        Type: <?php echo e($product->currItem->item_code ?? 'N/A'); ?>,
+                                        Labour: <?php echo e($product->clabour ?? 'N/A'); ?>
+
                                     </td>
                                 </tr>
-                                @endif
-                                @if($product->color)
+                                <?php endif; ?>
+                                <?php if($product->color): ?>
                                 <tr>
                                     <th>Color Printing</th>
                                     <td>
-                                        No. of Colors: {{ $product->color_no }},
-                                        Design Colors: {{ $product->design_color }}
+                                        No. of Colors: <?php echo e($product->color_no); ?>,
+                                        Design Colors: <?php echo e($product->design_color); ?>
+
                                     </td>
                                 </tr>
-                                @endif
-                                @if($product->window)
+                                <?php endif; ?>
+                                <?php if($product->window): ?>
                                 <tr>
                                     <th>Window</th>
                                     <td>
-                                        @if($product->glass_win) Glass (Rate: {{ $product->Glass_w_rate }}) @endif
-                                        @if($product->lam_win) Lam (Rate: {{ $product->Lam_w_rate }}) @endif
+                                        <?php if($product->glass_win): ?> Glass (Rate: <?php echo e($product->Glass_w_rate); ?>) <?php endif; ?>
+                                        <?php if($product->lam_win): ?> Lam (Rate: <?php echo e($product->Lam_w_rate); ?>) <?php endif; ?>
                                     </td>
                                 </tr>
-                                @endif
-                                @if($product->varnish || $product->breaking || $product->emboss)
+                                <?php endif; ?>
+                                <?php if($product->varnish || $product->breaking || $product->emboss): ?>
                                 <tr>
                                     <th>Finishing:</th>
                                     <td>
-                                        @if($product->varnish) Varnish: Yes. @endif
-                                        @if($product->breaking) Breaking Rate: {{ $product->breaking_rate }}. @endif
-                                        @if($product->emboss) Embosse Rate: {{ $product->emboss_rate }}. @endif
+                                        <?php if($product->varnish): ?> Varnish: Yes. <?php endif; ?>
+                                        <?php if($product->breaking): ?> Breaking Rate: <?php echo e($product->breaking_rate); ?>. <?php endif; ?>
+                                        <?php if($product->emboss): ?> Embosse Rate: <?php echo e($product->emboss_rate); ?>. <?php endif; ?>
                                     </td>
                                 </tr>
-                                @endif
-                                @if(!$product->lamination && !$product->uv && !$product->corrugation && !$product->color && !$product->window && !$product->varnish && !$product->breaking && !$product->emboss)
+                                <?php endif; ?>
+                                <?php if(!$product->lamination && !$product->uv && !$product->corrugation && !$product->color && !$product->window && !$product->varnish && !$product->breaking && !$product->emboss): ?>
                                 <tr>
                                     <td colspan="2" class="text-muted fst-italic">No additional manufacturing options selected.</td>
                                 </tr>
-                                @endif
+                                <?php endif; ?>
                             </tbody>
                         </table>
 
 
                     <!-- Bottom Section: Description as simple detail -->
-                    @if($product->descr)
+                    <?php if($product->descr): ?>
                     <table class="table table-borderless table-sm detail-table mt-4">
                         <tbody>
                             <tr>
                                 <th class="w-auto">Description:</th>
 
-                                <td>{{ $product->descr }}</td>
+                                <td><?php echo e($product->descr); ?></td>
                             </tr>
                         </tbody>
                     </table>
-                    @endif
+                    <?php endif; ?>
 
                     <!-- Print Footer -->
                     <div class="print-footer border-top mt-4" style="display:none;">
                         <div class="row">
-                            <div class="col-6 text-start"><small>Printed on: {{ now()->format('d-M-Y') }}</small></div>
+                            <div class="col-6 text-start"><small>Printed on: <?php echo e(now()->format('d-M-Y')); ?></small></div>
                         </div>
                     </div>
 
@@ -299,4 +300,5 @@
     }
 </style>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/registration_form/show.blade.php ENDPATH**/ ?>

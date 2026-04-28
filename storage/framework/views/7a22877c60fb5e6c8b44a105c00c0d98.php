@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container pt-4">
     <h1>Dashboard</h1>
     <p>Confectionary report</p>
@@ -10,16 +9,16 @@
             <h5>CDC Vouchers Without CBILL</h5>
         </div>
         <div class="card-body">
-            @php
+            <?php
                 // Get all CDC voucher numbers and details
                 $cdcVouchers = \App\Models\ConfectioneryMaster::with('accounts')->get();
                 $cbillVnos = \App\Models\ConfectBilling::pluck('old_vno')->toArray();
                 $cdcWithoutCbill = $cdcVouchers->filter(function($voucher) use ($cbillVnos) {
                     return !in_array($voucher->v_no, $cbillVnos);
                 });
-            @endphp
-            <p><strong>Total CDC vouchers without CBILL:</strong> {{ $cdcWithoutCbill->count() }}</p>
-            @if($cdcWithoutCbill->count())
+            ?>
+            <p><strong>Total CDC vouchers without CBILL:</strong> <?php echo e($cdcWithoutCbill->count()); ?></p>
+            <?php if($cdcWithoutCbill->count()): ?>
             <div class="table-responsive">
                 <table class="table table-bordered table-sm">
                     <thead>
@@ -31,39 +30,39 @@
                         </tr>
                     </thead>
                     <tbody>
-                       @php
+                       <?php
     $shownVnos = [];
-@endphp
+?>
 
-@foreach($cdcWithoutCbill as $voucher)
-    @if(!in_array($voucher->v_no, $shownVnos))
-        @php
+<?php $__currentLoopData = $cdcWithoutCbill; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $voucher): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <?php if(!in_array($voucher->v_no, $shownVnos)): ?>
+        <?php
             $shownVnos[] = $voucher->v_no;
-        @endphp
+        ?>
         <tr>
-            <td>{{ $voucher->v_no }}</td>
-            <td>{{ $voucher->date ? \Carbon\Carbon::parse($voucher->date)->format('d-m-Y') : '' }}</td>
-            <td>{{ $voucher->accounts->title ?? 'N/A' }}</td>
+            <td><?php echo e($voucher->v_no); ?></td>
+            <td><?php echo e($voucher->date ? \Carbon\Carbon::parse($voucher->date)->format('d-m-Y') : ''); ?></td>
+            <td><?php echo e($voucher->accounts->title ?? 'N/A'); ?></td>
         </tr>
-    @endif
-@endforeach
+    <?php endif; ?>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                     </tbody>
                 </table>
             </div>
-            @else
+            <?php else: ?>
                 <p class="text-success">All PBILL vouchers have CBILLs.</p>
-            @endif
-             @php
+            <?php endif; ?>
+             <?php
                 // Get all CDC voucher numbers and details
                 $cdcVouchers = \App\Models\DeliveryMaster::with('accounts')->get();
                 $cbillVnos = \App\Models\SaleInvoice::pluck('old_vno')->toArray();
                 $cdcWithoutCbill = $cdcVouchers->filter(function($voucher) use ($cbillVnos) {
                     return !in_array($voucher->v_no, $cbillVnos);
                 });
-            @endphp
-            <p><strong>Total Pharmaceutical vouchers without PBILL:</strong> {{ $cdcWithoutCbill->count() }}</p>
-            @if($cdcWithoutCbill->count())
+            ?>
+            <p><strong>Total Pharmaceutical vouchers without PBILL:</strong> <?php echo e($cdcWithoutCbill->count()); ?></p>
+            <?php if($cdcWithoutCbill->count()): ?>
             <div class="table-responsive">
                 <table class="table table-bordered table-sm">
                     <thead>
@@ -75,30 +74,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                       @php
+                       <?php
     $shownVnos = [];
-@endphp
+?>
 
-@foreach($cdcWithoutCbill as $voucher)
-    @if(!in_array($voucher->v_no, $shownVnos))
-        @php
+<?php $__currentLoopData = $cdcWithoutCbill; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $voucher): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <?php if(!in_array($voucher->v_no, $shownVnos)): ?>
+        <?php
             $shownVnos[] = $voucher->v_no;
-        @endphp
+        ?>
         <tr>
-            <td>{{ $voucher->v_no }}</td>
-            <td>{{ $voucher->date ? \Carbon\Carbon::parse($voucher->date)->format('d-m-Y') : '' }}</td>
-            <td>{{ $voucher->accounts->title ?? 'N/A' }}</td>
+            <td><?php echo e($voucher->v_no); ?></td>
+            <td><?php echo e($voucher->date ? \Carbon\Carbon::parse($voucher->date)->format('d-m-Y') : ''); ?></td>
+            <td><?php echo e($voucher->accounts->title ?? 'N/A'); ?></td>
         </tr>
-    @endif
-@endforeach
+    <?php endif; ?>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                     </tbody>
                 </table>
             </div>
 
-            @else
+            <?php else: ?>
                 <p class="text-success">All CDC vouchers have CBILLs.</p>
-            @endif
+            <?php endif; ?>
             <div class="card mt-4">
     <div class="card-header bg-primary text-white">
         <h5> Assigned Products </h5>
@@ -106,7 +105,7 @@
 
     <div class="card-body">
 
-        @if($assignedProducts->count())
+        <?php if($assignedProducts->count()): ?>
             <div class="table-responsive">
                 <table class="table table-bordered table-sm">
                     <thead>
@@ -120,27 +119,27 @@
                     </thead>
 
                     <tbody>
-                        @foreach($assignedProducts as $product)
+                        <?php $__currentLoopData = $assignedProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
-                                <td>{{ $product->prod_name }}</td>
-                                <td>{{ $product->account->title ?? 'N/A' }}</td>
-                                <td>{{ $product->country->country_name ?? 'N/A' }}</td>
-                                <td>{{ $product->rate }}</td>
+                                <td><?php echo e($product->prod_name); ?></td>
+                                <td><?php echo e($product->account->title ?? 'N/A'); ?></td>
+                                <td><?php echo e($product->country->country_name ?? 'N/A'); ?></td>
+                                <td><?php echo e($product->rate); ?></td>
                                 <!-- <td>
                                     <span class="badge bg-warning text-dark">
                                         Pending Production
                                     </span>
                                 </td> -->
                             </tr>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
             </div>
-        @else
+        <?php else: ?>
             <p class="text-success mb-0">
                 No products assigned to you 👍
             </p>
-        @endif
+        <?php endif; ?>
 
     </div>
 </div>
@@ -148,4 +147,6 @@
     </div>
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/user_dashboard/user_dashboard.blade.php ENDPATH**/ ?>

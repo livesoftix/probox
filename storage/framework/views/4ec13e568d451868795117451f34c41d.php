@@ -342,7 +342,7 @@
                 method: "GET",
                 data: { term: query },
                 success: function (data) {
-                    console.log('DATA:', data); // debug
+                    // console.log('DATA:', data); // debug
 
                     let html = '';
                     data.forEach(function (item) {

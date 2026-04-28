@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -9,18 +8,19 @@
             </div>
         </div>
 
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                {{ session('success') }}
+                <?php echo e(session('success')); ?>
+
             </div>
-        @endif
+        <?php endif; ?>
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form id="voucherForm" action="{{ route('registration_form.store') }}" method="POST"
+                    <form id="voucherForm" action="<?php echo e(route('registration_form.store')); ?>" method="POST"
                         enctype="multipart/form-data">
-                        @csrf
+                        <?php echo csrf_field(); ?>
                         <div class="col-6">
                             <input type="hidden" id="invoice_type" name="v_type" value="LPN" readonly>
                             <input type="hidden" id="invoice" name="invoice_number">
@@ -41,9 +41,9 @@
                                 <label for="entryParty" class="form-label">Party</label>
                                 <select name="account" class="form-control select2" id="entryParty" data-toggle="select2">
                                     <option value="">Select</option>
-                                    @foreach ($accounts as $account)
-                                        <option value="{{ $account->id }}">{{ $account->title }}</option>
-                                    @endforeach
+                                    <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($account->id); ?>"><?php echo e($account->title); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -71,10 +71,11 @@
                                 <label for="country" class="form-label">Country</label>
                                 <select name="country" class="form-control select2" id="country" data-toggle="select2">
                                     <option value="">Select</option>
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country->id }}">{{ $country->country_name }}
+                                    <?php $__currentLoopData = $countries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($country->id); ?>"><?php echo e($country->country_name); ?>
+
                                         </option>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
 
@@ -84,11 +85,12 @@
                                 <select name="item" class="form-control select2" id="mainItemTitle"
                                     data-toggle="select2">
                                     <option value="">Select</option>
-                                    @foreach ($items as $item)
-                                        <option value="{{ $item->id }}" data-grammage="{{ $item->gramage }}">
-                                            {{ $item->item_code }}
+                                    <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($item->id); ?>" data-grammage="<?php echo e($item->gramage); ?>">
+                                            <?php echo e($item->item_code); ?>
+
                                         </option>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
 
@@ -141,14 +143,15 @@
                                         <select name="litem" class="form-control select2" id="litemTitle"
                                             data-toggle="select2">
                                             <option value="">Select</option>
-                                            @foreach ($items as $item)
-                                                @if ($item->type_id)
-                                                    <option value="{{ $item->id }}" data-rate="{{ $item->purchase }}"
-                                                        data-grammage="{{ $item->grammage }}">
-                                                        {{ $item->item_code }}
+                                            <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <?php if($item->type_id): ?>
+                                                    <option value="<?php echo e($item->id); ?>" data-rate="<?php echo e($item->purchase); ?>"
+                                                        data-grammage="<?php echo e($item->grammage); ?>">
+                                                        <?php echo e($item->item_code); ?>
+
                                                     </option>
-                                                @endif
-                                            @endforeach
+                                                <?php endif; ?>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
                                     <div class="mb-3"><br>
@@ -235,15 +238,16 @@
                                         <select name="citem" class="form-control select2" id="citemTitle"
                                             data-toggle="select2">
                                             <option value="">Select</option>
-                                            @foreach ($items as $item)
-                                                @if ($item->type_id == 2)
-                                                    <option value="{{ $item->id }}"
-                                                        data-rate="{{ $item->purchase }}"
-                                                        data-grammage="{{ $item->grammage }}">
-                                                        {{ $item->item_code }}
+                                            <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <?php if($item->type_id == 2): ?>
+                                                    <option value="<?php echo e($item->id); ?>"
+                                                        data-rate="<?php echo e($item->purchase); ?>"
+                                                        data-grammage="<?php echo e($item->grammage); ?>">
+                                                        <?php echo e($item->item_code); ?>
+
                                                     </option>
-                                                @endif
-                                            @endforeach
+                                                <?php endif; ?>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
                                     <div class="mb-3"><br>
@@ -554,7 +558,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // debounce
         timeout = setTimeout(() => {
 
-            fetch("{{ route('search.users') }}?q=" + encodeURIComponent(query))
+            fetch("<?php echo e(route('search.users')); ?>?q=" + encodeURIComponent(query))
                 .then(res => res.json())
                 .then(data => {
 
@@ -607,4 +611,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/registration_form/list.blade.php ENDPATH**/ ?>

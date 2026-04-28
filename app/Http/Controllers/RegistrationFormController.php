@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Models\ItemMaster;
 use App\Models\ProductLog;
 use App\Models\ProductMaster;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -315,9 +316,19 @@ class RegistrationFormController extends Controller
 
     public function show($id)
     {
-        $product = ProductMaster::find($id); // Replace with your model
+        // $product = ProductMaster::find($id); // Replace with your model
+        $product = ProductMaster::findOrFail($id);
         
 
         return view('registration_form.show', compact('product'));
     }
+ public function searchUsers(Request $request)
+{
+    $q = $request->get('q');
+
+    return User::where('name', 'LIKE', "%{$q}%")
+        ->select('id', 'name')
+        ->limit(10)
+        ->get();
+}
 }   

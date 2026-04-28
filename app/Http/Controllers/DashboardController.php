@@ -13,10 +13,14 @@ class DashboardController extends Controller
     {
         return view('dashboard');
     }
-    public function user_index()
+ public function user_index()
 {
- 
-    return view('user_dashboard.user_dashboard');
+    $assignedProducts = \App\Models\ProductMaster::with(['account', 'country', 'items'])
+        ->where('job_assign', auth()->id())
+        ->latest()
+        ->get();
+
+    return view('user_dashboard.user_dashboard', compact('assignedProducts'));
 }
 
 }

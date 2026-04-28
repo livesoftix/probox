@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -10,26 +8,27 @@
             </div>
         </div>
 
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                {{ session('success') }}
+                <?php echo e(session('success')); ?>
+
             </div>
-        @endif
+        <?php endif; ?>
 
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form id="voucherForm" action="{{ route('registration_form.update', $product->id) }}" method="POST"
+                    <form id="voucherForm" action="<?php echo e(route('registration_form.update', $product->id)); ?>" method="POST"
                         enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT') <!-- Use PUT method for updating -->
+                        <?php echo csrf_field(); ?>
+                        <?php echo method_field('PUT'); ?> <!-- Use PUT method for updating -->
 
                         <div class="col-6">
                             <input type="hidden" id="invoice_type" name="v_type" value="LPN" readonly>
                             <input type="hidden" id="invoice" name="invoice_number"
-                                value="{{ $product->invoice_number }}">
-                            <input type="hidden" id="totalAmount" name="total_amount" value="{{ $product->total_amount }}">
+                                value="<?php echo e($product->invoice_number); ?>">
+                            <input type="hidden" id="totalAmount" name="total_amount" value="<?php echo e($product->total_amount); ?>">
 
                             <div class="mb-3">
                                 <label for="product_type" class="form-label">Product Type</label>
@@ -37,10 +36,10 @@
                                     id="product_type">
                                     <option value="">Select</option>
                                     <option value="Local"
-                                        {{ old('product_type', $product->product_type) == 'Local' ? 'selected' : '' }}>
+                                        <?php echo e(old('product_type', $product->product_type) == 'Local' ? 'selected' : ''); ?>>
                                         Local</option>
                                     <option value="Export"
-                                        {{ old('product_type', $product->product_type) == 'Export' ? 'selected' : '' }}>
+                                        <?php echo e(old('product_type', $product->product_type) == 'Export' ? 'selected' : ''); ?>>
                                         Export</option>
                                 </select>
                             </div>
@@ -51,39 +50,40 @@
                                 <label for="entryParty" class="form-label">Party</label>
                                 <select name="account" class="form-control select2" id="entryParty" data-toggle="select2">
                                     <option value="">Select</option>
-                                    @foreach ($accounts as $account)
-                                        <option value="{{ $account->id }}"
-                                            {{ old('account', $product->account_id ?? ($product->account->id ?? null)) == $account->id ? 'selected' : '' }}>
-                                            {{ $account->title }}
+                                    <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($account->id); ?>"
+                                            <?php echo e(old('account', $product->account_id ?? ($product->account->id ?? null)) == $account->id ? 'selected' : ''); ?>>
+                                            <?php echo e($account->title); ?>
+
                                         </option>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
 
                             <div class="mb-3">
                                 <label for="productName" class="form-label">Product Name</label>
                                 <input type="text" id="productName" class="form-control" name="productName"
-                                    value="{{ $product->prod_name }}">
+                                    value="<?php echo e($product->prod_name); ?>">
                             </div>
-                  @php
+                  <?php
     $jobUserName = null;
 
     if (!empty($product->job_assign)) {
         $jobUser = \App\Models\User::find($product->job_assign);
         $jobUserName = $jobUser ? $jobUser->name : '';
     }
-@endphp
+?>
 
 <div class="mb-3 position-relative">
     <label for="job_assign_name" class="form-label">Job Assigning</label>
 
-    <input type="hidden" id="job_assign_id" name="job_assign" value="{{ $product->job_assign }}">
+    <input type="hidden" id="job_assign_id" name="job_assign" value="<?php echo e($product->job_assign); ?>">
 
     <input type="text"
            id="job_assign_name"
            class="form-control"
            autocomplete="off"
-           value="{{ $jobUserName }}"
+           value="<?php echo e($jobUserName); ?>"
            placeholder="Search user...">
 
     <div id="job_suggestions"
@@ -96,12 +96,13 @@
                                 <label for="country" class="form-label">Country</label>
                                 <select name="country" class="form-control select2" id="country" data-toggle="select2">
                                     <option value="">Select</option>
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country->id }}"
-                                            {{ old('country', $product->country_id) == $country->id ? 'selected' : '' }}>
-                                            {{ $country->country_name }}
+                                    <?php $__currentLoopData = $countries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($country->id); ?>"
+                                            <?php echo e(old('country', $product->country_id) == $country->id ? 'selected' : ''); ?>>
+                                            <?php echo e($country->country_name); ?>
+
                                         </option>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
 
@@ -110,12 +111,13 @@
                                 <label for="itemTitle" class="form-label">Item Type</label>
                                 <select name="item" class="form-control select2" data-toggle="select2" id="itemTitle">
                                     <option value="">Select</option>
-                                    @foreach ($itemsAll as $item)
-                                        <option value="{{ $item->id }}" data-grammage="{{ $item->grammage }}"
-                                            {{ old('item', $product->item_id) == $item->id ? 'selected' : '' }}>
-                                            {{ $item->item_code }}
+                                    <?php $__currentLoopData = $itemsAll; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($item->id); ?>" data-grammage="<?php echo e($item->grammage); ?>"
+                                            <?php echo e(old('item', $product->item_id) == $item->id ? 'selected' : ''); ?>>
+                                            <?php echo e($item->item_code); ?>
+
                                         </option>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
 
@@ -124,28 +126,28 @@
                             <div class="mb-3">
                                 <label for="grammage" class="form-label">Grammage</label>
                                 <input type="number" id="grammage" class="form-control" name="grammage"
-                                    value="{{ $product->grammage }}" step="any">
+                                    value="<?php echo e($product->grammage); ?>" step="any">
                             </div>
 
                             <!-- Length Field -->
                             <div class="mb-3">
                                 <label for="length" class="form-label">Length</label>
                                 <input type="number" id="length" class="form-control" name="length"
-                                    value="{{ $product->length }}" step="any">
+                                    value="<?php echo e($product->length); ?>" step="any">
                             </div>
 
                             <!-- Width Field -->
                             <div class="mb-3">
                                 <label for="width" class="form-label">Width</label>
                                 <input type="number" id="width" class="form-control" name="width"
-                                    value="{{ $product->width }}" step="any">
+                                    value="<?php echo e($product->width); ?>" step="any">
                             </div>
 
                             <!-- Grain Hard Side Field -->
                             <div class="mb-3">
                                 <label for="grain_hard_side" class="form-label">Grain Hard Side</label>
                                 <input type="number" id="grain_hard_side" class="form-control" name="grain_hard_side"
-                                    value="{{ $product->grain_hard_side }}" step="any">
+                                    value="<?php echo e($product->grain_hard_side); ?>" step="any">
                             </div>
 
                             <!-- Checkbox Section (Options) -->
@@ -156,30 +158,31 @@
                                 <div class="form-check form-check-inline">
                                     <input type="hidden" name="lamination" value="0">
                                     <input class="form-check-input" type="checkbox" id="lamination" name="lamination"
-                                        value="1" {{ $product->lamination ? 'checked' : '' }}>
+                                        value="1" <?php echo e($product->lamination ? 'checked' : ''); ?>>
                                     <label class="form-check-label" for="lamination">Lamination</label>
                                 </div>
 
                                 <!-- Lamination Fields -->
                                 <div id="laminationFields"
-                                    style="{{ $product->lamination ? 'display:block;' : 'display:none;' }}">
+                                    style="<?php echo e($product->lamination ? 'display:block;' : 'display:none;'); ?>">
                                     <div class="mb-3"><br>
                                         <label for="lsize" class="form-label">Size</label>
                                         <input type="number" id="lsize" class="form-control" name="lsize"
-                                            value="{{ $product->lam_size }}" step="any">
+                                            value="<?php echo e($product->lam_size); ?>" step="any">
                                     </div>
                                     <div class="mb-3">
                                         <label for="litem" class="form-label">Item Type</label>
                                         <select name="litem" class="form-control select2" data-toggle="select2"
                                             id="itemTitle">
                                             <option value="">Select</option>
-                                            @foreach ($items as $item)
-                                                <option value="{{ $item->id }}" data-rate="{{ $item->purchase }}"
-                                                    data-grammage="{{ $item->grammage }}"
-                                                    {{ old('litem', $product->lam_item) == $item->id ? 'selected' : '' }}>
-                                                    {{ $item->item_code }}
+                                            <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($item->id); ?>" data-rate="<?php echo e($item->purchase); ?>"
+                                                    data-grammage="<?php echo e($item->grammage); ?>"
+                                                    <?php echo e(old('litem', $product->lam_item) == $item->id ? 'selected' : ''); ?>>
+                                                    <?php echo e($item->item_code); ?>
+
                                                 </option>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
 
@@ -187,7 +190,7 @@
                                     <div class="mb-3"><br>
                                         <label for="limpression" class="form-label">No. of Impression</label>
                                         <input type="number" id="limpression" class="form-control" name="limpression"
-                                            value="{{ $product->limpression }}" step="any">
+                                            value="<?php echo e($product->limpression); ?>" step="any">
                                     </div>
 
 
@@ -197,7 +200,7 @@
                                 <div class="form-check">
                                     <input type="hidden" name="uv" value="0">
                                     <input class="form-check-input" type="checkbox" id="uv" name="uv"
-                                        value="1" {{ $product->uv ? 'checked' : '' }}>
+                                        value="1" <?php echo e($product->uv ? 'checked' : ''); ?>>
                                     <label class="form-check-label" for="uv">UV</label>
                                 </div>
 
@@ -205,7 +208,7 @@
                                     style="display: none; margin-top: 10px; margin-bottom: 10px; margin-left: 20px;">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="simple" name="simple"
-                                            value="1" {{ $product->simple ? 'checked' : '' }}>
+                                            value="1" <?php echo e($product->simple ? 'checked' : ''); ?>>
                                         <label class="form-check-label" for="simple">Simple</label>
                                     </div>
                                     <div id="simpleRateContainer" style="display: none;">
@@ -213,24 +216,24 @@
                                             <label for="simple_rate" class="form-label">Simple Rate</label>
                                             <input type="number" id="simple_rate" class="form-control"
                                                 name="simple_rate" step="any"
-                                                value="{{ $product->simple_rate ?? '' }}">
+                                                value="<?php echo e($product->simple_rate ?? ''); ?>">
                                         </div><br>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="spot" name="spot"
-                                            value="1" value="1" {{ $product->spot ? 'checked' : '' }}>
+                                            value="1" value="1" <?php echo e($product->spot ? 'checked' : ''); ?>>
                                         <label class="form-check-label" for="spot">Spot</label>
                                     </div>
                                     <div id="spotRateContainer" style="display: none;">
                                         <div class="form-check">
                                             <label for="spot_rate" class="form-label">Spot Rate</label>
                                             <input type="number" id="spot_rate" class="form-control" name="spot_rate"
-                                                step="any" value="{{ $product->spot_rate ?? '' }}">
+                                                step="any" value="<?php echo e($product->spot_rate ?? ''); ?>">
                                         </div>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="tripof" name="tripof"
-                                            value="1" {{ $product->tripof ? 'checked' : '' }}>
+                                            value="1" <?php echo e($product->tripof ? 'checked' : ''); ?>>
                                         <label class="form-check-label" for="tripof">Trip of</label>
                                     </div>
                                     <div id="tripofRateContainer" style="display: none;">
@@ -238,7 +241,7 @@
                                             <label for="tripof_rate" class="form-label">Trip of Rate</label>
                                             <input type="number" id="tripof_rate" class="form-control"
                                                 name="tripof_rate" step="any"
-                                                value="{{ $product->tripof_rate ?? '' }}">
+                                                value="<?php echo e($product->tripof_rate ?? ''); ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -247,17 +250,17 @@
                                 <div class="form-check">
                                     <input type="hidden" name="corrugation" value="0">
                                     <input class="form-check-input" type="checkbox" id="corrugation" name="corrugation"
-                                        value="1" {{ $product->corrugation ? 'checked' : '' }}>
+                                        value="1" <?php echo e($product->corrugation ? 'checked' : ''); ?>>
                                     <label class="form-check-label" for="corrugation">Corrugation</label>
                                 </div>
 
                                 <!-- Corrugation Fields -->
                                 <div id="corrugationFields"
-                                    style="{{ $product->corrugation ? 'display:block;' : 'display:none;' }}">
+                                    style="<?php echo e($product->corrugation ? 'display:block;' : 'display:none;'); ?>">
                                     <div class="mb-3"><br>
                                         <label for="csize" class="form-label">Size</label>
                                         <input type="number" id="csize" class="form-control" name="csize"
-                                            value="{{ $product->curr_size }}" step="any">
+                                            value="<?php echo e($product->curr_size); ?>" step="any">
                                     </div>
 
                                     <div class="mb-3">
@@ -265,13 +268,14 @@
                                         <select name="citem" class="form-control select2" data-toggle="select2"
                                             id="itemTitle">
                                             <option value="">Select</option>
-                                            @foreach ($itemsCo as $item)
-                                                <option value="{{ $item->id }}" data-rate="{{ $item->purchase }}"
-                                                    data-grammage="{{ $item->grammage }}"
-                                                    {{ old('citem', $product->curr_item) == $item->id ? 'selected' : '' }}>
-                                                    {{ $item->item_code }}
+                                            <?php $__currentLoopData = $itemsCo; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($item->id); ?>" data-rate="<?php echo e($item->purchase); ?>"
+                                                    data-grammage="<?php echo e($item->grammage); ?>"
+                                                    <?php echo e(old('citem', $product->curr_item) == $item->id ? 'selected' : ''); ?>>
+                                                    <?php echo e($item->item_code); ?>
+
                                                 </option>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
 
@@ -279,29 +283,29 @@
                                     <div class="mb-3"><br>
                                         <label for="clabour" class="form-label">CTN Per Labour</label>
                                         <input type="number" id="clabour" class="form-control" name="clabour"
-                                            step="any" value="{{ $product->clabour }}">
+                                            step="any" value="<?php echo e($product->clabour); ?>">
                                     </div>
                                 </div>
                                 <!-- Color -->
                                 <div class="form-check">
                                     <input type="hidden" name="noColor" value="0">
                                     <input class="form-check-input" type="checkbox" id="noColor" name="noColor"
-                                        value="1" {{ $product->color ? 'checked' : '' }}>
+                                        value="1" <?php echo e($product->color ? 'checked' : ''); ?>>
                                     <label class="form-check-label" for="noColor">Color</label>
                                 </div>
 
                                 <!-- Color Fields -->
                                 <div id="noColorFields"
-                                    style="{{ $product->color ? 'display:block;' : 'display:none;' }}">
+                                    style="<?php echo e($product->color ? 'display:block;' : 'display:none;'); ?>">
                                     <div class="mb-3"><br>
                                         <label for="color" class="form-label">Printing Colors</label>
                                         <input type="number" id="color" class="form-control" name="color"
-                                            value="{{ $product->color_no }}">
+                                            value="<?php echo e($product->color_no); ?>">
                                     </div>
                                     <div class="mb-3">
                                         <label for="design_color" class="form-label">Design Colors</label>
                                         <input type="number" id="design_color" class="form-control" name="design_color"
-                                            value="{{ $product->design_color }}">
+                                            value="<?php echo e($product->design_color); ?>">
                                     </div>
                                 </div>
 
@@ -311,33 +315,33 @@
                                 <div class="form-check">
                                     <input type="hidden" name="window" value="0">
                                     <input class="form-check-input" type="checkbox" id="window" name="window"
-                                        value="1" {{ $product->window ? 'checked' : '' }}>
+                                        value="1" <?php echo e($product->window ? 'checked' : ''); ?>>
                                     <label class="form-check-label" for="window">Window</label>
                                 </div>
                                 <div id="windowOptions"
                                     style="display: none; margin-top: 10px; margin-bottom: 10px; margin-left: 20px;">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="glass_win" name="glass_win"
-                                            value="1" {{ $product->glass_win ? 'checked' : '' }}>
+                                            value="1" <?php echo e($product->glass_win ? 'checked' : ''); ?>>
                                         <label class="form-check-label" for="glass_win">Glass Window</label>
                                     </div>
                                     <div id="glassWinRateContainer" style="display: none;">
                                         <div class="form-check">
                                             <label for="Glass_w_rate" class="form-label">Glass Window Rate</label>
                                             <input type="number" id="Glass_w_rate" class="form-control"
-                                                name="Glass_w_rate" step="any" value="{{ $product->Glass_w_rate }}">
+                                                name="Glass_w_rate" step="any" value="<?php echo e($product->Glass_w_rate); ?>">
                                         </div>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="lam_win" name="lam_win"
-                                            value="1" {{ $product->lam_win ? 'checked' : '' }}>
+                                            value="1" <?php echo e($product->lam_win ? 'checked' : ''); ?>>
                                         <label class="form-check-label" for="lam_win">Lamination Window</label>
                                     </div>
                                     <div id="lamWinRateContainer" style="display: none;">
                                         <div class="form-check">
                                             <label for="Lam_w_rate" class="form-label">Lamination Window Rate</label>
                                             <input type="number" id="Lam_w_rate" class="form-control" name="Lam_w_rate"
-                                                step="any" value="{{ $product->Lam_w_rate }}">
+                                                step="any" value="<?php echo e($product->Lam_w_rate); ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -347,7 +351,7 @@
                             <div class="form-check">
                                 <input type="hidden" name="varnish" value="0">
                                 <input class="form-check-input" type="checkbox" id="varnish" name="varnish"
-                                    value="1" {{ $product->varnish ? 'checked' : '' }}>
+                                    value="1" <?php echo e($product->varnish ? 'checked' : ''); ?>>
                                 <label class="form-check-label" for="varnish">Varnish</label>
                             </div>
 
@@ -355,16 +359,16 @@
                             <div class="form-check">
                                 <input type="hidden" name="emboss" value="0">
                                 <input class="form-check-input" type="checkbox" id="emboss" name="emboss"
-                                    value="1" {{ $product->emboss ? 'checked' : '' }}>
+                                    value="1" <?php echo e($product->emboss ? 'checked' : ''); ?>>
                                 <label class="form-check-label" for="emboss">Embosse</label>
                             </div>
 
                             <!-- Emboss Fields -->
-                            <div id="embossFields" style="{{ $product->emboss ? 'display:block;' : 'display:none;' }}">
+                            <div id="embossFields" style="<?php echo e($product->emboss ? 'display:block;' : 'display:none;'); ?>">
                                 <div class="mb-3"><br>
                                     <label for="emboss_rate" class="form-label">Embosse Rate</label>
                                     <input type="number" id="emboss_rate" class="form-control" name="emboss_rate"
-                                        step="any" value="{{ $product->emboss_rate ?? '' }}">
+                                        step="any" value="<?php echo e($product->emboss_rate ?? ''); ?>">
                                 </div>
                             </div>
 
@@ -372,17 +376,17 @@
                                 <input type="hidden" name="breaking" value="0">
                                 <!-- Hidden input for unchecked value -->
                                 <input class="form-check-input" type="checkbox" id="breaking" name="breaking"
-                                    value="1" {{ $product->breaking ? 'checked' : '' }}>
+                                    value="1" <?php echo e($product->breaking ? 'checked' : ''); ?>>
                                 <label class="form-check-label" for="breaking">Breaking</label>
                             </div>
 
                             <!-- breaking Fields -->
                             <div id="breakingFields"
-                                style="{{ $product->breaking_rate ? 'display:block;' : 'display:none;' }}">
+                                style="<?php echo e($product->breaking_rate ? 'display:block;' : 'display:none;'); ?>">
                                 <div class="mb-3"><br>
                                     <label for="breaking_rate" class="form-label">Rate Per CTN</label>
                                     <input type="number" id="breaking_rate" class="form-control" name="breaking_rate"
-                                        step="any" value="{{ $product->breaking_rate }}">
+                                        step="any" value="<?php echo e($product->breaking_rate); ?>">
                                 </div>
                             </div>
 
@@ -399,14 +403,14 @@
                         <div class="mb-3">
                             <label for="auto_pasting_rate" class="form-label">Per CTN Auto Pasting Rate</label>
                             <input type="number" id="auto_pasting_rate" class="form-control" name="auto_pasting_rate"
-                                step="any" value="{{ $product->auto_pasting_rate }}">
+                                step="any" value="<?php echo e($product->auto_pasting_rate); ?>">
                         </div>
 
 
                         <div class="mb-3">
                             <label for="manual_pasting_rate" class="form-label">Per CTN Manual Pasting Rate</label>
                             <input type="number" id="manual_pasting_rate" class="form-control"
-                                name="manual_pasting_rate" step="any" value="{{ $product->manual_pasting_rate }}">
+                                name="manual_pasting_rate" step="any" value="<?php echo e($product->manual_pasting_rate); ?>">
                         </div>
 
 
@@ -416,19 +420,19 @@
                         <div class="mb-3">
                             <label for="rate" class="form-label">Product Rate</label>
                             <input type="number" id="rate" class="form-control" name="rate"
-                                value="{{ $product->rate }}" step="any">
+                                value="<?php echo e($product->rate); ?>" step="any">
                         </div>
 
                         <div class="mb-3">
                             <label for="ups" class="form-label">No of Ups</label>
                             <input type="number" id="ups" class="form-control" name="ups"
-                                value="{{ $product->ups }}" step="any">
+                                value="<?php echo e($product->ups); ?>" step="any">
                         </div>
 
                         <!-- Description Field -->
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <textarea id="description" class="form-control" name="description">{{ $product->descr }}</textarea>
+                            <textarea id="description" class="form-control" name="description"><?php echo e($product->descr); ?></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -445,14 +449,14 @@
 
                             <!-- Display the uploaded image if it exists in the database -->
                             <div id="storedImageContainer" class="mt-2">
-                                @if (!empty($product->file_path))
-                                    <img src="{{ asset('storage/' . $product->file_path) }}" alt="Uploaded Image"
+                                <?php if(!empty($product->file_path)): ?>
+                                    <img src="<?php echo e(asset('storage/' . $product->file_path)); ?>" alt="Uploaded Image"
                                         style="width: 200px;">
                                     <button type="button" id="removeStoredImage" class="btn btn-sm btn-danger mt-1"
-                                        data-product-id="{{ $product->id }}">Remove Stored Image</button>
-                                @else
+                                        data-product-id="<?php echo e($product->id); ?>">Remove Stored Image</button>
+                                <?php else: ?>
                                     <p>No image available</p>
-                                @endif
+                                <?php endif; ?>
                             </div>
                         </div>
 
@@ -477,7 +481,7 @@
                 url: '/probox/registration_form/remove-image/' + productId,
                 method: 'DELETE',
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // Ensure CSRF token is included
+                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>', // Ensure CSRF token is included
                 },
                 success: function(response) {
                     // On success, remove the image and button from the page
@@ -535,7 +539,7 @@
                                 .dataset.productId, // Get product ID from data attribute
                             method: 'DELETE',
                             headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Include CSRF token
+                                'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>', // Include CSRF token
                             },
                             success: function(response) {
                                 if (response.success) {
@@ -721,7 +725,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // debounce
         timeout = setTimeout(() => {
 
-            fetch("{{ route('search.users') }}?q=" + encodeURIComponent(query))
+            fetch("<?php echo e(route('search.users')); ?>?q=" + encodeURIComponent(query))
                 .then(res => res.json())
                 .then(data => {
 
@@ -774,4 +778,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/registration_form/edit.blade.php ENDPATH**/ ?>
