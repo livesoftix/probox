@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <!-- Start page title -->
     <div class="row">
@@ -20,11 +18,12 @@
     <!-- End page title -->
 
     <!-- Error Display -->
-    @if (session('error'))
+    <?php if(session('error')): ?>
     <div class="alert alert-danger">
-        {{ session('error') }}
+        <?php echo e(session('error')); ?>
+
     </div>
-    @endif 
+    <?php endif; ?> 
 
     <div class="row">
         <div class="col-12">
@@ -33,9 +32,9 @@
                     <div class="tab-content">
                         <div class="tab-pane show active" id="input-types-preview">
                             <div class="row">
-                                <form id="voucherForm" action="{{ route('wastage_sale.update', $voucher->first()->v_no) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
+                                <form id="voucherForm" action="<?php echo e(route('wastage_sale.update', $voucher->first()->v_no)); ?>" method="POST" enctype="multipart/form-data">
+                        <?php echo csrf_field(); ?>
+                        <?php echo method_field('PUT'); ?>
                         <div class="col-6">
                             <input type="hidden" id="invoice_type" name="v_type" value="WSN" readonly>
                         <input type="hidden" id="totalAmount" name="total_amount" value="0">
@@ -43,13 +42,13 @@
                         <!-- Date Field -->
                         <div class="mb-3">
                             <label for="entryDate" class="form-label">Date</label>
-                            <input type="date" id="entryDate" class="form-control" name="date" value="{{ now()->toDateString() }}">
+                            <input type="date" id="entryDate" class="form-control" name="date" value="<?php echo e(now()->toDateString()); ?>">
                         </div>
 
                         <!-- Prepared By Field -->
                         <div class="mb-3">
                             <label for="preparedBy" class="form-label">Prepared By</label>
-                            <input type="text" id="preparedBy" class="form-control" name="prepared_by" value="{{ $loggedInUser->name }}" readonly>
+                            <input type="text" id="preparedBy" class="form-control" name="prepared_by" value="<?php echo e($loggedInUser->name); ?>" readonly>
                         </div>
 
                         <!-- Party Selection -->
@@ -57,9 +56,9 @@
                             <label for="entryParty" class="form-label">Party</label>
                             <select name="account" class="form-control select2" id="entryParty" data-toggle="select2" required>
                                 <option value="">Select</option>
-                                @foreach($accountMasters as $account)
-                                <option value="{{ $account->id }}">{{ $account->title }}</option>
-                                @endforeach
+                                <?php $__currentLoopData = $accountMasters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($account->id); ?>"><?php echo e($account->title); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                         </div>
 
@@ -70,11 +69,11 @@
                                                     
                                                     <option value="">Select</option> 
                                                     
-                                                    @foreach ($items as $item)
+                                                    <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                       
-                                                        <option value="{{ $item->id }}">{{ $item->item_code }}</option>
+                                                        <option value="<?php echo e($item->id); ?>"><?php echo e($item->item_code); ?></option>
                                                         
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </div>
                                             
@@ -129,79 +128,86 @@
                                     </tr>
                                 </thead>
                                 <tbody id="entriesBody">
-                                    @php
+                                    <?php
                                     $totalEntries = 0; // Initialize a counter for rows
-                                    @endphp
+                                    ?>
 
-                                    @if ($voucher->isNotEmpty())
-                                    @foreach ($voucher as $trndtl)
+                                    <?php if($voucher->isNotEmpty()): ?>
+                                    <?php $__currentLoopData = $voucher; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $trndtl): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <td>{{ ++$totalEntries }}</td>
+                                        <td><?php echo e(++$totalEntries); ?></td>
                                         <!-- Format Date -->
                                         <td>
-                                            {{ \Carbon\Carbon::parse($trndtl->date)->format('d-m-Y') }}
-                                            <input type="hidden" name="date[]" value="{{ $trndtl->date }}">
+                                            <?php echo e(\Carbon\Carbon::parse($trndtl->date)->format('d-m-Y')); ?>
+
+                                            <input type="hidden" name="date[]" value="<?php echo e($trndtl->date); ?>">
                                         </td>
                                         <!-- Account Title (Party) -->
                                         <td>
-                                            {{ optional($trndtl->accounts)->title ?? 'N/A' }}
-                                            <input type="hidden" name="supplier[]" value="{{ optional($trndtl->accounts)->title }}">
+                                            <?php echo e(optional($trndtl->accounts)->title ?? 'N/A'); ?>
+
+                                            <input type="hidden" name="supplier[]" value="<?php echo e(optional($trndtl->accounts)->title); ?>">
                                         </td>
                                           <td>
-                                            {{ optional($trndtl->wastagesales->items)->item_code ?? 'N/A' }}
-                                            <input type="hidden" name="supplier[]" value="{{ optional($trndtl->accounts)->title }}">
+                                            <?php echo e(optional($trndtl->wastagesales->items)->item_code ?? 'N/A'); ?>
+
+                                            <input type="hidden" name="supplier[]" value="<?php echo e(optional($trndtl->accounts)->title); ?>">
                                         </td>
 
                                         <!-- Description -->
                                         <td>
-                                            {{ $trndtl->description ?? 'N/A' }}
-                                            <input type="hidden" name="description[]" value="{{ $trndtl->description }}">
+                                            <?php echo e($trndtl->description ?? 'N/A'); ?>
+
+                                            <input type="hidden" name="description[]" value="<?php echo e($trndtl->description); ?>">
                                         </td>
                                         <!-- Weight -->
                                         <td>
-                                            {{ $trndtl->wastagesales->weight ?? 'N/A' }}
-                                            <input type="hidden" name="weight[]" value="{{ $trndtl->wastagesales->weight }}">
+                                            <?php echo e($trndtl->wastagesales->weight ?? 'N/A'); ?>
+
+                                            <input type="hidden" name="weight[]" value="<?php echo e($trndtl->wastagesales->weight); ?>">
                                         </td>
                                         
                                          <td>
-    @if (!empty($trndtl->wastagesales->file_path))
-        <a href="{{ asset('storage/' . $trndtl->wastagesales->file_path) }}" target="_blank">
-            <img src="{{ asset('storage/' . $trndtl->wastagesales->file_path) }}" alt="Image" style="width: 50px; height: auto;">
+    <?php if(!empty($trndtl->wastagesales->file_path)): ?>
+        <a href="<?php echo e(asset('storage/' . $trndtl->wastagesales->file_path)); ?>" target="_blank">
+            <img src="<?php echo e(asset('storage/' . $trndtl->wastagesales->file_path)); ?>" alt="Image" style="width: 50px; height: auto;">
         </a>
-    @else
+    <?php else: ?>
         <p>No Img</p>
-    @endif
-    <input type="hidden" name="file_path[]" value="{{ $trndtl->wastagesales->file_path ?? '' }}">
+    <?php endif; ?>
+    <input type="hidden" name="file_path[]" value="<?php echo e($trndtl->wastagesales->file_path ?? ''); ?>">
 </td>
                                         <!-- Rate -->
                                         <td hidden>
-                                            {{ $trndtl->wastagesales->rate ?? 'N/A' }}
-                                            <input type="hidden" name="rate[]" value="{{ $trndtl->wastagesales->rate }}">
+                                            <?php echo e($trndtl->wastagesales->rate ?? 'N/A'); ?>
+
+                                            <input type="hidden" name="rate[]" value="<?php echo e($trndtl->wastagesales->rate); ?>">
                                         </td>
                                         <!-- Total -->
                                         <td hidden>
-                                            {{ $trndtl->wastagesales->total ?? 'N/A' }}
-                                            <input type="hidden" name="total[]" value="{{ $trndtl->wastagesales->total }}">
+                                            <?php echo e($trndtl->wastagesales->total ?? 'N/A'); ?>
+
+                                            <input type="hidden" name="total[]" value="<?php echo e($trndtl->wastagesales->total); ?>">
                                         </td>
                                        
 
                                         <!-- Actions -->
                                         <td>
                                                         <!-- Delete Entry Button -->
-                                                        <a href="{{ route('wastage_sale.destroy', $trndtl->id) }}"
+                                                        <a href="<?php echo e(route('wastage_sale.destroy', $trndtl->id)); ?>"
                                                             class="btn btn-danger btn-sm"
                                                             onclick="event.preventDefault();
                                                                             if(confirm('Are you sure you want to delete this transaction?')) {
-                                                                                window.location.href='{{ route('wastage_sale.destroy', $trndtl->id) }}';
+                                                                                window.location.href='<?php echo e(route('wastage_sale.destroy', $trndtl->id)); ?>';
                                                                             }">Delete</a>
                                                     </td>
                                     </tr>
-                                    @endforeach
-                                    @else
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php else: ?>
                                     <tr>
                                         <td colspan="9" class="text-center">No transaction details available.</td>
                                     </tr>
-                                    @endif
+                                    <?php endif; ?>
                                 </tbody>
 
                             </table>
@@ -368,4 +374,6 @@ const amount = parseFloat(total.toFixed(2)); // Round to 2 decimal places
    
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/sale_reports/edit2.blade.php ENDPATH**/ ?>

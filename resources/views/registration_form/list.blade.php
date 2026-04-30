@@ -540,71 +540,128 @@ document.addEventListener("DOMContentLoaded", function () {
     let timeout = null;
 
     // 🔵 INPUT EVENT
-    input.addEventListener("keyup", function () {
+   let jobIndex = -1;
 
-        clearTimeout(timeout);
+input.addEventListener("keydown", function (e) {
 
-        const query = this.value.trim();
+    const items = box.querySelectorAll("a");
 
-        if (query.length < 2) {
-            box.innerHTML = "";
-            return;
-        }
+    // Arrow Down
+    if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (items.length === 0) return;
 
-        // debounce
-        timeout = setTimeout(() => {
+        jobIndex++;
+        if (jobIndex >= items.length) jobIndex = 0;
 
-            fetch("{{ route('search.users') }}?q=" + encodeURIComponent(query))
-                .then(res => res.json())
-                .then(data => {
+        highlight();
+        return;
+    }
 
-                    box.innerHTML = "";
+    // Arrow Up
+    if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (items.length === 0) return;
 
-                    console.log("Response:", data); // 🔥 DEBUG
+        jobIndex--;
+        if (jobIndex < 0) jobIndex = items.length - 1;
 
-                    if (!Array.isArray(data) || data.length === 0) {
-                        box.innerHTML = `
-                            <div class="list-group-item text-muted">
-                                No users found
-                            </div>`;
-                        return;
-                    }
+        highlight();
+        return;
+    }
 
-                    data.forEach(user => {
+    // Enter select
+  if (e.key === "Enter") {
+    e.preventDefault(); // 👈 ALWAYS stop form submit
 
-                        const item = document.createElement("a");
-                        item.href = "#";
-                        item.className = "list-group-item list-group-item-action";
+    if (jobIndex >= 0 && items[jobIndex]) {
+        items[jobIndex].click();
+    }
 
-                        // ✅ FIXED: using "name" not "title"
-                        item.textContent = user.name;
+    return;
+}
 
-                        item.addEventListener("click", function (e) {
-                            e.preventDefault();
+    clearTimeout(timeout);
 
-                            input.value = user.name;
-                            hidden.value = user.id;
-                            box.innerHTML = "";
-                        });
+    const query = this.value.trim();
 
-                        box.appendChild(item);
+    if (query.length < 2) {
+        box.innerHTML = "";
+        jobIndex = -1;
+        return;
+    }
+
+    timeout = setTimeout(() => {
+
+        fetch("{{ route('search.users') }}?q=" + encodeURIComponent(query))
+            .then(res => res.json())
+            .then(data => {
+
+                box.innerHTML = "";
+                jobIndex = -1;
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    box.innerHTML = `<div class="list-group-item text-muted">No users found</div>`;
+                    return;
+                }
+
+                data.forEach(user => {
+
+                    const item = document.createElement("a");
+                    item.href = "#";
+                    item.className = "list-group-item list-group-item-action";
+                    item.textContent = user.name;
+
+                    item.addEventListener("click", function (e) {
+                        e.preventDefault();
+
+                        input.value = user.name;
+                        hidden.value = user.id;
+                        box.innerHTML = "";
+                        jobIndex = -1;
                     });
 
-                })
-                .catch(error => {
-                    console.error("Autocomplete error:", error);
+                    box.appendChild(item);
                 });
 
-        }, 300);
-    });
+            });
 
-    // 🔴 CLOSE DROPDOWN WHEN CLICKING OUTSIDE
-    document.addEventListener("click", function (e) {
-        if (!box.contains(e.target) && e.target !== input) {
-            box.innerHTML = "";
-        }
-    });
+    }, 300);
+});
+
+function highlight() {
+    const items = box.querySelectorAll("a");
+
+    items.forEach(el => el.classList.remove("active"));
+
+    if (jobIndex >= 0 && items[jobIndex]) {
+        items[jobIndex].classList.add("active");
+        items[jobIndex].scrollIntoView({ block: "nearest" });
+    }
+}
+
+document.addEventListener("click", function (e) {
+    if (!box.contains(e.target) && e.target !== input) {
+        box.innerHTML = "";
+        jobIndex = -1;
+    }
+});
 
 });
 </script>
+
+@push('styles')
+<style>
+#job_suggestions .list-group-item.active {
+    background-color: #cedbe8 !important;
+    color: inherit !important;
+    border-color: #b9cfe5 !important;
+}
+
+#job_suggestions .list-group-item:hover {
+    background-color: #cedbe8 !important;
+    color: inherit !important;
+}
+</style>
+@endpush
 @endsection

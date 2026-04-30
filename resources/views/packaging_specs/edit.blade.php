@@ -31,20 +31,23 @@
                 <input type="date" name="date" class="form-control"
                     value="{{ old('date', ($packagingSpec->date instanceof \Illuminate\Support\Carbon) ? $packagingSpec->date->format('Y-m-d') : $packagingSpec->date) }}">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 position-relative">
                 <label class="form-label">Company Name</label>
+                <div class="autocomplete-wrapper">
                 <input type="text" name="company_name" id="company_name" class="form-control"
                        value="{{ old('company_name', $packagingSpec->company_name) }}"
                         placeholder="Company Name">
-                          <div id="company_suggestions" class="list-group position-absolute w-100"></div>
-                       
+                          <div id="company_suggestions" class="suggestion-box list-group position-absolute w-100"></div>
+</div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 position-relative">
                 <label class="form-label">Item Name</label>
+                <div class="autocomplete-wrapper">
                 <input type="text" name="item_name" id="item_name" class="form-control"
                        value="{{ old('item_name', $packagingSpec->item_name) }}"
                          placeholder="Item Name">
-                           <div id="item_suggestions" class="list-group position-absolute w-100"></div>
+                           <div id="item_suggestions" class="suggestion-box list-group position-absolute w-100"></div>
+</div>
             </div>
             <div class="col-md-4">
                 <label class="form-label">Country</label>
@@ -330,12 +333,45 @@
 <script>
     $(document).ready(function () {
 
-    function setupAutocomplete(inputId, suggestionBoxId, url) {
-        $(inputId).on('keyup', function () {
+    let selectedIndex = {
+        company_name: -1,
+        item_name: -1
+    };
+
+    function getBox(inputId) {
+        return inputId === 'company_name'
+            ? '#company_suggestions'
+            : '#item_suggestions';
+    }
+
+    function highlight(inputId) {
+        let box = getBox(inputId);
+        let items = $(box).find('a');
+
+        items.removeClass('active');
+
+        if (selectedIndex[inputId] >= 0 && selectedIndex[inputId] < items.length) {
+            let el = $(items[selectedIndex[inputId]]);
+            el.addClass('active');
+
+            el[0].scrollIntoView({ block: "nearest" });
+        }
+    }
+
+    function setupAutocomplete(inputId, url) {
+
+        let $input = $(inputId);
+        let $box = $(getBox(inputId.replace('#','')));
+
+        // SEARCH
+        $input.on('keyup', function (e) {
+
+            if (["ArrowUp","ArrowDown","Enter"].includes(e.key)) return;
+
             let query = $(this).val();
 
             if (query.length < 1) {
-                $(suggestionBoxId).html('');
+                $box.hide().html('');
                 return;
             }
 
@@ -344,31 +380,76 @@
                 method: "GET",
                 data: { term: query },
                 success: function (data) {
-                    // console.log('DATA:', data); // debug
 
                     let html = '';
-                    data.forEach(function (item) {
+
+                    data.forEach(item => {
                         html += `<a href="#" class="list-group-item list-group-item-action">${item}</a>`;
                     });
 
-                    $(suggestionBoxId).html(html);
-                },
-                error: function(err){
-                    console.log('ERROR:', err);
+                    $box.html(html).show();
                 }
             });
         });
 
-        $(document).on('click', suggestionBoxId + ' a', function (e) {
+        // CLICK
+        $(document).on('click', getBox(inputId.replace('#','')) + ' a', function (e) {
             e.preventDefault();
-            $(inputId).val($(this).text());
-            $(suggestionBoxId).html('');
-            // $(inputId).closest('form').submit();
+            $input.val($(this).text());
+            $box.hide().html('');
+        });
+
+        // OUTSIDE CLICK
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest(inputId).length &&
+                !$(e.target).closest(getBox(inputId.replace('#',''))).length) {
+                $box.hide();
+            }
         });
     }
 
-    setupAutocomplete('#company_name', '#company_suggestions', "{{ url('/probox/search-company') }}");
-    setupAutocomplete('#item_name', '#item_suggestions', "{{ url('/probox/search-item') }}");
+    // KEYBOARD NAVIGATION (GLOBAL FIX)
+    $(document).on('keydown', '#company_name, #item_name', function (e) {
+
+        let input = $(this);
+        let inputId = input.attr('id');
+
+        let box = getBox(inputId);
+        let items = $(box).find('a');
+
+        if (!$(box).is(':visible') || items.length === 0) return;
+
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+            selectedIndex[inputId]++;
+            if (selectedIndex[inputId] >= items.length) selectedIndex[inputId] = 0;
+            highlight(inputId);
+        }
+
+        if (e.key === "ArrowUp") {
+            e.preventDefault();
+            selectedIndex[inputId]--;
+            if (selectedIndex[inputId] < 0) selectedIndex[inputId] = items.length - 1;
+            highlight(inputId);
+        }
+
+        if (e.key === "Enter") {
+            if (selectedIndex[inputId] >= 0) {
+                e.preventDefault();
+                input.val($(items[selectedIndex[inputId]]).text());
+                $(box).hide().html('');
+                selectedIndex[inputId] = -1;
+            }
+        }
+    });
+
+    $(document).on('input', '#company_name, #item_name', function () {
+        selectedIndex[$(this).attr('id')] = -1;
+    });
+
+    // INIT
+    setupAutocomplete('#company_name', "{{ url('/probox/search-company') }}");
+    setupAutocomplete('#item_name', "{{ url('/probox/search-item') }}");
 
 });
 document.addEventListener('DOMContentLoaded', function() {
@@ -427,4 +508,38 @@ document.addEventListener('DOMContentLoaded', function() {
     updateRowNumbers();
 });
 </script>
+@push('styles')
+<style>
+     .autocomplete-wrapper {
+    position: relative;
+    width: 100%;
+}
+.suggestion-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 99999;
+
+    background: #fff;
+    border: 1px solid #ddd;
+
+    max-height: 250px;
+    overflow-y: auto;
+
+    display: none;
+    box-sizing: border-box;
+}
+
+.suggestion-box a.active {
+    background: #cedbe8;
+}
+#company_suggestions .list-group-item.active,
+#item_suggestions .list-group-item.active {
+    background-color: #cedbe8 !important;
+    color: inherit !important;
+    border-color: #b9cfe5 !important;
+}
+</style>
+@endpush
 @endsection

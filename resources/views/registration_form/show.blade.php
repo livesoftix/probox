@@ -12,6 +12,7 @@
                     <a href="{{ route('registration_form.reports') }}" class="btn btn-secondary me-1">Back</a>
                     <a href="{{ route('registration_form.edit', $product?->id) }}" class="btn btn-primary me-1">Edit</a>
                     <button type="button" class="btn btn-info" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
+                    <button type="button" class="btn btn-success me-1" onclick="downloadJPG()">JPG</button>
                 </div>
             </div>
         </div>
@@ -299,4 +300,41 @@
     }
 </style>
 
+
+@endsection
+
+@section('scripts')
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    window.downloadJPG = async function () {
+        console.log("Download JPG function called");
+
+        // ✅ Hard check
+        if (typeof window.html2canvas === "undefined") {
+            console.error("html2canvas NOT loaded");
+            alert("Export failed: library not loaded");
+            return;
+        }
+
+        const element = document.getElementById('printable-area');
+
+        try {
+            const canvas = await window.html2canvas(element, {
+                scale: 2,
+                useCORS: true
+            });
+
+            const link = document.createElement('a');
+            link.download = 'product-details.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 1.0);
+            link.click();
+
+        } catch (err) {
+            console.error("JPG generation failed:", err);
+        }
+    };
+
+});
+</script>
 @endsection

@@ -29,16 +29,24 @@
                 <label class="form-label">Date</label>
                 <input type="date" name="date" class="form-control" value="{{ old('date', date('Y-m-d')) }}">
             </div>
-            <div class="col-md-4">
-                <label class="form-label">Company Name</label>
-                <input type="text" name="company_name" id="company_name" class="form-control"  placeholder="Company Name">
-                 <div id="company_suggestions" class="list-group position-absolute w-100"></div>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-4 position-relative">
+    <label class="form-label">Company Name</label>
+     <div class="autocomplete-wrapper">
+
+    <input type="text" name="company_name" id="company_name" class="form-control" placeholder="Company Name">
+
+    <div id="company_suggestions" class="list-group suggestion-box"></div>
+</div>
+</div>
+            <div class="col-md-4 position-relative">
                 <label class="form-label">Item Name</label>
+                 <div class="autocomplete-wrapper">
                 <input type="text" name="item_name" id="item_name" class="form-control"  placeholder="Item Name">
-                 <div id="item_suggestions" class="list-group position-absolute w-100"></div>
+                 <div id="item_suggestions"
+                     class="list-group suggestion-box">
+</div>
             </div>
+</div>
             <div class="col-md-4">
                 <label class="form-label">Country</label>
                 <input type="text" name="country" class="form-control">
@@ -227,7 +235,11 @@
     $(document).ready(function () {
 // console.log('Document ready'); // debug 
     function setupAutocomplete(inputId, suggestionBoxId, url) {
-        $(inputId).on('keyup', function () {
+        $(inputId).on('keyup', function (e) {
+            // ignore arrows + enter so highlight stays
+    if (e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 13) {
+        return;
+    }
             let query = $(this).val();
 
             if (query.length < 1) {
@@ -264,6 +276,101 @@
             // $(inputId).closest('form').submit();
         });
     }
+    // Add this inside your existing $(document).ready(function () { ... })
+
+let selectedIndex = {
+    company_name: -1,
+    item_name: -1
+};
+
+function resetIndex() {
+    selectedIndex.company_name = -1;
+    selectedIndex.item_name = -1;
+}
+
+$(document).on('keydown', '#company_name, #item_name', function (e) {
+
+    let input = $(this);
+    let inputId = input.attr('id');
+
+    let box = inputId === 'company_name'
+        ? '#company_suggestions'
+        : '#item_suggestions';
+
+    let items = $(box).find('a');
+
+   function highlightItem() {
+    items.removeClass('active');
+
+    if (selectedIndex[inputId] >= 0) {
+        let el = $(items[selectedIndex[inputId]]);
+
+        el.addClass('active');
+
+        // 🔥 AUTO SCROLL INTO VIEW
+        el[0].scrollIntoView({
+            block: "nearest",
+            behavior: "smooth"
+        });
+    }
+}
+
+    // DOWN Arrow
+    if (e.keyCode === 40) {
+        e.preventDefault();
+        if (items.length === 0) return;
+
+        selectedIndex[inputId]++;
+
+        if (selectedIndex[inputId] >= items.length) {
+            selectedIndex[inputId] = 0;
+        }
+
+        highlightItem();
+        return;
+    }
+
+    // UP Arrow
+    if (e.keyCode === 38) {
+        e.preventDefault();
+        if (items.length === 0) return;
+
+        selectedIndex[inputId]--;
+
+        if (selectedIndex[inputId] < 0) {
+            selectedIndex[inputId] = items.length - 1;
+        }
+
+        highlightItem();
+        return;
+    }
+
+    // ENTER
+    if (e.keyCode === 13) {
+        if (selectedIndex[inputId] >= 0 && items.length > 0) {
+            e.preventDefault();
+
+            input.val($(items[selectedIndex[inputId]]).text());
+            $(box).html('');
+            selectedIndex[inputId] = -1;
+        }
+    }
+});
+
+// reset index when typing
+$(document).on('input', '#company_name, #item_name', function () {
+    resetIndex();
+});
+$(document).on('click', function (e) {
+    if (!$(e.target).closest('.autocomplete-wrapper').length) {
+        $('.suggestion-box').html('');
+    }
+});
+$(document).on('blur', '#company_name, #item_name', function () {
+    setTimeout(() => {
+        $('.suggestion-box').html('');
+    }, 150);
+});
 
     setupAutocomplete('#company_name', '#company_suggestions', "{{ url('/probox/search-company') }}");
     setupAutocomplete('#item_name', '#item_suggestions', "{{ url('/probox/search-item') }}");
@@ -314,5 +421,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endsection
 
+
+@push('styles')
+<style>
+ .autocomplete-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.suggestion-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;   /* 🔥 THIS fixes width mismatch */
+    z-index: 9999;
+    max-height: 250px;
+    overflow-y: auto;
+}
+   .list-group-item.active {
+     background-color: #cedbe8 !important;
+    color: inherit !important;
+    border-color: #b9cfe5 !important;
+}
+
+@endpush
+
+@endsection

@@ -174,6 +174,7 @@
     <script src="{{asset('assets/vendor/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
     <script src="{{asset('assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>
     <script src="{{asset('assets/vendor/datatables.net-select/js/dataTables.select.min.js')}}"></script>
+    
 
     <!-- Datatable Demo Aapp js -->
     <script src="{{asset('assets/js/pages/demo.datatable-init.js')}}"></script>
