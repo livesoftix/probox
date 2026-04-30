@@ -10,7 +10,10 @@
                     <a href="<?php echo e(route('registration_form.reports')); ?>" class="btn btn-secondary me-1">Back</a>
                     <a href="<?php echo e(route('registration_form.edit', $product?->id)); ?>" class="btn btn-primary me-1">Edit</a>
                     <button type="button" class="btn btn-info" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
-                    <button type="button" class="btn btn-success me-1" onclick="downloadJPG()">JPG</button>
+                   <!-- Fixed Button - Remove nested buttons -->
+<button class="btn btn-success" onclick="downloadJpg(<?php echo e($product->id); ?>)">
+    <i class="fa fa-download"></i> JPG Download
+</button>
                 </div>
             </div>
         </div>
@@ -306,37 +309,10 @@
 
 <?php $__env->startSection('scripts'); ?>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    window.downloadJPG = async function () {
-        console.log("Download JPG function called");
-
-        // ✅ Hard check
-        if (typeof window.html2canvas === "undefined") {
-            console.error("html2canvas NOT loaded");
-            alert("Export failed: library not loaded");
-            return;
-        }
-
-        const element = document.getElementById('printable-area');
-
-        try {
-            const canvas = await window.html2canvas(element, {
-                scale: 2,
-                useCORS: true
-            });
-
-            const link = document.createElement('a');
-            link.download = 'product-details.jpg';
-            link.href = canvas.toDataURL('image/jpeg', 1.0);
-            link.click();
-
-        } catch (err) {
-            console.error("JPG generation failed:", err);
-        }
-    };
-
-});
+function downloadJpg(productId) {
+    // ✅ Use Laravel route helper
+    window.location.href = "<?php echo e(url('product')); ?>/" + productId + "/jpg";
+}
 </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/registration_form/show.blade.php ENDPATH**/ ?>

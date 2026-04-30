@@ -95,6 +95,7 @@ use App\Http\Controllers\WageBoxboardController;
 use App\Http\Controllers\SalaryCalculatorController;
 use App\Http\Controllers\BankCashReportController;
 use App\Http\Controllers\BackupController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Artisan;
 
 
@@ -612,6 +613,7 @@ Route::get('/probox/search-item', [PackagingSpecController::class, 'searchItem']
     Route::post('/probox/registration_form/add_product', [RegistrationFormController::class, 'store'])->name('registration_form.store');
     Route::get('/probox/registration_form/reports', [RegistrationFormController::class, 'reports'])->name('registration_form.reports');
         Route::get('/probox/registration_form/{id}', [RegistrationFormController::class, 'show'])->name('registration_form.show');
+        Route::get('/product/{id}/jpg', [ProductController::class, 'downloadJpg'])->name('product.download.jpg');
 
     Route::get('/probox/registration_form/edit/{id}', [RegistrationFormController::class, 'edit'])->name('registration_form.edit');
     Route::get('/probox/search-users', [RegistrationFormController::class, 'searchUsers'])->name('search.users');

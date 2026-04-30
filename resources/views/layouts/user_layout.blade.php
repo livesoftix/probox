@@ -918,7 +918,8 @@
 
     // (Optional) also handle SPA-like navigation or heavy async ops by calling showLoader()/hideLoader() where needed
 </script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="{{ asset('assets/js/html2canvas.min.js') }}"></script>
+
 
 
     @yield('scripts')
