@@ -183,6 +183,7 @@ public function delete($id)
 
     public function edit($v_no)
 {
+    // dd($v_no);
     // Get the logged-in user
     $loggedInUser = Auth::user();
 
@@ -213,6 +214,7 @@ public function delete($id)
 
     // Fetch all items for the view
     $items = ItemMaster::all();
+    dd($items);
 
     // Pass all data to the view
     return view('sale_reports.edit2', compact('v_no', 'loggedInUser', 'voucher', 'erpParams', 'accountMasters', 'saleAccounts', 'items'));
