@@ -213,8 +213,8 @@ public function delete($id)
     }
 
     // Fetch all items for the view
-    $items = ItemMaster::all();
-    dd($items);
+     $items = ItemMaster::all();
+    // dd($items);
 
     // Pass all data to the view
     return view('sale_reports.edit2', compact('v_no', 'loggedInUser', 'voucher', 'erpParams', 'accountMasters', 'saleAccounts', 'items'));

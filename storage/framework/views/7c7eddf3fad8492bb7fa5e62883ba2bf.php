@@ -63,12 +63,13 @@
                         </div>
 
   <div class="mb-3">
+     
                                                 <label for="itemTitle" class="form-label">Item Title</label>
                                                 <select name="item" class="form-control select2" data-toggle="select2"
                                                     id="itemTitle" required>
                                                     
                                                     <option value="">Select</option> 
-                                                    
+                                                   
                                                     <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                       
                                                         <option value="<?php echo e($item->id); ?>"><?php echo e($item->item_code); ?></option>
