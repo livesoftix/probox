@@ -665,7 +665,7 @@
 
             // Set the value of the input field to the current date
             document.getElementById('end_date').value = today;
-    function downloadTableJpg() {
+function downloadTableJpg() {
 
     const headingSelect = document.getElementById('printHeadingSelect');
     const selectedHeading = headingSelect ? headingSelect.value : '';
@@ -684,88 +684,101 @@
         return;
     }
 
-    // show hidden content
+    // show hidden elements
     table.style.display = 'table';
     header.style.display = 'block';
 
-    // wrapper
     const wrapper = document.createElement('div');
     wrapper.style.background = '#fff';
     wrapper.style.padding = '15px';
     wrapper.style.width = '1200px';
 
-    // ===== HEADER (FIXED) =====
     let headerDiv = document.createElement('div');
     headerDiv.style.marginBottom = '10px';
 
+    // =========================
+    // RENDER FUNCTION (COMMON)
+    // =========================
+    function renderCanvas() {
+
+        wrapper.appendChild(headerDiv);
+        wrapper.appendChild(header.cloneNode(true));
+        wrapper.appendChild(table.cloneNode(true));
+
+        document.body.appendChild(wrapper);
+
+        setTimeout(() => {
+
+            html2canvas(wrapper, {
+                scale: 3,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: "#ffffff"
+            }).then(canvas => {
+
+                const link = document.createElement('a');
+                link.download = "report.jpg";
+                link.href = canvas.toDataURL("image/jpeg", 1.0);
+                link.click();
+
+                // cleanup
+                document.body.removeChild(wrapper);
+                table.style.display = 'none';
+                header.style.display = 'none';
+            });
+
+        }, 500);
+    }
+
+    // =========================
+    // HAIDER PACKAGES (TEXT ONLY)
+    // =========================
     if (selectedHeading === 'Haider Packages GRW') {
 
-        const box = document.createElement('div');
-        box.style.background = '#333';
-        box.style.color = '#fff';
-        box.style.padding = '10px 20px';
-        box.style.display = 'inline-block';
+        headerDiv.innerHTML = `
+            <div style="background:#333;color:#fff;padding:10px 20px;display:inline-block;">
+                <h1 style="margin:0;font-size:24px;color:#fff;">
+                    HAIDER PACKAGES
+                </h1>
+                <p style="margin:4px 0 0 0;font-size:11px;color:#fff;">
+                    A COMPLETE UNIT OF PRINTING & PACKAGING
+                </p>
+            </div>
+        `;
 
-        const h1 = document.createElement('h1');
-        h1.innerText = 'HAIDER PACKAGES';
-        h1.style.margin = '0';
-        h1.style.fontSize = '24px';
-        h1.style.color = '#fff';
+        renderCanvas();
+    }
 
-        const p = document.createElement('p');
-        p.innerText = 'A COMPLETE UNIT OF PRINTING & PACKAGING';
-        p.style.margin = '4px 0 0 0';
-        p.style.fontSize = '11px';
-        p.style.color = '#fff';
-
-        box.appendChild(h1);
-        box.appendChild(p);
-        headerDiv.appendChild(box);
-
-    } 
+    // =========================
+    // PROBOX PACKAGES (LOGO ONLY)
+    // =========================
     else if (
         selectedHeading === 'ProBox Packages' ||
         selectedHeading === 'ProBox Packages official'
     ) {
 
-        const img = document.createElement('img');
-        img.src = "{{ url('assets/images/proboxlogo.jpg') }}"; // IMPORTANT: absolute URL
-        img.style.maxWidth = '120px';
-        img.style.height = 'auto';
-        img.crossOrigin = "anonymous";
+        fetch("{{ url('assets/images/proboxlogo.jpg') }}")
+            .then(res => res.blob())
+            .then(blob => {
 
-        headerDiv.appendChild(img);
+                const reader = new FileReader();
+
+                reader.onloadend = function () {
+
+                    const img = document.createElement('img');
+                    img.src = reader.result; // BASE64 FIX (important for live server)
+                    img.style.maxWidth = '120px';
+                    img.style.height = 'auto';
+
+                    headerDiv.appendChild(img);
+
+                    renderCanvas();
+                };
+
+                reader.readAsDataURL(blob);
+            });
     }
-
-    // append everything
-    wrapper.appendChild(headerDiv);
-    wrapper.appendChild(header.cloneNode(true));
-    wrapper.appendChild(table.cloneNode(true));
-
-    document.body.appendChild(wrapper);
-
-    setTimeout(() => {
-
-        html2canvas(wrapper, {
-            scale: 3,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: "#ffffff"
-        }).then(canvas => {
-
-            const link = document.createElement('a');
-            link.download = "confectionery_report.jpg";
-            link.href = canvas.toDataURL("image/jpeg", 1.0);
-            link.click();
-
-            // cleanup
-            document.body.removeChild(wrapper);
-            table.style.display = 'none';
-            header.style.display = 'none';
-        });
-
-    }, 800);
 }
         </script>
     
-    @endsection
+@endsection
