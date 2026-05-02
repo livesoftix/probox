@@ -53,17 +53,14 @@
                             <div class="mb-3 position-relative">
     <label for="job_assign_name" class="form-label">Job Assigning</label>
 
-    <input type="hidden" id="job_assign_id" name="job_assign">
+    <!-- <input type="hidden" id="job_assign_id" name="job_assign"> -->
 
     <input type="text"
-           id="job_assign_name"
-           class="form-control"
-           autocomplete="off"
-           placeholder="Search user...">
+         name="job_assign" class="form-control" >
 
-    <div id="job_suggestions"
+    <!-- <div id="job_suggestions"
          class="list-group position-absolute w-100"
-         style="z-index: 9999; max-height: 250px; overflow-y: auto;"></div>
+         style="z-index: 9999; max-height: 250px; overflow-y: auto;"></div> -->
 </div>
 
                             <!-- Country Dropdown -->

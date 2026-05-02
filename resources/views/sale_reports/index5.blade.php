@@ -153,6 +153,9 @@
                                 style="min-width: 120px;">
                                 Print Table
                             </button>
+                            <button type="button" class="btn btn-success" onclick="downloadTableJpg()">
+    Download JPG
+</button>
                             <div class="d-flex align-items-center">
                                 <label for="printHeadingSelect" class="me-2 mb-0">Heading:</label>
                                 <select id="printHeadingSelect" class="form-select select2" data-toggle="select2"
@@ -348,6 +351,9 @@
                 </div>
             </div>
         </div>
+@endsection
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
         <script>
             function checkPermission() {
@@ -659,5 +665,107 @@
 
             // Set the value of the input field to the current date
             document.getElementById('end_date').value = today;
+    function downloadTableJpg() {
+
+    const headingSelect = document.getElementById('printHeadingSelect');
+    const selectedHeading = headingSelect ? headingSelect.value : '';
+
+    if (!selectedHeading) {
+        alert('Please select a print heading before downloading.');
+        headingSelect.focus();
+        return;
+    }
+
+    const table = document.querySelector('.show-in-print');
+    const header = document.querySelector('.show-in-prints');
+
+    if (!table) {
+        alert('Print table not found');
+        return;
+    }
+
+    // show hidden content
+    table.style.display = 'table';
+    header.style.display = 'block';
+
+    // wrapper
+    const wrapper = document.createElement('div');
+    wrapper.style.background = '#fff';
+    wrapper.style.padding = '15px';
+    wrapper.style.width = '1200px';
+
+    // ===== HEADER (FIXED) =====
+    let headerDiv = document.createElement('div');
+    headerDiv.style.marginBottom = '10px';
+
+    if (selectedHeading === 'Haider Packages GRW') {
+
+        const box = document.createElement('div');
+        box.style.background = '#333';
+        box.style.color = '#fff';
+        box.style.padding = '10px 20px';
+        box.style.display = 'inline-block';
+
+        const h1 = document.createElement('h1');
+        h1.innerText = 'HAIDER PACKAGES';
+        h1.style.margin = '0';
+        h1.style.fontSize = '24px';
+        h1.style.color = '#fff';
+
+        const p = document.createElement('p');
+        p.innerText = 'A COMPLETE UNIT OF PRINTING & PACKAGING';
+        p.style.margin = '4px 0 0 0';
+        p.style.fontSize = '11px';
+        p.style.color = '#fff';
+
+        box.appendChild(h1);
+        box.appendChild(p);
+        headerDiv.appendChild(box);
+
+    } 
+    else if (
+        selectedHeading === 'ProBox Packages' ||
+        selectedHeading === 'ProBox Packages official'
+    ) {
+
+        const img = document.createElement('img');
+        img.src = "{{ url('assets/images/proboxlogo.jpg') }}"; // IMPORTANT: absolute URL
+        img.style.maxWidth = '120px';
+        img.style.height = 'auto';
+        img.crossOrigin = "anonymous";
+
+        headerDiv.appendChild(img);
+    }
+
+    // append everything
+    wrapper.appendChild(headerDiv);
+    wrapper.appendChild(header.cloneNode(true));
+    wrapper.appendChild(table.cloneNode(true));
+
+    document.body.appendChild(wrapper);
+
+    setTimeout(() => {
+
+        html2canvas(wrapper, {
+            scale: 3,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: "#ffffff"
+        }).then(canvas => {
+
+            const link = document.createElement('a');
+            link.download = "confectionery_report.jpg";
+            link.href = canvas.toDataURL("image/jpeg", 1.0);
+            link.click();
+
+            // cleanup
+            document.body.removeChild(wrapper);
+            table.style.display = 'none';
+            header.style.display = 'none';
+        });
+
+    }, 800);
+}
         </script>
+    
     @endsection

@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -19,13 +18,14 @@
         <!-- end page title -->
 
         <div class="row">
-            @if (session('success'))
+            <?php if(session('success')): ?>
                 <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
                         aria-label="Close"></button>
-                    <strong>Success - </strong> {{ session('success') }}
+                    <strong>Success - </strong> <?php echo e(session('success')); ?>
+
                 </div>
-            @endif
+            <?php endif; ?>
 
             <div class="row">
 
@@ -34,29 +34,29 @@
 
                         <div class="tab-content">
                             <div class="col-6">
-                                <form action="{{ route('general_delivery_challan.report') }}" method="GET"
+                                <form action="<?php echo e(route('general_delivery_challan.report')); ?>" method="GET"
                                     class="form-inline" id="search-form">
                                     <div class="row">
                                         <div class="form-group col-xl-4">
                                             <label for="start_date" class="sr-only">Start Date</label>
                                             <input type="date" class="form-control" id="start_date" name="start_date"
-                                                value="{{ request()->get('start_date') }}">
+                                                value="<?php echo e(request()->get('start_date')); ?>">
                                         </div>
                                         <div class="form-group col-xl-4">
                                             <label for="end_date" class="sr-only">End Date</label>
                                             <input type="date" class="form-control" id="end_date" name="end_date"
-                                                value="{{ request()->get('end_date') }}">
+                                                value="<?php echo e(request()->get('end_date')); ?>">
                                         </div>
                                         <div class="form-group col-xl-4">
                                             <label for="employee" class="sr-only">Status</label>
                                             <select name="employee" class="form-control select2">
                                                 <option value="">All</option>
                                                 <option value="official"
-                                                    {{ request()->get('employee') == 'official' ? 'selected' : '' }}>
+                                                    <?php echo e(request()->get('employee') == 'official' ? 'selected' : ''); ?>>
                                                     Official
                                                 </option>
                                                 <option value="unofficial"
-                                                    {{ request()->get('employee') == 'unofficial' ? 'selected' : '' }}>
+                                                    <?php echo e(request()->get('employee') == 'unofficial' ? 'selected' : ''); ?>>
                                                     Unofficial
                                                 </option>
                                             </select>
@@ -67,12 +67,13 @@
                                             <select name="v_no" class="form-control select2" data-toggle="select2"
                                                 data-placeholder="Select JS No">
                                                 <option value="">Select JS No</option>
-                                                @foreach ($vNos as $vNo)
-                                                    <option value="{{ $vNo }}"
-                                                        {{ request()->get('v_no') == $vNo ? 'selected' : '' }}>
-                                                        {{ $vNo }}
+                                                <?php $__currentLoopData = $vNos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $vNo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($vNo); ?>"
+                                                        <?php echo e(request()->get('v_no') == $vNo ? 'selected' : ''); ?>>
+                                                        <?php echo e($vNo); ?>
+
                                                     </option>
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
                                         </div>
 
@@ -82,12 +83,13 @@
                                             <select name="party_id" class="form-control select2" data-toggle="select2"
                                                 data-placeholder="Select Customer">
                                                 <option value="">Select Party</option>
-                                                @foreach ($partyIds as $id => $title)
-                                                    <option value="{{ $id }}"
-                                                        {{ request()->get('party_id') == $id ? 'selected' : '' }}>
-                                                        {{ $title }}
+                                                <?php $__currentLoopData = $partyIds; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $title): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($id); ?>"
+                                                        <?php echo e(request()->get('party_id') == $id ? 'selected' : ''); ?>>
+                                                        <?php echo e($title); ?>
+
                                                     </option>
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
                                         </div>
 
@@ -95,7 +97,7 @@
 
                                         <div class="form-group mt-3">
                                             <button type="submit" class="btn btn-primary">Search</button>
-                                            <a class="btn btn-success" href="{{ route('general_delivery_challan.list') }}"
+                                            <a class="btn btn-success" href="<?php echo e(route('general_delivery_challan.list')); ?>"
                                                 role="button" onclick="return checkPermission()">Add New</a>
                                         </div>
                                     </div>
@@ -155,38 +157,40 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($generalDeliveryChallens as $general)
+                                                <?php $__currentLoopData = $generalDeliveryChallens; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $general): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <tr>
-                                                        <td>{{ \Carbon\Carbon::parse($general->updated_at)->format('Y-m-d') ?? 'N/A' }}
+                                                        <td><?php echo e(\Carbon\Carbon::parse($general->updated_at)->format('Y-m-d') ?? 'N/A'); ?>
+
                                                         </td>
-                                                        <td>{{ $general->v_type ?? 'N/A' }}-{{ $general->v_no ?? 'N/A' }}
+                                                        <td><?php echo e($general->v_type ?? 'N/A'); ?>-<?php echo e($general->v_no ?? 'N/A'); ?>
+
                                                         </td>
-                                                        <td>{{ $general->prepared_by ?? 'N/A' }}</td>
-                                                        <td>{{ $general->party_name ?? 'N/A' }}</td>
-                                                        <td>{{ $general->gjs_no ?? 'N/A' }}</td>
-                                                        <td>{{ $general->product_type ?? 'N/A' }}</td>
-                                                        <td>{{ $general->item_name ?? 'N/A' }}</td>
-                                                        <td>{{ $general->qty ?? 'N/A' }}</td>
-                                                        <td>{{ $general->rate ?? 'N/A' }}</td>
-                                                        <td>{{ $general->freight ?? 'N/A' }}</td>
+                                                        <td><?php echo e($general->prepared_by ?? 'N/A'); ?></td>
+                                                        <td><?php echo e($general->party_name ?? 'N/A'); ?></td>
+                                                        <td><?php echo e($general->gjs_no ?? 'N/A'); ?></td>
+                                                        <td><?php echo e($general->product_type ?? 'N/A'); ?></td>
+                                                        <td><?php echo e($general->item_name ?? 'N/A'); ?></td>
+                                                        <td><?php echo e($general->qty ?? 'N/A'); ?></td>
+                                                        <td><?php echo e($general->rate ?? 'N/A'); ?></td>
+                                                        <td><?php echo e($general->freight ?? 'N/A'); ?></td>
 
                                                         <td class="no-print">
-                                                            <a href="{{ route('general_delivery_challan.edit', $general->id) }}"
+                                                            <a href="<?php echo e(route('general_delivery_challan.edit', $general->id)); ?>"
                                                                 class="btn btn-warning btn-sm"
                                                                 onclick="return checkPermissionEdit()">Edit</a>
 
                                                             <form
-                                                                action="{{ route('general_delivery_challan.destroy', $general->id) }}"
+                                                                action="<?php echo e(route('general_delivery_challan.destroy', $general->id)); ?>"
                                                                 method="POST" style="display:inline-block;"
                                                                 onclick="return checkPermissionDel()">
-                                                                @csrf
-                                                                @method('DELETE')
+                                                                <?php echo csrf_field(); ?>
+                                                                <?php echo method_field('DELETE'); ?>
                                                                 <button type="submit" class="btn btn-danger btn-sm"
                                                                     onclick="return confirm('Are you sure you want to delete this transaction?')">Delete</button>
                                                             </form>
                                                         </td>
                                                     </tr>
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
                                         </table>
 
@@ -202,17 +206,20 @@
                                                         <h3 style="margin: 0; font-weight: bold;">Category: General
                                                         </h3>
                                                         <h3 style="margin: 2px 0 0 0; font-weight: bold;">Name:
-                                                            {{ $generalDeliveryChallens->unique('party_name')->pluck('party_name')->implode(', ') }}
+                                                            <?php echo e($generalDeliveryChallens->unique('party_name')->pluck('party_name')->implode(', ')); ?>
+
                                                         </h3>
                                                     </div>
                                                     <div style="text-align: right;">
                                                         <h3 style="margin: 0; font-weight: bold;">Date:
-                                                            {{ $generalDeliveryChallens->unique('updated_at')->pluck('updated_at')->map(function ($date) {
+                                                            <?php echo e($generalDeliveryChallens->unique('updated_at')->pluck('updated_at')->map(function ($date) {
                                                                     return \Carbon\Carbon::parse($date)->format('d-m-Y');
-                                                                })->implode(', ') }}
+                                                                })->implode(', ')); ?>
+
                                                         </h3>
                                                         <h3 style="margin: 2px 0 0 0; font-weight: bold;">V.No:
-                                                            {{ $generalDeliveryChallens->unique('v_no')->pluck('v_no')->implode(', ') }}
+                                                            <?php echo e($generalDeliveryChallens->unique('v_no')->pluck('v_no')->implode(', ')); ?>
+
                                                         </h3>
                                                     </div>
                                                 </div>
@@ -229,38 +236,27 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($generalDeliveryChallens as $general)
+                                                <?php $__currentLoopData = $generalDeliveryChallens; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $general): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <tr>
-                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td><?php echo e($loop->iteration); ?></td>
                                                         <td colspan="2">
-                                                            {{ $general->item_name ?? 'N/A' }}
+                                                            <?php echo e($general->item_name ?? 'N/A'); ?>
+
                                                         </td>
                                                         <td colspan="2">
-                                                            {{ $general->product_type ?? 'N/A' }}</td>
-                                                        <td colspan="2">{{ $general->qty ?? 'N/A' }}
+                                                            <?php echo e($general->product_type ?? 'N/A'); ?></td>
+                                                        <td colspan="2"><?php echo e($general->qty ?? 'N/A'); ?>
+
                                                         </td>
                                                         <td colspan="2">
-                                                            {{ $general->rate ?? 'N/A' }}</td>
+                                                            <?php echo e($general->rate ?? 'N/A'); ?></td>
                                                         <td colspan="2">
-                                                            {{ $general->freight ?? 'N/A' }}</td>
+                                                            <?php echo e($general->freight ?? 'N/A'); ?></td>
                                                         <td colspan="2">
-                                                            {{ $general->gjs_no ?? 'N/A' }}</td>
+                                                            <?php echo e($general->gjs_no ?? 'N/A'); ?></td>
                                                     </tr>
-                                                @endforeach
-                                                {{-- <tr>
-                                                    <td colspan="11" style="text-align: right;"><strong>Total
-                                                            Qty:</strong></td>
-                                                    <td colspan="1">
-                                                        {{ $generalDeliveryChallens->sum('qty') }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="11" style="text-align: right;"><strong>Total
-                                                            Freight:</strong></td>
-                                                    <td colspan="1">
-                                                        {{ $generalDeliveryChallens->sum('freight') }}
-                                                    </td>
-                                                </tr> --}}
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                
                                                 <tr>
                                                     <td colspan="12" style="height: 26px; border: none;"></td>
                                                 </tr>
@@ -284,7 +280,7 @@
     <!-- Print Function -->
     <script>
         function checkPermission() {
-            @php
+            <?php
                 $isAdmin = auth()->user()->is_admin;
                 $canAdd = true;
 
@@ -294,9 +290,9 @@
                         ->first();
                     $canAdd = $userRights && $userRights->add == 1;
                 }
-            @endphp
+            ?>
 
-            if (!@json($canAdd)) {
+            if (!<?php echo json_encode($canAdd, 15, 512) ?>) {
                 alert('You do not have Permission to Add');
                 return false; // Prevent the default action (navigation)
             }
@@ -305,7 +301,7 @@
 
 
         function checkPermissionEdit() {
-            @php
+            <?php
                 $isAdmin = auth()->user()->is_admin;
                 $canAdd = true;
 
@@ -315,9 +311,9 @@
                         ->first();
                     $canAdd = $userRights && $userRights->edit == 1;
                 }
-            @endphp
+            ?>
 
-            if (!@json($canAdd)) {
+            if (!<?php echo json_encode($canAdd, 15, 512) ?>) {
                 alert('You do not have Permission to Edit');
                 return false; // Prevent the default action (navigation)
             }
@@ -326,7 +322,7 @@
 
         function checkPermissionDel() {
 
-            @php
+            <?php
                 $isAdmin = auth()->user()->is_admin;
                 $canAdd = true;
 
@@ -336,8 +332,8 @@
                         ->first();
                     $canAdd = $userRights && $userRights->del == 1;
                 }
-            @endphp
-            if (!@json($canAdd)) {
+            ?>
+            if (!<?php echo json_encode($canAdd, 15, 512) ?>) {
                 alert('You do not have Permission to Delete');
                 return false; // Prevent the default action (navigation)
             }
@@ -386,7 +382,7 @@
         </div>
         `;
                 } else if (selectedHeading === 'ProBox Packages' || selectedHeading === 'ProBox Packages official') {
-                    const logoUrl = "{{ asset('assets/images/proboxlogo.jpg') }}";
+                    const logoUrl = "<?php echo e(asset('assets/images/proboxlogo.jpg')); ?>";
                     styledHeader = `
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 2px; margin-bottom: 2px;">
             <!-- Header Section -->
@@ -582,8 +578,8 @@
             $('.select2').select2();
         });
 </script>
-@endsection
-@section('scripts')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 
@@ -669,4 +665,6 @@ function downloadTableJpg() {
     });
 }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/general_delivery_challan/index.blade.php ENDPATH**/ ?>

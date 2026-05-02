@@ -153,6 +153,9 @@
                                 style="min-width: 120px;">
                                 Print Table
                             </button>
+                            <button type="button" class="btn btn-success" onclick="downloadTableJpg()">
+    Download JPG
+</button>
                             <div class="d-flex align-items-center">
                                 <label for="printHeadingSelect" class="me-2 mb-0">Heading:</label>
                                 <select id="printHeadingSelect" class="form-select select2" data-toggle="select2"
@@ -647,4 +650,111 @@
             // Set the value of the input field to the current date
             document.getElementById('end_date').value = today;
         </script>
+
+      @section('scripts')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+function downloadTableJpg() {
+
+    const headingSelect = document.getElementById('printHeadingSelect');
+    const selectedHeading = headingSelect ? headingSelect.value : '';
+
+    if (!selectedHeading) {
+        alert('Please select heading first');
+        headingSelect.focus();
+        return;
+    }
+
+    const table = document.querySelector('.show-in-print');
+    const header = document.querySelector('.show-in-prints');
+
+    // show hidden layout
+    table.style.display = 'table';
+    header.style.display = 'block';
+
+    const logoUrl = "{{ asset('assets/images/proboxlogo.jpg') }}";
+
+    // wrapper
+    const wrapper = document.createElement('div');
+    wrapper.style.background = '#fff';
+    wrapper.style.padding = '20px';
+    wrapper.style.width = '1200px'; // FIX WIDTH for consistency
+
+    // header section
+    const headerDiv = document.createElement('div');
+
+    if (selectedHeading === 'Haider Packages GRW') {
+        headerDiv.innerHTML = `
+            <div style="background:#333;color:white;padding:10px">
+                <h2 style="margin:0;color:white">HAIDER PACKAGES</h2>
+                <p style="margin:0;font-size:12px;color:white">
+                    A COMPLETE UNIT OF PRINTING & PACKAGING
+                </p>
+            </div>
+        `;
+    } else {
+        const logoImg = new Image();
+        logoImg.src = logoUrl;
+        logoImg.style.maxWidth = "150px";
+        logoImg.crossOrigin = "anonymous";
+        headerDiv.appendChild(logoImg);
+    }
+
+    wrapper.appendChild(headerDiv);
+    wrapper.appendChild(header.cloneNode(true));
+    wrapper.appendChild(table.cloneNode(true));
+
+    // footer
+    const footer = document.createElement('div');
+    footer.style.marginTop = '15px';
+    footer.style.textAlign = 'center';
+    footer.style.fontSize = '12px';
+    footer.innerHTML = 'Address: 126-B Small Industrial Estate 3 (EPZ), Gujranwala.';
+    wrapper.appendChild(footer);
+
+    document.body.appendChild(wrapper);
+
+    // wait for images
+    setTimeout(() => {
+
+        html2canvas(wrapper, {
+            scale: 2, // balance size/performance
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: "#ffffff",
+            windowWidth: wrapper.scrollWidth,
+            windowHeight: wrapper.scrollHeight
+        }).then(canvas => {
+
+            // ✅ IMPORTANT: full height canvas (no cropping)
+            const finalCanvas = document.createElement('canvas');
+            finalCanvas.width = canvas.width;
+            finalCanvas.height = canvas.height;
+
+            const ctx = finalCanvas.getContext('2d');
+            ctx.drawImage(canvas, 0, 0);
+
+            const link = document.createElement('a');
+            link.download = "pharmaceutical_full_report.jpg";
+            link.href = finalCanvas.toDataURL("image/jpeg", 1.0);
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // cleanup
+            document.body.removeChild(wrapper);
+            table.style.display = 'none';
+            header.style.display = 'none';
+
+        });
+
+    }, 800); // give time for images
+
+}
+</script>
+
+@endsection
     @endsection
