@@ -684,7 +684,7 @@ function downloadTableJpg() {
         return;
     }
 
-    // show hidden elements
+    // Show hidden elements
     table.style.display = 'table';
     header.style.display = 'block';
 
@@ -692,28 +692,34 @@ function downloadTableJpg() {
     wrapper.style.background = '#fff';
     wrapper.style.padding = '15px';
     wrapper.style.width = '1200px';
+    wrapper.style.fontFamily = 'Arial, sans-serif';
 
     let headerDiv = document.createElement('div');
     headerDiv.style.marginBottom = '10px';
 
     // =========================
-    // RENDER FUNCTION (COMMON)
+    // COMMON RENDER FUNCTION
     // =========================
     function renderCanvas() {
 
+        wrapper.innerHTML = ''; // reset
         wrapper.appendChild(headerDiv);
         wrapper.appendChild(header.cloneNode(true));
         wrapper.appendChild(table.cloneNode(true));
 
         document.body.appendChild(wrapper);
 
+        // Force DOM repaint
+        document.body.offsetHeight;
+
         setTimeout(() => {
 
             html2canvas(wrapper, {
                 scale: 3,
                 useCORS: true,
-                allowTaint: true,
-                backgroundColor: "#ffffff"
+                allowTaint: false,
+                backgroundColor: "#ffffff",
+                logging: false
             }).then(canvas => {
 
                 const link = document.createElement('a');
@@ -725,24 +731,41 @@ function downloadTableJpg() {
                 document.body.removeChild(wrapper);
                 table.style.display = 'none';
                 header.style.display = 'none';
+
+            }).catch(err => {
+                console.error("Canvas error:", err);
+                alert("Failed to generate image.");
             });
 
-        }, 500);
+        }, 300); // allow render time
     }
 
     // =========================
-    // HAIDER PACKAGES (TEXT ONLY)
+    // HAIDER PACKAGES (FIXED TEXT VISIBILITY)
     // =========================
     if (selectedHeading === 'Haider Packages GRW') {
 
         headerDiv.innerHTML = `
-            <div style="background:#333;color:#fff;padding:10px 20px;display:inline-block;">
-                <h1 style="margin:0;font-size:24px;color:#fff;">
+            <div style="
+                background:#000;
+                padding:12px 20px;
+                display:inline-block;
+            ">
+                <div style="
+                    font-size:26px;
+                    font-weight:bold;
+                    color:#ffffff;
+                    line-height:1.2;
+                ">
                     HAIDER PACKAGES
-                </h1>
-                <p style="margin:4px 0 0 0;font-size:11px;color:#fff;">
+                </div>
+                <div style="
+                    font-size:12px;
+                    color:#ffffff;
+                    margin-top:4px;
+                ">
                     A COMPLETE UNIT OF PRINTING & PACKAGING
-                </p>
+                </div>
             </div>
         `;
 
@@ -750,33 +773,36 @@ function downloadTableJpg() {
     }
 
     // =========================
-    // PROBOX PACKAGES (LOGO ONLY)
+    // PROBOX PACKAGES (FIXED LOGO ISSUE)
     // =========================
     else if (
         selectedHeading === 'ProBox Packages' ||
         selectedHeading === 'ProBox Packages official'
     ) {
 
-        fetch("{{ url('assets/images/proboxlogo.jpg') }}")
-            .then(res => res.blob())
-            .then(blob => {
+        const imageUrl = "{{ asset('assets/images/proboxlogo.jpg') }}";
 
-                const reader = new FileReader();
+        const img = new Image();
+        img.crossOrigin = "anonymous"; // important for canvas
+        img.src = imageUrl;
 
-                reader.onloadend = function () {
+        img.onload = function () {
 
-                    const img = document.createElement('img');
-                    img.src = reader.result; // BASE64 FIX (important for live server)
-                    img.style.maxWidth = '120px';
-                    img.style.height = 'auto';
+            img.style.maxWidth = '120px';
+            img.style.height = 'auto';
 
-                    headerDiv.appendChild(img);
+            headerDiv.appendChild(img);
 
-                    renderCanvas();
-                };
+            // wait to ensure render
+            setTimeout(() => {
+                renderCanvas();
+            }, 200);
+        };
 
-                reader.readAsDataURL(blob);
-            });
+        img.onerror = function () {
+            console.error("Image failed to load");
+            alert("Logo not loading in export.");
+        };
     }
 }
         </script>
