@@ -697,7 +697,8 @@ function downloadTableJpg() {
     table.style.display = 'table';
     header.style.display = 'block';
 
-    const wrapper = document.createElement('div');
+       const wrapper = document.createElement('div');
+wrapper.id = "capture-wrapper";
     wrapper.style.background = '#fff';
     wrapper.style.padding = '15px';
     wrapper.style.width = '1200px';
@@ -723,6 +724,29 @@ function downloadTableJpg() {
     document.body.style.color = '';
 
     setTimeout(() => {
+     wrapper.querySelectorAll("*").forEach(el => {
+    el.style.setProperty("color", "#000", "important");
+    el.style.setProperty("font-family", "Arial, sans-serif", "important");
+});
+
+// HEADINGS / TH (VERY IMPORTANT)
+wrapper.querySelectorAll("th, h1, h2, h3").forEach(el => {
+    el.style.setProperty("color", "#000", "important");
+    el.style.setProperty("font-weight", "800", "important");
+    el.style.setProperty("font-size", "20px", "important"); // 👈 increase here
+});
+
+// TD CONTENT
+wrapper.querySelectorAll("td").forEach(el => {
+    el.style.setProperty("font-size", "14px", "important");
+    el.style.setProperty("color", "#000", "important");
+});
+
+// TABLE GLOBAL SIZE
+wrapper.querySelectorAll("table").forEach(tbl => {
+    tbl.style.setProperty("font-size", "14px", "important");
+    tbl.style.setProperty("color", "#000", "important");
+});
 
        html2canvas(wrapper, {
     scale: 3,

@@ -604,17 +604,19 @@ function downloadTableJpg() {
 
     // ✅ FIXED absolute URLs (important for html2canvas)
     const baseUrl = window.location.origin;
-    const logoHaider = baseUrl + "/assets/images/hlogo.png";
-    const logoProbox = baseUrl + "/assets/images/proboxlogo.jpg";
+    const logoHaider = "<?php echo e(asset('assets/images/hlogo.png')); ?>";
+    const logoProbox = "<?php echo e(asset('assets/images/proboxlogo.jpg')); ?>";
 
     // Wrapper
-    const wrapper = document.createElement('div');
+   const wrapper = document.createElement('div');
+wrapper.id = "capture-wrapper";
     wrapper.style.position = 'fixed';
     wrapper.style.left = '-9999px';
     wrapper.style.top = '0';
     wrapper.style.width = '1200px';
     wrapper.style.background = '#ffffff';
     wrapper.style.padding = '20px';
+    
 
     // ✅ HEADER (ONLY LOGO SWITCH — no redesign)
     const headerDiv = document.createElement('div');
@@ -623,7 +625,7 @@ function downloadTableJpg() {
 
         headerDiv.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <img src="${logoHaider}" style="max-width:140px;" crossorigin="anonymous">
+                <img src="${logoHaider}" style="max-width:180px;" crossorigin="anonymous">
             </div>
         `;
 
@@ -680,6 +682,29 @@ function downloadTableJpg() {
     Promise.all([...images].map(loadImage)).then(() => {
 
         setTimeout(() => {
+
+        wrapper.querySelectorAll("*").forEach(el => {
+    el.style.setProperty("color", "#000", "important");
+    el.style.setProperty("font-family", "Arial, sans-serif", "important");
+});
+
+// HEADINGS / TH (VERY IMPORTANT)
+wrapper.querySelectorAll("th, h1, h2, h3").forEach(el => {
+    el.style.setProperty("color", "#000", "important");
+    el.style.setProperty("font-weight", "800", "important");
+    el.style.setProperty("font-size", "20px", "important"); // 👈 increase here
+});
+
+// TD CONTENT
+wrapper.querySelectorAll("td").forEach(el => {
+    el.style.setProperty("font-size", "16px", "important");
+    el.style.setProperty("color", "#000", "important");
+});
+
+// TABLE GLOBAL SIZE
+wrapper.querySelectorAll("table").forEach(tbl => {
+    tbl.style.setProperty("font-size", "16px", "important");
+});
 
             html2canvas(wrapper, {
                 scale: 3,
