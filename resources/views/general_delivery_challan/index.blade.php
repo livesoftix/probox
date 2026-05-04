@@ -589,6 +589,15 @@
 
 function downloadTableJpg() {
 
+    const headingSelect = document.getElementById('printHeadingSelect');
+    const selectedHeading = headingSelect ? headingSelect.value : '';
+
+    if (!selectedHeading) {
+        alert('Please select heading first');
+        headingSelect.focus();
+        return;
+    }
+
     const table = document.querySelector('.show-in-print');
     const header = document.querySelector('.show-in-prints');
 
@@ -597,45 +606,75 @@ function downloadTableJpg() {
         return;
     }
 
-    // Create wrapper
+    // ✅ FIXED absolute URLs (important for html2canvas)
+    const baseUrl = window.location.origin;
+    const logoHaider = baseUrl + "/assets/images/hlogo.png";
+    const logoProbox = baseUrl + "/assets/images/proboxlogo.jpg";
+
+    // Wrapper
     const wrapper = document.createElement('div');
     wrapper.style.position = 'fixed';
     wrapper.style.left = '-9999px';
     wrapper.style.top = '0';
     wrapper.style.width = '1200px';
     wrapper.style.background = '#ffffff';
-    wrapper.style.padding = '10px';
+    wrapper.style.padding = '20px';
 
+    // ✅ HEADER (ONLY LOGO SWITCH — no redesign)
+    const headerDiv = document.createElement('div');
+
+    if (selectedHeading === 'Haider Packages GRW') {
+
+        headerDiv.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <img src="${logoHaider}" style="max-width:140px;" crossorigin="anonymous">
+            </div>
+        `;
+
+    } else {
+
+        headerDiv.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <img src="${logoProbox}" style="max-width:140px;" crossorigin="anonymous">
+            </div>
+        `;
+    }
+
+    // Clone content
     const headerClone = header.cloneNode(true);
     const tableClone = table.cloneNode(true);
 
     headerClone.style.display = 'block';
     tableClone.style.display = 'table';
 
+    wrapper.appendChild(headerDiv);
     wrapper.appendChild(headerClone);
     wrapper.appendChild(tableClone);
+
     document.body.appendChild(wrapper);
 
-    // 🔥 IMPORTANT: FORCE ALL IMAGES TO RELOAD PROPERLY
+    // ✅ SAFE IMAGE LOADER (fixes blank logo issue)
     const images = wrapper.querySelectorAll("img");
 
     const loadImage = (img) => {
         return new Promise((resolve) => {
 
-            // force reload (critical fix)
+            if (img.complete && img.naturalWidth > 0) {
+                return resolve();
+            }
+
             const src = img.src;
-            img.src = "";
+            const temp = new Image();
 
-            const newImg = new Image();
-            newImg.crossOrigin = "anonymous";
-            newImg.src = src;
+            temp.crossOrigin = "anonymous";
+            temp.src = src;
 
-            newImg.onload = () => {
+            temp.onload = () => {
                 img.src = src;
                 resolve();
             };
 
-            newImg.onerror = () => {
+            temp.onerror = () => {
                 console.log("Image failed:", src);
                 resolve(); // don't block export
             };
@@ -649,7 +688,7 @@ function downloadTableJpg() {
             html2canvas(wrapper, {
                 scale: 3,
                 useCORS: true,
-                allowTaint: true,
+                allowTaint: false,
                 backgroundColor: "#ffffff",
                 imageTimeout: 0
             }).then(canvas => {
@@ -665,7 +704,7 @@ function downloadTableJpg() {
                 document.body.removeChild(wrapper);
             });
 
-        }, 500); // small delay ensures layout stability
+        }, 400);
     });
 }
     </script>

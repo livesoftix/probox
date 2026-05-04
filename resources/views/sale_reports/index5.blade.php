@@ -352,6 +352,15 @@
             </div>
         </div>
 @endsection
+@push('styles')
+   <style>
+.haider-header * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background: transparent !important;
+    text-shadow: none !important;
+}
+</style>
 @section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -700,78 +709,84 @@ function downloadTableJpg() {
     // =========================
     // COMMON RENDER FUNCTION
     // =========================
-    function renderCanvas() {
+  function renderCanvas() {
 
-        wrapper.innerHTML = ''; // reset
-        wrapper.appendChild(headerDiv);
-        wrapper.appendChild(header.cloneNode(true));
-        wrapper.appendChild(table.cloneNode(true));
+    wrapper.innerHTML = '';
+    wrapper.appendChild(headerDiv);
+    wrapper.appendChild(header.cloneNode(true));
+    wrapper.appendChild(table.cloneNode(true));
 
-        document.body.appendChild(wrapper);
+    document.body.appendChild(wrapper);
 
-        // Force DOM repaint
-        document.body.offsetHeight;
+    // 🔥 TEMP FIX: remove global color override
+    const originalStyle = document.body.style.color;
+    document.body.style.color = '';
 
-        setTimeout(() => {
+    setTimeout(() => {
 
-            html2canvas(wrapper, {
-                scale: 3,
-                useCORS: true,
-                allowTaint: false,
-                backgroundColor: "#ffffff",
-                logging: false
-            }).then(canvas => {
+       html2canvas(wrapper, {
+    scale: 3,
+    useCORS: true,
+    backgroundColor: "#ffffff",
+    letterRendering: true,
 
-                const link = document.createElement('a');
-                link.download = "report.jpg";
-                link.href = canvas.toDataURL("image/jpeg", 1.0);
-                link.click();
+    onclone: function (clonedDoc) {
 
-                // cleanup
-                document.body.removeChild(wrapper);
-                table.style.display = 'none';
-                header.style.display = 'none';
+        // 🔥 Force WHITE TEXT inside header
+        const headerBox = clonedDoc.querySelector('.haider-header');
 
-            }).catch(err => {
-                console.error("Canvas error:", err);
-                alert("Failed to generate image.");
+        if (headerBox) {
+            headerBox.style.background = '#000';
+
+            headerBox.querySelectorAll('*').forEach(el => {
+                el.style.color = '#fff';
+                el.style.webkitTextFillColor = '#fff';
             });
-
-        }, 300); // allow render time
+        }
     }
+
+}).then(canvas => {
+
+    const link = document.createElement('a');
+    link.download = "report.jpg";
+    link.href = canvas.toDataURL("image/jpeg", 1.0);
+    link.click();
+
+    document.body.removeChild(wrapper);
+    table.style.display = 'none';
+    header.style.display = 'none';
+
+});
+
+    }, 300);
+}
 
     // =========================
     // HAIDER PACKAGES (FIXED TEXT VISIBILITY)
     // =========================
-    if (selectedHeading === 'Haider Packages') {
+if (selectedHeading === 'Haider Packages GRW') {
 
-        headerDiv.innerHTML = `
-            <div style="
-                background:#000;
-                padding:12px 20px;
-                display:inline-block;
-            ">
-                <div style="
-                    font-size:26px;
-                    font-weight:bold;
-                    color:#ffffff !important;
-                    line-height:1.2;
-                ">
-                    HAIDER PACKAGES
-                </div>
-                <div style="
-                    font-size:12px;
-                    color:#ffffff !important;
-                    margin-top:4px;
-                ">
-                    A COMPLETE UNIT OF PRINTING & PACKAGING
-                </div>
-            </div>
-        `;
+    const imageUrl = "{{ url('assets/images/hlogo.png') }}"; // ✅ use url()
 
-        renderCanvas();
-    }
+    const img = new Image();
+    img.src = imageUrl;
 
+    img.onload = function () {
+
+        img.style.maxWidth = '180px';
+        img.style.height = 'auto';
+
+        headerDiv.appendChild(img);
+
+        setTimeout(() => {
+            renderCanvas();
+        }, 200);
+    };
+
+    img.onerror = function () {
+        alert("Logo not loading. Check path.");
+    };
+}
     // =========================
     // PROBOX PACKAGES (FIXED LOGO ISSUE)
     // =========================

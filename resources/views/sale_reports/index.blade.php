@@ -670,89 +670,118 @@ function downloadTableJpg() {
     const table = document.querySelector('.show-in-print');
     const header = document.querySelector('.show-in-prints');
 
-    // show hidden layout
     table.style.display = 'table';
     header.style.display = 'block';
 
-    const logoUrl = "{{ asset('assets/images/proboxlogo.jpg') }}";
-
-    // wrapper
+    // MAIN WRAPPER
     const wrapper = document.createElement('div');
     wrapper.style.background = '#fff';
     wrapper.style.padding = '20px';
-    wrapper.style.width = '1200px'; // FIX WIDTH for consistency
+    wrapper.style.width = '1200px';
+    wrapper.style.fontFamily = 'Arial, sans-serif';
 
-    // header section
     const headerDiv = document.createElement('div');
+    headerDiv.style.marginBottom = '10px';
 
-    if (selectedHeading === 'Haider Packages GRW') {
-        headerDiv.innerHTML = `
-            <div style="background:#333;color:white;padding:10px">
-                <h2 style="margin:0;color:white">HAIDER PACKAGES</h2>
-                <p style="margin:0;font-size:12px;color:white">
-                    A COMPLETE UNIT OF PRINTING & PACKAGING
-                </p>
-            </div>
-        `;
-    } else {
-        const logoImg = new Image();
-        logoImg.src = logoUrl;
-        logoImg.style.maxWidth = "150px";
-        logoImg.crossOrigin = "anonymous";
-        headerDiv.appendChild(logoImg);
+    // COMMON RENDER FUNCTION
+    function renderCanvas() {
+
+        wrapper.innerHTML = '';
+        wrapper.appendChild(headerDiv);
+        wrapper.appendChild(header.cloneNode(true));
+        wrapper.appendChild(table.cloneNode(true));
+
+        // footer
+        const footer = document.createElement('div');
+        footer.style.marginTop = '15px';
+        footer.style.textAlign = 'center';
+        footer.style.fontSize = '12px';
+        footer.innerHTML = 'Address: 126-B Small Industrial Estate 3 (EPZ), Gujranwala.';
+        wrapper.appendChild(footer);
+
+        document.body.appendChild(wrapper);
+
+        setTimeout(() => {
+
+            html2canvas(wrapper, {
+                scale: 3,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: "#ffffff",
+                windowWidth: wrapper.scrollWidth,
+                windowHeight: wrapper.scrollHeight
+            }).then(canvas => {
+
+                const link = document.createElement('a');
+                link.download = "pharmaceutical_report.jpg";
+                link.href = canvas.toDataURL("image/jpeg", 1.0);
+                link.click();
+
+                document.body.removeChild(wrapper);
+                table.style.display = 'none';
+                header.style.display = 'none';
+
+            });
+
+        }, 400);
     }
 
-    wrapper.appendChild(headerDiv);
-    wrapper.appendChild(header.cloneNode(true));
-    wrapper.appendChild(table.cloneNode(true));
+    // =========================
+    // HAIDER PACKAGES (TEXT HEADER)
+    // =========================
+   if (selectedHeading === 'Haider Packages GRW') {
 
-    // footer
-    const footer = document.createElement('div');
-    footer.style.marginTop = '15px';
-    footer.style.textAlign = 'center';
-    footer.style.fontSize = '12px';
-    footer.innerHTML = 'Address: 126-B Small Industrial Estate 3 (EPZ), Gujranwala.';
-    wrapper.appendChild(footer);
+    const imageUrl = "{{ url('assets/images/hlogo.png') }}";
 
-    document.body.appendChild(wrapper);
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = imageUrl;
 
-    // wait for images
-    setTimeout(() => {
+    img.onload = function () {
 
-        html2canvas(wrapper, {
-            scale: 2, // balance size/performance
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: "#ffffff",
-            windowWidth: wrapper.scrollWidth,
-            windowHeight: wrapper.scrollHeight
-        }).then(canvas => {
+        img.style.maxWidth = '180px';
+        img.style.height = 'auto';
 
-            // ✅ IMPORTANT: full height canvas (no cropping)
-            const finalCanvas = document.createElement('canvas');
-            finalCanvas.width = canvas.width;
-            finalCanvas.height = canvas.height;
+        headerDiv.appendChild(img);
 
-            const ctx = finalCanvas.getContext('2d');
-            ctx.drawImage(canvas, 0, 0);
+        setTimeout(() => {
+            renderCanvas();
+        }, 200);
+    };
 
-            const link = document.createElement('a');
-            link.download = "pharmaceutical_full_report.jpg";
-            link.href = finalCanvas.toDataURL("image/jpeg", 1.0);
+    img.onerror = function () {
+        alert("Haider logo not loading. Check path.");
+    };
 
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+}
 
-            // cleanup
-            document.body.removeChild(wrapper);
-            table.style.display = 'none';
-            header.style.display = 'none';
+    // =========================
+    // PROBOX (IMAGE HEADER FIXED)
+    // =========================
+    else {
 
-        });
+        const imageUrl = "{{ asset('assets/images/proboxlogo.jpg') }}";
 
-    }, 800); // give time for images
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = imageUrl;
 
+        img.onload = function () {
+
+            img.style.maxWidth = '150px';
+            img.style.height = 'auto';
+
+            headerDiv.appendChild(img);
+
+            setTimeout(() => {
+                renderCanvas();
+            }, 200);
+        };
+
+        img.onerror = function () {
+            alert("Logo failed to load. Check path or storage link.");
+        };
+    }
 }
 </script>
 
