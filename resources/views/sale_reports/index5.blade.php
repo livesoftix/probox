@@ -743,7 +743,7 @@ function downloadTableJpg() {
     // =========================
     // HAIDER PACKAGES (FIXED TEXT VISIBILITY)
     // =========================
-    if (selectedHeading === 'Haider Packages GRW') {
+    if (selectedHeading === 'Haider Packages') {
 
         headerDiv.innerHTML = `
             <div style="
@@ -754,14 +754,14 @@ function downloadTableJpg() {
                 <div style="
                     font-size:26px;
                     font-weight:bold;
-                    color:#ffffff;
+                    color:#ffffff !important;
                     line-height:1.2;
                 ">
                     HAIDER PACKAGES
                 </div>
                 <div style="
                     font-size:12px;
-                    color:#ffffff;
+                    color:#ffffff !important;
                     margin-top:4px;
                 ">
                     A COMPLETE UNIT OF PRINTING & PACKAGING
