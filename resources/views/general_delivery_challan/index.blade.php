@@ -608,8 +608,8 @@ function downloadTableJpg() {
 
     // ✅ FIXED absolute URLs (important for html2canvas)
     const baseUrl = window.location.origin;
-    const logoHaider = baseUrl + "/assets/images/hlogo.png";
-    const logoProbox = baseUrl + "/assets/images/proboxlogo.jpg";
+    const logoHaider = "{{ asset('assets/images/hlogo.png') }}";
+    const logoProbox = "{{ asset('assets/images/proboxlogo.jpg') }}";
 
     // Wrapper
     const wrapper = document.createElement('div');

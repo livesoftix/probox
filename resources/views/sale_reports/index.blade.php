@@ -731,7 +731,7 @@ function downloadTableJpg() {
     // =========================
    if (selectedHeading === 'Haider Packages GRW') {
 
-    const imageUrl = "{{ url('assets/images/hlogo.png') }}";
+    const imageUrl = "{{ asset('assets/images/hlogo.png') }}";
 
     const img = new Image();
     img.crossOrigin = "anonymous";
