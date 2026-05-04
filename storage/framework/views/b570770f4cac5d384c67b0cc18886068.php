@@ -779,7 +779,7 @@ function downloadTableJpg() {
     // =========================
 if (selectedHeading === 'Haider Packages GRW') {
 
-    const imageUrl = "<?php echo e(url('assets/images/hlogo.png')); ?>"; // ✅ use url()
+    const imageUrl = "<?php echo e(asset('assets/images/hlogo.png')); ?>"; // ✅ use url()
 
     const img = new Image();
     img.src = imageUrl;
