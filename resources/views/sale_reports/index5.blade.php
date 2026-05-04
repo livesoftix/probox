@@ -766,7 +766,7 @@ function downloadTableJpg() {
     // =========================
 if (selectedHeading === 'Haider Packages GRW') {
 
-    const imageUrl = `${window.location.origin}/assets/images/hlogo.png`;
+    const imageUrl = "{{ asset('assets/images/hlogo.png') }}"; // ✅ use url()
 
     const img = new Image();
     img.src = imageUrl;
