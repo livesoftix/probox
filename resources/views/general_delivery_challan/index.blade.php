@@ -627,7 +627,7 @@ function downloadTableJpg() {
 
         headerDiv.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <img src="${logoHaider}" style="max-width:140px;" crossorigin="anonymous">
+                <img src="${logoHaider}" style="max-width:180px;" crossorigin="anonymous">
             </div>
         `;
 
