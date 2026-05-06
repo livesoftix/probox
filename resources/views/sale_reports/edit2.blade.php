@@ -337,7 +337,7 @@ const amount = parseFloat(total.toFixed(2)); // Round to 2 decimal places
     });
 
     // Initialize select2 for dropdowns
-    $('.select2').select2();
+    //$('.select2').select2();
 
     // Fetch item details on item change
     $('#itemTitle').on('change', function() {
