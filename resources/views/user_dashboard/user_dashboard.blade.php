@@ -109,8 +109,8 @@
 
     <div class="card-body">
         @if($assignedProducts->count())
-       {{ dd($assignedProducts) }} 
-
+        
+{{dd($assignedProducts->count())}}
             <p><strong>Total Assigned:</strong> {{ $assignedProducts->count() }}</p>
 
             <div class="table-responsive">
