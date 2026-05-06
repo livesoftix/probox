@@ -17,7 +17,6 @@ class DashboardController extends Controller
 {
     $assignedProducts = \App\Models\ProductMaster::with(['account', 'country', 'items'])
         ->where('is_pinned', 1)
-        ->latest()
         ->get();
         // dd($assignedProducts);
 
