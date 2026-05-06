@@ -19,7 +19,7 @@ class DashboardController extends Controller
         ->where('is_pinned', 1)
         ->latest()
         ->get();
-        dd($assignedProducts);
+        // dd($assignedProducts);
 
     return view('user_dashboard.user_dashboard', compact('assignedProducts'));
 }
