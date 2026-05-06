@@ -16,7 +16,7 @@ class DashboardController extends Controller
  public function user_index()
 {
     $assignedProducts = \App\Models\ProductMaster::with(['account', 'country', 'items'])
-        ->where('job_assign', auth()->id())
+        ->where('is_pinned', 1)
         ->latest()
         ->get();
 

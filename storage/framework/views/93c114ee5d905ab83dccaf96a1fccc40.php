@@ -451,6 +451,13 @@
                                 <?php endif; ?>
                             </div>
                         </div>
+                        <div class="form-check m-3">
+    <input type="hidden" name="is_pinned" value="0">
+    <input class="form-check-input" type="checkbox" id="is_pinned" name="is_pinned" value="1" <?php echo e($product->is_pinned ? 'checked' : ''); ?>>
+    <label class="form-check-label" for="is_pinned">
+        Pin Product (Show on Dashboard)
+    </label>
+</div>
 
                         <div class="col-12">
                             <button class="btn btn-primary" type="submit">Update</button>

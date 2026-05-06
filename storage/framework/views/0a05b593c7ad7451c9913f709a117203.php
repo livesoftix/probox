@@ -391,6 +391,14 @@
                                     <button type="button" id="removeFile" class="btn btn-sm btn-danger">X</button>
                                 </div>
                             </div>
+
+                            <div class="form-check mt-3">
+    <input type="hidden" name="is_pinned" value="0">
+    <input class="form-check-input" type="checkbox" id="is_pinned" name="is_pinned" value="1">
+    <label class="form-check-label" for="is_pinned">
+        Pin Product (Show on Dashboard)
+    </label>
+</div>
                             <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                     </form>
