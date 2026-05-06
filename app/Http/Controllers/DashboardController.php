@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ProductMaster;
 
 
 class DashboardController extends Controller
@@ -15,8 +16,8 @@ class DashboardController extends Controller
     }
  public function user_index()
 {
-    $assignedProducts = \App\Models\ProductMaster::with(['account', 'country', 'items'])
-        ->where('is_pinned', 1)
+    $assignedProducts = ProductMaster::with(['account', 'country', 'items'])
+        ->where('is_pinned', '1')
         ->get();
         // dd($assignedProducts);
 
