@@ -213,7 +213,7 @@ public function delete($id)
     }
 
     // Fetch all items for the view
-     $items = ItemMaster::all();
+     $items = ItemMaster::all(); 
     // dd($items);
 
     // Pass all data to the view
