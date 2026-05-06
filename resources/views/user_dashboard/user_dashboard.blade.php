@@ -109,7 +109,6 @@
 
     <div class="card-body">
         @if($assignedProducts->count())
-        
 
             <p><strong>Total Assigned:</strong> {{ $assignedProducts->count() }}</p>
 
@@ -132,7 +131,6 @@
                     </thead>
                     <tbody>
                         @foreach ($assignedProducts as $index => $product)
-                        {{ dd($product) }}
                             <tr>
                                 <td>{{ $index + 1 }}</td>
 
