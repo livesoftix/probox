@@ -109,6 +109,7 @@
 
     <div class="card-body">
         <?php if($assignedProducts->count()): ?>
+       <?php echo e(dd($assignedProducts)); ?> 
 
             <p><strong>Total Assigned:</strong> <?php echo e($assignedProducts->count()); ?></p>
 

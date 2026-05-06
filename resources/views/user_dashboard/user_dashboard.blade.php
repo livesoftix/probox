@@ -109,6 +109,7 @@
 
     <div class="card-body">
         @if($assignedProducts->count())
+       {{ dd($assignedProducts) }} 
 
             <p><strong>Total Assigned:</strong> {{ $assignedProducts->count() }}</p>
 
