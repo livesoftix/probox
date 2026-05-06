@@ -99,6 +99,8 @@
                 <p class="text-success">All CDC vouchers have CBILLs.</p>
             @endif
         </div>
+        </div>
+    </div>
         <!-- Assigned Products Section -->
 <div class="card mt-4">
     <div class="card-header bg-primary text-white">
@@ -193,8 +195,7 @@
             <p class="text-success">No assigned products</p>
         @endif
     </div>
-</div>
-    </div>
+
 
 
 @endsection

@@ -12,7 +12,10 @@ class DashboardController extends Controller
 {
      public function index()
     {
-        return view('dashboard');
+        $assignedProducts = ProductMaster::with(['account', 'country', 'items'])
+        ->where('is_pinned', '1')
+        ->get();
+        return view('dashboard', compact('assignedProducts'));
     }
  public function user_index()
 {
