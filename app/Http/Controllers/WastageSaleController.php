@@ -225,19 +225,30 @@ public function delete($id)
 
 public function update(Request $request, $v_no)
 {
+    // dd($request->all());
     // Validate the request
-    $request->validate([
-        'entries' => 'required|array',
-        'entries.*.date' => 'required|date',
-        'entries.*.party' => 'required|exists:account_masters,id',
-        'entries.*.item' => 'required|exists:item_masters,id',
-        'entries.*.description' => 'nullable|string',
-        'entries.*.weight' => 'required|numeric|min:0',
-        // 'entries.*.rate' => 'required|numeric|min:0',
-        'entries.*.amount' => 'required|numeric|min:0',
-        'entries.*.file' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // Validate file uploads
-    ]);
+    // $request->validate([
+    //     'entries' => 'required|array',
+    //     'entries.*.date' => 'required|date',
+    //     'entries.*.party' => 'required|exists:account_masters,id',
+    //     'entries.*.item' => 'required|exists:item_masters,id',
+    //     'entries.*.description' => 'nullable|string',
+    //     'entries.*.weight' => 'required|numeric|min:0',
+    //     // 'entries.*.rate' => 'numeric|min:0',
+    //     'entries.*.amount' => 'required|numeric|min:0',
+    //     'entries.*.file' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // Validate file uploads
+    // ]);
+$request->validate([
+    'entries' => 'required|array',
 
+    'entries.*.date' => 'required|date',
+    'entries.*.supplier' => 'required|exists:account_masters,id',
+    'entries.*.item' => 'required|exists:item_masters,id',
+    'entries.*.weight' => 'required|numeric|min:0',
+    'entries.*.amount' => 'required|numeric|min:0',
+]);
+
+    // dd("kjcnxzc");
     DB::beginTransaction();
     try {
         
@@ -263,18 +274,18 @@ public function update(Request $request, $v_no)
             $wastageSale = WastageSale::create([
                 'item_code' => $entry['item'],
                 'weight' => $entry['weight'],
-                'rate' => 0,
+                'rate' => $entry['rate'],
                 'total' => $entry['amount'],
                 'v_no' => $v_no,
                 'file_path' => $filePath, // Save the full path
             ]);
-
+// dd("sdcn");
             // Create TRNDTL record
             TRNDTL::create([
                 'v_no' => $v_no,
                 'date' => $entry['date'],
                 'description' => $entry['description'] ?? '',
-                'account_id' => $entry['party'],
+                'account_id' => $entry['supplier'],
                 'cash_id' => $saleAccountId,
                 'preparedby' => auth()->user()->name ?? null,
                 'credit' => 0,

@@ -137,7 +137,11 @@
                                     @if ($voucher->isNotEmpty())
                                     @foreach ($voucher as $trndtl)
                                     <tr>
-                                        <td>{{ ++$totalEntries }}</td>
+                                        <td>{{ ++$totalEntries }}
+                                            
+
+                                        <input type="hidden" id="counter" name="counter" value="{{ $totalEntries }}"> 
+                                        </td>
                                         <!-- Format Date -->
                                         <td>
                                             {{ \Carbon\Carbon::parse($trndtl->date)->format('d-m-Y') }}
@@ -233,7 +237,7 @@ document.getElementById('entryDate').value = localDate;
     const fileNamePreview = document.getElementById('fileNamePreview');
     const removeFileButton = document.getElementById('removeFile');
     const voucherForm = document.getElementById('voucherForm');
-    let invoiceCounter = 1;
+    let invoiceCounter = document.getElementById('counter').value;
 
     // Handle file input change
     fileInput.addEventListener('change', function () {
@@ -277,11 +281,12 @@ document.getElementById('entryDate').value = localDate;
 
       const parsedWeight = parseFloat(weight); // Convert to float
 const parsedRate = parseFloat(rate); // Convert to float
-
-const total = parsedWeight; // Perform multiplication * parsedRate;
+// console.log(parsedRate);
+const total = parsedWeight  * parsedRate; // Perform multiplication
+// console.log(total);
 const amount = parseFloat(total.toFixed(2)); // Round to 2 decimal places
         // Validate that all required fields are filled and a file is uploaded
-        if (!date || !weight  || isNaN(amount) || !file) {    
+        if (!date || !weight || isNaN(amount) || !file) {    
             alert('Please fill all fields correctly and upload an image.');
             return;
         }
