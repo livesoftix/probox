@@ -284,10 +284,10 @@ document.getElementById('entryDate').value = localDate;
       const parsedWeight = parseFloat(weight); // Convert to float
 const parsedRate = parseFloat(rate); // Convert to float
 
-const total = parsedWeight * parsedRate; // Perform multiplication
+const total = parsedWeight; // Perform multiplication * parsedRate;
 const amount = parseFloat(total.toFixed(2)); // Round to 2 decimal places
         // Validate that all required fields are filled and a file is uploaded
-        if (!date || !weight || !rate || isNaN(amount) || !file) {
+        if (!date || !weight  || isNaN(amount) || !file) {    
             alert('Please fill all fields correctly and upload an image.');
             return;
         }
@@ -343,7 +343,7 @@ const amount = parseFloat(total.toFixed(2)); // Round to 2 decimal places
     });
 
     // Initialize select2 for dropdowns
-    $('.select2').select2();
+    //$('.select2').select2();
 
     // Fetch item details on item change
     $('#itemTitle').on('change', function() {

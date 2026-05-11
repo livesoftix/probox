@@ -233,7 +233,7 @@ public function update(Request $request, $v_no)
         'entries.*.item' => 'required|exists:item_masters,id',
         'entries.*.description' => 'nullable|string',
         'entries.*.weight' => 'required|numeric|min:0',
-        'entries.*.rate' => 'required|numeric|min:0',
+        // 'entries.*.rate' => 'required|numeric|min:0',
         'entries.*.amount' => 'required|numeric|min:0',
         'entries.*.file' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // Validate file uploads
     ]);
@@ -263,7 +263,7 @@ public function update(Request $request, $v_no)
             $wastageSale = WastageSale::create([
                 'item_code' => $entry['item'],
                 'weight' => $entry['weight'],
-                'rate' => $entry['rate'],
+                'rate' => 0,
                 'total' => $entry['amount'],
                 'v_no' => $v_no,
                 'file_path' => $filePath, // Save the full path
