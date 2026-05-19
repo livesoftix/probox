@@ -316,7 +316,9 @@
                                                     </tr>
                                                 @endforeach
                                                 <tr>
-                                                    <td colspan="11" style="text-align: right;"><strong>Total
+                                                     <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Driver Name:</strong></td>
+
+                                                    <td colspan="8" style="text-align: right;"><strong>Total
                                                             CTN:</strong></td>
                                                     <td colspan="1">
                                                         {{ $trndtl->sum(function ($item) {
@@ -325,7 +327,9 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="11" style="text-align: right;"><strong>Grand
+                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Vehicle No:</strong></td>
+
+                                                    <td colspan="8" style="text-align: right;"><strong>Grand
                                                             Total:</strong></td>
                                                     <td colspan="1">
                                                         {{ $trndtl->sum(function ($item) {

@@ -697,13 +697,14 @@ wrapper.querySelectorAll("th, h1, h2, h3").forEach(el => {
 
 // TD CONTENT
 wrapper.querySelectorAll("td").forEach(el => {
-    el.style.setProperty("font-size", "16px", "important");
+    el.style.setProperty("font-size", "14px", "important");
     el.style.setProperty("color", "#000", "important");
 });
 
 // TABLE GLOBAL SIZE
 wrapper.querySelectorAll("table").forEach(tbl => {
-    tbl.style.setProperty("font-size", "16px", "important");
+    tbl.style.setProperty("font-size", "14px", "important");
+     tbl.style.setProperty("color", "#000", "important");
 });
 
             html2canvas(wrapper, {

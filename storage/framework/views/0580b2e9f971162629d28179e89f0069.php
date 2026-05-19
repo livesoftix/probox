@@ -315,7 +315,16 @@
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <td colspan="11" style="text-align: right;"><strong>Total
+                                                    <td colspan="3" style="text-align: left;padding-top:15px !important; padding-botton:10px !important;">  <strong>Driver Name:</strong>
+        <!-- <span style="
+            display: inline-block;
+            width: 180px;
+            border-bottom: 1px solid #000;
+            margin-left: 6px;
+            height: 14px;
+        "></span> -->
+        </td>
+                                                    <td colspan="8" style="text-align: right;"><strong>Total
                                                             CTN:</strong></td>
                                                     <td colspan="1">
                                                         <?php echo e($trndtl->sum(function ($item) {
@@ -325,7 +334,16 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="11" style="text-align: right;"><strong>Grand
+                                                    <td colspan="3" style="text-align: left;padding-top:15px !important; padding-botton:10px !important;">  <strong>Vehicle No:</strong>
+        <!-- <span style="
+            display: inline-block;
+            width: 140px;
+            border-bottom: 1px solid #000;
+            margin-left: 6px;
+            height: 14px;
+        "></span> -->
+        </td>
+                                                    <td colspan="8" style="text-align: right;"><strong>Grand
                                                             Total:</strong></td>
                                                     <td colspan="1">
                                                         <?php echo e($trndtl->sum(function ($item) {
@@ -626,6 +644,9 @@
             ${tableContents}
             ${tableContent}
         </div>
+        <div style="margin-top: 14px; display: flex; gap: 50px; font-size: 12px;">
+   
+</div>
         <div class="footer">
             <div>
                 <i class="uil uil-map-marker" style="margin-right: 4px;"></i>
@@ -688,6 +709,7 @@ function downloadTableJpg() {
 
     // MAIN WRAPPER
     const wrapper = document.createElement('div');
+    wrapper.id = "capture-wrapper";
     wrapper.style.background = '#fff';
     wrapper.style.padding = '20px';
     wrapper.style.width = '1200px';
@@ -716,6 +738,29 @@ function downloadTableJpg() {
 
         setTimeout(() => {
 
+         wrapper.querySelectorAll("*").forEach(el => {
+    el.style.setProperty("color", "#000", "important");
+    el.style.setProperty("font-family", "Arial, sans-serif", "important");
+});
+
+// HEADINGS / TH (VERY IMPORTANT)
+wrapper.querySelectorAll("th, h1, h2, h3").forEach(el => {
+    el.style.setProperty("color", "#000", "important");
+    el.style.setProperty("font-weight", "800", "important");
+    el.style.setProperty("font-size", "20px", "important"); // 👈 increase here
+});
+
+// TD CONTENT
+wrapper.querySelectorAll("td").forEach(el => {
+    el.style.setProperty("font-size", "14px", "important");
+    el.style.setProperty("color", "#000", "important");
+});
+
+// TABLE GLOBAL SIZE
+wrapper.querySelectorAll("table").forEach(tbl => {
+    tbl.style.setProperty("font-size", "14px", "important");
+    tbl.style.setProperty("color", "#000", "important");
+});
             html2canvas(wrapper, {
                 scale: 3,
                 useCORS: true,
@@ -744,7 +789,7 @@ function downloadTableJpg() {
     // =========================
    if (selectedHeading === 'Haider Packages GRW') {
 
-    const imageUrl = "<?php echo e(url('assets/images/hlogo.png')); ?>";
+    const imageUrl = "<?php echo e(asset('assets/images/hlogo.png')); ?>";
 
     const img = new Image();
     img.crossOrigin = "anonymous";
@@ -752,7 +797,7 @@ function downloadTableJpg() {
 
     img.onload = function () {
 
-        img.style.maxWidth = '150px';
+        img.style.maxWidth = '180px';
         img.style.height = 'auto';
 
         headerDiv.appendChild(img);
