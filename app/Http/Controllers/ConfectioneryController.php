@@ -238,9 +238,9 @@ public function edit($v_no)
     $accounts = AccountMaster::all();
     $items = ItemType::all();
     $products = ProductMaster::all();
-$deliveryDetails = \App\Models\DeliveryDetail::where('v_no', $v_no)
+$deliveryDetails = ConfectioneryDetail::where('v_no', $v_no)
     ->get()
-    ->keyBy('confectionery_detail_id');
+    ->keyBy('id');
     
     return view('sale_reports.edit5', get_defined_vars());
 }

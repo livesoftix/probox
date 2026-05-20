@@ -88,6 +88,17 @@
                                                 <label for="freight" class="form-label">Freight</label>
                                                 <input type="number" id="freight" class="form-control" name="freight" value="0" readonly>
                                             </div>
+                                             <div class="mb-3">
+            <label for="driver_name" class="form-label">Driver Name</label>
+            <input type="text" id="driver_name" class="form-control" name="driver_name">
+        </div>
+    
+
+ 
+        <div class="mb-3">
+            <label for="vehicle_number" class="form-label">Vehicle Number</label>
+            <input type="text" id="vehicle_number" class="form-control" name="vehicle_number">
+        </div>
                                             
                             <button type="button" id="addEntry" class="btn btn-primary">Add Entry</button>
                             <button type="submit" class="btn btn-success">Submit Voucher</button>
@@ -108,6 +119,8 @@
                                         <th>PO No</th>
                                         <th>Total</th>
                                         <th>Freight</th>
+                                        <th>Driver Name</th>
+                                        <th>Vehicle Number</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -123,21 +136,6 @@
         </tfoot>
                             </table>
                         </div>
-                          <div class="row mt-3">
-    <div class="col-md-6">
-        <div class="mb-3">
-            <label for="driver_name" class="form-label">Driver Name</label>
-            <input type="text" id="driver_name" class="form-control" name="driver_name">
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="mb-3">
-            <label for="vehicle_number" class="form-label">Vehicle Number</label>
-            <input type="text" id="vehicle_number" class="form-control" name="vehicle_number">
-        </div>
-    </div>
-</div>
                     </form>
                 </div>
             </div>
@@ -263,6 +261,8 @@ addEntryButton.addEventListener('click', function() {
     const productText = product.options[product.selectedIndex]?.text || '';
     const itemText = item.options[item.selectedIndex]?.text || '';
     const itemValue = item.value;
+    const driver_name = document.getElementById('driver_name').value;
+    const vehicle_number = document.getElementById('vehicle_number').value;
 
     const total = box * packing;
 
@@ -292,6 +292,8 @@ addEntryButton.addEventListener('click', function() {
         <td>${po_no}</td>
         <td>${total.toFixed(2)}</td>
         <td>${freight.toFixed(2)}</td>
+        <td>${driver_name}</td>
+        <td>${vehicle_number}</td>
         <td>
             <button type="button" class="btn btn-danger delete-entry">Delete</button>
             <input type="hidden" name="entries[${entryKey}][date]" value="${date}">
@@ -304,6 +306,8 @@ addEntryButton.addEventListener('click', function() {
             <input type="hidden" name="entries[${entryKey}][packing]" value="${packing}">
             <input type="hidden" name="entries[${entryKey}][po_no]" value="${po_no}">
             <input type="hidden" name="entries[${entryKey}][freight]" value="${freight}">
+            <input type="hidden" name="entries[${entryKey}][driver_name]" value="${driver_name}">
+            <input type="hidden" name="entries[${entryKey}][vehicle_number]" value="${vehicle_number}">
             <input type="hidden" name="entries[${entryKey}][total]" value="${total}">
             <input type="hidden" name="entries[${entryKey}][sequence_no]" value="${sequenceNo}">
         </td>

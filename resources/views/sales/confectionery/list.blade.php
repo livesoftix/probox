@@ -119,6 +119,8 @@
                                         <th>PO No</th>
                                         <th>Total</th>
                                         <th>Freight</th>
+                                        <th>Driver Name</th>
+                                        <th>Vehicle Number</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
