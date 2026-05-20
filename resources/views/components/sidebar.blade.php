@@ -151,6 +151,9 @@
                         <li>
                             <a href="{{ route('report.stock') }}">Stock Reports</a>
                         </li>
+                         <li>
+                            <a href="{{ route('stock_report') }}">Boxboard Stock Reports</a>
+                        </li>
 
                     </ul>
                 </div>
@@ -390,6 +393,10 @@
                         <li>
                             <a href="{{ route('inventory.itemmaster.list') }}">Item Registration</a>
                         </li>
+                          <li>
+    <a href="{{ route('stock-adj.index') }}">Stock Adjustment</a>
+</li>
+
 
                     </ul>
                 </div>
