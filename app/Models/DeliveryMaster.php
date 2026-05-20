@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DeliveryMaster extends Model
 {
     use HasFactory;
-    protected $fillable = ['date', 'account_id','v_no','preparedby','file_id','delivery_detail_id','v_type' , 'status',];
+    protected $fillable = ['date', 'account_id','v_no','preparedby','file_id','delivery_detail_id','v_type' , 'status','driver_name','vehicle_number'];
 
     public function deliveryDetails()
     {

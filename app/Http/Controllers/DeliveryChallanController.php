@@ -58,8 +58,6 @@ if (is_numeric($maxVno)) {
             'pack_qty' => $entry['packing'] ?? 0,
             'total' => $entry['total'] ?? 0,
             'freight' => $entry['freight'] ?? 0,
-            'driver_name'=>$entry['driver_name'] ?? null,
-            'vehicle_number' => $entry['vehicle_number'] ?? null
         ]);
 
         DeliveryMaster::create([
@@ -67,6 +65,8 @@ if (is_numeric($maxVno)) {
             'date' => Carbon::now(),
             'account_id' => $entry['supplier'] ?? null,
             'preparedby' => $entry['prepared_by'] ?? null,
+            'driver_name'=>$entry['driver_name'] ?? null,
+            'vehicle_number' => $entry['vehicle_number'] ?? null,
             'status' => 'unofficial',
             'v_type' => 'PDC',
             'delivery_detail_id' => $deliveryDetail->id,
@@ -167,6 +167,14 @@ public function reports(Request $request)
 
     $accountMasters = AccountMaster::all();
     $vNoList = DeliveryMaster::pluck('v_no')->unique()->toArray();
+    if($v_no){
+    $driverdetails = DeliveryMaster::where('v_no', $v_no)
+    ->first();
+}else{
+    $driverdetails='';
+}
+// dd($driverdetails);
+    
 
     return view('sale_reports.index', [
         'trndtl' => $trndtl,
@@ -181,6 +189,7 @@ public function reports(Request $request)
         'po' => $po,
         'vNoList' => $vNoList,
         'poNumbers' => $poNumbers,
+        'driverdetails'=>$driverdetails
     ]);
 }
 
@@ -230,9 +239,8 @@ public function edit($v_no)
     $accounts = AccountMaster::all();
     $items = ItemType::all();
     $product = ProductMaster::all();
-    $deliveryDetails = \App\Models\DeliveryDetail::where('v_no', $v_no)
-    ->get()
-    ->keyBy('confectionery_detail_id');
+    $deliveryDetails = ConfectioneryMaster::where('v_no', $v_no)
+    ->first();
 
     return view('sale_reports.edit', get_defined_vars());
 }
@@ -296,8 +304,7 @@ public function update(Request $request, $id)
                 'total' => $entryTotal,
                 'v_no' => $id,
                 'freight' => $entryFreight,
-                'driver_name'=>$entry['driver_name'] ?? null,
-                'vehicle_number' => $entry['vehicle_number'] ?? null
+                
             ]);
 
             DeliveryMaster::create([
@@ -305,6 +312,8 @@ public function update(Request $request, $id)
                 'date' => Carbon::now(),
                 'account_id' => $entry['supplier'] ?? null,
                 'preparedby' => $preparedBy,
+                'driver_name'=>$entry['driver_name'] ?? null,
+                'vehicle_number' => $entry['vehicle_number'] ?? null,
                 'status' => 'unofficial',
                 'v_type' => 'PDC',
                 'delivery_detail_id' => $newDetail->id,
@@ -350,6 +359,8 @@ public function update(Request $request, $id)
                         'date' => Carbon::now(),
                         'account_id' => $entry['supplier'] ?? null,
                         'preparedby' => $preparedBy,
+                        'driver_name'=>$entry['driver_name'] ?? null,
+                        'vehicle_number' => $entry['vehicle_number'] ?? null
                     ]);
 
                 if ($entryFreight > 0) {

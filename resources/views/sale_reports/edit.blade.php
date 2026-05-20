@@ -88,10 +88,7 @@
                                                                     $entryId = $trndtl->deliverydetails->id ?? null; 
                                                                     $isBilled = isset($billed[$entryId]) && $billed[$entryId];
                                                                 @endphp
-                                                                   @php
-        $detailId = $trndtl->confectionerydetails->id ?? null;
-        $delivery = $deliveryDetails[$detailId] ?? null;
-    @endphp
+                                                               
                                                                 <tr data-entry-id="{{ $entryId }}" data-billed="{{ $isBilled ? '1' : '0' }}">
                                                                     <td>{{ ++$totalEntries }}</td>
                                                                     <td>
@@ -174,17 +171,17 @@
                                                                                class="form-control entry-rate"
                                                                                value="{{ $trndtl->deliverydetails->products->sale_rate ?? $trndtl->deliverydetails->products->rate ?? 0 }}" readonly>
                                                                     </td>
-                                                                     <td>
+                                                                      <td>
     <input type="text"
-    name="entries[{{ $detailId }}][driver_name]"
+    name="delivery_name"
     class="form-control"
-    value="{{ $delivery->driver_name ?? '' }}">
+    value="{{ $deliveryDetails->driver_name ?? '' }}">
 </td>
 <td>
    <input type="text"
-    name="entries[{{ $detailId }}][vehicle_number]"
+    name="vehicle_number"
     class="form-control"
-    value="{{ $delivery->vehicle_number ?? '' }}">
+    value="{{ $deliveryDetails->vehicle_number ?? '' }}">
 </td>
                                                                     <td>
                                                                         <button type="button" class="btn btn-danger btn-sm delete-entry" @if($isBilled) disabled title="This entry has a related bill and cannot be deleted" @endif>Delete</button>

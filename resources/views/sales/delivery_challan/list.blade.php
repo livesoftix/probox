@@ -96,6 +96,8 @@
         <div class="mb-3">
             <label for="driver_name" class="form-label">Driver Name</label>
             <input type="text" id="driver_name" class="form-control" name="driver_name">
+            <input type="hidden" id="lockedDriverName" value="">
+
         </div>
     
 
@@ -103,6 +105,7 @@
         <div class="mb-3">
             <label for="vehicle_number" class="form-label">Vehicle Number</label>
             <input type="text" id="vehicle_number" class="form-control" name="vehicle_number">
+            <input type="hidden" id="lockedVehicleNumber" value="">
         </div>
    
 
@@ -169,6 +172,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const freightInput = document.getElementById('freight');
     const packingInput = document.getElementById('packing');
     const batch_noInput = document.getElementById('batch_no');
+    const driverNameInput = document.getElementById('driver_name');
+    const vehicleInput = document.getElementById('vehicle_number');
     let invoiceCounter = 1;
 
     // Automatically set the date to today
@@ -225,6 +230,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let supplier = document.getElementById('entryParty');
         let supplierText = supplier.options[supplier.selectedIndex]?.text || '';
         let supplierValue = supplier.value;
+        let driver_name = driverNameInput.value;
+        let vehicle_number = vehicleInput.value;
 
         // If this is the first entry, lock date and party for all subsequent entries
         if (entriesTable.children.length === 0) {
@@ -233,11 +240,22 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('lockedPartyTitle').value = supplierText;
             entryDateInput.disabled = true;
             supplier.disabled = true;
+            //for driver name and vehcile no
+          
+
+document.getElementById('lockedDriverName').value = driver_name;
+document.getElementById('lockedVehicleNumber').value = vehicle_number;
+
+// lock inputs
+driverNameInput.disabled = true;
+vehicleInput.disabled = true;
         } else {
             // For subsequent entries, enforce the locked date and party
             date = document.getElementById('lockedDate').value;
             supplierValue = document.getElementById('lockedPartyId').value;
             supplierText = document.getElementById('lockedPartyTitle').value;
+            driver_name = document.getElementById('lockedDriverName').value;
+            vehicle_number = document.getElementById('lockedVehicleNumber').value;
         }
 
         const freight = parseFloat(freightInput.value) || 0;

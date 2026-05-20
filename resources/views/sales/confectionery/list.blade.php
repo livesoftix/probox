@@ -91,6 +91,7 @@
                                              <div class="mb-3">
             <label for="driver_name" class="form-label">Driver Name</label>
             <input type="text" id="driver_name" class="form-control" name="driver_name">
+            <input type="hidden" id="lockedDriverName" value="">
         </div>
     
 
@@ -98,6 +99,7 @@
         <div class="mb-3">
             <label for="vehicle_number" class="form-label">Vehicle Number</label>
             <input type="text" id="vehicle_number" class="form-control" name="vehicle_number">
+              <input type="hidden" id="lockedVehicleNumber" value="">
         </div>
                                             
                             <button type="button" id="addEntry" class="btn btn-primary">Add Entry</button>
@@ -198,6 +200,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const packingInput = document.getElementById('packing');
     const po_noInput = document.getElementById('po_no');
     const supplierSelect = document.getElementById('entryParty');
+    const driverNameInput = document.getElementById('driver_name');
+    const vehicleInput = document.getElementById('vehicle_number');
+    
     let invoiceCounter = 0;
 
     // Auto-fill today's date
@@ -236,6 +241,8 @@ addEntryButton.addEventListener('click', function() {
     let date = entryDateInput.value;
     let supplierValue = supplierSelect.value;
     let supplierText = supplierSelect.options[supplierSelect.selectedIndex]?.text || '';
+    let driver_name = driverNameInput.value;
+let vehicle_number = vehicleInput.value;
     
     // 🔒 First entry → lock date & party
     if (entriesTable.children.length === 0) {
@@ -243,12 +250,20 @@ addEntryButton.addEventListener('click', function() {
         document.getElementById('lockedPartyId').value = supplierValue;
         document.getElementById('lockedPartyTitle').value = supplierText;
         entryDateInput.disabled = true;
-        supplierSelect.disabled = true;
+        supplierSelect.disabled = true;       
+document.getElementById('lockedDriverName').value = driverNameInput.value;
+document.getElementById('lockedVehicleNumber').value = vehicleInput.value;
+
+// lock inputs
+driverNameInput.disabled = true;
+vehicleInput.disabled = true;
     } else {
         // 🔒 Subsequent entries → always use locked values
         date = document.getElementById('lockedDate').value;
         supplierValue = document.getElementById('lockedPartyId').value;
         supplierText = document.getElementById('lockedPartyTitle').value;
+        driver_name = document.getElementById('lockedDriverName').value;
+        vehicle_number = document.getElementById('lockedVehicleNumber').value;
     }
 
     const box = parseFloat(boxInput.value);
@@ -261,8 +276,8 @@ addEntryButton.addEventListener('click', function() {
     const productText = product.options[product.selectedIndex]?.text || '';
     const itemText = item.options[item.selectedIndex]?.text || '';
     const itemValue = item.value;
-    const driver_name = document.getElementById('driver_name').value;
-    const vehicle_number = document.getElementById('vehicle_number').value;
+    // const driver_name = document.getElementById('driver_name').value;
+    // const vehicle_number = document.getElementById('vehicle_number').value;
 
     const total = box * packing;
 
@@ -359,6 +374,9 @@ entriesTable.addEventListener('click', function(e) {
             document.getElementById('lockedDate').value = '';
             document.getElementById('lockedPartyId').value = '';
             document.getElementById('lockedPartyTitle').value = '';
+
+document.getElementById('lockedDriverName').value = '';
+document.getElementById('lockedVehicleNumber').value = '';
         }
     }
 });

@@ -70,10 +70,7 @@
                                                 <?php $totalEntries = 0; ?>
                                                 <?php if($voucher->isNotEmpty()): ?>
                                                     <?php $__currentLoopData = $voucher; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $trndtl): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <?php
-        $detailId = $trndtl->confectionerydetails->id ?? null;
-        $delivery = $deliveryDetails[$detailId] ?? null;
-    ?>
+                                             
                                                         <tr data-entry-id="<?php echo e($trndtl->confectionerydetails->id ?? ''); ?>">
                                                             <td><?php echo e(++$totalEntries); ?></td>
                                                             <td>
@@ -162,15 +159,15 @@
                                                             </td>
                                                             <td>
     <input type="text"
-    name="entries[<?php echo e($detailId); ?>][driver_name]"
+    name="delivery_name"
     class="form-control"
-    value="<?php echo e($delivery->driver_name ?? ''); ?>">
+    value="<?php echo e($deliveryDetails->driver_name ?? ''); ?>">
 </td>
 <td>
    <input type="text"
-    name="entries[<?php echo e($detailId); ?>][vehicle_number]"
+    name="vehicle_number"
     class="form-control"
-    value="<?php echo e($delivery->vehicle_number ?? ''); ?>">
+    value="<?php echo e($deliveryDetails->vehicle_number ?? ''); ?>">
 </td>
                                                             <td>
                                                                 <?php if(isset($hasBilling) && $hasBilling): ?>

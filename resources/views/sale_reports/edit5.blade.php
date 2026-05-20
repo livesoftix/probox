@@ -70,10 +70,7 @@
                                                 @php $totalEntries = 0; @endphp
                                                 @if ($voucher->isNotEmpty())
                                                     @foreach ($voucher as $trndtl)
-                                                    @php
-        $detailId = $trndtl->confectionerydetails->id ?? null;
-        $delivery = $deliveryDetails[$detailId] ?? null;
-    @endphp
+                                             
                                                         <tr data-entry-id="{{ $trndtl->confectionerydetails->id ?? '' }}">
                                                             <td>{{ ++$totalEntries }}</td>
                                                             <td>
@@ -162,15 +159,15 @@
                                                             </td>
                                                             <td>
     <input type="text"
-    name="entries[{{ $detailId }}][driver_name]"
+    name="delivery_name"
     class="form-control"
-    value="{{ $delivery->driver_name ?? '' }}">
+    value="{{ $deliveryDetails->driver_name ?? '' }}">
 </td>
 <td>
    <input type="text"
-    name="entries[{{ $detailId }}][vehicle_number]"
+    name="vehicle_number"
     class="form-control"
-    value="{{ $delivery->vehicle_number ?? '' }}">
+    value="{{ $deliveryDetails->vehicle_number ?? '' }}">
 </td>
                                                             <td>
                                                                 @if (isset($hasBilling) && $hasBilling)

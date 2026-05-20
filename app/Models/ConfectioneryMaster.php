@@ -9,7 +9,7 @@ class ConfectioneryMaster extends Model
 {
     use HasFactory;
     protected $table = 'confectionery_masters'; 
-    protected $fillable = ['date', 'account_id','v_no','preparedby','file_id','confectionery_detail_id',  'status', 'v_type','sequence_no'];
+    protected $fillable = ['date', 'account_id','v_no','preparedby','file_id','confectionery_detail_id',  'status', 'v_type','sequence_no','driver_name','vehicle_number'];
 
     public function confectioneryDetails()
     {
