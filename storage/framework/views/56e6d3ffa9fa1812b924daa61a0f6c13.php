@@ -1,5 +1,5 @@
-@extends('layouts.app') 
-@section('content')
+ 
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid">
         <!-- Start page title -->
         <div class="row">
@@ -19,11 +19,12 @@
         <!-- End page title -->
 
         <!-- Display any error messages -->
-        @if (session('error'))
+        <?php if(session('error')): ?>
             <div class="alert alert-danger">
-                {{ session('error') }}
+                <?php echo e(session('error')); ?>
+
             </div>
-        @endif
+        <?php endif; ?>
         <div id="clientAlert" class="alert alert-danger d-none"></div>
 
         <div class="row">
@@ -34,10 +35,10 @@
                             <div class="tab-pane show active" id="input-types-preview">
                                 <div class="row">
                                     <form id="voucherForm"
-                                          action="{{ route('delivery_challan.update', $voucher->first()->v_no) }}"
+                                          action="<?php echo e(route('delivery_challan.update', $voucher->first()->v_no)); ?>"
                                           method="POST">
-                                        @csrf
-                                        @method('PUT')
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('PUT'); ?>
 
                                         <div class="col-6 mb-2">
                                             <input type="hidden" name="v_type" value="PIN">
@@ -50,7 +51,7 @@
                                                 <button type="submit" class="btn btn-success">Submit Voucher</button>
                                                 <div class="ms-3">
                                                     <label class="form-label mb-0 me-1">Voucher Date:</label>
-                                                    <input type="date" id="voucherDate" class="form-control d-inline-block" style="width:auto;" value="{{ optional($voucher->first())->date ? \Carbon\Carbon::parse(optional($voucher->first())->date)->format('Y-m-d') : '' }}">
+                                                    <input type="date" id="voucherDate" class="form-control d-inline-block" style="width:auto;" value="<?php echo e(optional($voucher->first())->date ? \Carbon\Carbon::parse(optional($voucher->first())->date)->format('Y-m-d') : ''); ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -79,101 +80,104 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="entriesBody">
-                                                        @php $totalEntries = 0; @endphp
-                                                        @if ($voucher->isNotEmpty())
-                                                            @foreach ($voucher as $trndtl)
-                                                                @php 
+                                                        <?php $totalEntries = 0; ?>
+                                                        <?php if($voucher->isNotEmpty()): ?>
+                                                            <?php $__currentLoopData = $voucher; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $trndtl): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php 
                                                                     $entryId = $trndtl->deliverydetails->id ?? null; 
                                                                     $isBilled = isset($billed[$entryId]) && $billed[$entryId];
-                                                                @endphp
-                                                                <tr data-entry-id="{{ $entryId }}" data-billed="{{ $isBilled ? '1' : '0' }}">
-                                                                    <td>{{ ++$totalEntries }}</td>
+                                                                ?>
+                                                                <tr data-entry-id="<?php echo e($entryId); ?>" data-billed="<?php echo e($isBilled ? '1' : '0'); ?>">
+                                                                    <td><?php echo e(++$totalEntries); ?></td>
                                                                     <td>
                                                                         <input type="date"
-                                                                               name="entries[{{ $entryId }}][date]"
+                                                                               name="entries[<?php echo e($entryId); ?>][date]"
                                                                                class="form-control"
-                                                                               value="{{ isset($trndtl->date) ? \Carbon\Carbon::parse($trndtl->date)->format('Y-m-d') : '' }}" readonly>
+                                                                               value="<?php echo e(isset($trndtl->date) ? \Carbon\Carbon::parse($trndtl->date)->format('Y-m-d') : ''); ?>" readonly>
                                                                         <input type="hidden"
-                                                                               name="entries[{{ $entryId }}][id]"
-                                                                               value="{{ $entryId }}">
+                                                                               name="entries[<?php echo e($entryId); ?>][id]"
+                                                                               value="<?php echo e($entryId); ?>">
                                                                     </td>
                                                                     <td>
-                                                                        <select name="entries[{{ $entryId }}][product]"
+                                                                        <select name="entries[<?php echo e($entryId); ?>][product]"
                                                                                 class="form-control select2">
                                                                             <option value="">Select</option>
-                                                                            @foreach ($product as $prod)
-                                                                                <option value="{{ $prod->id }}"
-                                                                                    @if(($trndtl->deliverydetails->products->id ?? null) == $prod->id) selected @endif>
-                                                                                    {{ $prod->prod_name }}
+                                                                            <?php $__currentLoopData = $product; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prod): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <option value="<?php echo e($prod->id); ?>"
+                                                                                    <?php if(($trndtl->deliverydetails->products->id ?? null) == $prod->id): ?> selected <?php endif; ?>>
+                                                                                    <?php echo e($prod->prod_name); ?>
+
                                                                                 </option>
-                                                                            @endforeach
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                         </select>
                                                                         <input type="hidden"
-                                                                               name="entries[{{ $entryId }}][orig_product]"
-                                                                               value="{{ $trndtl->deliverydetails->products->id ?? '' }}">
+                                                                               name="entries[<?php echo e($entryId); ?>][orig_product]"
+                                                                               value="<?php echo e($trndtl->deliverydetails->products->id ?? ''); ?>">
                                                                     </td>
                                                                     <td>
-                                                                        <select name="entries[{{ $entryId }}][supplier]"
+                                                                        <select name="entries[<?php echo e($entryId); ?>][supplier]"
                                                                                 class="form-control select2" required>
                                                                             <option value="">Select</option>
-                                                                            @foreach ($accounts as $account)
-                                                                                <option value="{{ $account->id }}"
-                                                                                    @if(($trndtl->accounts->id ?? null) == $account->id) selected @endif>
-                                                                                    {{ $account->title }}
+                                                                            <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <option value="<?php echo e($account->id); ?>"
+                                                                                    <?php if(($trndtl->accounts->id ?? null) == $account->id): ?> selected <?php endif; ?>>
+                                                                                    <?php echo e($account->title); ?>
+
                                                                                 </option>
-                                                                            @endforeach
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                         </select>
                                                                     </td>
                                                                     <td>
-                                                                        <select name="entries[{{ $entryId }}][item]"
+                                                                        <select name="entries[<?php echo e($entryId); ?>][item]"
                                                                                 class="form-control select2">
                                                                             <option value="">Select</option>
-                                                                            @foreach ($items as $item)
-                                                                                <option value="{{ $item->id }}"
-                                                                                    @if(($trndtl->deliverydetails->itemType->id ?? null) == $item->id) selected @endif>
-                                                                                    {{ $item->type_title }}
+                                                                            <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <option value="<?php echo e($item->id); ?>"
+                                                                                    <?php if(($trndtl->deliverydetails->itemType->id ?? null) == $item->id): ?> selected <?php endif; ?>>
+                                                                                    <?php echo e($item->type_title); ?>
+
                                                                                 </option>
-                                                                            @endforeach
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                         </select>
                                                                         <input type="hidden"
-                                                                               name="entries[{{ $entryId }}][orig_item]"
-                                                                               value="{{ $trndtl->deliverydetails->itemType->id ?? '' }}">
+                                                                               name="entries[<?php echo e($entryId); ?>][orig_item]"
+                                                                               value="<?php echo e($trndtl->deliverydetails->itemType->id ?? ''); ?>">
                                                                     </td>
-                                                                    <td><input type="number" name="entries[{{ $entryId }}][box]"
+                                                                    <td><input type="number" name="entries[<?php echo e($entryId); ?>][box]"
                                                                                class="form-control"
-                                                                               value="{{ $trndtl->deliverydetails->box ?? '' }}"></td>
-                                                                    <td><input type="number" name="entries[{{ $entryId }}][packing]"
+                                                                               value="<?php echo e($trndtl->deliverydetails->box ?? ''); ?>"></td>
+                                                                    <td><input type="number" name="entries[<?php echo e($entryId); ?>][packing]"
                                                                                class="form-control"
-                                                                               value="{{ $trndtl->deliverydetails->pack_qty ?? '' }}"></td>
-                                                                    <td><input type="text" name="entries[{{ $entryId }}][batchNo]"
+                                                                               value="<?php echo e($trndtl->deliverydetails->pack_qty ?? ''); ?>"></td>
+                                                                    <td><input type="text" name="entries[<?php echo e($entryId); ?>][batchNo]"
                                                                                class="form-control"
-                                                                               value="{{ $trndtl->deliverydetails->batch_no ?? '' }}"></td>
+                                                                               value="<?php echo e($trndtl->deliverydetails->batch_no ?? ''); ?>"></td>
                                                                     <td><input type="number" step="0.01"
-                                                                               name="entries[{{ $entryId }}][total]"
+                                                                               name="entries[<?php echo e($entryId); ?>][total]"
                                                                                class="form-control entry-total"
-                                                                               value="{{ $trndtl->deliverydetails->total ?? '' }}"
+                                                                               value="<?php echo e($trndtl->deliverydetails->total ?? ''); ?>"
                                                                                readonly></td>
                                                                     <td><input type="number" step="0.01"
-                                                                               name="entries[{{ $entryId }}][amount]"
+                                                                               name="entries[<?php echo e($entryId); ?>][amount]"
                                                                                class="form-control entry-amount"
-                                                                               value="{{ $trndtl->deliverydetails->box * $trndtl->deliverydetails->pack_qty }}"
+                                                                               value="<?php echo e($trndtl->deliverydetails->box * $trndtl->deliverydetails->pack_qty); ?>"
                                                                                readonly></td>
                                                                     <td><input type="number"
-                                                                               name="entries[{{ $entryId }}][freight]"
+                                                                               name="entries[<?php echo e($entryId); ?>][freight]"
                                                                                class="form-control"
-                                                                               value="{{ $trndtl->deliverydetails->freight ?? 0 }}"></td>
+                                                                               value="<?php echo e($trndtl->deliverydetails->freight ?? 0); ?>"></td>
                                                                     <td>
                                                                         <input type="number" step="0.01"
-                                                                               name="entries[{{ $entryId }}][rate]"
+                                                                               name="entries[<?php echo e($entryId); ?>][rate]"
                                                                                class="form-control entry-rate"
-                                                                               value="{{ $trndtl->deliverydetails->products->sale_rate ?? $trndtl->deliverydetails->products->rate ?? 0 }}" readonly>
+                                                                               value="<?php echo e($trndtl->deliverydetails->products->sale_rate ?? $trndtl->deliverydetails->products->rate ?? 0); ?>" readonly>
                                                                     </td>
                                                                     <td>
-                                                                        <button type="button" class="btn btn-danger btn-sm delete-entry" @if($isBilled) disabled title="This entry has a related bill and cannot be deleted" @endif>Delete</button>
+                                                                        <button type="button" class="btn btn-danger btn-sm delete-entry" <?php if($isBilled): ?> disabled title="This entry has a related bill and cannot be deleted" <?php endif; ?>>Delete</button>
                                                                     </td>
                                                                 </tr>
-                                                            @endforeach
-                                                        @endif
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php endif; ?>
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
@@ -193,7 +197,7 @@
                    id="driver_name"
                    class="form-control"
                    name="driver_name"
-                   value="{{ $voucher->first()->driver_name ?? '' }}">
+                   value="<?php echo e($voucher->first()->driver_name ?? ''); ?>">
         </div>
     </div>
 
@@ -204,7 +208,7 @@
                    id="vehicle_number"
                    class="form-control"
                    name="vehicle_number"
-                   value="{{ $voucher->first()->vehicle_number ?? '' }}">
+                   value="<?php echo e($voucher->first()->vehicle_number ?? ''); ?>">
         </div>
     </div>
 </div>
@@ -231,14 +235,14 @@
         let deletedIds = [];
 
         // Build ProductMaster rate maps for quick lookup
-        const productRates = @json(
+        const productRates = <?php echo json_encode(
             $product->mapWithKeys(function ($p) {
                     return [$p->id => (float) ($p->sale_rate ?? $p->rate ?? 0)];
-                })->toArray());
-        const itemRates = @json(
+                })->toArray(), 15, 512) ?>;
+        const itemRates = <?php echo json_encode(
             $product->groupBy('item_id')->map(function ($grp) {
                     return (float) ($grp->first()->sale_rate ?? $grp->first()->rate ?? 0);
-                })->toArray());
+                })->toArray(), 15, 512) ?>;
 
         function updateRateForRow(row) {
             const $row = $(row);
@@ -293,29 +297,29 @@
                 const newRow = document.createElement('tr');
                 newRow.innerHTML = `
                     <td>New</td>
-                    <td><input type="date" name="entries[${uniqueKey}][date]" class="form-control" value="{{ optional($voucher->first())->date ? \Carbon\Carbon::parse(optional($voucher->first())->date)->format('Y-m-d') : '' }}"></td>
+                    <td><input type="date" name="entries[${uniqueKey}][date]" class="form-control" value="<?php echo e(optional($voucher->first())->date ? \Carbon\Carbon::parse(optional($voucher->first())->date)->format('Y-m-d') : ''); ?>"></td>
                     <td>
                         <select name="entries[${uniqueKey}][product]" class="form-control select2">
                             <option value="">Select</option>
-                            @foreach ($product as $prod)
-                                <option value="{{ $prod->id }}">{{ $prod->prod_name }}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $product; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prod): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($prod->id); ?>"><?php echo e($prod->prod_name); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </td>
                     <td>
                         <select name="entries[${uniqueKey}][supplier]" class="form-control select2">
                             <option value="">Select</option>
-                            @foreach ($accounts as $account)
-                                <option value="{{ $account->id }}">{{ $account->title }}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($account->id); ?>"><?php echo e($account->title); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </td>
                     <td>
                         <select name="entries[${uniqueKey}][item]" class="form-control select2">
                             <option value="">Select</option>
-                            @foreach ($items as $item)
-                                <option value="{{ $item->id }}">{{ $item->type_title }}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($item->id); ?>"><?php echo e($item->type_title); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </td>
                     <td><input type="number" name="entries[${uniqueKey}][box]" class="form-control"></td>
@@ -399,4 +403,6 @@
         });
     });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/sale_reports/edit.blade.php ENDPATH**/ ?>

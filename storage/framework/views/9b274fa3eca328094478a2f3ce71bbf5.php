@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -9,19 +8,20 @@
         </div>
     </div>
 
-    @if (session('success'))
+    <?php if(session('success')): ?>
         <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
         </div>
-    @endif
+    <?php endif; ?>
 
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form id="voucherForm" action="{{ route('confectionery.store') }}" method="POST">
-                        @csrf
+                    <form id="voucherForm" action="<?php echo e(route('confectionery.store')); ?>" method="POST">
+                        <?php echo csrf_field(); ?>
                         <div class="col-6">
                             <input type="hidden" id="invoice_type" name="v_type" value="CDC" readonly>
                             <input type="hidden" id="invoice" name="invoice_number">
@@ -39,16 +39,16 @@
                             <div class="mb-3">
                                 <label for="preparedBy" class="form-label">Prepared By</label>
                                 <input type="text" id="preparedBy" class="form-control"
-                                    name="prepared_by" value="{{$loggedInUser->name}}" readonly>
+                                    name="prepared_by" value="<?php echo e($loggedInUser->name); ?>" readonly>
                             </div>
                             <!-- Supplier Selection -->
                             <div class="mb-3">
     <label for="entryParty" class="form-label">Party</label>
     <select name="account" class="form-control "  class="form-control select2 " id="entryParty" data-toggle="select2" required>
         <option value="">Select</option>
-        @foreach ($accounts as $account)
-            <option value="{{ $account->id }}">{{ $account->title }}</option>
-        @endforeach
+        <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($account->id); ?>"><?php echo e($account->title); ?></option>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </select>
 </div>
 
@@ -63,9 +63,9 @@
                                 <label for="itemTitle" class="form-label">Item Type</label>
                                 <select name="item" class="form-control select2" data-toggle="select2" id="itemTitle" required>
                                     <option value="">Select</option>
-                                    @foreach ($items as $item)
-                                        <option value="{{ $item->id }}">{{ $item->type_title }}</option>
-                                    @endforeach
+                                    <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($item->id); ?>"><?php echo e($item->type_title); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
                             <!-- P.O, Box, and Packing Fields -->
@@ -362,4 +362,6 @@ entriesTable.addEventListener('click', function(e) {
 
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/sales/confectionery/list.blade.php ENDPATH**/ ?>

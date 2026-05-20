@@ -64,6 +64,8 @@ if (is_numeric($maxVno)) {
             'date' => Carbon::now(),
             'account_id' => $entry['supplier'] ?? null,
             'preparedby' => $entry['prepared_by'] ?? null,
+            'driver_name' => $request->driver_name ?? null,
+            'vehicle_number' => $request->vehicle_number ?? null,
             'status' => 'unofficial',
             'v_type' => 'PDC',
             'delivery_detail_id' => $deliveryDetail->id,
@@ -234,6 +236,7 @@ public function edit($v_no)
 
 public function update(Request $request, $id)
 {
+    // dd($request->driver_name);
     $entries = $request->input('entries', []);
     if (!is_array($entries)) {
         return back()->withErrors(['entries' => 'Entries must be an array.']);
@@ -297,6 +300,8 @@ public function update(Request $request, $id)
                 'date' => Carbon::now(),
                 'account_id' => $entry['supplier'] ?? null,
                 'preparedby' => $preparedBy,
+                'driver_name' => $request->driver_name ?? null,
+                'vehicle_number' => $request->vehicle_number ?? null,
                 'status' => 'unofficial',
                 'v_type' => 'PDC',
                 'delivery_detail_id' => $newDetail->id,
@@ -340,6 +345,8 @@ public function update(Request $request, $id)
                         'date' => Carbon::now(),
                         'account_id' => $entry['supplier'] ?? null,
                         'preparedby' => $preparedBy,
+                        'driver_name' => $request->driver_name ?? null,
+                        'vehicle_number' => $request->vehicle_number ?? null,
                     ]);
 
                 if ($entryFreight > 0) {

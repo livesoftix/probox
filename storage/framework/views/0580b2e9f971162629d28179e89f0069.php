@@ -315,15 +315,7 @@
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <td colspan="3" style="text-align: left;padding-top:15px !important; padding-botton:10px !important;">  <strong>Driver Name:</strong>
-        <!-- <span style="
-            display: inline-block;
-            width: 180px;
-            border-bottom: 1px solid #000;
-            margin-left: 6px;
-            height: 14px;
-        "></span> -->
-        </td>
+                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Driver Name:</strong> </td>
                                                     <td colspan="8" style="text-align: right;"><strong>Total
                                                             CTN:</strong></td>
                                                     <td colspan="1">
@@ -334,15 +326,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="3" style="text-align: left;padding-top:15px !important; padding-botton:10px !important;">  <strong>Vehicle No:</strong>
-        <!-- <span style="
-            display: inline-block;
-            width: 140px;
-            border-bottom: 1px solid #000;
-            margin-left: 6px;
-            height: 14px;
-        "></span> -->
-        </td>
+                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Vehicle No:</strong></td>
                                                     <td colspan="8" style="text-align: right;"><strong>Grand
                                                             Total:</strong></td>
                                                     <td colspan="1">

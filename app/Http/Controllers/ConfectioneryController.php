@@ -69,6 +69,8 @@ class ConfectioneryController extends Controller
             'date' => Carbon::now(),
             'account_id' => $entry['supplier'] ?? null,
             'preparedby' => $entry['prepared_by'] ?? null,
+            'driver_name' => $request->driver_name ?? null,
+            'vehicle_number' => $request->vehicle_number ?? null,
             'status' => 'unofficial',
             'v_type' => 'CDC',
             'confectionery_detail_id' => $confectioneryDetail->id,
@@ -392,6 +394,8 @@ public function update(Request $request, $id)
                 'date' => $entryDate,
                 'account_id' => $entry['supplier'] ?? null,
                 'preparedby' => $preparedBy,
+                'driver_name' => $request->driver_name ?? null,
+                'vehicle_number' => $request->vehicle_number ?? null,
                 'status' => 'unofficial',
                 'v_type' => 'CDC',
                 'confectionery_detail_id' => $newDetail->id,
@@ -436,6 +440,8 @@ public function update(Request $request, $id)
                         'account_id' => $entry['supplier'] ?? null,
                         'preparedby' => $preparedBy,
                         'sequence_no' => $sequenceNo,
+                        'driver_name' => $request->driver_name ?? null,
+                        'vehicle_number' => $request->vehicle_number ?? null,
                     ]);
 
                 // When billing exists, only allow basic updates - no TRNDTL modifications
