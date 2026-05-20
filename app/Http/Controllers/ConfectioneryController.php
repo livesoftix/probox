@@ -61,6 +61,8 @@ class ConfectioneryController extends Controller
             'pack_qty' => $entry['packing'] ?? 0,
             'total' => $entry['total'] ?? 0,
             'freight' => $entry['freight'] ?? 0,
+            'driver_name'=>$entry['driver_name'] ?? null,
+            'vehicle_number' => $entry['vehicle_number'] ?? null
         ]);
 
         ConfectioneryMaster::create([
@@ -69,8 +71,6 @@ class ConfectioneryController extends Controller
             'date' => Carbon::now(),
             'account_id' => $entry['supplier'] ?? null,
             'preparedby' => $entry['prepared_by'] ?? null,
-            'driver_name' => $request->driver_name ?? null,
-            'vehicle_number' => $request->vehicle_number ?? null,
             'status' => 'unofficial',
             'v_type' => 'CDC',
             'confectionery_detail_id' => $confectioneryDetail->id,
@@ -238,7 +238,10 @@ public function edit($v_no)
     $accounts = AccountMaster::all();
     $items = ItemType::all();
     $products = ProductMaster::all();
-
+$deliveryDetails = \App\Models\DeliveryDetail::where('v_no', $v_no)
+    ->get()
+    ->keyBy('confectionery_detail_id');
+    
     return view('sale_reports.edit5', get_defined_vars());
 }
 
@@ -387,6 +390,8 @@ public function update(Request $request, $id)
                 'v_no' => $id,
                 'freight' => $entryFreight,
                 'sequence_no' => $sequenceNo,
+                'driver_name'=>$entry['driver_name'] ?? null,
+                'vehicle_number' => $entry['vehicle_number'] ?? null
             ]);
 
             ConfectioneryMaster::create([
@@ -394,8 +399,6 @@ public function update(Request $request, $id)
                 'date' => $entryDate,
                 'account_id' => $entry['supplier'] ?? null,
                 'preparedby' => $preparedBy,
-                'driver_name' => $request->driver_name ?? null,
-                'vehicle_number' => $request->vehicle_number ?? null,
                 'status' => 'unofficial',
                 'v_type' => 'CDC',
                 'confectionery_detail_id' => $newDetail->id,
@@ -431,6 +434,8 @@ public function update(Request $request, $id)
                     'total' => $entryTotal,
                     'freight' => $entryFreight,
                     'sequence_no' => $sequenceNo, // FIXED: Update sequence number
+                       'driver_name'=>$entry['driver_name'] ?? null,
+            'vehicle_number' => $entry['vehicle_number'] ?? null
                 ]);
 
                 ConfectioneryMaster::where('confectionery_detail_id', $detail->id)
@@ -440,8 +445,6 @@ public function update(Request $request, $id)
                         'account_id' => $entry['supplier'] ?? null,
                         'preparedby' => $preparedBy,
                         'sequence_no' => $sequenceNo,
-                        'driver_name' => $request->driver_name ?? null,
-                        'vehicle_number' => $request->vehicle_number ?? null,
                     ]);
 
                 // When billing exists, only allow basic updates - no TRNDTL modifications

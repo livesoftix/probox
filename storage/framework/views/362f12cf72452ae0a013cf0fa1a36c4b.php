@@ -93,6 +93,19 @@
     <input type="number" id="freight" class="form-control" name="freight" value="0" readonly>
 </div>
 
+        <div class="mb-3">
+            <label for="driver_name" class="form-label">Driver Name</label>
+            <input type="text" id="driver_name" class="form-control" name="driver_name">
+        </div>
+    
+
+ 
+        <div class="mb-3">
+            <label for="vehicle_number" class="form-label">Vehicle Number</label>
+            <input type="text" id="vehicle_number" class="form-control" name="vehicle_number">
+        </div>
+   
+
                                             
                             <button type="button" id="addEntry" class="btn btn-primary">Add Entry</button>
                             <button type="submit" class="btn btn-success">Submit Voucher</button>
@@ -128,21 +141,6 @@
         </tfoot>
                             </table>
                         </div>
-                        <div class="row mt-3">
-    <div class="col-md-6">
-        <div class="mb-3">
-            <label for="driver_name" class="form-label">Driver Name</label>
-            <input type="text" id="driver_name" class="form-control" name="driver_name">
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="mb-3">
-            <label for="vehicle_number" class="form-label">Vehicle Number</label>
-            <input type="text" id="vehicle_number" class="form-control" name="vehicle_number">
-        </div>
-    </div>
-</div>
                     </form>
                 </div>
             </div>

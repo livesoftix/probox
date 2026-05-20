@@ -61,6 +61,8 @@
                                                     <th style="min-width:110px;">Rate</th>
                                                     <th style="min-width:110px;">Total</th>
                                                     <th style="min-width:110px;">Freight</th>
+                                                    <th style="min-width:150px;">Driver Name</th>
+                                                    <th style="min-width:150px;">Vehicle Number</th>
                                                     <th style="min-width:90px;">Action</th>
                                                 </tr>
                                             </thead>
@@ -68,6 +70,10 @@
                                                 @php $totalEntries = 0; @endphp
                                                 @if ($voucher->isNotEmpty())
                                                     @foreach ($voucher as $trndtl)
+                                                    @php
+        $detailId = $trndtl->confectionerydetails->id ?? null;
+        $delivery = $deliveryDetails[$detailId] ?? null;
+    @endphp
                                                         <tr data-entry-id="{{ $trndtl->confectionerydetails->id ?? '' }}">
                                                             <td>{{ ++$totalEntries }}</td>
                                                             <td>
@@ -155,6 +161,18 @@
                                                                     value="{{ $trndtl->confectionerydetails->freight ?? 0 }}">
                                                             </td>
                                                             <td>
+    <input type="text"
+    name="entries[{{ $detailId }}][driver_name]"
+    class="form-control"
+    value="{{ $delivery->driver_name ?? '' }}">
+</td>
+<td>
+   <input type="text"
+    name="entries[{{ $detailId }}][vehicle_number]"
+    class="form-control"
+    value="{{ $delivery->vehicle_number ?? '' }}">
+</td>
+                                                            <td>
                                                                 @if (isset($hasBilling) && $hasBilling)
                                                                     <button type="button" class="btn btn-danger btn-sm"
                                                                         disabled
@@ -178,29 +196,6 @@
                                             </tfoot>
                                         </table>
                                     </div>
-                                    <div class="row mt-3">
-    <div class="col-md-6">
-        <div class="mb-3">
-            <label for="driver_name" class="form-label">Driver Name</label>
-            <input type="text"
-                   id="driver_name"
-                   class="form-control"
-                   name="driver_name"
-                   value="{{ $voucher->first()->driver_name ?? '' }}">
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="mb-3">
-            <label for="vehicle_number" class="form-label">Vehicle Number</label>
-            <input type="text"
-                   id="vehicle_number"
-                   class="form-control"
-                   name="vehicle_number"
-                   value="{{ $voucher->first()->vehicle_number ?? '' }}">
-        </div>
-    </div>
-</div>
                                 </form>
                             </div> <!-- End preview-->
                         </div> <!-- End tab-content-->
@@ -304,6 +299,9 @@
                     <td><input type="number" step="0.01" name="entries[${uniqueKey}][rate]" class="form-control rate-input" readonly></td>
                     <td><input type="number" step="0.01" name="entries[${uniqueKey}][total]" class="form-control entry-total" readonly></td>
                     <td><input type="number" name="entries[${uniqueKey}][freight]" class="form-control" value="0"></td>
+                    <td><input type="text" name="entries[${uniqueKey}][driver_name]" class="form-control"></td>
+
+<td><input type="text" name="entries[${uniqueKey}][vehicle_number]" class="form-control"></td>
                     <td><button type="button" class="btn btn-danger btn-sm delete-entry">Delete</button></td>
                 `;
                     entriesTable.appendChild(newRow);

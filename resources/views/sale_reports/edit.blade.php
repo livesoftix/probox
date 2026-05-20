@@ -75,6 +75,8 @@
                                                             <th style="min-width:110px;">Amount</th>
                                                             <th style="min-width:70px;">Freight</th>
                                                             <th style="min-width:110px;">Rate</th>
+                                                            <th style="min-width:110px;">Driver Name</th>
+                                                            <th style="min-width:110px;">Vehicle Number</th>    
                                                             <th style="min-width:70px;">Action</th>
                                                         </tr>
                                                     </thead>
@@ -168,6 +170,18 @@
                                                                                class="form-control entry-rate"
                                                                                value="{{ $trndtl->deliverydetails->products->sale_rate ?? $trndtl->deliverydetails->products->rate ?? 0 }}" readonly>
                                                                     </td>
+                                                                     <td>
+    <input type="text"
+    name="entries[{{ $detailId }}][driver_name]"
+    class="form-control"
+    value="{{ $delivery->driver_name ?? '' }}">
+</td>
+<td>
+   <input type="text"
+    name="entries[{{ $detailId }}][vehicle_number]"
+    class="form-control"
+    value="{{ $delivery->vehicle_number ?? '' }}">
+</td>
                                                                     <td>
                                                                         <button type="button" class="btn btn-danger btn-sm delete-entry" @if($isBilled) disabled title="This entry has a related bill and cannot be deleted" @endif>Delete</button>
                                                                     </td>
@@ -185,29 +199,6 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="row mt-3">
-    <div class="col-md-6">
-        <div class="mb-3">
-            <label for="driver_name" class="form-label">Driver Name</label>
-            <input type="text"
-                   id="driver_name"
-                   class="form-control"
-                   name="driver_name"
-                   value="{{ $voucher->first()->driver_name ?? '' }}">
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="mb-3">
-            <label for="vehicle_number" class="form-label">Vehicle Number</label>
-            <input type="text"
-                   id="vehicle_number"
-                   class="form-control"
-                   name="vehicle_number"
-                   value="{{ $voucher->first()->vehicle_number ?? '' }}">
-        </div>
-    </div>
-</div>
                                     </form>
                                 </div>
                                 <!-- End row-->
@@ -325,6 +316,9 @@
                     <td><input type="number" step="0.01" name="entries[${uniqueKey}][amount]" class="form-control entry-amount" value="0" readonly></td>
                     <td><input type="number" name="entries[${uniqueKey}][freight]" class="form-control" value="0"></td>
                     <td><input type="number" step="0.01" name="entries[${uniqueKey}][rate]" class="form-control entry-rate" value="0" readonly></td>
+                     <td><input type="text" name="entries[${uniqueKey}][driver_name]" class="form-control"></td>
+
+<td><input type="text" name="entries[${uniqueKey}][vehicle_number]" class="form-control"></td>
                     <td><button type="button" class="btn btn-danger btn-sm delete-entry">Delete</button></td>
                 `;
                 entriesTable.appendChild(newRow);

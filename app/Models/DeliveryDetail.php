@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DeliveryDetail extends Model
 {
     use HasFactory;
-    protected $fillable = ['v_no','product_name', 'item_code','box','pack_qty', 'batch_no', 'total', 'freight','freight_type', 'job_sheet'];
+    protected $fillable = ['v_no','product_name', 'item_code','box','pack_qty', 'batch_no', 'total', 'freight','freight_type', 'job_sheet','driver_name','vehicle_number'];
     public function deliverymasters()
     {
         return $this->hasMany(DeliveryMaster::class, 'delivery_detail_id');
