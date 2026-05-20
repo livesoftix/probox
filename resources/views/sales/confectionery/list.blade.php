@@ -259,6 +259,8 @@ addEntryButton.addEventListener('click', function() {
     const productText = product.options[product.selectedIndex]?.text || '';
     const itemText = item.options[item.selectedIndex]?.text || '';
     const itemValue = item.value;
+    const driver_name = document.getElementById('driver_name').value;
+    const vehicle_number = document.getElementById('vehicle_number').value;
 
     const total = box * packing;
 
@@ -288,6 +290,8 @@ addEntryButton.addEventListener('click', function() {
         <td>${po_no}</td>
         <td>${total.toFixed(2)}</td>
         <td>${freight.toFixed(2)}</td>
+        <td>${driver_name}</td>
+        <td>${vehicle_number}</td>
         <td>
             <button type="button" class="btn btn-danger delete-entry">Delete</button>
             <input type="hidden" name="entries[${entryKey}][date]" value="${date}">
@@ -300,6 +304,8 @@ addEntryButton.addEventListener('click', function() {
             <input type="hidden" name="entries[${entryKey}][packing]" value="${packing}">
             <input type="hidden" name="entries[${entryKey}][po_no]" value="${po_no}">
             <input type="hidden" name="entries[${entryKey}][freight]" value="${freight}">
+            <input type="hidden" name="entries[${entryKey}][driver_name]" value="${driver_name}">
+            <input type="hidden" name="entries[${entryKey}][vehicle_number]" value="${vehicle_number}">
             <input type="hidden" name="entries[${entryKey}][total]" value="${total}">
             <input type="hidden" name="entries[${entryKey}][sequence_no]" value="${sequenceNo}">
         </td>

@@ -37,6 +37,7 @@ public function getProducts($partyId)
 
 public function store(Request $request)
 {
+    // dd($request->entries);
     $maxVno = DeliveryMaster::where('v_type', 'PDC')
         ->max('v_no');
 

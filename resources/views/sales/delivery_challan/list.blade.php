@@ -126,6 +126,8 @@
                                         <th>Batch No</th>
                                         <th>Total</th>
                                         <th>Freight</th>
+                                        <th>Driver Name</th>
+                                        <th>Vehicle Number</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -248,6 +250,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const productText = product.options[product.selectedIndex]?.text || '';
         const itemText = item.options[item.selectedIndex]?.text || '';
         const itemValue = item.value;
+        const driver_name = document.getElementById('driver_name').value;
+        const vehicle_number = document.getElementById('vehicle_number').value;
 
         const total = box * packing;
         
@@ -273,6 +277,8 @@ document.addEventListener('DOMContentLoaded', function() {
             <td>${batch_no}</td>
             <td>${total.toFixed(2)}</td>
             <td>${freight.toFixed(2)}</td>
+            <td>${driver_name}</td>
+            <td>${vehicle_number}</td>
             <td>
                 <button type="button" class="btn btn-danger delete-entry">Delete</button>
                 <input type="hidden" name="entries[${Date.now()}][date]" value="${date}">
@@ -284,6 +290,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <input type="hidden" name="entries[${Date.now()}][box]" value="${box}">
                 <input type="hidden" name="entries[${Date.now()}][packing]" value="${packing}">
                 <input type="hidden" name="entries[${Date.now()}][freight]" value="${freight}">
+                <input type="hidden" name="entries[${Date.now()}][driver_name]" value="${driver_name}">
+                <input type="hidden" name="entries[${Date.now()}][vehicle_number]" value="${vehicle_number}">
                 <input type="hidden" name="entries[${Date.now()}][batch_no]" value="${batch_no}">
                 <input type="hidden" name="entries[${Date.now()}][total]" value="${total}">
             </td>

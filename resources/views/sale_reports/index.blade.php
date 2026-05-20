@@ -281,6 +281,8 @@
                                                     <th colspan="2" style="width: 10%;">CTN</th>
                                                     <th colspan="2" style="width: 10%;">Pack Qty</th>
                                                     <th colspan="2" style="width: 10%;">Freight</th>
+                                                    <!-- <th colspan="2" style="width: 10%;">Driver Name</th>
+                                                    <th colspan="2" style="width: 10%;">Vehicle Number</th> -->
                                                     <th colspan="2"style="width: 20%;">Total</th>
                                                 </tr>
                                             </thead>
@@ -299,6 +301,7 @@
                                                         </td>
                                                         <td colspan="2">{{ $data->deliveryDetails->total ?? 'N/A' }}
                                                         </td>
+
                                                     </tr>
                                                 @endforeach
                                             </tbody>

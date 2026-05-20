@@ -88,6 +88,10 @@
                                                                     $entryId = $trndtl->deliverydetails->id ?? null; 
                                                                     $isBilled = isset($billed[$entryId]) && $billed[$entryId];
                                                                 @endphp
+                                                                   @php
+        $detailId = $trndtl->confectionerydetails->id ?? null;
+        $delivery = $deliveryDetails[$detailId] ?? null;
+    @endphp
                                                                 <tr data-entry-id="{{ $entryId }}" data-billed="{{ $isBilled ? '1' : '0' }}">
                                                                     <td>{{ ++$totalEntries }}</td>
                                                                     <td>
