@@ -316,7 +316,7 @@
                                                     </tr>
                                                 @endforeach
                                                 <tr>
-                                                     <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Driver Name: {{ $deliverydetails->driver_name }}</strong></td>
+                                                     <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Driver Name: {{ $driverdetails->driver_name ?? '' }}</strong></td>
 
                                                     <td colspan="8" style="text-align: right;"><strong>Total
                                                             CTN:</strong></td>
@@ -327,7 +327,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Vehicle No: {{ $deliverydetails->vehicle_name }}</strong></td>
+                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Vehicle No: {{ $driverdetails->vehicle_number ?? '' }}</strong></td>
 
                                                     <td colspan="8" style="text-align: right;"><strong>Grand
                                                             Total:</strong></td>

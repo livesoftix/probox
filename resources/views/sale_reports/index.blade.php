@@ -318,7 +318,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Vehicle No: {{ $driverdetails->vehicle_name?? '' }}</strong></td>
+                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Vehicle No: {{ $driverdetails->vehicle_number?? '' }}</strong></td>
                                                     <td colspan="8" style="text-align: right;"><strong>Grand
                                                             Total:</strong></td>
                                                     <td colspan="1">

@@ -106,6 +106,8 @@ public function store(Request $request)
         'qty' => 'required|numeric',
         'rate' => 'required|numeric',
         'freight' => 'required|numeric|min:0',
+        'driver_name' => 'nullable|string',
+        'vehhicle_number' => 'nullable|string',
     ]);
 
     try {
@@ -129,6 +131,8 @@ public function store(Request $request)
             'qty' => $validatedData['qty'],
             'rate' => $validatedData['rate'],
             'freight' => $validatedData['freight'],
+             'driver_name'=>$validatedData['driver_name'] ?? null,
+            'vehicle_number' => $validatedData['vehicle_number'] ?? null,
         ]);
 
         // Handle freight transaction if applicable

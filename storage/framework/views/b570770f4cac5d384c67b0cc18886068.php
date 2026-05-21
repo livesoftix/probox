@@ -327,7 +327,7 @@
                                                     </tr>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
-                                                     <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Driver Name:</strong></td>
+                                                     <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Driver Name: <?php echo e($driverdetails->driver_name ?? ''); ?></strong></td>
 
                                                     <td colspan="8" style="text-align: right;"><strong>Total
                                                             CTN:</strong></td>
@@ -339,7 +339,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Vehicle No:</strong></td>
+                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Vehicle No: <?php echo e($driverdetails->vehicle_number ?? ''); ?></strong></td>
 
                                                     <td colspan="8" style="text-align: right;"><strong>Grand
                                                             Total:</strong></td>

@@ -25,6 +25,7 @@ class GeneralDeliveryChallen extends Model
             'qty' ,     
             'rate' ,
             'freight',
+            'driver_name','vehicle_number'
     ];
     
 

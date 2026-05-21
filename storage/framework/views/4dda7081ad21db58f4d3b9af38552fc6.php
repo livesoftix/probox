@@ -97,6 +97,20 @@
                                 <input type="number" id="freight" class="form-control" name="freight" value="0"
                                     >
                             </div>
+                             <div class="mb-3">
+            <label for="driver_name" class="form-label">Driver Name</label>
+            <input type="text" id="driver_name" class="form-control" name="driver_name">
+            <input type="hidden" id="lockedDriverName" value="">
+
+        </div>
+    
+
+ 
+        <div class="mb-3">
+            <label for="vehicle_number" class="form-label">Vehicle Number</label>
+            <input type="text" id="vehicle_number" class="form-control" name="vehicle_number">
+            <input type="hidden" id="lockedVehicleNumber" value="">
+        </div>
 
                             <button type="submit" class="btn btn-success">Submit Voucher</button>
                         </div>

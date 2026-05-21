@@ -158,9 +158,14 @@ class ConfectioneryController extends Controller
 
         $accountMasters = AccountMaster::all();
         $vNoList = ConfectioneryMaster::pluck('v_no')->unique()->toArray();
-          $deliveryDetails = ConfectioneryMaster::where('v_no', $v_no)
+        
+    if($v_no){
+    $driverdetails = ConfectioneryMaster::where('v_no', $v_no)
     ->first();
-
+}else{
+    $driverdetails='';
+}
+// dd($driverdetails);
         return view('sale_reports.index5', [
             'trndtl' => $trndtl,
             'startDate' => $startDate,
@@ -174,7 +179,7 @@ class ConfectioneryController extends Controller
             'vNoList' => $vNoList,
             'poNumbers' => $poNumbers,
             'accounts' => $accounts,
-            'deliverdetails'=>$deliveryDetails
+            'driverdetails'=>$driverdetails
         ]);
     }
 
