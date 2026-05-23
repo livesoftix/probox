@@ -164,6 +164,7 @@
 
 
 <script>
+    console.log("Script Loaded: ", new Date().toLocaleTimeString());
 document.addEventListener('DOMContentLoaded', function() {
     const entriesTable = document.getElementById('entriesBody');
     const addEntryButton = document.getElementById('addEntry');
@@ -175,9 +176,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const driverNameInput = document.getElementById('driver_name');
     const vehicleInput = document.getElementById('vehicle_number');
     let invoiceCounter = 1;
-
+   console.log("Initial Invoice Counter:", invoiceCounter); 
     // Automatically set the date to today
-    entryDateInput.value = new Date().toISOString().split('T')[0];
+       entryDateInput.value = new Date().toISOString().split('T')[0];
+    console.log("Initial Date Set:", entryDateInput.value);
+    
 
     // Function to update grand total
     function updateGrandTotal() {
@@ -268,8 +271,8 @@ vehicleInput.disabled = true;
         const productText = product.options[product.selectedIndex]?.text || '';
         const itemText = item.options[item.selectedIndex]?.text || '';
         const itemValue = item.value;
-        const driver_name = document.getElementById('driver_name').value;
-        const vehicle_number = document.getElementById('vehicle_number').value;
+        // const driver_name = document.getElementById('driver_name').value;
+        // const vehicle_number = document.getElementById('vehicle_number').value;
 
         const total = box * packing;
         
