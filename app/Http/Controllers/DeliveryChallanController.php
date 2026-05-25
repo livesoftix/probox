@@ -159,11 +159,33 @@ public function reports(Request $request)
     }
 
     
-    
-    $trndtl = $query->orderByRaw('CAST(date AS DATE) DESC')
+    $countQuery = clone $query;
+
+// STEP 2: count records (after filters)
+$totalRecords = $countQuery->count();
+
+// STEP 3: decide pagination
+if ($v_no && $totalRecords <= 50) {
+    // ✅ SMALL VOUCHER → NO PAGINATION
+    $trndtl = $query
+        ->orderByRaw('CAST(date AS DATE) DESC')
         ->orderByRaw('CAST(v_no AS SIGNED) DESC')
         ->orderBy('id', 'desc')
         ->get();
+} else {
+    // 📄 LARGE DATA → PAGINATION
+    $trndtl = $query
+        ->orderByRaw('CAST(date AS DATE) DESC')
+        ->orderByRaw('CAST(v_no AS SIGNED) DESC')
+        ->orderBy('id', 'desc')
+        ->paginate(20)
+        ->appends($request->all());
+}
+    
+    // $trndtl = $query->orderByRaw('CAST(date AS DATE) DESC')
+    //     ->orderByRaw('CAST(v_no AS SIGNED) DESC')
+    //     ->orderBy('id', 'desc')
+    //     ->get();
 
     $accountMasters = AccountMaster::all();
     $vNoList = DeliveryMaster::pluck('v_no')->unique()->toArray();

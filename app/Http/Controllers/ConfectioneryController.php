@@ -151,10 +151,32 @@ class ConfectioneryController extends Controller
             });
         }
 
-        $trndtl = $query->orderBy('date', 'desc')
-            ->orderBy('v_no', 'desc')
-            ->orderBy('sequence_no', 'asc')
-            ->get();
+        // $trndtl = $query->orderBy('date', 'desc')
+        //     ->orderBy('v_no', 'desc')
+        //     ->orderBy('sequence_no', 'asc')
+        //     ->get();
+  $countQuery = clone $query;
+
+// STEP 2: count records (after filters)
+$totalRecords = $countQuery->count();
+
+// STEP 3: decide pagination
+if ($v_no && $totalRecords <= 50) {
+    // ✅ SMALL VOUCHER → NO PAGINATION
+    $trndtl = $query
+        ->orderByRaw('CAST(date AS DATE) DESC')
+        ->orderByRaw('CAST(v_no AS SIGNED) DESC')
+        ->orderBy('id', 'desc')
+        ->get();
+} else {
+    // 📄 LARGE DATA → PAGINATION
+    $trndtl = $query
+        ->orderByRaw('CAST(date AS DATE) DESC')
+        ->orderByRaw('CAST(v_no AS SIGNED) DESC')
+        ->orderBy('id', 'desc')
+        ->paginate(20)
+        ->appends($request->all());
+}
 
         $accountMasters = AccountMaster::all();
         $vNoList = ConfectioneryMaster::pluck('v_no')->unique()->toArray();

@@ -350,6 +350,12 @@
 
 
                                     </div>
+                                              <div class="mt-3 mx-auto">
+   <?php if($trndtl instanceof \Illuminate\Pagination\LengthAwarePaginator): ?>
+    <?php echo e($trndtl->links()); ?>
+
+<?php endif; ?>
+</div>
                                 </div>
                             </div>
                         </div>

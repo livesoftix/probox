@@ -348,8 +348,14 @@
 
 
                                     </div>
+                                              <div class="mt-3 mx-auto">
+   @if ($trndtl instanceof \Illuminate\Pagination\LengthAwarePaginator)
+    {{ $trndtl->links() }}
+@endif
+</div>
                                 </div>
                             </div>
+                  
                         </div>
                     </div>
                 </div>
