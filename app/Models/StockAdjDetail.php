@@ -9,11 +9,29 @@ class StockAdjDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['v_no', 'item_id', 'qty', 'rate', 'cid', 'v_date','type'];
+    protected $fillable = [
+        'v_no',
+        'item_id',
+        'item_code',
+        'qty',
+        'rate',
+        'width',
+        'length',
+        'grammage',
+        'amount',
+        'total_wt',
+        'freight',
+        'cid',
+        'v_date',
+        'type','account_id'];
 
     public function master()
     {
         return $this->belongsTo(StockAdjMaster::class, 'v_no', 'v_no');
+    }
+    public function accounts()
+    {
+        return $this->belongsTo(AccountMaster::class, 'account_id','id');
     }
 
     public function item()

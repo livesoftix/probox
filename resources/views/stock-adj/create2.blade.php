@@ -9,10 +9,10 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
-                        <li class="breadcrumb-item active">Purchase Boxboard Invoice</li>
+                        <li class="breadcrumb-item active">Stock Adjustment</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Purchase Boxboard Invoice</h4>
+                <h4 class="page-title">Stock Adjustment </h4>
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
                     <div class="tab-content">
                         <div class="tab-pane show active" id="input-types-preview">
                             <div class="row">
-                                <form id="voucherForm" action="{{ route('payment_invoice.store') }}" method="POST">
+                                <form id="voucherForm" action="{{ route('stock-adj.store') }}" method="POST">
                                     @csrf
                                     <div class="col-6">
                                         <input type="hidden" id="lockedDate" value="">
@@ -42,7 +42,7 @@
 
 
                                         <input type="hidden" id="invoice_type" class="form-control" name="v_type"
-                                            value="BPN" required readonly>
+                                            value="SA" required readonly>
                                         <input type="hidden" id="invoice" class="form-control" name="invoice_number"
                                             required>
                                         <input type="hidden" id="totalAmount" name="total_amount" value="0">
@@ -108,12 +108,12 @@
                                             <input type="number" id="quantity" class="form-control" name="quantity">
                                         </div>
 
-                                        <div class="mb-3">
+                                        <div class="mb-3" style="display:none;">
                                             <label for="rate" class="form-label">Rate</label>
                                             <input type="number" id="rate" class="form-control" name="rate" readonly>
                                         </div>
 
-                                        <div class="mb-3">
+                                        <div class="mb-3" style="display:none;">
                                             <label for="freight" class="form-label">Freight</label>
                                             <input type="number" id="freight" class="form-control" name="freight"
                                                 value="0" readonly>
@@ -139,10 +139,10 @@
                                                     <th>Length</th>
                                                     <th>Gramage</th>
                                                     <th>Quantity</th>
-                                                    <th>Rate</th>
-                                                    <th>Weight</th>
-                                                    <th>Amount</th>
-                                                    <th>Freight</th>
+                                                    <th style="display:none;">Rate</th>
+                                                    <th style="display:none;">Weight</th>
+                                                    <th style="display:none;">Amount</th>
+                                                    <th style="display:none;">Freight</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -220,10 +220,10 @@
                     <td>${length}</td>
                     <td>${gramage}</td>
                     <td>${quantity}</td>
-                    <td>${rate}</td>
-                    <td>${Math.round(weight)}</td>
-                    <td>${Math.round(amount)}</td>
-                    <td>${freight}</td>
+                    <td style="display:none;">${rate}</td>
+                    <td style="display:none;">${Math.round(weight)}</td>
+                    <td style="display:none;">${Math.round(amount)}</td>
+                    <td style="display:none;">${freight}</td>
                     <td>
                         <button type="button" class="btn btn-danger delete-entry">Delete</button>
                         <input type="hidden" name="entries[${uniqueId}][date]" value="${date}">

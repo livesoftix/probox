@@ -15,6 +15,10 @@ class StockAdjMaster extends Model
     {
         return $this->hasMany(StockAdjDetail::class, 'v_no', 'v_no');
     }
+       public function accounts()
+    {
+        return $this->belongsTo(AccountMaster::class,'prepared_by', 'id');
+    }
 
     public function preparedByUser()
     {

@@ -397,6 +397,9 @@
     <a href="{{ route('stock-adj.index') }}">Stock Adjustment</a>
 </li>
 
+ <li>
+                            <a href="{{ route('report.boxboard_stock') }}">Boxboard Stock Report</a>
+                        </li>
 
                     </ul>
                 </div>

@@ -397,6 +397,9 @@
     <a href="<?php echo e(route('stock-adj.index')); ?>">Stock Adjustment</a>
 </li>
 
+ <li>
+                            <a href="<?php echo e(route('report.boxboard_stock')); ?>">Boxboard Stock Report</a>
+                        </li>
 
                     </ul>
                 </div>

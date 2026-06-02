@@ -231,7 +231,7 @@
                                                             <i class="fa fa-eye text-info"></i>
                                                         </a>
                                                         <!-- Edit -->
-                                                        <a href="<?php echo e(route('stock-adj.edit', $master->id)); ?>" class="mr-25"
+                                                        <a href="<?php echo e(route('stock-adj.edit', $master->v_no)); ?>" class="mr-25"
                                                             data-toggle="tooltip" title="Edit">
                                                             <i class="fa fa-pencil text-inverse"></i>
                                                         </a>

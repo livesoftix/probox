@@ -97,6 +97,7 @@ use App\Http\Controllers\BankCashReportController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StockAdjController;
+use App\Http\Controllers\BoxboardReportStockController;
 use Illuminate\Support\Facades\Artisan;
 
 
@@ -227,6 +228,7 @@ Route::middleware('auth')->group(function () {
      Route::delete('/probox/boxboard/wage/store/{id}', [WageBoxboardController::class, 'destroy'])->name('boxboard_wage.destroy');  
      
     Route::get('/probox/reports/stock', [ReportStockController::class, 'reports'])->name('report.stock');
+    Route::get('/probox/reports/boxboard-stock', [BoxboardReportStockController::class, 'boxboard_report'])->name('report.boxboard_stock');
     Route::get('/probox/report_stock', [App\Http\Controllers\ReportStockController::class, 'index'])->name('report_stock.index');
     Route::get('/probox/report_stock/create', [App\Http\Controllers\ReportStockController::class, 'create'])->name('report_stock.create');
     Route::post('/probox/report_stock', [App\Http\Controllers\ReportStockController::class, 'store'])->name('report_stock.store');
@@ -480,6 +482,9 @@ Route::get('/probox/search-item', [PackagingSpecController::class, 'searchItem']
     Route::delete('/probox/confectionery/{id}/del', [ConfectioneryController::class, 'delete'])->name('confectionery.delete');
     //  stock-adj
     Route::resource('/probox/stock-adj', StockAdjController::class)->names('stock-adj');
+    Route::delete('/stock-adj-detail/{id}', [StockAdjController::class, 'destroyDetail'])
+    ->name('stock-adj.destroy-detail');
+    // Route::get('/probox/stock-adj', [StockAdjController::class, 'report'])->name('stock-adj.report');
     Route::get('/probox/reports/stock_report', [StockAdjController::class, 'report'])->name('stock_report');
 
 
