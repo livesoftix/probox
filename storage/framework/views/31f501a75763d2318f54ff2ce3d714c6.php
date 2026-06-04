@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -9,28 +8,29 @@
         </div>
     </div>
 
-    @if(session('success'))
+    <?php if(session('success')): ?>
     <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-        {{ session('success') }}
+        <?php echo e(session('success')); ?>
+
     </div>
-    @endif
-    @if($errors->any())
+    <?php endif; ?>
+    <?php if($errors->any()): ?>
     <div class="alert alert-danger">
         <ul>
-            @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
+            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <li><?php echo e($error); ?></li>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </ul>
     </div>
-    @endif
+    <?php endif; ?>
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <form id="voucherForm" action="{{ route('create_account.store') }}" method="POST"
+                <form id="voucherForm" action="<?php echo e(route('create_account.store')); ?>" method="POST"
                     enctype="multipart/form-data">
 
-                    @csrf
+                    <?php echo csrf_field(); ?>
                     <div class="col-6">
 
                         <div class="mb-3">
@@ -40,7 +40,7 @@
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Gmail</label>
-                            <input type="email" id="email" name="email" value="{{ old('email') }}" class="form-control">
+                            <input type="email" id="email" name="email" value="<?php echo e(old('email')); ?>" class="form-control">
                         </div>
 
                         <div class="mb-3">
@@ -1636,4 +1636,5 @@ document.getElementById('boxboardcalculator').addEventListener('change', functio
         }
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/create_account/list.blade.php ENDPATH**/ ?>

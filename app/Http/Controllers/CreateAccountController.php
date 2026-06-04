@@ -70,6 +70,9 @@ class CreateAccountController extends Controller
     $user->report = in_array('Report', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->job_detail = $request->has('job_detail') ? 1 : 0;
 
+   $user->boxboard_stock_report =
+    in_array('BoxboardStockReport', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
+
     // Save the user data in the 'users' table
 
     $user->save();
@@ -159,6 +162,7 @@ public function edit($id)
         'Attendance System' => $user->attendance_system,
         'Set-Up Department' => $user->setup_department,
         'Employee Department' => $user->employee_department,
+        'BoxboardStockReport' => $user->boxboard_stock_report,
     ];
 
     return view('create_account.edit', compact('user', 'navigationOptions', 'rights'));
@@ -204,6 +208,7 @@ public function update(Request $request, $id)
         'attendanceSystem' => 'attendance_system',
         'setupDepartment' => 'setup_department',
         'employeeDepartment' => 'employee_department',
+        'BoxboardStockReport' => 'boxboard_stock_report',
     ];
 
     // Update navigation options
