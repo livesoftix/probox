@@ -262,7 +262,7 @@ $date = collect($request->entries)->first()['date'];
 
         // 1. Get Master
         $master = StockAdjMaster::where('v_no', $id)->firstOrFail();
-$date = collect($request->entries)->first()['date'];
+        $date = collect($request->entries)->first()['date'];
         // 2. Update Master only
         $master->update([
             'v_date' => $date,
@@ -275,7 +275,7 @@ $date = collect($request->entries)->first()['date'];
 
         // 4. Re-insert details (same as store)
         foreach ($request->entries as $entry) {
-
+// dd($entry);
             $itemCode = DB::table('item_masters')
                 ->where('id', $entry['item'])
                 ->value('item_code');

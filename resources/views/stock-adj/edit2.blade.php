@@ -170,7 +170,7 @@
                                                         @endphp --}}
 
                                                 @if ($voucher->isNotEmpty())
-                                                @foreach ($voucher as $trndtl)
+                                                @foreach ($voucher->first()->details as $trndtl)
                                                 
                                                
                                                 <tr>
@@ -179,36 +179,36 @@
                                                         <input type="hidden" name="date" value="{{ $trndtl->v_date }}">
                                                     </td>
                                                     <!-- Show trndtl date -->
-                                                    <td>{{ $trndtl->details->first()->accounts->title ?? 'N/A' }}
-                                                        <input type="hidden" name="supplier" value="{{ $trndtl->details->first()->accounts->title ?? 'N/A' }}">
+                                                    <td>{{ $trndtl->accounts->title ?? 'N/A' }}
+                                                        <input type="hidden" name="supplier" value="{{ $trndtl->accounts->title ?? 'N/A' }}">
                                                     </td>
                                                     <!-- Account title -->
-                                                    <td>{{ $trndtl->details->first()->item_code }}
-                                                        <input type="hidden" name="item" value="{{ $trndtl->details->first()->item_code }}">
+                                                    <td>{{ $trndtl->item_code }}
+                                                        <input type="hidden" name="item" value="{{ $trndtl->item_code }}">
                                                     </td>
-                                                    <td>{{ $trndtl->details->first()->width }}
-                                                        <input type="hidden" name="width" value="{{ $trndtl->details->first()->width }}">
+                                                    <td>{{ $trndtl->width }}
+                                                        <input type="hidden" name="width" value="{{ $trndtl->width }}">
                                                     </td>
-                                                    <td>{{ $trndtl->details->first()->length }}
-                                                        <input type="hidden" name="length" value="{{ $trndtl->details->first()->length}}">
+                                                    <td>{{ $trndtl->length }}
+                                                        <input type="hidden" name="length" value="{{ $trndtl->length}}">
                                                     </td>
-                                                    <td>{{ $trndtl->details->first()->grammage }}
-                                                        <input type="hidden" name="gramage" value="{{ $trndtl->details->first()->grammage}}">
+                                                    <td>{{ $trndtl->grammage }}
+                                                        <input type="hidden" name="gramage" value="{{ $trndtl->grammage}}">
                                                     </td>
-                                                    <td>{{ $trndtl->details->first()->qty }}
-                                                        <input type="hidden" name="quantity" value="{{ $trndtl->details->first()->qty}}">
+                                                    <td>{{ $trndtl->qty }}
+                                                        <input type="hidden" name="quantity" value="{{ $trndtl->qty}}">
                                                     </td>
-                                                    <td style="display:none;">{{ $trndtl->details->first()->rate }}
-                                                        <input type="hidden" name="rate" value="{{ $trndtl->details->first()->rate}}">
+                                                    <td style="display:none;">{{ $trndtl->rate }}
+                                                        <input type="hidden" name="rate" value="{{ $trndtl->rate}}">
                                                     </td>
-                                                    <td style="display:none;">{{ $trndtl->details->first()->total_wt }}
-                                                        <input type="hidden" name="weight" value="{{ $trndtl->details->first()->total_wt}}">
+                                                    <td style="display:none;">{{ $trndtl->total_wt }}
+                                                        <input type="hidden" name="weight" value="{{ $trndtl->total_wt}}">
                                                     </td>
-                                                    <td style="display:none;">{{ $trndtl->details->first()->amount }}
-                                                        <input type="hidden" name="amount" value="{{ $trndtl->details->first()->amount}}">
+                                                    <td style="display:none;">{{ $trndtl->amount }}
+                                                        <input type="hidden" name="amount" value="{{ $trndtl->amount}}">
                                                     </td>
-                                                    <td style="display:none;">{{ $trndtl->details->first()->freight }}
-                                                        <input type="hidden" name="freight" value="{{ $trndtl->details->first()->freight}}">
+                                                    <td style="display:none;">{{ $trndtl->freight }}
+                                                        <input type="hidden" name="freight" value="{{ $trndtl->freight}}">
                                                     </td>
                                                     <td>
                                                         <!-- Delete Entry Button -->
@@ -389,7 +389,7 @@
             // Perform AJAX request to fetch purchase details for the selected item
             if (selectedItemId) {
                 $.ajax({
-                    url: '/probox/get-item-details/' + selectedItemId,
+                    url: '/printingcell/get-item-details/' + selectedItemId,
                     method: 'GET',
                     success: function(response) {
                         // Log the response to the console

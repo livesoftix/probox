@@ -43,7 +43,7 @@
                                     <input type="date" class="form-control" id="end_date" name="end_date" value="">
                                 </div>
                                 <!-- Voucher No Dropdown -->
-                                <div class="form-group col-xl-2">
+                                <div class="form-group col-xl-2" style="display:none;">
                                     <label for="product_type" class="sr-only">Select Purchase</label>
                                     <select name="product_type" class="form-control select2" data-toggle="select2"
                                         id="product_type">
@@ -148,88 +148,6 @@
     @endforeach
 </tbody>
                                 </table>
-
-                                
-
-
-
-
-
-
-                          
-
-                               
-                              
-
-                              
-
-
-                            
-
-                                
-                                
-
-                             
-
-
-    
-
-
-                                  
-
-
-
-
-
-                              
-
-                                <table id="combined-data-table-boxboard"
-                                    class="table table-striped dt-responsive nowrap w-100">
-                                    <h4 for="boxboard">Purchase Boxboard Details</h4>
-                                    <thead>
-                                        <tr>
-                                            <th>Item Name</th>
-                                            <th>Length</th>
-                                            <th>Width</th>
-                                            
-                                            <th>Grammage</th>
-                                            
-                                            <th>Weights</th>
-                                            <th>Qty</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-    @foreach ($boxboardData as $data)
-    <tr>
-        <td>{{ $data->item_code }}</td>
-        <td>{{ $data->length }}</td>
-        <td>{{ $data->width }}</td>
-        
-        <td>{{ $data->grammage }}</td>
-        
-        <td>{{ $data->total_wt }}</td>
-        <td>{{ $data->remain_qty }}</td>
-    </tr>
-    @endforeach
-</tbody>
-                                </table>
-
-                            
-
-                              
-
-
-                             
-
-
-
-
-
-
-
-
-
-
                                 @endif
                             </div>
                         </div>
