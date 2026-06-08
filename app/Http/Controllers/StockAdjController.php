@@ -22,7 +22,11 @@ class StockAdjController extends Controller
     {
         $user = auth()->user();
 
-        $masters = StockAdjMaster::with('details')->latest()->get();
+        $masters = StockAdjMaster::with(['details' => function ($q) {
+        $q->where('type', 'out'); // 👈 yahan apna required type likho
+    }])
+    ->latest()
+    ->get();
         $items = ItemMaster::all();
 
         return view('stock-adj.index', compact('masters', 'items'));

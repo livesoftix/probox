@@ -102,17 +102,17 @@
                                             </select>
                                         </div>
 
-                                        <div class="mb-3">
+                                        <div class="mb-3" style="display:none;">
                                             <label for="width" class="form-label">Width</label>
                                             <input type="number" id="width" class="form-control" name="width" step="any">
                                         </div>
 
-                                        <div class="mb-3">
+                                        <div class="mb-3" style="display:none;">
                                             <label for="length" class="form-label">Length</label>
                                             <input type="number" id="length" class="form-control" name="length" step="any">
                                         </div>
 
-                                        <div class="mb-3">
+                                        <div class="mb-3" style="display:none;">
                                             <label for="gramage" class="form-label">Gramage</label>
                                             <input type="number" id="gramage" class="form-control" name="gramage" step="any">
                                         </div>
@@ -147,9 +147,9 @@
                                                     <th>Date</th>
                                                     <th>Supplier</th>
                                                     <th>Item</th>
-                                                    <th>Width</th>
-                                                    <th>Length</th>
-                                                    <th>Gramage</th>
+                                                    <th style="display:none;">Width</th>
+                                                    <th style="display:none;">Length</th>
+                                                    <th style="display:none;">Gramage</th>
                                                     <th>Quantity</th>
                                                     <th style="display:none;">Rate</th>
                                                     <th style="display:none;">Weight</th>
@@ -186,13 +186,13 @@
                                                     <td>{{ $trndtl->item_code }}
                                                         <input type="hidden" name="item" value="{{ $trndtl->item_code }}">
                                                     </td>
-                                                    <td>{{ $trndtl->width }}
+                                                    <td style="display:none;">{{ $trndtl->width }}
                                                         <input type="hidden" name="width" value="{{ $trndtl->width }}">
                                                     </td>
-                                                    <td>{{ $trndtl->length }}
+                                                    <td style="display:none;">{{ $trndtl->length }}
                                                         <input type="hidden" name="length" value="{{ $trndtl->length}}">
                                                     </td>
-                                                    <td>{{ $trndtl->grammage }}
+                                                    <td style="display:none;">{{ $trndtl->grammage }}
                                                         <input type="hidden" name="gramage" value="{{ $trndtl->grammage}}">
                                                     </td>
                                                     <td>{{ $trndtl->qty }}
@@ -279,7 +279,7 @@
             const weight = ((length * width * gramage) / 15500) * quantity;
             const amount = weight * rate;
 
-            if (!date || !width || !length || !gramage || !quantity || !rate || isNaN(weight) || isNaN(amount)) {
+            if (!date ||  !quantity ) {
                 return; // No alert message, just return if fields are not filled correctly
             }
 
@@ -300,10 +300,10 @@
                 <td>${date}</td>
                 <td>${supplierTitleValue}</td>
                 <td>${itemTitleValue}</td>
-                <td>${width}</td>
-                <td>${length}</td>
-                <td>${gramage}</td>
-                <td>${quantity}</td>
+                <td style="display:none;">${width}</td>
+                <td style="display:none;">${length}</td>
+                <td style="display:none;">${gramage}</td>
+                <td >${quantity}</td>
                 <td style="display:none;">${rate}</td>
                 <td style="display:none;">${Math.round(weight)}</td>
                 <td style="display:none;">${Math.round(amount)}</td>
@@ -423,9 +423,5 @@
     
    
 </script>
-
-
-
-
 
 @endsection
