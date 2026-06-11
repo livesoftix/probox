@@ -39,7 +39,7 @@ class User extends Authenticatable
         'gate_ex',
         'job_sheet',
         'attendance_system',
-        'wage_calculator','job_detail'
+        'wage_calculator','job_detail','boxboard_stock_report'
     ];
 
     /**

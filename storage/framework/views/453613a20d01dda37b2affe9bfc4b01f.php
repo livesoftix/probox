@@ -42,7 +42,7 @@
                                     <input type="date" class="form-control" id="end_date" name="end_date" value="">
                                 </div>
                                 <!-- Voucher No Dropdown -->
-                                <div class="form-group col-xl-2">
+                                <div class="form-group col-xl-2" style="display:none;">
                                     <label for="product_type" class="sr-only">Select Purchase</label>
                                     <select name="product_type" class="form-control select2" data-toggle="select2"
                                         id="product_type">
@@ -147,88 +147,6 @@
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </tbody>
                                 </table>
-
-                                
-
-
-
-
-
-
-                          
-
-                               
-                              
-
-                              
-
-
-                            
-
-                                
-                                
-
-                             
-
-
-    
-
-
-                                  
-
-
-
-
-
-                              
-
-                                <table id="combined-data-table-boxboard"
-                                    class="table table-striped dt-responsive nowrap w-100">
-                                    <h4 for="boxboard">Purchase Boxboard Details</h4>
-                                    <thead>
-                                        <tr>
-                                            <th>Item Name</th>
-                                            <th>Length</th>
-                                            <th>Width</th>
-                                            
-                                            <th>Grammage</th>
-                                            
-                                            <th>Weights</th>
-                                            <th>Qty</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-    <?php $__currentLoopData = $boxboardData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-    <tr>
-        <td><?php echo e($data->item_code); ?></td>
-        <td><?php echo e($data->length); ?></td>
-        <td><?php echo e($data->width); ?></td>
-        
-        <td><?php echo e($data->grammage); ?></td>
-        
-        <td><?php echo e($data->total_wt); ?></td>
-        <td><?php echo e($data->remain_qty); ?></td>
-    </tr>
-    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-</tbody>
-                                </table>
-
-                            
-
-                              
-
-
-                             
-
-
-
-
-
-
-
-
-
-
                                 <?php endif; ?>
                             </div>
                         </div>
