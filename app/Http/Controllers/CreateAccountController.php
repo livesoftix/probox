@@ -18,6 +18,7 @@ class CreateAccountController extends Controller
     
    public function store(Request $request)
 {
+    dd($request->all());
     // Pre-process the request to ensure permissions are correctly converted to tinyint (0 or 1)
     $permissions = $request->input('permissions', []);
     foreach ($permissions as $key => $permission) {
@@ -71,7 +72,7 @@ class CreateAccountController extends Controller
     $user->job_detail = $request->has('job_detail') ? 1 : 0;
 
    $user->boxboard_stock_report =
-    in_array('BoxboardStockReport', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
+    in_array('BoxboardStockReport', $request->input('navigationOptions', [])) ? 1 : 0;
 
     // Save the user data in the 'users' table
 
@@ -211,10 +212,16 @@ public function update(Request $request, $id)
         'BoxboardStockReport' => 'boxboard_stock_report',
     ];
 
+    // dd($navigationOptions);
+
     // Update navigation options
     foreach ($navigationOptions as $requestKey => $dbColumn) {
         $user->$dbColumn = $request->has($requestKey) ? 1 : 0;
     }
+    $user->boxboard_stock_report = in_array(
+    'BoxboardStockReport',
+    $request->input('navigationOptions', [])
+) ? 1 : 0;
 
     // Update password if provided
     if ($request->filled('password')) {
