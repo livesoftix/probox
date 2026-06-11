@@ -333,6 +333,16 @@
                         <?php if(in_array('ItemRegistration', $userRights)): ?>
                             <li><a href="<?php echo e(route('inventory.itemmaster.list')); ?>">Item Registration</a></li>
                         <?php endif; ?>
+                        <?php if(in_array('StockAdjustment', $userRights)): ?>
+                        <li>
+                           <a href="<?php echo e(route('stock-adj.index')); ?>">Stock Adjustment</a>
+                        </li>
+                        <?php endif; ?>
+                        <?php if(auth()->check() && auth()->user()->boxboard_stock_report == 1): ?>
+                         <li>
+                            <a href="<?php echo e(route('report.boxboard_stock')); ?>">Boxboard Stock Report</a>
+                        </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </li>

@@ -18,7 +18,7 @@ class CreateAccountController extends Controller
     
    public function store(Request $request)
 {
-    dd($request->all());
+    // dd($request->all());
     // Pre-process the request to ensure permissions are correctly converted to tinyint (0 or 1)
     $permissions = $request->input('permissions', []);
     foreach ($permissions as $key => $permission) {

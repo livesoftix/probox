@@ -333,6 +333,16 @@
                         @if(in_array('ItemRegistration', $userRights))
                             <li><a href="{{ route('inventory.itemmaster.list') }}">Item Registration</a></li>
                         @endif
+                        @if(in_array('StockAdjustment', $userRights))
+                        <li>
+                           <a href="{{ route('stock-adj.index') }}">Stock Adjustment</a>
+                        </li>
+                        @endif
+                        @if(auth()->check() && auth()->user()->boxboard_stock_report == 1)
+                         <li>
+                            <a href="{{ route('report.boxboard_stock') }}">Boxboard Stock Report</a>
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </li>
