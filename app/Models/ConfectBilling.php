@@ -26,7 +26,7 @@ class ConfectBilling extends Model
         'account_id',
         'billing_no',
         'st_rate',
-        'st_amount',
+        'st_amount','v_date'
        
         
     ];

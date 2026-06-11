@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -10,40 +8,42 @@
             </div>
         </div>
 
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                {{ session('success') }}
-            </div>
-        @endif
+                <?php echo e(session('success')); ?>
 
-        @if (session('error'))
+            </div>
+        <?php endif; ?>
+
+        <?php if(session('error')): ?>
             <div class="alert alert-danger alert-dismissible text-bg-danger border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
                     aria-label="Close"></button>
-                {{ session('error') }}
-            </div>
-        @endif
+                <?php echo e(session('error')); ?>
 
-        @if ($errors->any())
+            </div>
+        <?php endif; ?>
+
+        <?php if($errors->any()): ?>
             <div class="alert alert-danger alert-dismissible text-bg-danger border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
                     aria-label="Close"></button>
                 <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
+                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <li><?php echo e($error); ?></li>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </ul>
             </div>
-        @endif
+        <?php endif; ?>
 
 
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form id="voucherForm" action="{{ route('confect_billing.store') }}" method="POST">
-                            @csrf
+                        <form id="voucherForm" action="<?php echo e(route('confect_billing.store')); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
                                 <div class="col-6">
                                     <input type="hidden" id="invoice_type" name="v_type" value="PSN" readonly>
                                     <input type="hidden" id="totalAmount" name="total_amount" value="0">
@@ -59,7 +59,7 @@
                                     <div class="mb-3">
                                         <label for="preparedBy" class="form-label">Prepared By</label>
                                         <input type="text" id="preparedBy" class="form-control" name="prepared_by"
-                                            value="{{ $loggedInUser->name }}" readonly>
+                                            value="<?php echo e($loggedInUser->name); ?>" readonly>
                                     </div>
 
                                     <!-- Party Selection -->
@@ -68,9 +68,9 @@
                                         <select name="account" class="form-control select2" id="entryParty"
                                             data-toggle="select2" required>
                                             <option value="">Select</option>
-                                            @foreach ($accounts as $account)
-                                                <option value="{{ $account->id }}">{{ $account->title }}</option>
-                                            @endforeach
+                                            <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($account->id); ?>"><?php echo e($account->title); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
 
@@ -328,4 +328,6 @@
         }
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/sales/confect_billing/list.blade.php ENDPATH**/ ?>

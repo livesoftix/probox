@@ -119,6 +119,7 @@ return response()->json([
 
 public function store(Request $request)
 {
+    // dd($request->all());
     $request->validate([
         'date' => 'required|date',
         'prepared_by' => 'required|string',
@@ -207,6 +208,8 @@ public function store(Request $request)
             'st_rate' => $st_rate, // Store the st_rate
             'st_amount' => $data['st_amount'][$index] ?? 0,
             'account_id' => $accountId,
+            'v_date' => Carbon::createFromFormat('d-m-Y', $data['v_date'][$index])
+                      ->format('Y-m-d'),
             'created_at' => $data['date'] ?? Carbon::now() ,
             'updated_at' =>  $data['date'] ?? Carbon::now() ,
         ]);
