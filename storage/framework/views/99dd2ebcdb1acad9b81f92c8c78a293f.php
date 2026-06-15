@@ -151,9 +151,7 @@
                         <li>
                             <a href="<?php echo e(route('report.stock')); ?>">Stock Reports</a>
                         </li>
-                         <li>
-                            <a href="<?php echo e(route('stock_report')); ?>">Boxboard Stock Reports</a>
-                        </li>
+                         
 
                     </ul>
                 </div>
@@ -393,11 +391,11 @@
                         <li>
                             <a href="<?php echo e(route('inventory.itemmaster.list')); ?>">Item Registration</a>
                         </li>
-                          <li>
-    <a href="<?php echo e(route('stock-adj.index')); ?>">Stock Adjustment</a>
-</li>
+                        <li>
+                           <a href="<?php echo e(route('stock-adj.index')); ?>">Stock Adjustment</a>
+                        </li>
 
- <li>
+                        <li>
                             <a href="<?php echo e(route('report.boxboard_stock')); ?>">Boxboard Stock Report</a>
                         </li>
 
