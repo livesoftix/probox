@@ -203,15 +203,20 @@
                                                             -{{ $data1->v_no }}</td>
                                                         <td>{{ $data1->accounts->title ?? 'N/A' }}</td>
                                                         <td>{{ implode(', ', $uniqueItemTitles) ?? 'N/A' }}</td>
-                                                         @php
+                                                        @php
     $grandTotal = $saleInvoices
         ->where('v_no', $data1->v_no)
         ->sum(function ($invoice) {
             return ($invoice->rate ?? 0) * ($invoice->total ?? 0);
         });
 @endphp
+
+<td>
+    Debit: {{ $data1->debit }}
+    <br>
+    GT: {{ $grandTotal }}
+</td>
                                                         <!-- <td>{{ number_format($data1->debit ?? 'N/A') }}</td> -->
-                                                         <td>{{ number_format($grandTotal, 2) }}</td>
                                                         <td>
                                                             @php
                                                                 $billingNo =
