@@ -270,7 +270,7 @@
                                                 style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
                                                 <h3 id="print-header1" style="margin: 0; display: none;">
                                                     Date:
-                                                    {{ \Carbon\Carbon::parse($data1->v_date)->format('d-m-Y') ?? 'N/A' }}
+                                                    {{ \Carbon\Carbon::parse($data1->date)->format('d-m-Y') ?? 'N/A' }}
                                                 </h3>
 
                                                 @if ($vNoList)

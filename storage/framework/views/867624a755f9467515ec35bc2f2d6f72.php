@@ -207,15 +207,7 @@
                                                             -<?php echo e($data1->v_no); ?></td>
                                                         <td><?php echo e($data1->accounts->title ?? 'N/A'); ?></td>
                                                         <td><?php echo e(implode(', ', $uniqueItemTitles) ?? 'N/A'); ?></td>
-                                                         <?php
-    $grandTotal = $saleInvoices
-        ->where('v_no', $data1->v_no)
-        ->sum(function ($invoice) {
-            return ($invoice->rate ?? 0) * ($invoice->total ?? 0);
-        });
-?>
-                                                        <!-- <td><?php echo e(number_format($data1->debit ?? 'N/A')); ?></td> -->
-                                                         <td><?php echo e(number_format($grandTotal, 2)); ?>mm</td>
+                                                        <td><?php echo e(number_format($data1->debit ?? 'N/A')); ?></td>
                                                         <td>
                                                             <?php
                                                                 $billingNo =

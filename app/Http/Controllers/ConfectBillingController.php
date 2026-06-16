@@ -183,6 +183,7 @@ public function store(Request $request)
         $rateFromProduct = $rateFromProduct ?? 0;
 
         $totalUnits = (float)($data['total'][$index] ?? 0);
+        
         $baseAmount = $totalUnits * (float)$rateFromProduct;
         
         $st_rate = $isOfficialBill ? 18 : 0; // Set st_rate based on checkbox
@@ -373,6 +374,7 @@ $saleInvoices->transform(function ($invoice) {
         $trn->pre_balance = $prevBalances[$trn->id] ?? 0;
         return $trn;
     });
+    // dd($saleInvoices);
 
     // Return the view with all necessary data
     return view('sale_reports.index7', [
