@@ -261,7 +261,7 @@ public function edit($v_no)
     $accounts = AccountMaster::all();
     $items = ItemType::all();
     $product = ProductMaster::all();
-    $deliveryDetails = ConfectioneryMaster::where('v_no', $v_no)
+    $deliveryDetails = DeliveryMaster::where('v_no', $v_no)
     ->first();
 
     return view('sale_reports.edit', get_defined_vars());
