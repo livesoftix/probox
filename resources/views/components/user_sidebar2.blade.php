@@ -387,6 +387,11 @@
                             <a href="{{ route('general_job_sheet.report') }}">General Job Sheet</a>
                         </li>
                         @endif
+                        @if(in_array('TempjobSheet', $userRights))
+                        <li>
+                            <a href="{{ route('tempjob.report') }}">New Job Sheet</a>
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </li>

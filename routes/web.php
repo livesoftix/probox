@@ -98,6 +98,7 @@ use App\Http\Controllers\BackupController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StockAdjController;
 use App\Http\Controllers\BoxboardReportStockController;
+use App\Http\Controllers\TempJobSheetController;
 use Illuminate\Support\Facades\Artisan;
 
 
@@ -177,6 +178,13 @@ Route::middleware('auth')->group(function () {
     Route::put('/probox/job-details/{v_no}', [JobSheetController::class, 'update'])->name('job-details.update');
     Route::get('/probox/get-product-details', [JobSheetController::class, 'getProductDetails'])->name('get.product.details');
     
+//temp job sheet
+    Route::get('/probox/temp_job_sheet', [TempJobSheetController::class, 'report'])->name('tempjob.index');
+    Route::post('/probox/temp_job_sheet/store', [TempJobSheetController::class, 'store'])->name('tempjob.store');
+    Route::get('/probox/temp_job_sheet/report', [TempJobSheetController::class, 'report'])->name('tempjob.report');
+    Route::get('/probox/temp_job_sheet/addnew', [TempJobSheetController::class, 'create'])->name('tempjob.list');
+    Route::delete('/probox/Tempjob-details', [TempJobSheetController::class, 'destroy'])->name('tempjob.destroy');
+
     Route::get('/probox/get-products/{customerId}', [JobSheetController::class, 'getProducts']);
     Route::get('/probox/fetch-custom-rate', [JobSheetController::class, 'fetchRate'])->name('fetch.custom.rate');
     Route::get('/probox/fetch-shipper-stock', [JobSheetController::class, 'fetchShipperStock'])->name('fetch.shipper.stock');

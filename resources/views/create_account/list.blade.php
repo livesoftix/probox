@@ -927,6 +927,20 @@
                                     <input type="checkbox" id="del-generaljobSheet" name="permissions[53][del]" value="1">
                                     <label for="del-generaljobSheet">Delete</label><br>
                                 </div>
+                                
+                                <div style="margin-left: 25px;">
+                                    <input type="checkbox" id="tempjob" name="permissions[71][level]" value="tempjobSheet">
+                                    <label for="tempjob">New Job Sheet</label>
+                                </div>
+                                <div id="tempjob-options" style="display: none; margin-left: 50px;">
+                                    <input type="checkbox" id="add-tempjobSheet" name="permissions[71][add]" value="1">
+                                    <label for="add-tempjobSheet">Add</label><br>
+                                    <input type="checkbox" id="edit-tempjobSheet" name="permissions[71][edit]" value="1">
+                                    <label for="edit-tempjobSheet">Edit</label><br>
+                                    <input type="checkbox" id="del-tempjobSheet" name="permissions[71[del]" value="1">
+                                    <label for="del-tempjobSheet">Delete</label><br>
+                                </div>
+
                             </div>
                             <hr>
                             <div class="form-check">
@@ -1267,6 +1281,7 @@ function toggleOptions(sectionId, optionsId) {
 // Set up toggle for all job sheet options
 toggleOptions('job', 'job-options');
 toggleOptions('generaljob', 'generaljob-options');
+toggleOptions('tempjob', 'tempjob-options');
     //Attendance System
 
     document.getElementById('attendanceSystem').addEventListener('change', function () {

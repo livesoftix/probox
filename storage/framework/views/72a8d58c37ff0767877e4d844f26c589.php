@@ -1050,6 +1050,25 @@
                                         value="1" <?php echo e($userPermissions['generaljobSheet']['del'] ?? 0 ? 'checked' : ''); ?>>
                                     <label for="del-generaljobSheet">Delete</label><br>
                                 </div>
+
+                                   <div style="margin-left: 25px;">
+                                    <input type="checkbox" id="tempjob" name="permissions[71][level]"
+                                        value="tempjobSheet" <?php echo e(isset($userPermissions['tempjobSheet'])
+                                        ? 'checked' : ''); ?>>
+                                    <label for="tempjob">New Job Sheet</label>
+                                </div>
+                                <div id="tempjob-options" style="display: none; margin-left: 50px;">
+                                    <input type="checkbox" id="add-tempjobSheet" name="permissions[71][add]"
+                                        value="1" <?php echo e($userPermissions['tempjobSheet']['add'] ?? 0 ? 'checked' : ''); ?>>
+                                    <label for="add-tempjobSheet">Add</label><br>
+                                    <input type="checkbox" id="edit-tempjobSheet" name="permissions[71][edit]"
+                                        value="1" <?php echo e($userPermissions['tempjobSheet']['edit'] ?? 0 ? 'checked' : ''); ?>>
+                                    <label for="edit-tempjobSheet">Edit</label><br>
+                                    <input type="checkbox" id="del-tempjobSheet" name="permissions[71][del]"
+                                        value="1" <?php echo e($userPermissions['tempjobSheet']['del'] ?? 0 ? 'checked' : ''); ?>>
+                                    <label for="del-tempjobSheet">Delete</label><br>
+                                </div>
+
                             </div>
      <hr>
                             <div class="form-check">
@@ -1417,6 +1436,7 @@
             // Job Sheet section
             ['job', 'job-options'],
             ['generaljob', 'generaljob-options'],
+             ['tempjob', 'tempjob-options'],
 
             // Attendance System section
             ['attendance', 'attendanceSystem-options'],
@@ -1476,6 +1496,7 @@
         const jobOptions = document.getElementById('job-options');
         const generalJobCheckbox = document.getElementById('generaljob');
         const generalJobOptions = document.getElementById('generaljob-options');
+        const tempJobOptions = document.getElementById('tempjob-options');
 
         if (jobSheetMain && jobSheetOptions) {
             // Set initial state

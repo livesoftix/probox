@@ -434,6 +434,9 @@
                         <li>
                             <a href="<?php echo e(route('general_job_sheet.report')); ?>">General Job Sheet</a>
                         </li>
+                         <li>
+                            <a href="<?php echo e(route('tempjob.report')); ?>">Temp Job Sheet</a>
+                        </li>
                        
                     </ul>
                 </div>
