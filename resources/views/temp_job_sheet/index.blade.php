@@ -138,7 +138,7 @@
                                     <a href="{{ route('tempjob.print', $job->id) }}"
        target="_blank"
        class="btn btn-warning btn-sm">
-        Print
+        View
     </a>
                                 </td>
                             </tr>

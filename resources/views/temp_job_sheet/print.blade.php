@@ -107,9 +107,15 @@
                 <th>Job Name</th>
                 <td>{{ $job->product->prod_name }}</td>
 
+                
+            </tr>
+            <tr>
                 <th>Prepared By</th>
                 <td>{{ $job->preparedby ?? '' }}</td>
-            </tr>
+
+                <th>Printing For</th>
+                <td>{{ $job->printing_for ?? '' }}</td>
+</tr>
 
             <tr>
                 <th>Size</th>

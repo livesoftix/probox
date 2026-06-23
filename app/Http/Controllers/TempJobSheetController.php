@@ -119,6 +119,7 @@ class TempJobSheetController extends Controller
         'date' => 'nullable|date',
         'job_no' => 'nullable|string',
         'preparedby' => 'nullable|string',
+        'printing_for' => 'nullable|string',
         'job_id' => 'nullable|numeric',
         'size' => 'nullable|string',
         'qty' => 'nullable|numeric',
@@ -149,6 +150,8 @@ class TempJobSheetController extends Controller
         $job = new TempJobSheet();
 
         $job->date = $validated['date'] ?? now();
+        $job->printing_for=$validated['printing_for'] ?? null;
+        $job->preparedby=$validated['preparedby'] ?? null;
 
         // temp_job_sheets table uses v_no
         $job->v_no = $validated['job_no']

@@ -66,6 +66,20 @@
         @endforeach
     </select>
 </div>
+                   <div class="col-md-6 mb-3">
+    <label>Printing For</label>
+    <select name="printing_for" id="printing_for" class="form-control">
+        <option value="">Select</option>
+        
+            <option value="Proofing">
+                Proofing
+            </option>
+         <option value="Job Production">
+                Job Production
+            </option>
+       
+    </select>
+</div>
 
                     {{-- SIZE --}}
                     <div class="col-md-6 mb-3">
@@ -251,19 +265,18 @@
 
 </div>
 
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-$(document).ready(function(){
-
-    $(document).ready(function () {
+ $(document).ready(function () {
     $('#job_id').select2({
         placeholder: 'Select Job',
         allowClear: true,
         width: '100%'
     });
 });
-
+$(document).ready(function(){
     function initSelect2(scope){
         scope.find('.item-selection').select2();
     }

@@ -43,8 +43,8 @@
                     
                     <div class="col-md-4 mb-3">
                         <label>Prepared By</label>
-                        <input type="text" class="form-control"
-                               value="<?php echo e(auth()->user()->name); ?>" readonly>
+                        <input type="text" class="form-control" name="preparedby"
+                               >
                     </div>
 
                     
@@ -65,6 +65,20 @@
 
             </option>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </select>
+</div>
+                   <div class="col-md-6 mb-3">
+    <label>Printing For</label>
+    <select name="printing_for" id="printing_for" class="form-control">
+        <option value="">Select</option>
+        
+            <option value="Proofing">
+                Proofing
+            </option>
+         <option value="Job Production">
+                Job Production
+            </option>
+       
     </select>
 </div>
 
@@ -256,16 +270,14 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-$(document).ready(function(){
-
-    $(document).ready(function () {
+ $(document).ready(function () {
     $('#job_id').select2({
         placeholder: 'Select Job',
         allowClear: true,
         width: '100%'
     });
 });
-
+$(document).ready(function(){
     function initSelect2(scope){
         scope.find('.item-selection').select2();
     }
