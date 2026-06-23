@@ -87,12 +87,12 @@
                                             </select>
                                         </div>
 
-                                        <div class="mb-3" style="display:none">
+                                        <div class="mb-3" >
                                             <label for="width" class="form-label">Width</label>
                                             <input type="number" id="width" class="form-control" name="width">
                                         </div>
 
-                                        <div class="mb-3" style="display:none">
+                                        <div class="mb-3" >
                                             <label for="length" class="form-label">Length</label>
                                             <input type="number" id="length" class="form-control" name="length">
                                         </div>
@@ -135,8 +135,8 @@
                                                     <th>Date</th>
                                                     <th>Supplier</th>
                                                     <th>Item</th>
-                                                    <th style="display:none;">Width</th>
-                                                    <th style="display:none;">Length</th>
+                                                    <th >Width</th>
+                                                    <th >Length</th>
                                                     <th style="display:none;">Gramage</th>
                                                     <th>Quantity</th>
                                                     <th style="display:none;">Rate</th>

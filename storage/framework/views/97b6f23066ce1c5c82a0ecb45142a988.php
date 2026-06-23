@@ -24,7 +24,7 @@
     <div class="card mt-2">
         <div class="card-body">
 
-            <form action="<?php echo e(route('general_job_sheet.report')); ?>" method="GET">
+            <form action="<?php echo e(route('tempjob.report')); ?>" method="GET">
                 <div class="row">
 
                     
@@ -43,7 +43,7 @@
 
                     
                     <div class="col-md-3">
-                        <label>JS No</label>
+                        <label>TJS No</label>
                         <select name="v_no" class="form-control select2">
                             <option value="">All</option>
                             <?php $__currentLoopData = $vNos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $vNo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -56,7 +56,7 @@
                     </div>
 
                     
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="display:none">
                         <label>Party</label>
                         <select name="account_id" class="form-control select2">
                             <option value="">All</option>
@@ -68,6 +68,22 @@
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
+                     
+
+                      <div class="col-md-3">
+                        <label>Job</label>
+                        <select name="job_id" id="job_id" class="form-control select2">
+                            <option value="">All</option>
+                          
+                            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $title): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($title->id); ?>" <?php echo e(request('job_id') == $title->id ? 'selected' : ''); ?>>
+                                    <?php echo e($title->prod_name); ?>
+
+                                </option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                    </div>
+
 
                     
                     <div class="col-md-12 mt-3">
@@ -109,7 +125,7 @@
                             <tr>
                                 <td><?php echo e($job->date); ?></td>
                                 <td>TJS-<?php echo e($job->v_no); ?></td>
-                                <td><?php echo e($job->job_name); ?></td>
+                                <td><?php echo e($job->product?->prod_name); ?></td>
                                 <td><?php echo e($job->size); ?></td>
                                 <td><?php echo e($job->qty); ?></td>
                                 <!-- <td><?php echo e($job->account->title ?? 'N/A'); ?></td> -->
@@ -123,6 +139,11 @@
                                         <?php echo method_field('DELETE'); ?>
                                         <button class="btn btn-danger btn-sm">Delete</button>
                                     </form>
+                                    <a href="<?php echo e(route('tempjob.print', $job->id)); ?>"
+       target="_blank"
+       class="btn btn-warning btn-sm">
+        Print
+    </a>
                                 </td>
                             </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -140,9 +161,18 @@
     </div>
 
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
+      $(document).ready(function () {
+    $('#job_id').select2({
+        placeholder: 'Select Job',
+        allowClear: true,
+        width: '100%'
+    });
+});
+
 function printTable() {
     const printContents = document.getElementById('print-area').innerHTML;
 

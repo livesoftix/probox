@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\TempJobSheet;
+use App\Models\ProductMaster;
 
 class TempJobSheetController extends Controller
 {
@@ -25,7 +26,7 @@ class TempJobSheetController extends Controller
     ------------------------- */
    public function report(Request $request)
 {
-    $query = TempJobSheet::query()->with('account');
+    $query = TempJobSheet::query()->with(['account','product']);
 
     // DATE FILTER (use actual job sheet date, not created_at)
     if ($request->start_date) {
@@ -45,6 +46,11 @@ class TempJobSheetController extends Controller
     if ($request->account_id) {
         $query->where('account_id', $request->account_id);
     }
+    if($request->job_id){
+          $query->whereHas('product', function ($q) use ($request) {
+            $q->where('id', '>=', $request->job_id);
+        });
+    }
 
     // ❌ REMOVE THIS (column doesn't exist)
     // if ($request->employee) {
@@ -52,11 +58,12 @@ class TempJobSheetController extends Controller
     // }
 
     $generalJobSheets = $query->orderBy('id', 'desc')->get();
+      $products= ProductMaster::all();
 
     // dropdown data
     $vNos = TempJobSheet::distinct()->pluck('v_no');
 
-    $accountIds = TempJobSheet::with('account')
+    $accountIds = TempJobSheet::with(['account','product'])
         ->whereNotNull('account_id')
         ->get()
         ->pluck('account.title', 'account_id')
@@ -65,7 +72,9 @@ class TempJobSheetController extends Controller
     return view('temp_job_sheet.index', compact(
         'generalJobSheets',
         'vNos',
-        'accountIds'
+        'accountIds',
+        'products'
+
     ));
 }
 
@@ -78,6 +87,8 @@ class TempJobSheetController extends Controller
         $loggedInUser = Auth::user();
 
         $jobNo = (TempJobSheet::max('id') ?? 0) + 1;
+        $products= ProductMaster::all();
+        // dd($products->first());
 
         $boxboardData = DB::table('boxboard_views as b')
             ->select(
@@ -90,10 +101,12 @@ class TempJobSheetController extends Controller
             ->join('item_masters as i', 'b.item_id', '=', 'i.id')
             ->get();
 
+
         return view('temp_job_sheet.list', compact(
             'loggedInUser',
             'jobNo',
-            'boxboardData'
+            'boxboardData',
+            'products'
         ));
     }
 
@@ -105,7 +118,8 @@ class TempJobSheetController extends Controller
     $validated = $request->validate([
         'date' => 'nullable|date',
         'job_no' => 'nullable|string',
-        'job_name' => 'nullable|string',
+        'preparedby' => 'nullable|string',
+        'job_id' => 'nullable|numeric',
         'size' => 'nullable|string',
         'qty' => 'nullable|numeric',
 
@@ -140,7 +154,7 @@ class TempJobSheetController extends Controller
         $job->v_no = $validated['job_no']
             ?? ((TempJobSheet::max('id') ?? 0) + 1);
 
-        $job->job_name = $validated['job_name'] ?? null;
+        $job->job_id = $validated['job_id'] ?? null;
         $job->size = $validated['size'] ?? null;
         $job->qty = $validated['qty'] ?? 0;
 
@@ -246,13 +260,15 @@ class TempJobSheetController extends Controller
     /* -------------------------
         PRINT
     ------------------------- */
-    public function print($id)
-    {
-        $job = TempJobSheet::findOrFail($id);
+   public function print($id)
+{
+    $job = TempJobSheet::with([
+        'product',
+        'boxboards.item'
+    ])->findOrFail($id);
 
-        return view('temp_job_sheet.print', compact('job'));
-    }
-
+    return view('temp_job_sheet.print', compact('job'));
+}
     /* -------------------------
         BOXBOARD API
     ------------------------- */
@@ -269,4 +285,5 @@ class TempJobSheetController extends Controller
             ->join('item_masters as i', 'b.item_id', '=', 'i.id')
             ->get();
     }
+    
 }

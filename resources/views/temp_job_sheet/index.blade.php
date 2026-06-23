@@ -23,7 +23,7 @@
     <div class="card mt-2">
         <div class="card-body">
 
-            <form action="{{ route('general_job_sheet.report') }}" method="GET">
+            <form action="{{ route('tempjob.report') }}" method="GET">
                 <div class="row">
 
                     {{-- START DATE --}}
@@ -42,7 +42,7 @@
 
                     {{-- V NO --}}
                     <div class="col-md-3">
-                        <label>JS No</label>
+                        <label>TJS No</label>
                         <select name="v_no" class="form-control select2">
                             <option value="">All</option>
                             @foreach($vNos as $vNo)
@@ -54,7 +54,7 @@
                     </div>
 
                     {{-- PARTY --}}
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="display:none">
                         <label>Party</label>
                         <select name="account_id" class="form-control select2">
                             <option value="">All</option>
@@ -65,6 +65,21 @@
                             @endforeach
                         </select>
                     </div>
+                     
+
+                      <div class="col-md-3">
+                        <label>Job</label>
+                        <select name="job_id" id="job_id" class="form-control select2">
+                            <option value="">All</option>
+                          
+                            @foreach($products as $id => $title)
+                                <option value="{{ $title->id }}" {{ request('job_id') == $title->id ? 'selected' : '' }}>
+                                    {{ $title->prod_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
 
                     {{-- BUTTONS --}}
                     <div class="col-md-12 mt-3">
@@ -106,7 +121,7 @@
                             <tr>
                                 <td>{{ $job->date }}</td>
                                 <td>TJS-{{ $job->v_no }}</td>
-                                <td>{{ $job->job_name }}</td>
+                                <td>{{ $job->product?->prod_name }}</td>
                                 <td>{{ $job->size }}</td>
                                 <td>{{ $job->qty }}</td>
                                 <!-- <td>{{ $job->account->title ?? 'N/A' }}</td> -->
@@ -120,6 +135,11 @@
                                         @method('DELETE')
                                         <button class="btn btn-danger btn-sm">Delete</button>
                                     </form>
+                                    <a href="{{ route('tempjob.print', $job->id) }}"
+       target="_blank"
+       class="btn btn-warning btn-sm">
+        Print
+    </a>
                                 </td>
                             </tr>
                         @empty
@@ -137,9 +157,18 @@
     </div>
 
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 {{-- PRINT SCRIPT --}}
 <script>
+      $(document).ready(function () {
+    $('#job_id').select2({
+        placeholder: 'Select Job',
+        allowClear: true,
+        width: '100%'
+    });
+});
+
 function printTable() {
     const printContents = document.getElementById('print-area').innerHTML;
 

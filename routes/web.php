@@ -183,6 +183,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/probox/temp_job_sheet/store', [TempJobSheetController::class, 'store'])->name('tempjob.store');
     Route::get('/probox/temp_job_sheet/report', [TempJobSheetController::class, 'report'])->name('tempjob.report');
     Route::get('/probox/temp_job_sheet/addnew', [TempJobSheetController::class, 'create'])->name('tempjob.list');
+    Route::get('/tempjob/{id}/print', [TempJobSheetController::class, 'print'])
+    ->name('tempjob.print');
     Route::delete('/probox/Tempjob-details', [TempJobSheetController::class, 'destroy'])->name('tempjob.destroy');
 
     Route::get('/probox/get-products/{customerId}', [JobSheetController::class, 'getProducts']);

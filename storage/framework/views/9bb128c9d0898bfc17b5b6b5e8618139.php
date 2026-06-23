@@ -88,17 +88,17 @@
                                             </select>
                                         </div>
 
-                                        <div class="mb-3">
+                                        <div class="mb-3" >
                                             <label for="width" class="form-label">Width</label>
                                             <input type="number" id="width" class="form-control" name="width">
                                         </div>
 
-                                        <div class="mb-3">
+                                        <div class="mb-3" >
                                             <label for="length" class="form-label">Length</label>
                                             <input type="number" id="length" class="form-control" name="length">
                                         </div>
 
-                                        <div class="mb-3">
+                                        <div class="mb-3" style="display:none">
                                             <label for="gramage" class="form-label">Gramage</label>
                                             <input type="number" id="gramage" class="form-control" name="gramage"
                                                 readonly>
@@ -136,9 +136,9 @@
                                                     <th>Date</th>
                                                     <th>Supplier</th>
                                                     <th>Item</th>
-                                                    <th>Width</th>
-                                                    <th>Length</th>
-                                                    <th>Gramage</th>
+                                                    <th >Width</th>
+                                                    <th >Length</th>
+                                                    <th style="display:none;">Gramage</th>
                                                     <th>Quantity</th>
                                                     <th style="display:none;">Rate</th>
                                                     <th style="display:none;">Weight</th>
@@ -204,7 +204,7 @@
             const weight = ((length * width * gramage) / 15500) * quantity;
             const amount = weight * rate;
 
-            if (!date || !width || !length || !gramage || !quantity || !rate || isNaN(weight) || isNaN(amount)) {
+            if (!date  || !quantity  ) {
                 alert('Please fill all fields.');
                 return;
             }
@@ -217,10 +217,10 @@
                     <td>${date}</td>
                     <td>${supplierTitleValue}</td>
                     <td>${itemTitleValue}</td>
-                    <td>${width}</td>
-                    <td>${length}</td>
-                    <td>${gramage}</td>
-                    <td>${quantity}</td>
+                    <td style="display:none;">${width}</td>
+                    <td style="display:none;">${length}</td>
+                    <td style="display:none;">${gramage}</td>
+                    <td >${quantity}</td>
                     <td style="display:none;">${rate}</td>
                     <td style="display:none;">${Math.round(weight)}</td>
                     <td style="display:none;">${Math.round(amount)}</td>
@@ -296,7 +296,7 @@
             // Perform AJAX request to fetch purchase details for the selected item
             if (selectedItemId) {
                 $.ajax({
-                    url: '/probox/get-item-details/' + selectedItemId,
+                    url: '/printingcell/get-item-details/' + selectedItemId,
                     method: 'GET',
                     success: function (response) {
                         // Log the response to the console

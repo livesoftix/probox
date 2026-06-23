@@ -102,12 +102,12 @@
                                             </select>
                                         </div>
 
-                                        <div class="mb-3" style="display:none;">
+                                        <div class="mb-3" >
                                             <label for="width" class="form-label">Width</label>
                                             <input type="number" id="width" class="form-control" name="width" step="any">
                                         </div>
 
-                                        <div class="mb-3" style="display:none;">
+                                        <div class="mb-3" >
                                             <label for="length" class="form-label">Length</label>
                                             <input type="number" id="length" class="form-control" name="length" step="any">
                                         </div>

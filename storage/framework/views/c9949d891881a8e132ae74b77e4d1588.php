@@ -55,10 +55,18 @@
                     </div>
 
                     
-                    <div class="col-md-12 mb-3">
-                        <label>Job Name</label>
-                        <input type="text" name="job_name" class="form-control">
-                    </div>
+                   <div class="col-md-12 mb-3">
+    <label>Job Name</label>
+    <select name="job_id" id="job_id" class="form-control select2">
+        <option value="">Select Job</option>
+        <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($product->id); ?>">
+                <?php echo e($product->prod_name); ?>
+
+            </option>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </select>
+</div>
 
                     
                     <div class="col-md-6 mb-3">
@@ -68,7 +76,7 @@
 
                     
                     <div class="col-md-6 mb-3">
-                        <label>Qty</label>
+                        <label>Qty Of Boxes</label>
                         <input type="number" name="qty" class="form-control">
                     </div>
 
@@ -79,8 +87,8 @@
                     </div>
 
                     
-                    <div class="col-md-6 mb-3">
-                        <label>No Of Ream / Pkt</label>
+                    <div class="col-md-6 mb-3" style="display:none">
+                        <label>No Of Used Ream / Pkt</label>
                         <input type="text" name="ream_pkt" class="form-control">
                     </div>
 
@@ -133,7 +141,7 @@
                             <div class="row item-row mb-3">
 
     
-    <div class="col-md-4">
+    <div class="col-md-5">
         <label>Item</label>
         <select class="form-control item-selection" name="box_item[]">
             <option value="">Select Item</option>
@@ -147,27 +155,32 @@
     </div>
 
     
-    <div class="col-md-2">
+    <div class="col-md-3">
         <label>Length</label>
         <input type="text" class="form-control box-length" name="box_length[]" readonly>
     </div>
 
     
-    <div class="col-md-2">
+    <div class="col-md-3">
         <label>Width</label>
         <input type="text" class="form-control box-width" name="box_width[]" readonly>
     </div>
 
     
-    <div class="col-md-2">
-        <label>Stock</label>
-        <input type="number" class="form-control box-total-stock" readonly>
+    <div class="col-md-3">
+        <label>T.Stock</label>
+        <input type="number" class="form-control total-stock" readonly>
     </div>
+    
 
     
-    <div class="col-md-2">
-        <label>Qty</label>
+    <div class="col-md-3">
+        <label>No Of Used Rims / Pkt</label>
         <input type="number" class="form-control box-stock" name="box_qty[]">
+    </div>
+    <div class="col-md-3">
+        <label>Remainig Stock</label>
+        <input type="number" class="form-control box-total-stock" readonly>
     </div>
 
     
@@ -245,6 +258,14 @@
 <script>
 $(document).ready(function(){
 
+    $(document).ready(function () {
+    $('#job_id').select2({
+        placeholder: 'Select Job',
+        allowClear: true,
+        width: '100%'
+    });
+});
+
     function initSelect2(scope){
         scope.find('.item-selection').select2();
     }
@@ -260,6 +281,7 @@ $(document).ready(function(){
         let newRow = $('.item-row:first').clone();
 
         newRow.find('select').val('');
+        newRow.find('.total-stock').val('');
         newRow.find('.box-total-stock').val('');
         newRow.find('.box-stock').val('');
 
@@ -286,6 +308,7 @@ $(document).ready(function(){
 
         let stock = parseFloat($(this).find(':selected').data('stock')) || 0;
 
+        row.find('.total-stock').val(stock);
         row.find('.box-total-stock').val(stock);
 
         if(parts.length){
@@ -300,7 +323,7 @@ $(document).ready(function(){
 
         let row = $(this).closest('.item-row');
 
-        let total = parseFloat(row.find('.box-total-stock').val()) || 0;
+        let total = parseFloat(row.find('.total-stock').val()) || 0;
         let qty = parseFloat($(this).val()) || 0;
 
         if(qty > total){
