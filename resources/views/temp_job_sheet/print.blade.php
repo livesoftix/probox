@@ -105,7 +105,7 @@
 
             <tr>
                 <th>Job Name</th>
-                <td>{{ $job->product->prod_name }}</td>
+                <td>{{ $job->product?->prod_name }}</td>
 
                 
             </tr>
