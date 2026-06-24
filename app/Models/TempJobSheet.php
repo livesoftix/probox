@@ -25,7 +25,7 @@ class TempJobSheet extends Model
         'size',
         'qty',
         'rate',
-        'description','preparedby','printing_for'
+        'description','preparedby','printing_for','ups'
     ];
 
     public function account()

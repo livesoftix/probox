@@ -153,6 +153,7 @@ class TempJobSheetController extends Controller
         'box_qty' => 'nullable|array',
         'box_length' => 'nullable|array',
         'box_width' => 'nullable|array',
+        'ups'      =>'nullable|numeric'
     ]);
 
     try {
@@ -185,6 +186,7 @@ class TempJobSheetController extends Controller
         $job->note = $validated['note'] ?? null;
         $job->m_date = $validated['m_date'] ?? null;
         $job->e_date = $validated['e_date'] ?? null;
+        $job->ups  = $validated['ups']  ?? 0;
 
         $job->created_by = Auth::id();
 
@@ -322,11 +324,15 @@ class TempJobSheetController extends Controller
     }
    public function getProductDetails($id)
 {
-    $product = ProductMaster::find($id);
+    $product = ProductMaster::with('items')->find($id);
+    // dd($product);
 
     return response()->json([
         'length' => $product->length ?? 0,
         'width'  => $product->width ?? 0,
+        'ups'    =>$product->ups  ?? 0,
+        'item_id'   =>$product->item_id ?? 0,
+        'item'     =>$product->items?->item_code
     ]);
 }
     

@@ -1,118 +1,228 @@
 <?php $__env->startSection('content'); ?>
 <style>
-.urdu-section{
-    direction: rtl;
-    font-family: "Jameel Noori Nastaleeq","Noto Nastaliq Urdu",serif;
-    font-size: 20px;
-    margin-top: 20px;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f5f7fa;
+    color:#333;
 }
 
-.urdu-title{
-    font-weight: bold;
-    font-size: 26px;
-    text-align: center;
-    margin: 15px 0;
-}
-
-.urdu-row{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 8px 0;
-}
-
-.urdu-line{
-    flex: 1;
-    border-bottom: 1px solid #000;
-    height: 25px;
-}
-
-.note-box{
-    border:1px solid #000;
-    height:180px;
-    margin-top:10px;
-    position:relative;
-}
-
-.note-box .line{
-    border-bottom:1px solid #ccc;
-    height:35px;
-}
-
-.note-label{
-    font-weight:bold;
-    margin-bottom:5px;
-}
-
+/* =========================
+   MAIN SHEET
+========================= */
 .a4-sheet{
     width:210mm;
     min-height:297mm;
     margin:auto;
     background:#fff;
-    padding:10mm;
+    padding:5mm;
     box-sizing:border-box;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
 }
 
 /* =========================
-   TABLE BASE STYLE
+   PAGE TITLE
+========================= */
+.page-title{
+    text-align:center;
+    font-size:34px;
+    font-weight:700;
+    color:#4f6478;
+    margin-bottom:20px;
+}
+
+/* =========================
+   SECTION TITLES
+========================= */
+.section-title{
+    font-size:24px;
+    font-weight:600;
+    color:#4f6478;
+    margin:25px 0 12px;
+}
+
+/* =========================
+   TABLES
 ========================= */
 .table-bordered{
     width:100%;
     border-collapse:collapse;
 }
 
-/* ✅ HEADINGS FIX */
+/* First Info Table + Process Table */
 .table-bordered th{
     border:1px solid #000;
-    padding:6px;
+    padding:8px;
     background:#fff !important;
-
     color:#000 !important;
-    font-weight:700 !important;
+    font-weight:700;
     text-align:left;
 }
 
-/* ✅ TABLE CELLS */
 .table-bordered td{
     border:1px solid #000;
-    padding:6px;
+    padding:8px;
     background:#fff !important;
     color:#000 !important;
 }
 
-/* remove striping */
 .table-bordered tr{
     background:#fff !important;
 }
 
 /* =========================
-   PRINT FIX
+   BOXBOARD TABLE
+========================= */
+.boxboard_row th{
+    background:#4f6478 !important;
+    color:#fff !important;
+    text-align:center;
+    border:1px solid #000;
+    padding:10px;
+}
+
+/* =========================
+   NOTE BOX
+========================= */
+.note-box{
+    border:1px solid #d8d8d8;
+    min-height:50px;
+    padding:5px;
+    border-radius:6px;
+    background:#fff;
+}
+
+.note-label{
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+/* =========================
+   URDU SECTION
+========================= */
+.urdu-section{
+    direction:rtl;
+    font-family:"Jameel Noori Nastaleeq","Noto Nastaliq Urdu",serif;
+    margin-top:40px;
+}
+
+.urdu-title{
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+    color:#4f6478;
+    margin:25px 0 12px;
+}
+
+.urdu-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:25px;
+    direction:rtl;
+}
+
+.urdu-table th{
+    background:#4f6478 !important;
+    color:#fff !important;
+    text-align:center;
+    border:1px solid #000;
+    padding:10px;
+    font-weight:bold;
+}
+
+.urdu-table td{
+    border:1px solid #000;
+    height:50px;
+    padding:8px;
+    background:#fff !important;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.no-print{
+    margin-bottom:15px;
+}
+
+/* =========================
+   PRINT SETTINGS
 ========================= */
 @media print{
+
     .no-print{
         display:none !important;
     }
 
     body{
+        background:#fff !important;
         margin:0;
-        background:#fff;
-        color:#000;
+        padding:0;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .container-fluid{
+        padding:0 !important;
+        margin:0 !important;
     }
 
     .a4-sheet{
-        border:none;
-        box-shadow:none;
-        background:#fff;
+        width:100%;
+        box-shadow:none !important;
+        border:none !important;
+        border-radius:0 !important;
+        padding:8mm;
+        margin:0;
     }
 
-    table, tr, td, th{
+    /* FIRST TABLE + PROCESS TABLE */
+    .table-bordered th{
         background:#fff !important;
         color:#000 !important;
+        border:1px solid #000 !important;
     }
 
-    th{
-        font-weight:700 !important;
+    .table-bordered td{
+        background:#fff !important;
         color:#000 !important;
+        border:1px solid #000 !important;
+    }
+
+    /* BOXBOARD HEADER */
+    .boxboard_row th{
+        background:#4f6478 !important;
+        color:#fff !important;
+        border:1px solid #000 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* URDU TABLE HEADERS */
+    .urdu-table th{
+        background:#4f6478 !important;
+        color:#fff !important;
+        border:1px solid #000 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .urdu-table td{
+        border:1px solid #000 !important;
+    }
+
+    .urdu-title{
+        color:#4f6478 !important;
+        font-weight:bold !important;
+    }
+
+    table{
+        page-break-inside:auto;
+    }
+
+    tr{
+        page-break-inside:avoid;
     }
 }
 </style>
@@ -131,7 +241,7 @@
 
     <div class="a4-sheet">
 
-        <h3 class="text-center mb-3">JOB SHEET</h3>
+       <h1 class="page-title">JOB SHEET</h1>
 
         
        <table class="table-bordered">
@@ -158,7 +268,13 @@
         <th>Job Name</th>
         <td colspan="5"><?php echo e($job->product?->prod_name); ?></td>
     </tr>
+<tr>
+    <th>Ups</th>
+        <td><?php echo e($job->ups); ?></td>
 
+        <th>Qty of Boxes</th>
+        <td colspan="3"><?php echo e($job->qty); ?></td>
+</tr>
     <tr>
         <th>Size</th>
         <td><?php echo e($job->size); ?></td>
@@ -179,11 +295,11 @@
         <br>
 
         
-        <h4>Boxboard</h4>
+       <h3 class="section-title">Boxboard</h3>
 
         <table class="table-bordered">
             <thead>
-    <tr>
+    <tr class="boxboard_row">
         <th>#</th>
         <th>Item</th>
         <th>Length</th>
@@ -220,7 +336,7 @@
         <br>
 
         
-        <h4>Process</h4>
+        <h3 class="section-title">Process</h3>
 
         <table class="table-bordered">
             <tr>
@@ -247,133 +363,89 @@
                 <td></td>
             </tr>
         </table>
-
-        <br>
-
         
-        <h4>Note</h4>
+        <h3 class="section-title">Notes</h3>
+        <div class="note-box">
+    <?php echo e($job->note); ?>
+
+</div>
         <table class="table-bordered">
-            <tr>
-                <td style="height:60px;">
-                    <?php echo e($job->note); ?>
+          
+   <div class="urdu-section">
 
-                </td>
-            </tr>
-        </table>
-<hr style="margin:30px 0;">
+    <h2 class="urdu-title">جاب پرنٹنگ سیکشن</h2>
 
-<div class="urdu-section">
+    <table class="table-bordered urdu-table">
+        <tr>
+            <th>مشین نام</th>
+            <th>مشین مین</th>
+            <th>کل تعداد</th>
+            <th>منظور شدہ</th>
+            <th>ردی</th>
+        </tr>
 
-    <div class="urdu-title">
-         جاب پرنٹنگ سیکشن
-    </div>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
 
-    <div class="urdu-row">
-        <span>مشین نام</span>
-        <div class="urdu-line"></div>
-    </div>
-
-    <div class="urdu-row">
-        <span>مشین مین</span>
-        <div class="urdu-line"></div>
-</div>
-<div class="urdu-row">
-    <span>کلر نام</span>
-        <div class="urdu-line"></div>
-
-        <span>تعداد</span>
-        <div class="urdu-line"></div>
-
-        <span>منظور شدہ</span>
-        <div class="urdu-line"></div>
-
-        <span>ردی</span>
-        <div class="urdu-line"></div>
-
-        
-    </div>
-
-  
-
-
-    <div class="urdu-title">
+    <h2 class="urdu-title" style="margin-top:25px;">
         یووی کوٹنگ / لیمینیشن سیکشن
-    </div>
+    </h2>
 
-    <div class="urdu-row">
-         <span>مشین مین</span>
-        <div class="urdu-line"></div>
+    <table class="table-bordered urdu-table">
+        <tr>
+            <th>مشین مین</th>
+            <th>کل تعداد</th>
+            <th>منظور شدہ</th>
+            <th>ردی</th>
+            <th>ردی بوجہ لیمینیشن</th>
+            <th>ان کوٹڈ</th>
+            <th>خراب پرنٹنگ</th>
+        </tr>
 
-        
-    </div>
-    <div class="urdu-row">
-         <span>کل تعداد</span>
-        <div class="urdu-line"></div>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
 
-        <span>منظور شدہ</span>
-        <div class="urdu-line"></div>
-
-        <span>ردی</span>
-        <div class="urdu-line"></div>
-</div>
-
-    <div class="urdu-row">
-        <span>ردی بوجہ لیمینیشن</span>
-        <div class="urdu-line"></div>
-
-        <span>ان کوٹڈ</span>
-        <div class="urdu-line"></div>
-
-        <span>خراب پرنٹنگ</span>
-        <div class="urdu-line"></div>
-    </div>
-
-
-    <div class="urdu-title">
+    <h2 class="urdu-title" style="margin-top:25px;">
         ڈبل پیسٹنگ / ڈائی کٹنگ سیکشن
-    </div>
+    </h2>
 
-     <div class="urdu-row">
-         <span>مشین مین</span>
-        <div class="urdu-line"></div>
+    <table class="table-bordered urdu-table">
+        <tr>
+            <th>مشین مین</th>
+            <th>کل تعداد</th>
+            <th>منظور شدہ</th>
+            <th>ردی</th>
+            <th>ردی بوجہ لیمینیشن</th>
+            <th>ان کوٹڈ</th>
+            <th>خراب پرنٹنگ</th>
+        </tr>
 
-        
-    </div>
-    <div class="urdu-row">
-        <span>کل تعداد</span>
-        <div class="urdu-line"></div>
-
-        <span>منظور شدہ</span>
-        <div class="urdu-line"></div>
-
-        <span>ردی</span>
-        <div class="urdu-line"></div>
-</div>
-    <div class="urdu-row">
-         <span>ردی بوجہ لیمینیشن</span>
-        <div class="urdu-line"></div>
-
-        <span>ان کوٹڈ</span>
-        <div class="urdu-line"></div>
-
-        <span>خراب پرنٹنگ</span>
-        <div class="urdu-line"></div>
-    </div>
-
-    <br>
-
-    <div class="note-label">نوٹ</div>
-
-    <div class="note-box">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-    </div>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
 
 </div>
-        <br><br>
 
         
         <!-- <table class="table-bordered">

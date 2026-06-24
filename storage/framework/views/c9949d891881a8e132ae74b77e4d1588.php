@@ -87,11 +87,15 @@
                         <label>Size</label>
                         <input type="text" name="size"  class="form-control">
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Ups</label>
+                        <input type="number" name="ups" id="ups" class="form-control">
+                    </div>
 
                     
                     <div class="col-md-6 mb-3">
                         <label>Qty Of Boxes</label>
-                        <input type="number" name="qty" class="form-control">
+                        <input type="number" name="qty" id="qty_boxes" class="form-control">
                     </div>
 
                     
@@ -102,7 +106,7 @@
 
                     
                     <div class="col-md-6 mb-3" style="display:none">
-                        <label>No Of Used Ream / Pkt</label>
+                        <label>No Of Used Rims/ Pkt</label>
                         <input type="text" name="ream_pkt" class="form-control">
                     </div>
 
@@ -160,9 +164,10 @@
         <select class="form-control item-selection" name="box_item[]">
             <option value="">Select Item</option>
             <?php $__currentLoopData = $boxboardData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-               <option
+             <option
     value="<?php echo e($item->v_no); ?>_<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>"
-    data-stock="<?php echo e($item->remain_qty); ?>">
+    data-stock="<?php echo e($item->remain_qty); ?>"
+    data-itemid="<?php echo e($item->item_id); ?>">
     <?php echo e($item->item_code); ?>
 
     (L:<?php echo e($item->length); ?> x W:<?php echo e($item->width); ?>)
@@ -314,6 +319,17 @@ $(document).ready(function(){
             $(this).closest('.item-row').remove();
         }
     });
+    function calculateBoxes(){
+
+    console.log("sxn");
+    let ups = parseFloat($('#ups').val()) || 0;
+
+    let firstRowQty =
+        parseFloat($('.item-row:first .box-stock').val()) || 0;
+    let sheets=(firstRowQty*100);
+
+    $('#qty_boxes').val(ups * sheets);
+}
 
     // ITEM CHANGE
     $(document).on('change', '.item-selection', function(){
@@ -340,6 +356,7 @@ row.find('input[name="box_length[]"]').val(parts[3]);
 
     // QTY CHANGE
     $(document).on('input', '.box-stock', function(){
+        // console.log("jxn");
 
         let row = $(this).closest('.item-row');
 
@@ -351,8 +368,12 @@ row.find('input[name="box_length[]"]').val(parts[3]);
             $(this).val('');
             qty = 0;
         }
-
         row.find('.box-total-stock').val(total - qty);
+        // ONLY FIRST ROW
+    if(row.is($('.item-row:first'))){
+        calculateBoxes();
+    }
+        
     });
     $('#job_id').on('change', function () {
 
@@ -367,10 +388,30 @@ row.find('input[name="box_length[]"]').val(parts[3]);
 
                 let length = parseFloat(res.length) || 0;
                 let width  = parseFloat(res.width) || 0;
+                let ups  = parseFloat(res.ups) || 0;
+                let itemId  = parseFloat(res.item_id) || 0;
 
                 let size = length + " x " + width;
+                
 
                 $('#p_size').val(size);
+                $('#ups').val(ups);
+                 let firstRow = $('.item-row:first');
+                 console.log(res);
+
+    firstRow.find('.item-selection option').each(function(){
+
+        if($(this).data('itemid') == res.item_id){
+
+            firstRow.find('.item-selection')
+                .val($(this).val())
+                .trigger('change');
+
+            return false;
+        }
+    });
+
+    
             }
         });
 
@@ -379,6 +420,11 @@ row.find('input[name="box_length[]"]').val(parts[3]);
     }
 
 });
+$(document).on('input', '#ups', function(){
+    calculateBoxes();
+});
+
+
 
 });
 </script>
