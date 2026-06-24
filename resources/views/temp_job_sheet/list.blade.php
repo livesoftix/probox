@@ -84,7 +84,7 @@
                     {{-- SIZE --}}
                     <div class="col-md-6 mb-3">
                         <label>Size</label>
-                        <input type="text" name="size" class="form-control">
+                        <input type="text" name="size"  class="form-control">
                     </div>
 
                     {{-- QTY --}}
@@ -96,7 +96,7 @@
                     {{-- P.SIZE --}}
                     <div class="col-md-6 mb-3">
                         <label>P.Size</label>
-                        <input type="text" name="p_size" class="form-control">
+                        <input type="text" name="p_size" id="p_size" class="form-control">
                     </div>
 
                     {{-- REAM / PKT --}}
@@ -159,12 +159,15 @@
         <select class="form-control item-selection" name="box_item[]">
             <option value="">Select Item</option>
             @foreach($boxboardData as $item)
-                <option value="{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}"
-                data-stock="{{ $item->remain_qty }}">
-                {{ $item->item_code }} (L:{{ $item->length }} x W:{{ $item->width }})
-                </option>
+               <option
+    value="{{ $item->v_no }}_{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}"
+    data-stock="{{ $item->remain_qty }}">
+    {{ $item->item_code }}
+    (L:{{ $item->length }} x W:{{ $item->width }})
+</option>
             @endforeach
         </select>
+        <input type="hidden" name="purchase_vno[]" class="purchase-vno">
     </div>
 
     {{-- LENGTH (VISIBLE) --}}
@@ -323,9 +326,13 @@ $(document).ready(function(){
         row.find('.box-total-stock').val(stock);
 
         if(parts.length){
-            row.find('input[name="box_item_id[]"]').val(parts[0]);
-            row.find('input[name="box_length[]"]').val(parts[2]);
-            row.find('input[name="box_width[]"]').val(parts[1]);
+            // row.find('input[name="box_item_id[]"]').val(parts[0]);
+            // row.find('input[name="box_length[]"]').val(parts[2]);
+            // row.find('input[name="box_width[]"]').val(parts[1]);
+            row.find('.purchase-vno').val(parts[0]);
+row.find('input[name="box_item_id[]"]').val(parts[1]);
+row.find('input[name="box_width[]"]').val(parts[2]);
+row.find('input[name="box_length[]"]').val(parts[3]);
         }
     });
 
@@ -345,6 +352,31 @@ $(document).ready(function(){
 
         row.find('.box-total-stock').val(total - qty);
     });
+    $('#job_id').on('change', function () {
+
+    let productId = $(this).val();
+
+    if(productId){
+
+        $.ajax({
+            url: '/probox/product-details/' + productId,
+            type: 'GET',
+            success: function(res){
+
+                let length = parseFloat(res.length) || 0;
+                let width  = parseFloat(res.width) || 0;
+
+                let size = length + " x " + width;
+
+                $('#p_size').val(size);
+            }
+        });
+
+    } else {
+        $('#p_size').val('');
+    }
+
+});
 
 });
 </script>

@@ -85,7 +85,7 @@
                     
                     <div class="col-md-6 mb-3">
                         <label>Size</label>
-                        <input type="text" name="size" class="form-control">
+                        <input type="text" name="size"  class="form-control">
                     </div>
 
                     
@@ -97,7 +97,7 @@
                     
                     <div class="col-md-6 mb-3">
                         <label>P.Size</label>
-                        <input type="text" name="p_size" class="form-control">
+                        <input type="text" name="p_size" id="p_size" class="form-control">
                     </div>
 
                     
@@ -160,12 +160,16 @@
         <select class="form-control item-selection" name="box_item[]">
             <option value="">Select Item</option>
             <?php $__currentLoopData = $boxboardData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <option value="<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>"
-                data-stock="<?php echo e($item->remain_qty); ?>">
-                <?php echo e($item->item_code); ?> (L:<?php echo e($item->length); ?> x W:<?php echo e($item->width); ?>)
-                </option>
+               <option
+    value="<?php echo e($item->v_no); ?>_<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>"
+    data-stock="<?php echo e($item->remain_qty); ?>">
+    <?php echo e($item->item_code); ?>
+
+    (L:<?php echo e($item->length); ?> x W:<?php echo e($item->width); ?>)
+</option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </select>
+        <input type="hidden" name="purchase_vno[]" class="purchase-vno">
     </div>
 
     
@@ -324,9 +328,13 @@ $(document).ready(function(){
         row.find('.box-total-stock').val(stock);
 
         if(parts.length){
-            row.find('input[name="box_item_id[]"]').val(parts[0]);
-            row.find('input[name="box_length[]"]').val(parts[2]);
-            row.find('input[name="box_width[]"]').val(parts[1]);
+            // row.find('input[name="box_item_id[]"]').val(parts[0]);
+            // row.find('input[name="box_length[]"]').val(parts[2]);
+            // row.find('input[name="box_width[]"]').val(parts[1]);
+            row.find('.purchase-vno').val(parts[0]);
+row.find('input[name="box_item_id[]"]').val(parts[1]);
+row.find('input[name="box_width[]"]').val(parts[2]);
+row.find('input[name="box_length[]"]').val(parts[3]);
         }
     });
 
@@ -346,6 +354,31 @@ $(document).ready(function(){
 
         row.find('.box-total-stock').val(total - qty);
     });
+    $('#job_id').on('change', function () {
+
+    let productId = $(this).val();
+
+    if(productId){
+
+        $.ajax({
+            url: '/probox/product-details/' + productId,
+            type: 'GET',
+            success: function(res){
+
+                let length = parseFloat(res.length) || 0;
+                let width  = parseFloat(res.width) || 0;
+
+                let size = length + " x " + width;
+
+                $('#p_size').val(size);
+            }
+        });
+
+    } else {
+        $('#p_size').val('');
+    }
+
+});
 
 });
 </script>

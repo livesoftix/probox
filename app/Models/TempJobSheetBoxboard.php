@@ -16,7 +16,7 @@ class TempJobSheetBoxboard extends Model
         'item_id',
         'length',
         'width',
-        'qty',
+        'qty','purchase_v_no',
     ];
 
     public function jobSheet()

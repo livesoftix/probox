@@ -90,16 +90,28 @@ class TempJobSheetController extends Controller
         $products= ProductMaster::all();
         // dd($products->first());
 
+        // $boxboardData = DB::table('boxboard_views as b')
+        //     ->select(
+        //         'b.item_id',
+        //         'i.item_code',
+        //         'b.width',
+        //         'b.lenght as length',
+        //         'b.remain_qty'
+        //     )
+        //     ->join('item_masters as i', 'b.item_id', '=', 'i.id')
+        //     ->get();
+
         $boxboardData = DB::table('boxboard_views as b')
-            ->select(
-                'b.item_id',
-                'i.item_code',
-                'b.width',
-                'b.lenght as length',
-                'b.remain_qty'
-            )
-            ->join('item_masters as i', 'b.item_id', '=', 'i.id')
-            ->get();
+    ->select(
+        'b.v_no',
+        'b.item_id',
+        'i.item_code',
+        'b.width',
+        'b.lenght as length',
+        'b.remain_qty'
+    )
+    ->join('item_masters as i', 'b.item_id', '=', 'i.id')
+    ->get();
 
 
         return view('temp_job_sheet.list', compact(
@@ -164,11 +176,11 @@ class TempJobSheetController extends Controller
         $job->p_size = $validated['p_size'] ?? null;
         $job->ream_packet = $validated['ream_pkt'] ?? null;
 
-        $job->lamination = !empty($validated['lami']) ? 1 : 0;
-        $job->embossing = !empty($validated['emb']) ? 1 : 0;
-        $job->varnish = !empty($validated['varnish']) ? 1 : 0;
-        $job->colour = !empty($validated['colour']) ? 1 : 0;
-        $job->uv = !empty($validated['uv']) ? 1 : 0;
+        $job->lamination = !empty($validated['lami']) ? $validated['lami'] : null;
+        $job->embossing = !empty($validated['emb']) ? $validated['emb'] : null;
+        $job->varnish = !empty($validated['varnish']) ? $validated['varnish'] : null;
+        $job->colour = !empty($validated['colour']) ? $validated['colour'] : 0;
+        $job->uv = !empty($validated['uv']) ? $validated['uv'] : null;
 
         $job->note = $validated['note'] ?? null;
         $job->m_date = $validated['m_date'] ?? null;
@@ -188,7 +200,9 @@ class TempJobSheetController extends Controller
                 $qty = $request->box_qty[$key] ?? 0;
                 $length = $request->box_length[$key] ?? null;
                 $width = $request->box_width[$key] ?? null;
+                $pvno=$request->purchase_vno[$key] ?? null;
 
+                // dd($pvno);
                 if (!empty($itemId) && $qty > 0) {
 
                     // item value comes like: 5_20_30
@@ -196,7 +210,8 @@ class TempJobSheetController extends Controller
 
                     DB::table('temp_job_sheet_boxboard')->insert([
                         'job_sheet_id' => $job->id,
-                        'item_id' => $parts[0] ?? $itemId,
+                        'item_id' => $parts[1] ?? $itemId,
+                        'purchase_v_no' =>$pvno,
                         'length' => $length,
                         'width' => $width,
                         'qty' => $qty,
@@ -270,6 +285,23 @@ class TempJobSheetController extends Controller
         'boxboards.item'
     ])->findOrFail($id);
 
+    $stockMap = DB::table('boxboard_views')
+    ->get()
+    ->groupBy(function ($item) {
+        return $item->v_no.'_'.$item->item_id.'_'.$item->lenght.'_'.$item->width;
+    });
+
+    foreach ($job->boxboards as $box) {
+
+        // $key = $box->item_id.'_'.$box->length.'_'.$box->width;
+        $key = $box->purchase_v_no.'_'.$box->item_id.'_'.$box->length.'_'.$box->width;
+
+        $view = $stockMap[$key][0] ?? null;
+
+        $box->t_stock = $view->p_qty ?? 0;
+        $box->remain_stock = $view->remain_qty ?? 0;
+    }
+
     return view('temp_job_sheet.print', compact('job'));
 }
     /* -------------------------
@@ -288,5 +320,14 @@ class TempJobSheetController extends Controller
             ->join('item_masters as i', 'b.item_id', '=', 'i.id')
             ->get();
     }
+   public function getProductDetails($id)
+{
+    $product = ProductMaster::find($id);
+
+    return response()->json([
+        'length' => $product->length ?? 0,
+        'width'  => $product->width ?? 0,
+    ]);
+}
     
 }

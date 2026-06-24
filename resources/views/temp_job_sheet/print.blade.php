@@ -2,13 +2,57 @@
 
 @section('content')
 <style>
+.urdu-section{
+    direction: rtl;
+    font-family: "Jameel Noori Nastaleeq","Noto Nastaliq Urdu",serif;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.urdu-title{
+    font-weight: bold;
+    font-size: 26px;
+    text-align: center;
+    margin: 15px 0;
+}
+
+.urdu-row{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+}
+
+.urdu-line{
+    flex: 1;
+    border-bottom: 1px solid #000;
+    height: 25px;
+}
+
+.note-box{
+    border:1px solid #000;
+    height:180px;
+    margin-top:10px;
+    position:relative;
+}
+
+.note-box .line{
+    border-bottom:1px solid #ccc;
+    height:35px;
+}
+
+.note-label{
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
 .a4-sheet{
     width:210mm;
     min-height:297mm;
     margin:auto;
     background:#fff;
     padding:10mm;
-    border:1px solid #ddd;
+    box-sizing:border-box;
 }
 
 /* =========================
@@ -89,51 +133,50 @@
 
     <div class="a4-sheet">
 
-        <h3 class="text-center">JOB SHEET</h3>
+        <h3 class="text-center mb-3">JOB SHEET</h3>
 
         {{-- BASIC INFO --}}
-        <table class="table-bordered">
-            <tr>
-                <th>Job No</th>
-                <td>TJS-{{ $job->v_no }}</td>
+       <table class="table-bordered">
+    <tr>
+        <th>Date</th>
+        <td>{{ $job->date }}</td>
 
-                <th>Date</th>
-                <td>
-                    {{ $job->date ? \Carbon\Carbon::parse($job->date)->format('d-m-Y') : '' }}
-                </td>
-            </tr>
+        <th>Job No</th>
+        <td>TJS-{{ $job->v_no }}</td>
 
-            <tr>
-                <th>Job Name</th>
-                <td>{{ $job->product?->prod_name }}</td>
+       
+    </tr>
 
-                
-            </tr>
-            <tr>
-                <th>Prepared By</th>
-                <td>{{ $job->preparedby ?? '' }}</td>
+   
 
-                <th>Printing For</th>
-                <td>{{ $job->printing_for ?? '' }}</td>
-</tr>
+    <tr>
+         <th>Prepared By</th>
+        <td>{{ $job->preparedby }}</td>
+        <th>Printing For</th>
+        <td colspan="5">{{ $job->printing_for }}</td>
 
-            <tr>
-                <th>Size</th>
-                <td>{{ $job->size }}</td>
+    </tr>
+     <tr>
+        <th>Job Name</th>
+        <td colspan="5">{{ $job->product?->prod_name }}</td>
+    </tr>
 
-                <th>P.Size</th>
-                <td>{{ $job->p_size }}</td>
-            </tr>
+    <tr>
+        <th>Size</th>
+        <td>{{ $job->size }}</td>
 
+        <th>P.Size</th>
+        <td colspan="3">{{ $job->p_size }}</td>
+    </tr>
 
-            <tr>
-                <th>M Date</th>
-                <td>{{ $job->m_date }}</td>
+    <tr>
+        <th>M Date</th>
+        <td>{{ $job->m_date }}</td>
 
-                <th>E Date</th>
-                <td>{{ $job->e_date }}</td>
-            </tr>
-        </table>
+        <th>E Date</th>
+        <td colspan="3">{{ $job->e_date }}</td>
+    </tr>
+</table>
 
         <br>
 
@@ -142,30 +185,38 @@
 
         <table class="table-bordered">
             <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Item</th>
-                    <th>Length</th>
-                    <th>Width</th>
-                    <th>No of Used Rims/Pkt</th>
-                </tr>
-            </thead>
+    <tr>
+        <th>#</th>
+        <th>Item</th>
+        <th>Length</th>
+        <th>Width</th>
+        <th>T.Stock</th>
+        <th>Used Qty</th>
+        <th>Remaining</th>
+    </tr>
+</thead>
 
-            <tbody>
-                @forelse($job->boxboards as $key => $box)
-                <tr>
-                    <td>{{ $key + 1 }}</td>
-                    <td>{{ $box->item->item_code ?? '' }}</td>
-                    <td>{{ $box->length }}</td>
-                    <td>{{ $box->width }}</td>
-                    <td>{{ $box->qty }}</td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="5">No data found</td>
-                </tr>
-                @endforelse
-            </tbody>
+<tbody>
+@forelse($job->boxboards as $key => $box)
+    <tr>
+        <td>{{ $key + 1 }}</td>
+        <td>{{ $box->item->item_code ?? '' }}</td>
+        <td>{{ $box->length }}</td>
+        <td>{{ $box->width }}</td>
+
+        {{-- FROM VIEW --}}
+        <td>{{ $box->t_stock ?? 0 }}</td>
+
+        <td>{{ $box->qty }}</td>
+
+        <td>{{ $box->t_stock-$box->qty ?? 0 }}</td>
+    </tr>
+@empty
+    <tr>
+        <td colspan="7" class="text-center">No Boxboard Found</td>
+    </tr>
+@endforelse
+</tbody>
         </table>
 
         <br>
@@ -176,23 +227,23 @@
         <table class="table-bordered">
             <tr>
                 <th>Lamination</th>
-                <td>{{ $job->lamination ? 'Yes' : 'No' }}</td>
+                <td>{{ $job->lamination }}</td>
 
                 <th>Embossing</th>
-                <td>{{ $job->embossing ? 'Yes' : 'No' }}</td>
+                <td>{{ $job->embossing  }}</td>
             </tr>
 
             <tr>
                 <th>Varnish</th>
-                <td>{{ $job->varnish ? 'Yes' : 'No' }}</td>
+                <td>{{ $job->varnish  }}</td>
 
                 <th>Colour</th>
-                <td>{{ $job->colour ? 'Yes' : 'No' }}</td>
+                <td>{{ $job->colour }}</td>
             </tr>
 
             <tr>
                 <th>UV</th>
-                <td>{{ $job->uv ? 'Yes' : 'No' }}</td>
+                <td>{{ $job->uv  }}</td>
 
                 <th></th>
                 <td></td>
@@ -210,11 +261,123 @@
                 </td>
             </tr>
         </table>
+<hr style="margin:30px 0;">
 
+<div class="urdu-section">
+
+    <div class="urdu-title">
+         جاب پرنٹنگ سیکشن
+    </div>
+
+    <div class="urdu-row">
+        <span>مشین نام</span>
+        <div class="urdu-line"></div>
+    </div>
+
+    <div class="urdu-row">
+        <span>مشین مین</span>
+        <div class="urdu-line"></div>
+</div>
+<div class="urdu-row">
+    <span>کلر نام</span>
+        <div class="urdu-line"></div>
+
+        <span>تعداد</span>
+        <div class="urdu-line"></div>
+
+        <span>منظور شدہ</span>
+        <div class="urdu-line"></div>
+
+        <span>ردی</span>
+        <div class="urdu-line"></div>
+
+        
+    </div>
+
+  
+
+
+    <div class="urdu-title">
+        یووی کوٹنگ / لیمینیشن سیکشن
+    </div>
+
+    <div class="urdu-row">
+         <span>مشین مین</span>
+        <div class="urdu-line"></div>
+
+        
+    </div>
+    <div class="urdu-row">
+         <span>کل تعداد</span>
+        <div class="urdu-line"></div>
+
+        <span>منظور شدہ</span>
+        <div class="urdu-line"></div>
+
+        <span>ردی</span>
+        <div class="urdu-line"></div>
+</div>
+
+    <div class="urdu-row">
+        <span>ردی بوجہ لیمینیشن</span>
+        <div class="urdu-line"></div>
+
+        <span>ان کوٹڈ</span>
+        <div class="urdu-line"></div>
+
+        <span>خراب پرنٹنگ</span>
+        <div class="urdu-line"></div>
+    </div>
+
+
+    <div class="urdu-title">
+        ڈبل پیسٹنگ / ڈائی کٹنگ سیکشن
+    </div>
+
+     <div class="urdu-row">
+         <span>مشین مین</span>
+        <div class="urdu-line"></div>
+
+        
+    </div>
+    <div class="urdu-row">
+        <span>کل تعداد</span>
+        <div class="urdu-line"></div>
+
+        <span>منظور شدہ</span>
+        <div class="urdu-line"></div>
+
+        <span>ردی</span>
+        <div class="urdu-line"></div>
+</div>
+    <div class="urdu-row">
+         <span>ردی بوجہ لیمینیشن</span>
+        <div class="urdu-line"></div>
+
+        <span>ان کوٹڈ</span>
+        <div class="urdu-line"></div>
+
+        <span>خراب پرنٹنگ</span>
+        <div class="urdu-line"></div>
+    </div>
+
+    <br>
+
+    <div class="note-label">نوٹ</div>
+
+    <div class="note-box">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+
+</div>
         <br><br>
 
         {{-- SIGNATURES --}}
-        <table class="table-bordered">
+        <!-- <table class="table-bordered">
             <tr>
                 <td style="text-align:center;">
                     Prepared By<br><br>______________
@@ -228,7 +391,7 @@
                     Approved By<br><br>______________
                 </td>
             </tr>
-        </table>
+        </table> -->
 
     </div>
 </div>
