@@ -338,8 +338,6 @@ body{
         
         <h3 class="section-title">Process</h3>
 
-       <h3 class="section-title">Process</h3>
-
 <table class="table-bordered">
 
     <tr>

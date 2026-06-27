@@ -407,8 +407,8 @@ body{
     </tr>
 
     <tr>
-        <th>Emboss Rate</th>
-        <td>{{ $job->emboss_rate }}</td>
+        <!-- <th>Emboss Rate</th>
+        <td>{{ $job->emboss_rate }}</td> -->
 
         <th>Breaking</th>
         <td>{{ $job->breaking ? 'Yes' : 'No' }}</td>
