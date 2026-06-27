@@ -365,7 +365,7 @@ body{
     </tr>
 
     <tr>
-        <th>Printing Color</th>
+        <th>Design Color</th>
         <td><?php echo e($job->color ? 'Yes' : 'No'); ?></td>
 
         <th>No. of Colors</th>
@@ -378,6 +378,8 @@ body{
 
         <th>Glass Window</th>
         <td><?php echo e($job->glass_win ? 'Yes' : 'No'); ?></td>
+         <th>Lamination Window</th>
+        <td><?php echo e($job->lam_win ? 'Yes' : 'No'); ?></td>
     </tr>
 
     <tr>

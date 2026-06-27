@@ -380,24 +380,25 @@ body{
 
         <th>Glass Window</th>
         <td>{{ $job->glass_win ? 'Yes' : 'No' }}</td>
-         <th>Lamination Window</th>
-        <td>{{ $job->lam_win ? 'Yes' : 'No' }}</td>
+        
     </tr>
 
     <tr>
+         <th>Lamination Window</th>
+        <td>{{ $job->lam_window ? 'Yes' : 'No' }}</td>
         <th>UV</th>
         <td>{{ $job->uv ? 'Yes' : 'No' }}</td>
 
-        <th>Simple</th>
-        <td>{{ $job->simple ? 'Yes' : 'No' }}</td>
+       
     </tr>
 
     <tr>
+         <th>Simple</th>
+        <td>{{ $job->simple ? 'Yes' : 'No' }}</td>
         <th>Spot UV</th>
         <td>{{ $job->spot ? 'Yes' : 'No' }}</td>
 
-        <th>Trip Of</th>
-        <td>{{ $job->tripof ? 'Yes' : 'No' }}</td>
+        
     </tr>
 
     <tr>
@@ -406,12 +407,14 @@ body{
 
         <th>Emboss</th>
         <td>{{ $job->emboss ? 'Yes' : 'No' }}</td>
+
     </tr>
 
     <tr>
         <!-- <th>Emboss Rate</th>
         <td>{{ $job->emboss_rate }}</td> -->
-
+<th>Trip Of</th>
+        <td>{{ $job->tripof ? 'Yes' : 'No' }}</td>
         <th>Breaking</th>
         <td>{{ $job->breaking ? 'Yes' : 'No' }}</td>
     </tr>
