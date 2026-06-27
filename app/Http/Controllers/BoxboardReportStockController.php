@@ -7,6 +7,7 @@ use App\Models\TRNDTL;
 use App\Models\AccountMaster;
 use App\Models\ProductMaster;
 use App\Models\ItemMaster;
+use App\Models\PackagingSpec;
 use Illuminate\Support\Facades\DB;
 
 class BoxboardReportStockController extends Controller
@@ -37,15 +38,44 @@ class BoxboardReportStockController extends Controller
 if ($request->filled('garmmage')) {
     $boxboardQuery->where('grammage', $request->garmmage);
 }
-
-if ($request->filled('length')) {
-    $boxboardQuery->where('length', $request->length);
+if ($request->filled('item_id')) {
+    $boxboardQuery->where('item_id', $request->item_id);
 }
+if ($request->filled('length') && $request->filled('width')) {
 
-if ($request->filled('width')) {
-    $boxboardQuery->where('width', $request->width);
+    $boxboardQuery->where(function ($q) use ($request) {
+
+        $q->where(function ($q1) use ($request) {
+            // Normal match
+            $q1->where('length', $request->length)
+               ->where('width', $request->width);
+        })
+
+        ->orWhere(function ($q2) use ($request) {
+            // Swapped match
+            $q2->where('length', $request->width)
+               ->where('width', $request->length);
+        });
+
+    });
+
+} else {
+
+    if ($request->filled('length')) {
+        $boxboardQuery->where(function ($q) use ($request) {
+            $q->where('length', $request->length)
+              ->orWhere('width', $request->length);
+        });
+    }
+
+    if ($request->filled('width')) {
+        $boxboardQuery->where(function ($q) use ($request) {
+            $q->where('length', $request->width)
+              ->orWhere('width', $request->width);
+        });
+    }
+
 }
-
 $boxboardData = $boxboardQuery
     ->orderBy('item_code', 'asc')
     ->get();
@@ -98,4 +128,16 @@ $boxboardData = $boxboardQuery
             'boxboardData'   => $boxboardData,
         ]);
     }
+
+   public function searchItem(Request $request)
+{
+    $term = $request->term;
+
+    $items = ItemMaster::where('item_code', 'like', "%{$term}%")
+        ->selectRaw('MIN(id) as id, item_code')
+        ->groupBy('item_code')
+        ->get();
+
+    return response()->json($items);
+}
 }

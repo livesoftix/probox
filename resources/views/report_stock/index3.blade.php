@@ -38,10 +38,32 @@
                                     <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
                                 </div>
                                 <!-- End Date -->
-                                <div class="form-group col-xl-2">
+                                <div class="form-group col-xl-2" style="">
                                     <label for="end_date" class="sr-only">End Date</label>
                                     <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}" >
                                 </div>
+
+                                <div class="form-group col-xl-2 position-relative">
+                                     <label for="item_name" class="sr-only">Item Name</label>
+   <div class="autocomplete-wrapper">
+    <input type="text"
+           class="form-control"
+           id="item_name"
+           
+           value="{{ request('item_name') }}"
+           placeholder="Item Name">
+
+    <input type="hidden"
+           id="item_id"
+           name="item_id"
+           value="{{ request('item_id') }}">
+
+    <div id="item_suggestions"
+         class="suggestion-box list-group position-absolute w-100"></div>
+</div>
+</div>
+
+
                                 <div class="form-group col-xl-2">
                                     <label for="garmmage" class="sr-only">Garmmage</label>
                                     <input type="garmmage" class="form-control" id="garmmage" name="garmmage" value="{{ request('garmmage') }}">
@@ -169,9 +191,84 @@
         </div>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 // Set default dates
+console.log("script running");
+let item = document.getElementById('item_name');
+// console.log(item);
+// $('#item_name').on('keyup', function () {
+//     console.log('keyup');
+// });
+// $(document).on('change', '#item_name', function () {
+// console.log("jcbnb");
+
+// });
+function setupAutocomplete(inputId, suggestionBoxId, url) {
+// console.log("skxn");
+    $(inputId).on('keyup', function (e) {
+
+        if (e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 13) {
+            return;
+        }
+
+        let query = $(this).val();
+
+        if (query.length < 1) {
+            $(suggestionBoxId).html('');
+            return;
+        }
+
+        $.ajax({
+            url: url,
+            method: "GET",
+            data: { term: query },
+
+            success: function (data) {
+
+                let html = '';
+
+                data.forEach(function(item){
+
+    html += `
+        <a href="#"
+           class="list-group-item list-group-item-action"
+           data-id="${item.id}"
+           data-name="${item.item_code}">
+            ${item.item_code}
+        </a>`;
+
+});
+
+                $(suggestionBoxId).html(html);
+            }
+        });
+    });
+
+   $(document).on('click', suggestionBoxId + ' a', function (e) {
+
+    e.preventDefault();
+
+    $('#item_name').val($(this).data('name'));
+    $('#item_id').val($(this).data('id'));
+    $(suggestionBoxId).html('');
+});
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest(inputId).length &&
+            !$(e.target).closest(suggestionBoxId).length) {
+            $(suggestionBoxId).html('');
+        }
+    });
+}
+$(document).on('keyup', '#item_name', function () {
+    console.log('keyup working');
+});
+setupAutocomplete(
+    '#item_name',
+    '#item_suggestions',
+    "{{ url('/probox/search-items') }}"
+);
 const today = new Date();
 document.getElementById('end_date').valueAsDate = today;
 
