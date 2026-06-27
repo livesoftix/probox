@@ -217,7 +217,7 @@
 
                     {{-- PROCESS --}}
                     <div class="col-12"><hr><h5>Process Details</h5></div>
-
+<!-- 
                     <div class="col-md-2 mb-3">
                         <label>Lami</label>
                         <input type="text" name="lami" class="form-control">
@@ -241,7 +241,228 @@
                     <div class="col-md-3 mb-3">
                         <label>UV</label>
                         <input type="text" name="uv" class="form-control">
-                    </div>
+                    </div> -->
+
+                    <!-- start -->
+{{-- LAMINATION --}}
+<div class="col-md-12">
+   
+        <!-- <h5>Lamination</h5> -->
+
+        <div class="form-check">
+            <input type="hidden" name="lamination" value="0">
+            <input class="form-check-input" type="checkbox"
+                   id="lamination" name="lamination" value="1">
+            <label class="form-check-label">Lamination</label>
+        </div>
+
+        <div id="laminationFields" style="display:none;">
+
+            <div class="row mt-3">
+
+                <div class="col-md-4">
+                    <label>Size</label>
+                    <input type="number"
+                           class="form-control"
+                           id="lsize"
+                           name="lsize"
+                           step="any">
+                </div>
+
+                <div class="col-md-8">
+                    <label>Item Type</label>
+
+                    <select name="litem"
+                            id="litem"
+                            class="form-control select2">
+
+                        <option value="">Select Item</option>
+
+                        @foreach($items as $item)
+                            <option value="{{ $item->id }}">
+                                {{ $item->item_code }}
+                            </option>
+                        @endforeach
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+        
+    <div class="form-check">
+        <input type="checkbox" name="uv" id="uv" >
+        <label class="form-check-label">UV</label>
+    </div>
+    
+
+
+<div id="uvFields" style="display:none">
+
+    <div class="col-md-2 mb-3">
+        <div class="form-check">
+            <input type="checkbox" name="simple" id="simple" >
+            <label>Simple</label>
+        </div>
+    </div>
+
+    <div class="col-md-2 mb-3">
+        <div class="form-check">
+            <input type="checkbox" name="spot" id="spot" >
+            <label>Spot</label>
+        </div>
+    </div>
+
+    <div class="col-md-2 mb-3">
+        <div class="form-check">
+            <input type="checkbox" name="tripof" id="tripof" >
+            <label>Trip Of</label>
+        </div>
+    </div>
+
+</div>
+
+        <div class="form-check">
+            <input type="hidden" name="corrugation" value="0">
+
+            <input class="form-check-input"
+                   type="checkbox"
+                   id="corrugation"
+                   name="corrugation"
+                   value="1">
+
+            <label class="form-check-label">
+                Corrugation
+            </label>
+        </div>
+
+        <div id="corrugationFields" style="display:none;">
+
+            <div class="row mt-3">
+
+                <div class="col-md-4">
+                    <label>Size</label>
+                    <input type="number"
+                           class="form-control"
+                           id="csize"
+                           name="csize"
+                           step="any">
+                </div>
+
+                <div class="col-md-8">
+                    <label>Item Type</label>
+
+                    <select name="citem"
+                            id="citem"
+                            class="form-control select2">
+
+                        <option value="">Select Item</option>
+
+                        @foreach($items as $item)
+
+                            @if($item->type_id == 2)
+
+                                <option value="{{ $item->id }}">
+                                    {{ $item->item_code }}
+                                </option>
+
+                            @endif
+
+                        @endforeach
+
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+<div class=" col-md-3 form-check">
+                                    <input type="hidden" name="noColor" value="0">
+                                    <input class="form-check-input" type="checkbox" id="noColor" name="noColor"
+                                        value="1" {{ $product->color ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="noColor">Color</label>
+                                </div>
+
+                                <!-- Color Fields -->
+                                <div id="noColorFields"
+                                    style="{{ $product->color ? 'display:block;' : 'display:none;' }}">
+                                    <div class="mb-3"><br>
+                                        <label for="color" class="form-label">Printing Colors</label>
+                                        <input type="number" id="color" class="form-control" name="color"
+                                            value="{{ $product->color_no }}">
+                                    </div>
+</div>
+
+                                <div class="form-check">
+                                    <input type="hidden" name="window" value="0">
+                                    <input class="form-check-input" type="checkbox" id="window" name="window"
+                                        value="1" {{ $product->window ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="window">Window</label>
+
+                                </div>
+                                                                <div id="windowOptions"
+                                    style="display: none; margin-top: 10px; margin-bottom: 10px; margin-left: 20px;">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="glass_win" name="glass_win"
+                                            value="1" {{ $product->glass_win ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="glass_win">Glass Window</label>
+                                    </div>
+                                    <div id="glassWinRateContainer" style="display: none;">
+                                        <div class="form-check">
+                                            <label for="Glass_w_rate" class="form-label">Glass Window Rate</label>
+                                            <input type="number" id="Glass_w_rate" class="form-control"
+                                                name="Glass_w_rate" step="any" value="{{ $product->Glass_w_rate }}">
+                                        </div>
+                                    </div>
+                                
+    </div>
+    
+
+    
+        <!-- <h5>Corrugation</h5> -->
+
+
+   <div class="form-check">
+                                    <input type="hidden" name="varnish" value="0">
+                                    <input class="form-check-input" type="checkbox" id="varnish" name="varnish" value="1">
+                                    <label class="form-check-label" for="varnish">Varnish</label>
+                                </div>
+
+                                <!-- Emboss -->
+                                <div class="form-check">
+                                    <input type="hidden" name="emboss" value="0">
+                                    <input class="form-check-input" type="checkbox" id="emboss" name="emboss" value="1">
+                                    <label class="form-check-label" for="emboss">Embosse</label>
+                                </div>
+
+                                <!-- Emboss Fields -->
+                                <div id="embossFields" style="display: none;">
+                                    <div class="mb-3"><br>
+                                        <label for="emboss_rate" class="form-label">Embosse Rate</label>
+                                        <input type="number" id="emboss_rate" class="form-control" name="emboss_rate" step="any">
+                                    </div>
+                                </div>
+
+                                <!-- breaking -->
+                                <div class="form-check">
+                                    <input type="hidden" name="breaking" value="0">
+                                    <!-- Hidden input for unchecked value -->
+                                    <input class="form-check-input" type="checkbox" id="breaking" name="breaking"
+                                        value="1">
+                                    <label class="form-check-label" for="breaking">Breaking</label>
+                                </div>
+
+
+
+
+
+
+
+
+
+                    <!-- end -->
 
                     <div class="col-md-12 mb-3">
                         <label>Note</label>
@@ -408,12 +629,89 @@ row.find('input[name="box_length[]"]').val(parts[3]);
             return false;
         }
     });
+        // =========================
+    // LAMINATION
+    // =========================
+    if(res.lamination == 1){
+
+        $('#lamination').prop('checked', true);
+        $('#laminationFields').show();
+
+        $('#lsize').val(res.lam_size);
+
+        $('#litem').val(res.lam_item).trigger('change');
+
+    }else{
+
+        $('#lamination').prop('checked', false);
+        $('#laminationFields').hide();
+
+        $('#lsize').val('');
+        $('#litem').val('').trigger('change');
+    }
+
+    // =========================
+    // CORRUGATION
+    // =========================
+
+    if(res.corrugation == 1){
+
+        $('#corrugation').prop('checked', true);
+        $('#corrugationFields').show();
+
+        $('#csize').val(res.curr_size);
+
+        $('#citem').val(res.curr_item).trigger('change');
+
+    }else{
+
+        $('#corrugation').prop('checked', false);
+        $('#corrugationFields').hide();
+
+        $('#csize').val('');
+        $('#citem').val('').trigger('change');
+    }
+
+    // =========================
+    // UV
+    // =========================
+
+    $('#uv').prop('checked', res.uv == 1);
+
+    if(res.uv == 1){
+        $('#uvFields').show();
+    }else{
+        $('#uvFields').hide();
+    }
+    if(res.color == 1){
+           $('#noColor').prop('checked', true);
+        $('#noColorFields').show();
+
+        $('#color').val(res.color_no);
+    }
+    if(res.window == 1){
+           $('#window').prop('checked', true);
+        $('#windowOptions').show();
+
+        $('#glass_win').val(res.glass_win);
+    }
+    if(res.breaking == 1){
+           $('#breaking').prop('checked', true);
+    }
+
+    $('#simple').prop('checked', res.simple == 1);
+    $('#spot').prop('checked', res.spot == 1);
+    $('#tripof').prop('checked', res.tripof == 1);
+
+}
+   
 
     
-            }
-        });
-
-    } else {
+            });
+        
+    
+    }
+    else {
         $('#p_size').val('');
     }
 
@@ -422,7 +720,58 @@ $(document).on('input', '#ups', function(){
     calculateBoxes();
 });
 
+$('#lamination').on('change', function(){
+//    console.log("sjxn");
+    if($(this).is(':checked')){
+        $('#laminationFields').show();
+    }else{
+        $('#laminationFields').hide();
+    }
 
+});
+$('#uv').on('change', function(){
+//    console.log("uv");
+    if($(this).is(':checked')){
+        $('#uvFields').show();
+    }else{
+        $('#uvFields').hide();
+    }
+
+});
+$('#corrugation').on('change', function(){
+
+    if($(this).is(':checked')){
+        $('#corrugationFields').show();
+    }else{
+        $('#corrugationFields').hide();
+    }
+
+});
+$('#noColor').on('change', function(){
+
+    if($(this).is(':checked')){
+        $('#noColorFields').show();
+    }else{
+        $('#noColorFields').hide();
+    }
+
+});
+$('#window').on('change', function(){
+// console.log("ncncnm");
+    if($(this).is(':checked')){
+        $('#windowOptions').show();
+    }else{
+        $('#windowOptions').hide();
+    }
+
+});
+$('#litem').select2({
+    width:'100%'
+});
+
+$('#citem').select2({
+    width:'100%'
+});
 
 });
 </script>

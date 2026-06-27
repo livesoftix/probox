@@ -338,31 +338,83 @@ body{
         
         <h3 class="section-title">Process</h3>
 
-        <table class="table-bordered">
-            <tr>
-                <th>Lamination</th>
-                <td><?php echo e($job->lamination); ?></td>
+       <h3 class="section-title">Process</h3>
 
-                <th>Embossing</th>
-                <td><?php echo e($job->embossing); ?></td>
-            </tr>
+<table class="table-bordered">
 
-            <tr>
-                <th>Varnish</th>
-                <td><?php echo e($job->varnish); ?></td>
+    <tr>
+        <th>Lamination</th>
+        <td><?php echo e($job->lamination ? 'Yes' : 'No'); ?></td>
 
-                <th>Colour</th>
-                <td><?php echo e($job->colour); ?></td>
-            </tr>
+        <th>Lamination Size</th>
+        <td><?php echo e($job->lam_size); ?></td>
+    </tr>
 
-            <tr>
-                <th>UV</th>
-                <td><?php echo e($job->uv); ?></td>
+    <tr>
+        <th>Lamination Item</th>
+        <td><?php echo e($job->lamItem->item_code ?? ''); ?></td>
 
-                <th></th>
-                <td></td>
-            </tr>
-        </table>
+        <th>Corrugation</th>
+        <td><?php echo e($job->currItem ? 'Yes' : 'No'); ?></td>
+    </tr>
+
+    <tr>
+        <th>Corrugation Size</th>
+        <td><?php echo e($job->curr_size); ?></td>
+
+        <th>Corrugation Item</th>
+        <td><?php echo e($job->corrugationItem->item_code ?? ''); ?></td>
+    </tr>
+
+    <tr>
+        <th>Printing Color</th>
+        <td><?php echo e($job->color ? 'Yes' : 'No'); ?></td>
+
+        <th>No. of Colors</th>
+        <td><?php echo e($job->color_no); ?></td>
+    </tr>
+
+    <tr>
+        <th>Window</th>
+        <td><?php echo e($job->window ? 'Yes' : 'No'); ?></td>
+
+        <th>Glass Window</th>
+        <td><?php echo e($job->glass_win ? 'Yes' : 'No'); ?></td>
+    </tr>
+
+    <tr>
+        <th>UV</th>
+        <td><?php echo e($job->uv ? 'Yes' : 'No'); ?></td>
+
+        <th>Simple</th>
+        <td><?php echo e($job->simple ? 'Yes' : 'No'); ?></td>
+    </tr>
+
+    <tr>
+        <th>Spot UV</th>
+        <td><?php echo e($job->spot ? 'Yes' : 'No'); ?></td>
+
+        <th>Trip Of</th>
+        <td><?php echo e($job->tripof ? 'Yes' : 'No'); ?></td>
+    </tr>
+
+    <tr>
+        <th>Varnish</th>
+        <td><?php echo e($job->varnish ? 'Yes' : 'No'); ?></td>
+
+        <th>Emboss</th>
+        <td><?php echo e($job->emboss ? 'Yes' : 'No'); ?></td>
+    </tr>
+
+    <tr>
+        <th>Emboss Rate</th>
+        <td><?php echo e($job->emboss_rate); ?></td>
+
+        <th>Breaking</th>
+        <td><?php echo e($job->breaking ? 'Yes' : 'No'); ?></td>
+    </tr>
+
+</table>
         
         <h3 class="section-title">Notes</h3>
         <div class="note-box">

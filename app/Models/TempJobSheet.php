@@ -25,7 +25,34 @@ class TempJobSheet extends Model
         'size',
         'qty',
         'rate',
-        'description','preparedby','printing_for','ups'
+        'description','preparedby','printing_for','ups',
+        
+    'lamination',
+    'lam_size',
+    'lam_item',
+
+    'corrugation',
+    'curr_size',
+    'curr_item',
+
+    'color',
+    'color_no',
+
+    'window',
+    'glass_win',
+
+    'uv',
+    'simple',
+    'spot',
+    'tripof',
+
+    'varnish',
+
+    'emboss',
+    'emboss_rate',
+
+    'breaking',
+
     ];
 
     public function account()
@@ -45,5 +72,14 @@ class TempJobSheet extends Model
             'job_sheet_id',
             'id'
         );
+    }
+
+     public function lamItem()
+    {
+        return $this->belongsTo(ItemMaster::class, 'lam_item');
+    }
+    public function currItem()
+    {
+        return $this->belongsTo(ItemMaster::class, 'curr_item');
     }
 }
