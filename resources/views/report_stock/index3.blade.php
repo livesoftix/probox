@@ -30,7 +30,7 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="col-12">
-                        <form action="{{ route('report.stock') }}" method="GET" class="form-inline" id="search-form">
+                        <form action="{{ route('report.boxboard_stock') }}" method="GET" class="form-inline" id="search-form">
                             <div class="row">
                                 <!-- Start Date -->
                                 <div class="form-group col-xl-2" style="">
