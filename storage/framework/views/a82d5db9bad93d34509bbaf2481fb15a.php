@@ -378,24 +378,25 @@ body{
 
         <th>Glass Window</th>
         <td><?php echo e($job->glass_win ? 'Yes' : 'No'); ?></td>
-         <th>Lamination Window</th>
-        <td><?php echo e($job->lam_win ? 'Yes' : 'No'); ?></td>
+        
     </tr>
 
     <tr>
+         <th>Lamination Window</th>
+        <td><?php echo e($job->lam_window ? 'Yes' : 'No'); ?></td>
         <th>UV</th>
         <td><?php echo e($job->uv ? 'Yes' : 'No'); ?></td>
 
-        <th>Simple</th>
-        <td><?php echo e($job->simple ? 'Yes' : 'No'); ?></td>
+       
     </tr>
 
     <tr>
+         <th>Simple</th>
+        <td><?php echo e($job->simple ? 'Yes' : 'No'); ?></td>
         <th>Spot UV</th>
         <td><?php echo e($job->spot ? 'Yes' : 'No'); ?></td>
 
-        <th>Trip Of</th>
-        <td><?php echo e($job->tripof ? 'Yes' : 'No'); ?></td>
+        
     </tr>
 
     <tr>
@@ -404,12 +405,14 @@ body{
 
         <th>Emboss</th>
         <td><?php echo e($job->emboss ? 'Yes' : 'No'); ?></td>
+
     </tr>
 
     <tr>
         <!-- <th>Emboss Rate</th>
         <td><?php echo e($job->emboss_rate); ?></td> -->
-
+<th>Trip Of</th>
+        <td><?php echo e($job->tripof ? 'Yes' : 'No'); ?></td>
         <th>Breaking</th>
         <td><?php echo e($job->breaking ? 'Yes' : 'No'); ?></td>
     </tr>

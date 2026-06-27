@@ -697,10 +697,17 @@ row.find('input[name="box_length[]"]').val(parts[3]);
            $('#window').prop('checked', true);
         $('#windowOptions').show();
 
-        $('#glass_win').val(res.glass_win);
-        $('#glass_win').prop('checked', true);
-        $('#lam_win').val(res.lam_win);
+ $('#glass_win').val(res.glass_win);
+if(res.glass_win == 1){
+$('#glass_win').prop('checked', true);
+}
+$('#lam_win').val(res.lam_win);
+if(res.lam_win == 1){
+
         $('#lam_win').prop('checked', true);
+}
+        
+        
     }
     if(res.breaking == 1){
            $('#breaking').prop('checked', true);
