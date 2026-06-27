@@ -40,6 +40,7 @@ class TempJobSheet extends Model
 
     'window',
     'glass_win',
+    'lam_window',
 
     'uv',
     'simple',

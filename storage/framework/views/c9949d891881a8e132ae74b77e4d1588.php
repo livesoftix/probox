@@ -710,6 +710,12 @@ row.find('input[name="box_length[]"]').val(parts[3]);
            $('#breaking').prop('checked', true);
     }
 
+      if(res.varnish == 1){
+           $('#varnish').prop('checked', true);
+    }
+    if(res.emboss == 1){
+           $('#emboss').prop('checked', true);
+    }
     $('#simple').prop('checked', res.simple == 1);
     $('#spot').prop('checked', res.spot == 1);
     $('#tripof').prop('checked', res.tripof == 1);

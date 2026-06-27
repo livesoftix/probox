@@ -217,7 +217,7 @@ $job->color_no = $validated['color'] ?? null;
 
 $job->window    = $validated['window'] ?? 0;
 $job->glass_win = $validated['glass_win'] ?? 0;
-$job->lam_win = $validated['lam_win'] ?? 0;
+$job->lam_window = $validated['lam_win'] ?? 0;
 
 $job->uv     = $request->has('uv');
 $job->simple = $request->has('simple');
