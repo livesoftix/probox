@@ -35,24 +35,24 @@
                                 <!-- Start Date -->
                                 <div class="form-group col-xl-2" style="">
                                     <label for="start_date" class="sr-only">Start Date</label>
-                                    <input type="date" class="form-control" id="start_date" name="start_date" value="">
+                                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
                                 </div>
                                 <!-- End Date -->
                                 <div class="form-group col-xl-2">
                                     <label for="end_date" class="sr-only">End Date</label>
-                                    <input type="date" class="form-control" id="end_date" name="end_date" value="">
+                                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}" >
                                 </div>
                                 <div class="form-group col-xl-2">
                                     <label for="garmmage" class="sr-only">Garmmage</label>
-                                    <input type="garmmage" class="form-control" id="garmmage" name="garmmage" value="">
+                                    <input type="garmmage" class="form-control" id="garmmage" name="garmmage" value="{{ request('garmmage') }}">
                                 </div>
                                   <div class="form-group col-xl-2">
                                     <label for="length" class="sr-only">Length</label>
-                                    <input type="length" class="form-control" id="length" name="length" value="">
+                                    <input type="length" class="form-control" id="length" name="length" value="{{ request('length') }}">
                                 </div>
                                   <div class="form-group col-xl-2">
                                     <label for="width" class="sr-only">Width</label>
-                                    <input type="width" class="form-control" id="width" name="width" value="">
+                                    <input type="width" class="form-control" id="width" name="width" value="{{ request('width') }}">
                                 </div>
                                 <!-- Voucher No Dropdown -->
                                 <div class="form-group col-xl-2" style="display:none;">
