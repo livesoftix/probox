@@ -164,6 +164,7 @@ class TempJobSheetController extends Controller
 
     'window' => 'nullable|boolean',
     'glass_win' => 'nullable|boolean',
+    'lam_win' => 'nullable|boolean',
 
     'uv' => 'nullable|boolean',
     'simple' => 'nullable|boolean',
@@ -216,6 +217,7 @@ $job->color_no = $validated['color'] ?? null;
 
 $job->window    = $validated['window'] ?? 0;
 $job->glass_win = $validated['glass_win'] ?? 0;
+$job->lam_win = $validated['lam_win'] ?? 0;
 
 $job->uv     = $request->has('uv');
 $job->simple = $request->has('simple');
@@ -403,7 +405,7 @@ $job->breaking = $validated['breaking'] ?? 0;
 
     // Color
     'color' => $product->color,
-    'color_no' => $product->color_no,
+    'color_no' => $product->design_color,
 
     // Window
     'window' => $product->window,

@@ -405,8 +405,8 @@ body{
     </tr>
 
     <tr>
-        <th>Emboss Rate</th>
-        <td><?php echo e($job->emboss_rate); ?></td>
+        <!-- <th>Emboss Rate</th>
+        <td><?php echo e($job->emboss_rate); ?></td> -->
 
         <th>Breaking</th>
         <td><?php echo e($job->breaking ? 'Yes' : 'No'); ?></td>

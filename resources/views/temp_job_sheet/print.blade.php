@@ -367,7 +367,7 @@ body{
     </tr>
 
     <tr>
-        <th>Printing Color</th>
+        <th>Design Color</th>
         <td>{{ $job->color ? 'Yes' : 'No' }}</td>
 
         <th>No. of Colors</th>
@@ -380,6 +380,8 @@ body{
 
         <th>Glass Window</th>
         <td>{{ $job->glass_win ? 'Yes' : 'No' }}</td>
+         <th>Lamination Window</th>
+        <td>{{ $job->lam_win ? 'Yes' : 'No' }}</td>
     </tr>
 
     <tr>

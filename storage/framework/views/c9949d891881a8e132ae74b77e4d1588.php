@@ -385,7 +385,7 @@
 <div class=" col-md-3 form-check">
                                     <input type="hidden" name="noColor" value="0">
                                     <input class="form-check-input" type="checkbox" id="noColor" name="noColor"
-                                        value="1" <?php echo e($product->color ? 'checked' : ''); ?>>
+                                        value="1">
                                     <label class="form-check-label" for="noColor">Color</label>
                                 </div>
 
@@ -393,16 +393,16 @@
                                 <div id="noColorFields"
                                     style="<?php echo e($product->color ? 'display:block;' : 'display:none;'); ?>">
                                     <div class="mb-3"><br>
-                                        <label for="color" class="form-label">Printing Colors</label>
+                                        <label for="color" class="form-label">Design Colors</label>
                                         <input type="number" id="color" class="form-control" name="color"
-                                            value="<?php echo e($product->color_no); ?>">
+                                            value="">
                                     </div>
 </div>
 
                                 <div class="form-check">
                                     <input type="hidden" name="window" value="0">
                                     <input class="form-check-input" type="checkbox" id="window" name="window"
-                                        value="1" <?php echo e($product->window ? 'checked' : ''); ?>>
+                                        value="1" >
                                     <label class="form-check-label" for="window">Window</label>
 
                                 </div>
@@ -410,9 +410,13 @@
                                     style="display: none; margin-top: 10px; margin-bottom: 10px; margin-left: 20px;">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="glass_win" name="glass_win"
-                                            value="1" <?php echo e($product->glass_win ? 'checked' : ''); ?>>
+                                            value="1" >
                                         <label class="form-check-label" for="glass_win">Glass Window</label>
                                     </div>
+                                    <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="lam_win" name="lam_win" value="1">
+                                            <label class="form-check-label" for="lam_win">Lamination Window</label>
+                                        </div>
                                     <div id="glassWinRateContainer" style="display: none;">
                                         <div class="form-check">
                                             <label for="Glass_w_rate" class="form-label">Glass Window Rate</label>
@@ -698,6 +702,9 @@ row.find('input[name="box_length[]"]').val(parts[3]);
         $('#windowOptions').show();
 
         $('#glass_win').val(res.glass_win);
+        $('#glass_win').prop('checked', true);
+        $('#lam_win').val(res.lam_win);
+        $('#lam_win').prop('checked', true);
     }
     if(res.breaking == 1){
            $('#breaking').prop('checked', true);
