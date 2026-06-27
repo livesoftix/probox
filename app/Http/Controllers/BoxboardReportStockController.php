@@ -18,20 +18,37 @@ class BoxboardReportStockController extends Controller
 
         $startDate  = $request->input('start_date');
         $endDate    = $request->input('end_date');
+        $garmmage    = $request->input('garmmage ');
+        $length    = $request->input('length ');
+        $width    = $request->input('width ');
         $productType = $request->input('product_type');
 
         // Stock View Data
-        $boxboardData = DB::table('boxboard_stock_qty')
-            ->select(
-                'item_code',
-                'width',
-                'length',
-                'grammage',
-                'remain_qty',
-                'total_wt'
-            )
-            ->orderBy('item_code', 'asc')
-            ->get();
+       $boxboardQuery = DB::table('boxboard_stock_qty')
+    ->select(
+        'item_code',
+        'width',
+        'length',
+        'grammage',
+        'remain_qty',
+        'total_wt'
+    );
+
+if ($request->filled('garmmage')) {
+    $boxboardQuery->where('grammage', $request->garmmage);
+}
+
+if ($request->filled('length')) {
+    $boxboardQuery->where('length', $request->length);
+}
+
+if ($request->filled('width')) {
+    $boxboardQuery->where('width', $request->width);
+}
+
+$boxboardData = $boxboardQuery
+    ->orderBy('item_code', 'asc')
+    ->get();
 
         // Accounts List
         $accounts = TRNDTL::select('account_id')

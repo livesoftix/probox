@@ -151,7 +151,7 @@
                                         $runningTotal = $openingBalance;
                                         $totalDebit = 0;
                                         $totalCredit = 0;
-                                        $sortedTrndtls = $trndtls->sortByDesc('date');
+                                        $sortedTrndtls = $trndtls->sortBy('date');
                                         @endphp
 
                                         @foreach ($sortedTrndtls as $trndtl)
