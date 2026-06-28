@@ -321,11 +321,11 @@ body{
         <td>{{ $box->width }}</td>
 
         {{-- FROM VIEW --}}
-        <td>{{ $box->t_stock ?? 0 }}</td>
+        <td>{{ $box->remain_stock+$box->qty ?? 0 }}</td>
 
         <td>{{ $box->qty }}</td>
 
-        <td>{{ $box->t_stock-$box->qty ?? 0 }}</td>
+        <td>{{ $box->remain_stock?? 0 }}</td>
     </tr>
 @empty
     <tr>

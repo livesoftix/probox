@@ -319,11 +319,11 @@ body{
         <td><?php echo e($box->width); ?></td>
 
         
-        <td><?php echo e($box->t_stock ?? 0); ?></td>
+        <td><?php echo e($box->remain_stock+$box->qty ?? 0); ?></td>
 
         <td><?php echo e($box->qty); ?></td>
 
-        <td><?php echo e($box->t_stock-$box->qty ?? 0); ?></td>
+        <td><?php echo e($box->remain_stock?? 0); ?></td>
     </tr>
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
     <tr>

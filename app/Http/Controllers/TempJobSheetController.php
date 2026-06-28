@@ -351,22 +351,21 @@ $job->breaking = $validated['breaking'] ?? 0;
         'currItem'
     ])->findOrFail($id);
 
-    $stockMap = DB::table('boxboard_stock_qty')
+   $stockMap = DB::table('boxboard_stock_qty')
     ->get()
     ->groupBy(function ($item) {
         return $item->item_id.'_'.$item->length.'_'.$item->width;
     });
 
-    foreach ($job->boxboards as $box) {
+foreach ($job->boxboards as $box) {
 
-        // $key = $box->item_id.'_'.$box->length.'_'.$box->width;
-        $key = $box->purchase_v_no.'_'.$box->item_id.'_'.$box->length.'_'.$box->width;
+    $key = $box->item_id.'_'.$box->length.'_'.$box->width;
 
-        $view = $stockMap[$key][0] ?? null;
+    $view = $stockMap[$key][0] ?? null;
 
-        $box->t_stock = $view->p_qty ?? 0;
-        $box->remain_stock = $view->remain_qty ?? 0;
-    }
+    $box->t_stock      = $view->total_qty ?? 0;
+    $box->remain_stock = $view->remain_qty ?? 0;
+}
 
     return view('temp_job_sheet.print', compact('job'));
 }
