@@ -602,6 +602,26 @@ row.find('input[name="box_length[]"]').val(parts[2]);
     $('#job_id').on('change', function () {
 
     let productId = $(this).val();
+    // =========================
+// RESET ALL PROCESS DETAILS
+// =========================
+$('#lamination, #corrugation, #uv, #breaking, #varnish, #emboss')
+    .prop('checked', false);
+
+$('#simple, #spot, #tripof').prop('checked', false);
+
+$('#noColor').prop('checked', false);
+$('#window').prop('checked', false);
+$('#glass_win').prop('checked', false);
+$('#lam_win').prop('checked', false);
+
+$('#laminationFields, #corrugationFields, #uvFields, #noColorFields, #windowOptions')
+    .hide();
+
+$('#lsize, #csize, #color').val('');
+
+$('#litem').val('').trigger('change');
+$('#citem').val('').trigger('change');
 
     if(productId){
 
@@ -627,9 +647,19 @@ row.find('input[name="box_length[]"]').val(parts[2]);
 
         if($(this).data('itemid') == res.item_id){
 
+         let itemCode = $(this).text().split('(')[0].trim();
+
+        // Option text update
+        $(this).text(
+            itemCode + ' (L:' + length + ' x W:' + width + ')'
+        );
             firstRow.find('.item-selection')
                 .val($(this).val())
                 .trigger('change');
+            firstRow.find('.box-length')
+                .val(length);
+            firstRow.find('.box-width')
+                .val(width);
 
             return false;
         }
