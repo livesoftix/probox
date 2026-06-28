@@ -164,7 +164,7 @@
             <option value="">Select Item</option>
             @foreach($boxboardData as $item)
              <option
-    value="{{ $item->v_no }}_{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}"
+    value="{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}"
     data-stock="{{ $item->remain_qty }}"
     data-itemid="{{ $item->item_id }}">
     {{ $item->item_code }}
@@ -567,13 +567,14 @@ $(document).ready(function(){
         row.find('.box-total-stock').val(stock);
 
         if(parts.length){
+            console.log(parts[0]);
             // row.find('input[name="box_item_id[]"]').val(parts[0]);
             // row.find('input[name="box_length[]"]').val(parts[2]);
             // row.find('input[name="box_width[]"]').val(parts[1]);
-            row.find('.purchase-vno').val(parts[0]);
-row.find('input[name="box_item_id[]"]').val(parts[1]);
-row.find('input[name="box_width[]"]').val(parts[2]);
-row.find('input[name="box_length[]"]').val(parts[3]);
+            // row.find('.purchase-vno').val(parts[0]);
+row.find('input[name="box_item_id[]"]').val(parts[0]);
+row.find('input[name="box_width[]"]').val(parts[1]);
+row.find('input[name="box_length[]"]').val(parts[2]);
         }
     });
 

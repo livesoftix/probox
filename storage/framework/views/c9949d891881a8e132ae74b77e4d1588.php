@@ -165,7 +165,7 @@
             <option value="">Select Item</option>
             <?php $__currentLoopData = $boxboardData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
              <option
-    value="<?php echo e($item->v_no); ?>_<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>"
+    value="<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>"
     data-stock="<?php echo e($item->remain_qty); ?>"
     data-itemid="<?php echo e($item->item_id); ?>">
     <?php echo e($item->item_code); ?>
@@ -571,13 +571,14 @@ $(document).ready(function(){
         row.find('.box-total-stock').val(stock);
 
         if(parts.length){
+            console.log(parts[0]);
             // row.find('input[name="box_item_id[]"]').val(parts[0]);
             // row.find('input[name="box_length[]"]').val(parts[2]);
             // row.find('input[name="box_width[]"]').val(parts[1]);
-            row.find('.purchase-vno').val(parts[0]);
-row.find('input[name="box_item_id[]"]').val(parts[1]);
-row.find('input[name="box_width[]"]').val(parts[2]);
-row.find('input[name="box_length[]"]').val(parts[3]);
+            // row.find('.purchase-vno').val(parts[0]);
+row.find('input[name="box_item_id[]"]').val(parts[0]);
+row.find('input[name="box_width[]"]').val(parts[1]);
+row.find('input[name="box_length[]"]').val(parts[2]);
         }
     });
 

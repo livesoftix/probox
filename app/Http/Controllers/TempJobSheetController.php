@@ -103,18 +103,29 @@ class TempJobSheetController extends Controller
         //     ->join('item_masters as i', 'b.item_id', '=', 'i.id')
         //     ->get();
 
-        $boxboardData = DB::table('boxboard_views as b')
+    //     $boxboardData = DB::table('boxboard_views as b')
+    // ->select(
+    //     'b.v_no',
+    //     'b.item_id',
+    //     'i.item_code',
+    //     'b.width',
+    //     'b.lenght as length',
+    //     'b.remain_qty'
+    // )
+    // ->join('item_masters as i', 'b.item_id', '=', 'i.id')
+    // ->get();
+$boxboardData = DB::table('boxboard_stock_qty')
     ->select(
-        'b.v_no',
-        'b.item_id',
-        'i.item_code',
-        'b.width',
-        'b.lenght as length',
-        'b.remain_qty'
+        'item_id',
+        'item_code',
+        'width',
+        'length',
+        'grammage',
+        'remain_qty',
+        'total_wt'
     )
-    ->join('item_masters as i', 'b.item_id', '=', 'i.id')
+    ->orderBy('item_code', 'asc')
     ->get();
-
 
         return view('temp_job_sheet.list', compact(
             'loggedInUser',
@@ -263,7 +274,7 @@ $job->breaking = $validated['breaking'] ?? 0;
 
                     DB::table('temp_job_sheet_boxboard')->insert([
                         'job_sheet_id' => $job->id,
-                        'item_id' => $parts[1] ?? $itemId,
+                        'item_id' => $parts[0] ?? $itemId,
                         'purchase_v_no' =>$pvno,
                         'length' => $length,
                         'width' => $width,
@@ -340,10 +351,10 @@ $job->breaking = $validated['breaking'] ?? 0;
         'currItem'
     ])->findOrFail($id);
 
-    $stockMap = DB::table('boxboard_views')
+    $stockMap = DB::table('boxboard_stock_qty')
     ->get()
     ->groupBy(function ($item) {
-        return $item->v_no.'_'.$item->item_id.'_'.$item->lenght.'_'.$item->width;
+        return $item->item_id.'_'.$item->length.'_'.$item->width;
     });
 
     foreach ($job->boxboards as $box) {
