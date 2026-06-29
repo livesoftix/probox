@@ -374,9 +374,9 @@ Route::middleware('auth')->group(function () {
     
     //search routes for packaging specs
     Route::get('/probox/search-company', [PackagingSpecController::class, 'searchCompany']);
-Route::get('/probox/search-item', [PackagingSpecController::class, 'searchItem']);
-Route::get('/probox/search-items', [BoxboardReportStockController::class, 'searchItem']);
-
+    Route::get('/probox/search-item', [PackagingSpecController::class, 'searchItem']);
+    Route::get('/probox/search-items', [BoxboardReportStockController::class, 'searchItem']);
+    Route::get('/probox/getItemStock', [TempJobSheetController::class, 'getItemStock']);
     Route::get('/probox/journal_voucher', [JournalVoucherController::class, 'index'])->name('journal_voucher.list');
     Route::post('/probox/journal_voucher', [JournalVoucherController::class, 'store'])->name('journal_voucher.store');
     Route::get('/probox/journal_voucher/reports', [JournalVoucherController::class, 'reports'])->name('journal_voucher.reports');

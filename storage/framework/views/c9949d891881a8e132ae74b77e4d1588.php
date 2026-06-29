@@ -622,7 +622,8 @@ $('#lam_win').prop('checked', false);
 $('#laminationFields, #corrugationFields, #uvFields, #noColorFields, #windowOptions')
     .hide();
 
-$('#lsize, #csize, #color').val('');
+$('#lsize, #csize, #color','.box-length','.box-width').val('');
+// $('.item-selection').text('');
 
 $('#litem').val('').trigger('change');
 $('#citem').val('').trigger('change');
@@ -664,6 +665,29 @@ $('#citem').val('').trigger('change');
                 .val(length);
             firstRow.find('.box-width')
                 .val(width);
+
+            $.ajax({
+    url: '/probox/getItemStock',
+    type: 'GET',
+    data: {
+        item_id: res.item_id,
+        length: length,
+        width: width
+    },
+    success: function(stockRes){
+
+        let totalStock = 0;
+
+        stockRes.forEach(function(item){
+            totalStock += parseFloat(item.remain_qty) || 0;
+        });
+
+        firstRow.find('.total-stock').val(totalStock);
+
+        let usedQty = parseFloat(firstRow.find('.box-stock').val()) || 0;
+        firstRow.find('.box-total-stock').val(totalStock - usedQty);
+    }
+});
 
             return false;
         }

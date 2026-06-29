@@ -429,5 +429,63 @@ foreach ($job->boxboards as $box) {
 
     ]);
 }
+public function getItemStock(Request $request){
+    // dd($request->all());
+$boxboardQuery = DB::table('boxboard_stock_qty')
+    ->select(
+        'item_code',
+        'width',
+        'length',
+        'grammage',
+        'remain_qty',
+        'total_wt'
+    );
+
+if ($request->filled('item_id')) {
+    $boxboardQuery->where('item_id', $request->item_id);
+}
+if ($request->filled('length') && $request->filled('width')) {
+
+    $boxboardQuery->where(function ($q) use ($request) {
+
+        $q->where(function ($q1) use ($request) {
+            // Normal match
+            $q1->where('length', $request->length)
+               ->where('width', $request->width);
+        })
+
+        ->orWhere(function ($q2) use ($request) {
+            // Swapped match
+            $q2->where('length', $request->width)
+               ->where('width', $request->length);
+        });
+
+    });
+
+} else {
+
+    if ($request->filled('length')) {
+        $boxboardQuery->where(function ($q) use ($request) {
+            $q->where('length', $request->length)
+              ->orWhere('width', $request->length);
+        });
+    }
+
+    if ($request->filled('width')) {
+        $boxboardQuery->where(function ($q) use ($request) {
+            $q->where('length', $request->width)
+              ->orWhere('width', $request->width);
+        });
+    }
+
+}
+$boxboardData = $boxboardQuery
+    ->get();
+// dd([
+//     'sql' => $boxboardQuery->toSql(),
+//     'bindings' => $boxboardQuery->getBindings(),
+// ]);
+    return response()->json($boxboardData);
+}
     
 }
