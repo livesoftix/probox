@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\TempJobSheet;
+use App\Models\TempJobSheetBoxboard;
 use App\Models\ProductMaster;
 use App\Models\ItemMaster;
 
@@ -332,12 +333,33 @@ $job->breaking = $validated['breaking'] ?? 0;
     /* -------------------------
         DELETE
     ------------------------- */
-    public function destroy($id)
-    {
-        TempJobSheet::findOrFail($id)->delete();
+
+public function destroy($id)
+{
+    DB::beginTransaction();
+
+    try {
+        $job = TempJobSheet::findOrFail($id);
+
+        // Delete child records first (recommended if foreign keys exist)
+        TempJobSheetBoxboard::where('job_sheet_id', $id)->delete();
+
+        // Delete parent record
+        $job->delete();
+
+        DB::commit();
 
         return back()->with('success', 'Deleted successfully');
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return back()->with('error', 'Delete failed. Nothing was deleted.');
+        // For debugging:
+        // return back()->with('error', $e->getMessage());
     }
+}
 
     /* -------------------------
         PRINT

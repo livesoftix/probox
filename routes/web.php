@@ -185,7 +185,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/probox/temp_job_sheet/addnew', [TempJobSheetController::class, 'create'])->name('tempjob.list');
     Route::get('/probox/tempjob/{id}/print', [TempJobSheetController::class, 'print'])
     ->name('tempjob.print');
-    Route::delete('/probox/Tempjob-details/{$id}', [TempJobSheetController::class, 'destroy'])->name('tempjob.destroy');
+    Route::delete('/probox/temp_job_sheet/{$id}/delete', [TempJobSheetController::class, 'destroy'])->name('tempjob.destroy');
     Route::get('/probox/product-details/{id}', [TempJobSheetController::class, 'getProductDetails']);
 
     Route::get('/probox/get-products/{customerId}', [JobSheetController::class, 'getProducts']);
