@@ -623,7 +623,6 @@ $('#laminationFields, #corrugationFields, #uvFields, #noColorFields, #windowOpti
     .hide();
 
 $('#lsize, #csize, #color','.box-length','.box-width').val('');
-// $('.item-selection').text('');
 
 $('#litem').val('').trigger('change');
 $('#citem').val('').trigger('change');
