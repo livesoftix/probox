@@ -1,295 +1,281 @@
 @extends('layouts.app')
-
-@push('styles')
-    <!-- Select2 CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <style>
-        .print-only {
-            display: none;
-        }
-
-        @media print {
-            .no-print {
-                display: none !important;
-            }
-
-            .print-only {
-                display: table-row !important;
-            }
-
-            .panel-heading,
-            .page-wrapper .container-fluid>.row:first-child {
-                display: none;
-            }
-        }
-
-        .select2-container .select2-selection--single {
-            height: 34px;
-        }
-
-        .table>tbody>tr>td {
-            vertical-align: middle;
-        }
-
-        .mr-25 {
-            margin-right: 10px;
-        }
-
-        .btn-link {
-            background: none;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-        }
-
-        .btn-link:hover {
-            opacity: 0.7;
-        }
-
-        .fa-eye {
-            font-size: 16px;
-            color: #17a2b8;
-        }
-
-        .fa-pencil {
-            font-size: 16px;
-            color: #ffc107;
-        }
-
-        .fa-close {
-            font-size: 16px;
-            color: #dc3545;
-        }
-
-        .fa-eye:hover,
-        .fa-pencil:hover,
-        .fa-close:hover {
-            opacity: 0.8;
-        }
-    </style>
-@endpush
-
 @section('content')
-    <!-- start page title -->
-    <div class="row heading-bg" style="display:flex; align-items:center; padding:10px 15px; margin-bottom:10px;">
-        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12" style="display:flex; align-items:center;">
-            <h5 class="txt-primary" style="margin:0; font-weight:700; font-size:15px; letter-spacing:0.3px;">
-                &nbsp;Stock Adjustments
-            </h5>
-        </div>
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12"
-            style="display:flex; align-items:center; justify-content:flex-end;">
-            <ol class="breadcrumb" style="margin:0; padding:0; background:none; font-size:12px;">
-                <li><a href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
-                <li class="active"><span class="txt-primary">Stock Adjustments</span></li>
-            </ol>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                        <li class="breadcrumb-item active">Data Tables</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Stock Adjustment</h4>
+            </div>
         </div>
     </div>
+
     <!-- end page title -->
 
-    <!-- Search Form Panel -->
     <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default card-view">
-                <div class="panel-heading">
-                    <div class="pull-left">
-                        <h6 class="panel-title txt-dark">Filter Stock Adjustments</h6>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="">
-                    <div class="panel-body">
-                        <form action="{{ route('stock-adj.index') }}" method="GET" id="search-form">
-                            <div class="row">
+        @if (session('success'))
+        <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            <strong>Success - </strong> {{ session('success') }}
+        </div>
+        @endif
 
-                                <!-- Item Name -->
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label class="control-label mb-10 text-left">Item Name</label>
-                                        <select name="item_id" class="form-control select2" data-toggle="select2">
-                                            <option value="">Select Item</option>
-                                            @if(isset($items) && $items->count())
-                                                @foreach ($items as $item)
-                                                    <option value="{{ $item->id }}" {{ request()->get('item_id') == $item->id ? 'selected' : '' }}>
-                                                        {{ str_replace('\\', '/', $item->item_name ?? $item->item_code) . '-' . ($item->urdu_title ?? '') }}
-                                                    </option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
-                                </div>
+        <div class="row">
 
-                                <!-- Voucher No -->
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label class="control-label mb-10 text-left">Voucher No</label>
-                                        <select name="voucher_no" class="form-control select2" data-toggle="select2">
-                                            <option value="">Select Voucher No</option>
-                                            @if(isset($voucherList) && $voucherList->count())
-                                                @foreach ($voucherList as $voucher)
-                                                    <option value="{{ $voucher->v_no }}" {{ request()->get('voucher_no') == $voucher->v_no ? 'selected' : '' }}>
-                                                        {{ $voucher->v_no }}
-                                                    </option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
-                                </div>
+            <div class="card mt-2">
+                <div class="card-body">
 
-                                <!-- Start Date -->
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label class="control-label mb-10 text-left">Start Date</label>
-                                        <input type="date" class="form-control" name="start_date"
-                                            value="{{ request()->get('start_date') }}" autocomplete="off">
-                                    </div>
-                                </div>
-
-                                <!-- End Date -->
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label class="control-label mb-10 text-left">End Date</label>
-                                        <input type="date" class="form-control" name="end_date"
-                                            value="{{ request()->get('end_date') ?? now()->format('Y-m-d') }}"
-                                            autocomplete="off">
-                                    </div>
-                                </div>
-
-                                <!-- Buttons -->
-                                <div class="col-md-12 mt-15">
-                                    <button type="submit" class="btn btn-primary">Show</button>
-                                    <a href="{{ route('stock-adj.create') }}" class="btn btn-success">Add Adjustment</a>
-                                    <a href="{{ route('stock-adj.index') }}" class="btn btn-secondary">Clear</a>
-<button type="button" class="btn btn-secondary" onclick="window.print()">Print</button>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+                    <div class="tab-content">
+                        <div class="col-6">
+                            <form action="{{ route('stock-adj.index') }}" method="GET" class="form-inline" id="search-form">
+    <div class="row">
+        <div class="form-group col-xl-4">
+            <label for="start_date" class="sr-only">Start Date</label>
+            <input type="date" class="form-control" id="start_date" name="start_date"
+                   value="{{ request()->get('start_date') }}">
+        </div>
+        <div class="form-group col-xl-4">
+            <label for="end_date" class="sr-only">End Date</label>
+            <input type="date" class="form-control" id="end_date" name="end_date"
+                   value="{{ request()->get('end_date') }}">
+        </div>
+        <div class="form-group col-xl-4">
+            <label for="employee" class="sr-only">Status</label>
+            <select name="employee" class="form-control select2">
+                <option value="">All</option>
+                <option value="official" {{ request()->get('employee') == 'official' ? 'selected' : '' }}>
+                    Official
+                </option>
+                <option value="unofficial" {{ request()->get('employee') == 'unofficial' ? 'selected' : '' }}>
+                    Unofficial
+                </option>
+            </select>
+        </div>
+    
+        <div class="form-group col-xl-4 mt-2">
+            <label for="v_no" class="form-label">SA No</label>
+            <select name="v_no" class="form-control select2" data-toggle="select2" data-placeholder="Select JS No">
+                <option value="">Select SA No</option>
+                @foreach($vNos as $vNo)
+                    <option value="{{ $vNo }}" {{ request()->get('v_no') == $vNo ? 'selected' : '' }}>
+                        {{ $vNo }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+                                    
+        <div class="form-group col-xl-4 mt-2" style="display:none;">
+    <label for="account_id" class="form-label">Party</label>
+    <select name="account_id" class="form-control select2" data-toggle="select2" data-placeholder="Select Customer">
+        <option value="">Select Party</option>
+        @foreach($accountIds as $id => $title)
+            <option value="{{ $id }}" {{ request()->get('account_id') == $id ? 'selected' : '' }}>
+                {{ $title }}
+            </option>
+        @endforeach
+    </select>
+</div>
+  
+        <div class="form-group mt-3">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a class="btn btn-success" href="{{ route('stock-adj.create') }}" 
+               role="button" onclick="return checkPermission()">Add New</a>
         </div>
     </div>
-
-    <!-- Flash Messages -->
-    @if(session('success'))
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {{ session('success') }}
-                </div>
-            </div>
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {{ session('error') }}
-                </div>
-            </div>
-        </div>
-    @endif
-
-    <!-- Adjustments Table Panel -->
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default card-view">
-                <div class="">
-                    <div class="panel-body">
-                        <div class="table-wrap mt-30">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-bordered mb-0">
-                                    <thead>
-
-                                        <th>Voucher No</th>
-                                        <th>Voucher Date</th>
-                                        <th>Item Name</th>
-                                        <th class="no-print">Actions</th>
-                                    </thead>
-                                    <tbody>
-                                        @forelse(isset($masters) && $masters->count() ? $masters : [] as $master)
-                                            @foreach($master->details as $detail)
-                                                <tr>
-                                                    <td class="fw-bold">{{ $master->v_no }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($master->v_date)->format('d-M-Y') }}</td>
-                                                    <td>{{ $detail->item->item_name ?? $detail->item->item_code ?? 'N/A' }}</td>
-                                                    <td class="no-print text-nowrap">
-                                                        <!-- View Details -->
-                                                        <a href="{{ route('stock-adj.show', $master->id) }}" class="mr-25"
-                                                            data-toggle="tooltip" title="View">
-                                                            <i class="fa fa-eye text-info"></i>
-                                                        </a>
-                                                        <!-- Edit -->
-                                                        <a href="{{ route('stock-adj.edit', $master->v_no) }}" class="mr-25"
-                                                            data-toggle="tooltip" title="Edit">
-                                                            <i class="fa fa-pencil text-inverse"></i>
-                                                        </a>
-                                                        <!-- Delete -->
-                                                        <form action="{{ route('stock-adj.destroy', $master->id) }}" method="POST"
-                                                            style="display:inline-block;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-link p-0"
-                                                                onclick="return confirm('Are you sure you want to delete voucher {{ $master->v_no }}?')"
-                                                                data-toggle="tooltip" title="Delete">
-                                                                <i class="fa fa-close text-danger"></i>
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @empty
-                                            <tr>
-                                                <td colspan="4" class="text-center text-muted py-4">
-                                                    No stock adjustments found.
-                                                </td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
+</form>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Pagination -->
-    @if(isset($masters) && method_exists($masters, 'links'))
-        <div class="row mt-3">
-            <div class="col-sm-12 text-center">
-                {{ $masters->links() }}
-            </div>
         </div>
-    @endif
+
+        <div class="col-12">
+         
+            
+            <!-- Print Button -->
+            <div class="card mt-2">
+                <div class="card-body">
+                    <button type="button" class="btn btn-secondary" onclick="printTable()">Print Table</button>
+                 
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="basic-datatable-preview">
+                            <div style="overflow-x: auto;">
+   
+   <div class="table-responsive">
+                       <table class="table table-striped dt-responsive nowrap w-100">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>V No</th>
+            <!-- <th>Party</th> -->
+            <th>Purchase Type</th>
+            <th>Item</th>
+            <th>Qty</th>
+            <!-- <th>Rate</th> -->
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($generalJobSheets as $general)
+        <tr>
+            <td>{{ \Carbon\Carbon::parse($general->updated_at)->format('Y-m-d') ?? 'N/A' }}</td>
+            <td>{{ 'SA' }}-{{ $general->v_no ?? 'N/A' }} </td>
+<!-- <td>{{ $general->account->title ?? 'N/A' }}</td> -->
+            <td>{{ $general->product_type ?? 'N/A' }}</td>
+            <td>{{ $general->item_name ?? 'N/A' }}</td>
+            <td>{{ $general->qty ?? 'N/A'}}</td>
+            <!-- <td>{{ $general->rate ?? 'N/A'}}</td> -->
+            <td>{{ $general->description ?? ' ' }}</td>
+          
+            <td class="no-print">
+    <a href="{{ route('stock-adj.edit', $general->id) }}" class="btn btn-warning btn-sm" onclick="return checkPermissionEdit()">Edit</a>
+   
+    <form action="{{ route('stock-adj.destroy', $general->id) }}" method="POST" style="display:inline-block;" onclick="return checkPermissionDel()">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this transaction?')">Delete</button>
+    </form>
+</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+                    </div>
+   
+   
+   
+   
+</div>
+                        </div> <!-- end preview-->
+                    </div> <!-- end tab-content-->
+                </div> <!-- end card body-->
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div> <!-- end row-->
+</div>
+<!-- Print Function -->
+<script>
+    
+    function checkPermission() {
+        @php
+        $isAdmin = auth()->user()->is_admin;
+        $canAdd = true;
+
+        if ($isAdmin == 0) {
+            $userRights = \App\Models\Right::where('user_id', auth()->user()->id)
+                ->where('app_name', 'StockAdjustment')
+                ->first();
+            $canAdd = $userRights && $userRights->add == 1;
+        }
+    @endphp
+        
+        if (!@json($canAdd)) {
+            alert('You do not have Permission to Add');
+            return false; // Prevent the default action (navigation)
+        }
+        return true; // Allow navigation
+    }
+    
+    
+    function checkPermissionEdit() {
+        @php
+        $isAdmin = auth()->user()->is_admin;
+        $canAdd = true;
+
+        if ($isAdmin == 0) {
+            $userRights = \App\Models\Right::where('user_id', auth()->user()->id)
+                ->where('app_name', 'StockAdjustment')
+                ->first();
+            $canAdd = $userRights && $userRights->edit == 1;
+        }
+    @endphp
+        
+        if (!@json($canAdd)) {
+            alert('You do not have Permission to Edit');
+            return false; // Prevent the default action (navigation)
+        }
+        return true; // Allow navigation
+    }
+    
+    function checkPermissionDel() {
+      
+        @php
+        $isAdmin = auth()->user()->is_admin;
+        $canAdd = true;
+
+        if ($isAdmin == 0) {
+            $userRights = \App\Models\Right::where('user_id', auth()->user()->id)
+                ->where('app_name', 'StockAdjustment')
+                ->first();
+            $canAdd = $userRights && $userRights->del == 1;
+        }
+    @endphp
+        if (!@json($canAdd)) {
+            alert('You do not have Permission to Delete');
+            return false; // Prevent the default action (navigation)
+        }
+        return true; // Allow navigation
+    }
+    
+    
+  const today = new Date().toISOString().split('T')[0];
+
+// Set the value of the input field to the current date
+document.getElementById('end_date').value = today;
+
+    function printTable() {
+        // Hide elements with 'no-print' class
+        const elementsToHide = document.querySelectorAll('.no-print');
+        elementsToHide.forEach(el => el.style.display = 'none');
+
+        const printContents = document.getElementById('basic-datatable').outerHTML;
+        const originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = `
+                <html>
+                    <head>
+                        <title>Print Table</title>
+                        <style>
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                            }
+                            th, td {
+                                border: 1px solid #ddd;
+                                padding: 8px;
+                            }
+                            th {
+                                background-color: #f2f2f2;
+                                text-align: left;
+                            }
+                            .no-print{
+                                background-color: #f2f2f2;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        ${printContents}
+                    </body>
+                </html>
+            `;
+
+        window.print();
+        document.body.innerHTML = originalContents;
+        window.location.reload(); // Reload to restore the original page content
+    }
+    
+    $(document).ready(function() {
+    $('.select2').select2();
+});
+
+ 
+</script>
 @endsection
-
-@push('scripts')
-    <!-- Select2 JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
-    <script>
-        $(function () {
-            // Initialize Select2
-            $('.select2').select2();
-
-            // Dismiss alerts
-            $('.alert .close').on('click', function () {
-                $(this).closest('.alert').fadeOut();
-            });
-
-            // Initialize tooltips
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
-@endpush
