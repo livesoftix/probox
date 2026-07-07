@@ -311,7 +311,7 @@ function loadUpdatedStock()
         var config = viewMap[purchaseType];
         
         $.ajax({
-            url: '/printingcell/get-purchased-items',
+            url: '/probox/get-purchased-items',
             type: 'GET',
             data: { 
                 purchase_type: purchaseType,
@@ -378,7 +378,7 @@ function loadUpdatedStock()
         } 
         else if (purchaseType === 'Purchase Plate') {
             $.ajax({
-                url: '/printingcell/get-purchase-item-details',
+                url: '/probox/get-purchase-item-details',
                 type: 'GET',
                 data: { 
                     purchase_type: purchaseType,

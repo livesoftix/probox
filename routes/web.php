@@ -496,7 +496,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/probox/stock-adj', StockAdjController::class)->names('stock-adj');
     Route::delete('/stock-adj-detail/{id}', [StockAdjController::class, 'destroyDetail'])
     ->name('stock-adj.destroy-detail');
-     Route::get('/probox/get-updated-stock', [StockAdjController::class, 'getUpdatedStock'])
+    Route::get('/probox/get-updated-stock', [StockAdjController::class, 'getUpdatedStock'])
     ->name('stock-adj.updated-stock');
     Route::get('/probox/get-purchased-items', [StockAdjController::class, 'getPurchaseItems']);
     // Route::get('/probox/stock-adj', [StockAdjController::class, 'report'])->name('stock-adj.report');
