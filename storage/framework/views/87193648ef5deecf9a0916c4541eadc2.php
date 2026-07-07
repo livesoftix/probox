@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid">
         <!-- Start page title -->
         <div class="row">
@@ -18,19 +17,21 @@
         </div>
         <!-- End page title -->
 
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                {{ session('success') }}
-            </div>
-        @endif
+                <?php echo e(session('success')); ?>
 
-        @if (session('error'))
+            </div>
+        <?php endif; ?>
+
+        <?php if(session('error')): ?>
             <div class="alert alert-danger alert-dismissible text-bg-danger border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                {{ session('error') }}
+                <?php echo e(session('error')); ?>
+
             </div>
-        @endif
+        <?php endif; ?>
 
         <div class="row">
             <div class="col-12">
@@ -39,9 +40,9 @@
                         <div class="tab-content">
                             <div class="tab-pane show active" id="input-types-preview">
                                 <div class="row">
-                                    <form id="voucherForm" action="{{ route('stock-adj.store') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <meta name="csrf-token" content="{{ csrf_token() }}">
+                                    <form id="voucherForm" action="<?php echo e(route('stock-adj.store')); ?>" method="POST" enctype="multipart/form-data">
+                                        <?php echo csrf_field(); ?>
+                                        <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
                                         <div class="col-6">
                                             <input type="hidden" id="invoice_type" class="form-control" name="v_type"
@@ -57,7 +58,7 @@
                                             <div class="mb-3">
                                                 <label for="preparedBy" class="form-label">Prepared By</label>
                                                 <input type="text" id="preparedBy" class="form-control"
-                                                    value="{{$loggedInUser->name}}" name="prepared_by" readonly>
+                                                    value="<?php echo e($loggedInUser->name); ?>" name="prepared_by" readonly>
                                             </div>
 
                                           
@@ -398,4 +399,5 @@ $('#product_type').change(function() {
     }
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/stock-adj/create.blade.php ENDPATH**/ ?>

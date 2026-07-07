@@ -9,7 +9,17 @@ class StockAdjMaster extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['v_no', 'v_date', 'prepared_by', 'cid'];
+    protected $fillable = ['v_no', 'v_date', 'prepared_by', 'cid','item_id',
+    'product_type',
+        'item_name',
+        'length',
+        'width',
+        'product_name',
+        'country_name',
+        'size',
+        'qty',
+        'description',
+    ];
 
     public function details()
     {

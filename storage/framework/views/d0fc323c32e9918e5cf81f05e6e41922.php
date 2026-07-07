@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid">
         <!-- Start page title -->
         <div class="row">
@@ -7,30 +6,32 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Softix</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
-                            <li class="breadcrumb-item active">Stock Adjustment</li>
+                            <li class="breadcrumb-item active">General Job Sheet</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">Stock Adjustment</h4>
+                    <h4 class="page-title">General Job Sheet</h4>
                 </div>
             </div>
         </div>
         <!-- End page title -->
 
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                {{ session('success') }}
-            </div>
-        @endif
+                <?php echo e(session('success')); ?>
 
-        @if (session('error'))
+            </div>
+        <?php endif; ?>
+
+        <?php if(session('error')): ?>
             <div class="alert alert-danger alert-dismissible text-bg-danger border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                {{ session('error') }}
+                <?php echo e(session('error')); ?>
+
             </div>
-        @endif
+        <?php endif; ?>
 
         <div class="row">
             <div class="col-12">
@@ -39,9 +40,9 @@
                         <div class="tab-content">
                             <div class="tab-pane show active" id="input-types-preview">
                                 <div class="row">
-                                    <form id="voucherForm" action="{{ route('stock-adj.store') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <meta name="csrf-token" content="{{ csrf_token() }}">
+                                    <form id="voucherForm" action="<?php echo e(route('general-job-sheet.store')); ?>" method="POST" enctype="multipart/form-data">
+                                        <?php echo csrf_field(); ?>
+                                        <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
                                         <div class="col-6">
                                             <input type="hidden" id="invoice_type" class="form-control" name="v_type"
@@ -57,10 +58,21 @@
                                             <div class="mb-3">
                                                 <label for="preparedBy" class="form-label">Prepared By</label>
                                                 <input type="text" id="preparedBy" class="form-control"
-                                                    value="{{$loggedInUser->name}}" name="prepared_by" readonly>
+                                                    value="<?php echo e($loggedInUser->name); ?>" name="prepared_by" readonly>
                                             </div>
 
-                                          
+                                            <div class="mb-3">
+                                                <label for="entryParty" class="form-label">Party</label>
+                                               <select name="account" class="form-control select2" data-toggle="select2" id="entryParty" required>
+    <option value="">Select</option>
+    <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $accountSupplie): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <option value="<?php echo e($accountSupplie->id); ?>">
+            <?php echo e($accountSupplie->title); ?>
+
+        </option>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</select>
+                                            </div>
                                             
                                           
                                             
@@ -83,8 +95,12 @@
     <label for="item_name" class="form-label">Item Title</label>
     <select name="item_name" class="form-control select2" data-toggle="select2" id="item_name" required>
         <option value="">Select</option>
+        <?php if(isset($items)): ?>
+            <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($item->id); ?>"><?php echo e($item->item_code ?? $item->item_name ?? $item->name); ?></option>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        <?php endif; ?>
     </select>
-    <input type="hidden" name="item_id" id="item_id">
 </div>
 
 <!-- Boxboard Fields -->
@@ -136,14 +152,14 @@
                                             
                                             
                                             
-                                            <div class="mb-3" style="display:none">
+                                            <div class="mb-3">
                                                 <label for="rate" class="form-label">Rate</label>
                                                 <input type="number" id="rate" class="form-control" name="rate" step="any">
                                             </div>
                                             
                                             
 
-                                            <div class="mb-3" style="display:none">
+                                            <div class="mb-3">
                                                 <label for="description" class="form-label">Description</label>
                                                 <textarea type="text" id="description" class="form-control" name="description"></textarea>
                                             </div>
@@ -239,12 +255,10 @@ $(document).ready(function() {
    // Item name change handler - using proper Select2 event
 $('#item_name').on('select2:select', function(e) {
     var selectedType = $('#product_type').val();
-    
     var itemValue = $(this).val();
     
     // Clear quantity when item changes
     $('#qty').val('0');
-    $('#item_id').val('');
     
     if (selectedType && itemValue) {
         loadItemDetails(selectedType, itemValue);
@@ -254,7 +268,7 @@ $('#item_name').on('select2:select', function(e) {
 // Product type change handler
 $('#product_type').change(function() {
     var selectedType = $(this).val();
-    $('#item_id').val('');
+    
     // Hide all fields first
     $('[id^="purchase_"]').hide();
     $('#size_fields').hide();
@@ -301,7 +315,7 @@ $('#product_type').change(function() {
     var config = viewMap[purchaseType];
     
     $.ajax({
-        url: '/printingcell/get-purchased-items',
+        url: '/probox/get-purchase-items',
         type: 'GET',
         data: { 
             purchase_type: purchaseType,
@@ -324,7 +338,6 @@ $('#product_type').change(function() {
                         text: displayText,
                         'data-length': value.length,
                         'data-width': value.width,
-                        'data-item-id': value.item_id,
                         'data-remain-qty': value.remain_qty || 0
                     }));
                 } else if (purchaseType === 'Lamination Purchase' || purchaseType === 'Corrugation Purchase') {
@@ -333,7 +346,6 @@ $('#product_type').change(function() {
                     $select.append($('<option>', {
                         value: itemValue,
                         text: displayText,
-                        'data-item-id': value.item_id,
                         'data-remain-qty': value.remain_qty || 0,
                         'data-size': value.size || ''
                     }));
@@ -341,7 +353,6 @@ $('#product_type').change(function() {
                     $select.append($('<option>', {
                         value: itemValue,
                         text: displayText,
-                        'data-item-id': value.item_id,
                         'data-remain-qty': value.remain_qty || 0
                     }));
                 }
@@ -363,10 +374,8 @@ $('#product_type').change(function() {
     function loadItemDetails(purchaseType, itemValue) {
         var selectedOption = $('#item_name option:selected');
         var remainQty = selectedOption.data('remain-qty') || 0;
-        var itemId = selectedOption.data('item-id') || 0;
         
         $('#total_qty').val(remainQty);
-        $('#item_id').val(itemId);
         
         if (purchaseType === 'Purchase Boxboard') {
             $('#length').val(selectedOption.data('length'));
@@ -374,7 +383,7 @@ $('#product_type').change(function() {
         } 
         else if (purchaseType === 'Purchase Plate') {
             $.ajax({
-                url: '/printingcell/get-purchase-item-details',
+                url: '/probox/get-purchase-item-details',
                 type: 'GET',
                 data: { 
                     purchase_type: purchaseType,
@@ -398,4 +407,5 @@ $('#product_type').change(function() {
     }
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/general_job_sheet/list.blade.php ENDPATH**/ ?>

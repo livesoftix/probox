@@ -1,386 +1,405 @@
 @extends('layouts.app')
-
-@section('title', 'Edit Stock Adjustment')
-
-
-   <style>
-    .table-responsive {
-        overflow-x: auto;   /* only horizontal scroll allowed */
-        overflow-y: visible;
-    }
-
-    .table-wrap {
-        overflow: visible;
-    }
-
-    tr, td {
-        position: relative;
-    }
-
-   
-
-    .pxi-display {
-        width: 100%;
-        padding: 0.5rem 0.75rem;
-        background: #fff;
-        border: 1px solid #ced4da;
-        border-radius: 0.25rem;
-        text-align: left;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .pxi-arrow {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        pointer-events: none;
-    }
-
-  .pxi-dropdown {
-    position: fixed !important;   /* 🔥 important change */
-    z-index: 999999 !important;
-    display: none;
-    max-height: 250px;
-    overflow-y: auto;
-    background: #fff;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-    
-}
-    .pxi-dropdown.open {
-        display: block !important;
-    }
-
-    .pxi-search-wrap {
-        padding: 8px;
-        border-bottom: 1px solid #e9ecef;
-    }
-
-    .pxi-search {
-        width: 100%;
-        padding: 0.375rem 0.75rem;
-        border: 1px solid #ced4da;
-        border-radius: 0.25rem;
-    }
-
-    .pxi-option {
-        padding: 0.5rem 0.75rem;
-        cursor: pointer;
-    }
-
-    .pxi-option:hover {
-        background: #f8f9fa;
-    }
-    .pxi-wrap {
-    position: relative;
-}
-
-
-</style>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function () {
-
-    let rowIndex = {{ $stock_adj->details->count() ?? 0 }};
-
-    // -----------------------------
-    // OPEN DROPDOWN
-    // -----------------------------
-   $(document).on('click', '.pxi-display', function (e) {
-    e.stopPropagation();
-
-    const wrap = this.closest('.pxi-wrap');
-    const dropdown = wrap.querySelector('.pxi-dropdown');
-
-    // close others
-    document.querySelectorAll('.pxi-dropdown').forEach(d => {
-        if (d !== dropdown) d.classList.remove('open');
-    });
-
-    dropdown.classList.toggle('open');
-
-    // ✅ FIX WIDTH HERE
-    const rect = this.getBoundingClientRect();
-    dropdown.style.width = rect.width + 'px';
-
-    const search = wrap.querySelector('.pxi-search');
-    if (search) search.focus();
-});
-
-    // -----------------------------
-    // CLOSE OUTSIDE CLICK
-    // -----------------------------
-    $(document).on('click', function () {
-        document.querySelectorAll('.pxi-dropdown')
-            .forEach(d => d.classList.remove('open'));
-    });
-
-    // -----------------------------
-    // SEARCH FILTER (FIXED)
-    // -----------------------------
-    $(document).on('input', '.pxi-search', function () {
-        const val = this.value.toLowerCase();
-        const dropdown = this.closest('.pxi-dropdown');
-
-        dropdown.querySelectorAll('.pxi-option').forEach(opt => {
-            opt.style.display =
-                opt.innerText.toLowerCase().includes(val) ? '' : 'none';
-        });
-    });
-
-    // -----------------------------
-    // SELECT ITEM (MOST IMPORTANT FIX)
-    // -----------------------------
-    $(document).on('click', '.pxi-option', function () {
-
-        const wrap = this.closest('.pxi-wrap');
-        const display = wrap.querySelector('.pxi-display');
-        const hidden = wrap.querySelector('.pxi-hidden-val');
-        const rateInput = wrap.closest('tr').querySelector('.rate-input');
-        const qtyInput = wrap.closest('tr').querySelector('.qty-input');
-
-        display.innerText = this.innerText;
-        hidden.value = this.dataset.value;
-        rateInput.value = this.dataset.rate;
-        console.log("Stock for selected item:", this.dataset.stock); // Debug log to check stock value
-        qtyInput.value = this.dataset.stock;
-
-        wrap.querySelector('.pxi-dropdown').classList.remove('open');
-    });
-
-    // -----------------------------
-    // ADD ROW (FIXED)
-    // -----------------------------
-    $('#addRow').on('click', function () {
-
-        const tbody = document.querySelector('#detailsTable tbody');
-
-        const items = @json($items);
-
-        let options = '';
-
-        items.forEach(item => {
-            options += `
-                <div class="pxi-option"
-                    data-value="${item.id}"
-                    data-rate="${item.purchase ?? 0}"
-                    data-stock="${item.current_stock ?? 0}">
-                    ${item.item_code ?? item.id}
-                </div>
-            `;
-        });
-
-        const html = `
-        <tr>
-            <td>
-                <div class="pxi-wrap">
-                    <div class="pxi-display">-- Select Item --</div>
-
-                    <div class="pxi-dropdown">
-                        <div class="pxi-search-wrap">
-                            <input type="text" class="pxi-search" placeholder="Search item...">
-                        </div>
-                        ${options}
-                    </div>
-
-                    <input type="hidden"
-                        name="details[${rowIndex}][item_id]"
-                        class="pxi-hidden-val">
-                </div>
-            </td>
-
-            <td>
-                <input type="number" step="0.01"
-                    name="details[${rowIndex}][qty]"
-                    class="form-control qty-input" >
-            </td>
-
-            <td>
-                <input type="number" step="0.01"
-                    name="details[${rowIndex}][rate]"
-                    class="form-control rate-input">
-            </td>
-
-            <td>
-                <button type="button" class="btn btn-danger btn-sm remove-row">X</button>
-            </td>
-        </tr>`;
-
-        tbody.insertAdjacentHTML('beforeend', html);
-
-        rowIndex++;
-    });
-
-    // -----------------------------
-    // REMOVE ROW
-    // -----------------------------
-    $(document).on('click', '.remove-row', function () {
-        $(this).closest('tr').remove();
-    });
-
-    const rect = this.getBoundingClientRect();
-
-document.body.appendChild(dropdown);
-
-dropdown.style.display = 'block';
-dropdown.style.left = rect.left + 'px';
-dropdown.style.top = (rect.bottom + window.scrollY) + 'px';
-dropdown.style.width = rect.width + 'px';   // ✅ THIS FIXES WIDTH
-dropdown.style.width = this.offsetWidth + 'px';
-});
-</script>
 @section('content')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    {{-- Breadcrumb --}}
-    <div class="row heading-bg" style="display:flex; align-items:center; padding:10px 15px; margin-bottom:10px;">
-        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12" style="display:flex; align-items:center;">
-            <h5 class="txt-primary" style="margin:0; font-weight:700; font-size:15px; letter-spacing:0.3px;">
-                &nbsp;Edit Stock Adjustment — {{ $stock_adj->v_no }}
-            </h5>
-        </div>
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12"
-            style="display:flex; align-items:center; justify-content:flex-end;">
-            <ol class="breadcrumb" style="margin:0; padding:0; background:none; font-size:12px;">
-                <li><a href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ route('stock-adj.index') }}">Stock Adjustment</a></li>
-                <li class="active"><span class="txt-primary">Edit Stock Adjustment</span></li>
-            </ol>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="">
-                <div class=""></div>
-                <div class="">
-                    <div class="">
-                        <div class="">
-                            @if($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul class="mb-0">
-                                        @foreach($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-
-                            <form action="{{ route('stock-adj.update', $stock_adj->id) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-
-                                {{-- Hidden fields --}}
-                                <input type="hidden" name="v_no" value="{{ $stock_adj->v_no }}">
-                                <input type="hidden" name="prepared_by" value="{{ $stock_adj->prepared_by }}">
-
-                                {{-- Voucher Date --}}
-                                <div class="row">
-                                    <div class="col-md-4 form-group">
-                                        <label class="control-label mb-10 text-left txt-primary">Voucher Date</label>
-                                        <input type="date" name="v_date" class="form-control"
-                                            value="{{ $stock_adj->v_date }}" required>
-                                    </div>
-                                </div>
-
-                                {{-- Item Details Table --}}
-                                <h5 class="mt-4 mb-3 txt-primary">Item Details</h5>
-                                <div class="table-wrap">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="detailsTable">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th style="width:45%">Item</th>
-                                                    <th style="width:25%">Qty (+/-)</th>
-                                                    <th style="width:20%">Rate</th>
-                                                    <th style="width:10%">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($stock_adj->details as $i => $detail)
-                                                    <tr class="stock-adjustment-row">
-                                                        <td>
-                                                            <div class="pxi-wrap">
-                                                                <button type="button" class="pxi-display">
-                                                                    @php
-                                                                        $selectedItem = $items->firstWhere('id', $detail->item_id);
-                                                                    @endphp
-                                                                    {{ $selectedItem ? $selectedItem->item_code : '-- Select Item --' }}
-                                                                </button>
-                                                                <span class="pxi-arrow">
-                                                                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
-                                                                        <path d="M1 1L5 5L9 1" stroke="#888" stroke-width="1.5"
-                                                                            stroke-linecap="round" stroke-linejoin="round" />
-                                                                    </svg>
-                                                                </span>
-                                                                <div class="pxi-dropdown">
-                                                                    <div class="pxi-search-wrap">
-                                                                        <input type="text" class="pxi-search"
-                                                                            placeholder="Search item...">
-                                                                    </div>
-                                                                    <div class="pxi-list">
-                                                                        @foreach($items as $item)
-                                                                            @php
-                                                                                $rate = $item->purchase ?? 0;
-                                                                            @endphp
-                                                                            <div class="pxi-option" data-value="{{ $item->id }}"
-                                                                                data-rate="{{ $rate }}" {{ $detail->item_id == $item->id ? 'data-selected="true"' : '' }} data-stock="{{ $item->current_stock ?? 0 }}">
-                                                                                {{ $item->item_code ?? $item->id }}
-                                                                            </div>
-                                                                        @endforeach
-                                                                    </div>
-                                                                </div>
-                                                                <input type="hidden" name="details[{{ $i }}][item_id]"
-                                                                    class="pxi-hidden-val" value="{{ $detail->item_id }}"
-                                                                    required>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <input type="number" step="0.01" min="-999999"
-                                                                name="details[{{ $i }}][qty]" class="form-control qty-input"
-                                                                value="{{ $detail->qty }}" required>
-                                                        </td>
-                                                        <td>
-                                                            <input type="number" step="0.01" name="details[{{ $i }}][rate]"
-                                                                class="form-control rate-input" value="{{ $detail->rate }}"
-                                                                required>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <button type="button" class="btn btn-danger btn-sm remove-row"><i
-                                                                    class="fa fa-close"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="form-group mt-20 mb-0">
-                                    <button type="button" id="addRow" class="btn btn-primary btn-anim mr-10">
-                                        <i class="fa fa-plus"></i>
-                                        <span class="btn-text">Add Row</span>
-                                    </button>
-                                    <button type="submit" class="btn btn-success btn-anim mr-10">
-                                        <i class="icon-rocket"></i>
-                                        <span class="btn-text">Update</span>
-                                    </button>
-                                    <a href="{{ route('stock-adj.index') }}" class="btn btn-default btn-anim">
-                                        <i class="fa fa-times"></i>
-                                        <span class="btn-text">Cancel</span>
-                                    </a>
-                                </div>
-                            </form>
-                        </div>
+    <div class="container-fluid">
+        <!-- Start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                            <li class="breadcrumb-item active">Edit Stock Adjustment</li>
+                        </ol>
                     </div>
+                    <h4 class="page-title">Edit Stock Adjustment</h4>
                 </div>
             </div>
         </div>
+        <!-- End page title -->
+
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible text-bg-danger border-0 fade show" role="alert">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="input-types-preview">
+                                <div class="row">
+                                    <form id="voucherForm" action="{{ route('stock-adj.update', $jobSheet->id) }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+                                        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+                                        <div class="col-6">
+                                            <input type="hidden" id="invoice_type" class="form-control" name="v_type"
+                                                value="DPN" required readonly>
+                                            <input type="hidden" id="invoice" class="form-control" name="invoice_number"
+                                                required>
+                                            
+                                            <div class="mb-3">
+                                                <label for="entryDate" class="form-label">Date</label>
+                                                <input type="date" id="entryDate" class="form-control" name="date" value="{{ $jobSheet->created_at->format('Y-m-d') }}">
+                                            </div>
+
+                                            <div class="mb-3" >
+                                                <label for="preparedBy" class="form-label">Prepared By</label>
+                                                <input type="text" id="preparedBy" class="form-control"
+                                                    value="{{ $jobSheet->prepared_by }}" name="prepared_by" readonly>
+                                            </div>
+
+                                            <div class="mb-3" style="display:none">
+                                                <label for="entryParty" class="form-label">Party</label>
+                                                <select name="account" class="form-control select2" data-toggle="select2" id="entryParty" required>
+                                                    <option value="">Select</option>
+                                                    @foreach ($accounts->whereIn('level2_id', [4, 7]) as $accountSupplie)
+                                                        <option value="{{ $accountSupplie->id }}" {{ $jobSheet->account_id == $accountSupplie->id ? 'selected' : '' }}>
+                                                            {{ $accountSupplie->title }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="product_type" class="sr-only">Purchase Type</label>
+                                                <select name="product_type" class="form-control select2" data-toggle="select2" id="product_type">
+                                                    <option value="">Select</option>
+                                                    <option value="Purchase Boxboard" {{ $jobSheet->product_type == 'Purchase Boxboard' ? 'selected' : '' }}>Purchase Boxboard</option>
+                                                    <option value="Purchase Plate" {{ $jobSheet->product_type == 'Purchase Plate' ? 'selected' : '' }}>Purchase Plate</option>
+                                                    <option value="Glue Purchase" {{ $jobSheet->product_type == 'Glue Purchase' ? 'selected' : '' }}>Glue Purchase</option>
+                                                    <option value="Ink Purchase" {{ $jobSheet->product_type == 'Ink Purchase' ? 'selected' : '' }}>Ink Purchase</option>
+                                                    <option value="Lamination Purchase" {{ $jobSheet->product_type == 'Lamination Purchase' ? 'selected' : '' }}>Lamination Purchase</option>
+                                                    <option value="Corrugation Purchase" {{ $jobSheet->product_type == 'Corrugation Purchase' ? 'selected' : '' }}>Corrugation Purchase</option>
+                                                    <option value="Shipper Purchase" {{ $jobSheet->product_type == 'Shipper Purchase' ? 'selected' : '' }}>Shipper Purchase</option>
+                                                    <option value="Dye Purchase" {{ $jobSheet->product_type == 'Dye Purchase' ? 'selected' : '' }}>Dye Purchase</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="item_name" class="form-label">Item Title</label>
+                                                <select name="item_name" class="form-control select2" data-toggle="select2" id="item_name" required>
+                                                    <option value="{{ $jobSheet->item_name }}" selected>{{ $jobSheet->item_name }}</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Boxboard Fields -->
+                                            <div class="row" id="purchase_boxboard" style="display:{{ $jobSheet->product_type == 'Purchase Boxboard' ? 'block' : 'none' }};">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="length" class="form-label">Length</label>
+                                                    <input type="number" id="length" class="form-control" name="length" step="any" value="{{ $jobSheet->length }}" {{ $jobSheet->product_type == 'Purchase Boxboard' ? '' : 'readonly' }}>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="width" class="form-label">Width</label>
+                                                    <input type="number" id="width" class="form-control" name="width" step="any" value="{{ $jobSheet->width }}" {{ $jobSheet->product_type == 'Purchase Boxboard' ? '' : 'readonly' }}>
+                                                </div>
+                                            </div>
+
+                                            <!-- Plate Fields -->
+                                            <div class="row" id="purchase_plate" style="display:{{ $jobSheet->product_type == 'Purchase Plate' ? 'block' : 'none' }};">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="product_name" class="form-label">Product Name</label>
+                                                    <input type="text" id="product_name" class="form-control" name="product_name" value="{{ $jobSheet->product_name }}" {{ $jobSheet->product_type == 'Purchase Plate' ? '' : 'readonly' }}>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="country_name" class="form-label">Country</label>
+                                                    <input type="text" id="country_name" class="form-control" name="country_name" value="{{ $jobSheet->country_name }}" {{ $jobSheet->product_type == 'Purchase Plate' ? '' : 'readonly' }}>
+                                                </div>
+                                            </div>
+
+                                            <!-- Size Fields (for Lamination/Corrugation) -->
+                                            <div class="row" id="size_fields" style="display:{{ in_array($jobSheet->product_type, ['Lamination Purchase', 'Corrugation Purchase']) ? 'block' : 'none' }};">
+                                                <div class="mb-3">
+                                                    <label for="size" class="form-label">Size</label>
+                                                    <input type="number" id="size" class="form-control" name="size" step="any" value="{{ $jobSheet->size }}" {{ in_array($jobSheet->product_type, ['Lamination Purchase', 'Corrugation Purchase']) ? '' : 'readonly' }}>
+                                                </div>
+                                            </div>
+
+                                            <!-- Common Quantity Field -->
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="total_qty" class="form-label">Total Qty</label>
+                                                    <input type="number" id="total_qty" class="form-control" name="total_qty" step="any" value="" readonly>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="qty" class="form-label">Quantity</label>
+                                                    <input type="number" id="qty" class="form-control" name="qty" step="any" value="{{ $jobSheet->qty }}">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mb-3" style="display:none">
+                                                <label for="rate" class="form-label">Rate</label>
+                                                <input type="number" id="rate" class="form-control" name="rate" step="any" value="{{ $jobSheet->rate }}">
+                                            </div>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <div class="mb-3">
+                                                <label for="description" class="form-label">Description</label>
+                                                <textarea type="text" id="description" class="form-control" name="description">{{ $jobSheet->description }}</textarea>
+                                            </div>
+                                            
+
+                                            <button type="submit" class="btn btn-success">Update Voucher</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- End row-->
+                            </div> <!-- End preview-->
+                        </div> <!-- End tab-content-->
+                    </div> <!-- End card-body -->
+                </div> <!-- End card -->
+            </div><!-- End col -->
+        </div><!-- End row -->
     </div>
+    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const totalQtyInput = document.getElementById('total_qty');
+    const qtyInput = document.getElementById('qty');
+    
+    qtyInput.addEventListener('input', function() {
+        const totalQty = parseFloat(totalQtyInput.value) || 0;
+        const qty = parseFloat(this.value) || 0;
+        
+        if (qty > totalQty) {
+            this.value = totalQty;
+            alert('Quantity cannot exceed Total Quantity');
+        }
+    });
+    
+    // Optional: Also validate when leaving the field (on blur)
+    qtyInput.addEventListener('blur', function() {
+        const totalQty = parseFloat(totalQtyInput.value) || 0;
+        const qty = parseFloat(this.value) || 0;
+        
+        if (qty > totalQty) {
+            this.value = totalQty;
+            alert('Quantity cannot exceed Total Quantity');
+        }
+    });
+});
+
+$(document).ready(function() {
+    loadUpdatedStock();
+
+function loadUpdatedStock()
+{
+    $.ajax({
+        url: "{{ route('stock-adj.updated-stock') }}",
+        type: "GET",
+        data: {
+            purchase_type: $('#product_type').val(),
+            item_id: $('#item_name').val()
+        },
+        success: function(res) {
+
+            $('#total_qty').val(res.remain_qty);
+
+            if(res.length){
+                $('#length').val(res.length);
+            }
+
+            if(res.width){
+                $('#width').val(res.width);
+            }
+
+            if(res.size){
+                $('#size').val(res.size);
+            }
+
+            if(res.product_name){
+                $('#product_name').val(res.product_name);
+            }
+
+            if(res.country_name){
+                $('#country_name').val(res.country_name);
+            }
+
+        },
+        error:function(xhr){
+            console.log(xhr.responseText);
+        }
+    });
+}
+    // Initialize select2 once
+    $('.select2').select2();
+
+    // Store original product type for comparison
+    const originalProductType = $('#product_type').val();
+
+    // Product type change handler
+    $('#product_type').change(function() {
+        var selectedType = $(this).val();
+        
+        // Hide all fields first
+        $('[id^="purchase_"]').hide();
+        $('#size_fields').hide();
+        
+        // Clear fields when changing product type (except when reverting to original)
+        if (selectedType !== originalProductType) {
+            $('#length, #width, #product_name, #country_name, #size, #total_qty').val('');
+            $('#item_name').empty().append('<option value="">Select</option>');
+        }
+        
+        // Clear quantity when product type changes
+        $('#qty').val('0');
+        
+        if (selectedType) {
+            // Only load items if changing to a different product type
+            if (selectedType !== originalProductType) {
+                loadItems(selectedType);
+            }
+            
+            // Show relevant fields based on selection
+            switch(selectedType) {
+                case 'Purchase Boxboard':
+                    $('#purchase_boxboard').show();
+                    break;
+                case 'Purchase Plate':
+                    $('#purchase_plate').show();
+                    break;
+                case 'Lamination Purchase':
+                case 'Corrugation Purchase':
+                    $('#size_fields').show();
+                    break;
+            }
+        }
+    });
+
+    // Item name change handler - using proper Select2 event
+    $('#item_name').on('select2:select', function(e) {
+        var selectedType = $('#product_type').val();
+        var itemValue = $(this).val();
+        
+        // Clear quantity when item changes
+        $('#qty').val('0');
+        
+        if (selectedType && itemValue) {
+            loadItemDetails(selectedType, itemValue);
+        }
+    });
+
+    function loadItems(purchaseType) {
+        var viewMap = {
+            'Purchase Boxboard': { view: 'boxboard_view', itemColumn: 'item_code' },
+            'Purchase Plate': { view: 'plate_view', itemColumn: 'item_code' },
+            'Glue Purchase': { view: 'glue_view', itemColumn: 'item' },
+            'Ink Purchase': { view: 'ink_view', itemColumn: 'item' },
+            'Lamination Purchase': { view: 'lamination_view', itemColumn: 'item_name' },
+            'Corrugation Purchase': { view: 'corrugation_view', itemColumn: 'item_name' },
+            'Shipper Purchase': { view: 'shipper_view', itemColumn: 'item' },
+            'Dye Purchase': { view: 'dye_view', itemColumn: 'item_name' }
+        };
+        
+        var config = viewMap[purchaseType];
+        
+        $.ajax({
+            url: '/printingcell/get-purchased-items',
+            type: 'GET',
+            data: { 
+                purchase_type: purchaseType,
+                view: config.view,
+                item_column: config.itemColumn
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log("Items loaded:", data);
+                var $select = $('#item_name').empty().append('<option value="">Select</option>');
+                
+                $.each(data, function(key, value) {
+                    var itemValue = value[config.itemColumn];
+                    var displayText = itemValue;
+                    
+                    if (purchaseType === 'Purchase Boxboard') {
+                        displayText = value.item_code + ' (L:' + value.length + ' x W:' + value.width + ')';
+                        $select.append($('<option>', {
+                            value: itemValue,
+                            text: displayText,
+                            'data-length': value.length,
+                            'data-width': value.width,
+                            'data-remain-qty': value.remain_qty || 0
+                        }));
+                    } else if (purchaseType === 'Lamination Purchase' || purchaseType === 'Corrugation Purchase') {
+                        displayText = value.item_name + ' | ' + (value.size || '');
+                        $select.append($('<option>', {
+                            value: itemValue,
+                            text: displayText,
+                            'data-remain-qty': value.remain_qty || 0,
+                            'data-size': value.size || ''
+                        }));
+                    } else {
+                        $select.append($('<option>', {
+                            value: itemValue,
+                            text: displayText,
+                            'data-remain-qty': value.remain_qty || 0
+                        }));
+                    }
+                });
+                
+                // Refresh Select2 safely
+                if ($select.hasClass('select2-hidden-accessible')) {
+                    $select.select2('destroy');
+                }
+                $select.select2();
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX Error:", status, error, xhr.responseText);
+                alert('Failed to load items. Error: ' + (xhr.responseJSON?.error || 'Unknown error'));
+            }
+        });
+    }
+    
+    function loadItemDetails(purchaseType, itemValue) {
+        var selectedOption = $('#item_name option:selected');
+        var remainQty = selectedOption.data('remain-qty') || 0;
+        
+        $('#total_qty').val(remainQty);
+        
+        if (purchaseType === 'Purchase Boxboard') {
+            $('#length').val(selectedOption.data('length'));
+            $('#width').val(selectedOption.data('width'));
+        } 
+        else if (purchaseType === 'Purchase Plate') {
+            $.ajax({
+                url: '/printingcell/get-purchase-item-details',
+                type: 'GET',
+                data: { 
+                    purchase_type: purchaseType,
+                    view: 'plate_view',
+                    item_column: 'item_code',
+                    item_value: itemValue
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $('#product_name').val(data.product_name || '');
+                    $('#country_name').val(data.country_name || '');
+                },
+                error: function(xhr) {
+                    console.error("Error fetching details:", xhr.responseText);
+                }
+            });
+        }
+        else if (purchaseType === 'Lamination Purchase' || purchaseType === 'Corrugation Purchase') {
+            $('#size').val(selectedOption.data('size') || '');
+        }
+    }
+});
+</script>
 @endsection
