@@ -120,13 +120,22 @@
     </div>
 </div>
 
+
 <!-- Common Quantity Field -->
 <div class="row">
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-3">
         <label for="total_qty" class="form-label">Total Qty</label>
         <input type="number" id="total_qty" class="form-control" name="total_qty" step="any" readonly>
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-3"  >
+    <label>Adjustment Type</label>
+
+    <select class="form-control select2" id="adjustment_type" data-toggle="select2">
+        <option value="OUT">OUT</option>
+        <option value="IN">IN</option>
+    </select>
+</div>
+    <div class="col-md-4 mb-3">
         <label for="qty" class="form-label">Quantity</label>
         <input type="number" id="qty" class="form-control" name="qty" step="any">
     </div>
@@ -149,13 +158,39 @@
                                                 <textarea type="text" id="description" class="form-control" name="description"></textarea>
                                             </div>
                                             
-
+ <button type="button" class="btn btn-primary" id="addRow">
+    + Add Row
+</button>
                                             <button type="submit" class="btn btn-success">Submit Voucher</button>
                                         </div>
+    <hr>
 
+<h5>Adjustment Items</h5>
+
+<table class="table table-bordered" id="detailsTable">
+    <thead>
+        <tr>
+            <th>Product Type</th>
+            <th>Item</th>
+            <th>Length</th>
+            <th>Width</th>
+            <th>Size</th>
+            <th>Stock Qty</th>
+            <th>Adjust Qty</th>
+            <th>Type</th>
+            <th width="80">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    </tbody>
+</table>
                                 
                                     </form>
+                                   
                                 </div>
+              
                                 <!-- End row-->
                             </div> <!-- End preview-->
                         </div> <!-- End tab-content-->
@@ -195,6 +230,101 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Quantity cannot exceed Total Quantity');
         }
     });
+});
+
+
+$('#addRow').click(function () {
+
+    if($('#product_type').val()==''){
+        alert('Select Product Type');
+        return;
+    }
+
+    if($('#item_name').val()==''){
+        alert('Select Item');
+        return;
+    }
+
+    if($('#qty').val()=='' || $('#qty').val()==0){
+        alert('Enter Quantity');
+        return;
+    }
+
+    var row='';
+
+    row += '<tr>';
+
+    row += '<td>'
+        + $('#product_type').val()
+        + '<input type="hidden" name="product_type[]" value="'+$('#product_type').val()+'">'
+        + '</td>';
+
+    row += '<td>'
+        + $('#item_name option:selected').text()
+        + '<input type="hidden" name="item_name[]" value="'+$('#item_name').val()+'">'
+        + '<input type="hidden" name="item_id[]" value="'+$('#item_id').val()+'">'
+        + '</td>';
+
+    row += '<td>'
+        + $('#length').val()
+        + '<input type="hidden" name="length[]" value="'+$('#length').val()+'">'
+        + '</td>';
+
+    row += '<td>'
+        + $('#width').val()
+        + '<input type="hidden" name="width[]" value="'+$('#width').val()+'">'
+        + '</td>';
+
+    row += '<td>'
+        + $('#size').val()
+        + '<input type="hidden" name="size[]" value="'+$('#size').val()+'">'
+        + '</td>';
+
+    row += '<td>'
+        + $('#total_qty').val()
+        + '</td>';
+
+    row += '<td>'
+        + $('#qty').val()
+        + '<input type="hidden" name="qty[]" value="'+$('#qty').val()+'">'
+        + '</td>';
+
+    row += '<td>'
+        + $('#adjustment_type').val()
+        + '<input type="hidden" name="adjustment_type[]" value="'+$('#adjustment_type').val()+'">'
+        + '</td>';
+
+    row += '<td>';
+
+    row += '<button type="button" class="btn btn-danger btn-sm removeRow">Delete</button>';
+
+    row += '</td>';
+row += '<input type="hidden" name="product_name[]" value="'+$('#product_name').val()+'">';
+row += '<input type="hidden" name="country_name[]" value="'+$('#country_name').val()+'">';
+row += '<input type="hidden" name="description[]" value="'+$('#description').val()+'">';
+    row += '</tr>';
+
+    $('#detailsTable tbody').append(row);
+
+    // Clear form
+    $('#product_type').val('').trigger('change');
+    $('#item_name').empty().append('<option value="">Select</option>').trigger('change');
+
+    $('#item_id').val('');
+    $('#length').val('');
+    $('#width').val('');
+    $('#size').val('');
+    $('#product_name').val('');
+    $('#country_name').val('');
+    $('#total_qty').val('');
+    $('#qty').val('');
+    $('#adjustment_type').val('OUT');
+
+});
+$(document).on('click','.removeRow',function(){
+
+    $(this).closest('tr').remove();
+
 });
 
 $(document).ready(function() {
@@ -302,7 +432,7 @@ $('#product_type').change(function() {
     var config = viewMap[purchaseType];
     
     $.ajax({
-        url: '/printingcell/get-purchased-items',
+        url: '/probox/get-purchased-items',
         type: 'GET',
         data: { 
             purchase_type: purchaseType,
@@ -375,7 +505,7 @@ $('#product_type').change(function() {
         } 
         else if (purchaseType === 'Purchase Plate') {
             $.ajax({
-                url: '/printingcell/get-purchase-item-details',
+                url: '/probox/get-purchase-item-details',
                 type: 'GET',
                 data: { 
                     purchase_type: purchaseType,

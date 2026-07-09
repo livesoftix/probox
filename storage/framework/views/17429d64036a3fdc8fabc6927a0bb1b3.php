@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid">
         <!-- Start page title -->
         <div class="row">
@@ -18,19 +17,21 @@
         </div>
         <!-- End page title -->
 
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                {{ session('success') }}
-            </div>
-        @endif
+                <?php echo e(session('success')); ?>
 
-        @if (session('error'))
+            </div>
+        <?php endif; ?>
+
+        <?php if(session('error')): ?>
             <div class="alert alert-danger alert-dismissible text-bg-danger border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                {{ session('error') }}
+                <?php echo e(session('error')); ?>
+
             </div>
-        @endif
+        <?php endif; ?>
 
         <div class="row">
             <div class="col-12">
@@ -39,10 +40,10 @@
                         <div class="tab-content">
                             <div class="tab-pane show active" id="input-types-preview">
                                 <div class="row">
-                                    <form id="voucherForm" action="{{ route('stock-adj.update',$master->id) }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        @method('PUT')
-                                        <meta name="csrf-token" content="{{ csrf_token() }}">
+                                    <form id="voucherForm" action="<?php echo e(route('stock-adj.update',$master->id)); ?>" method="POST" enctype="multipart/form-data">
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('PUT'); ?>
+                                        <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
                                         <div class="col-6">
                                             <input type="hidden" id="invoice_type" class="form-control" name="v_type"
@@ -52,13 +53,13 @@
                                             
                                             <div class="mb-3">
                                                 <label for="entryDate" class="form-label">Date</label>
-                                                <input type="date" id="entryDate" class="form-control" name="date" value="{{ $master->v_date }}">
+                                                <input type="date" id="entryDate" class="form-control" name="date" value="<?php echo e($master->v_date); ?>">
                                             </div>
 
                                             <div class="mb-3" >
                                                 <label for="preparedBy" class="form-label">Prepared By</label>
                                                 <input type="text" id="preparedBy" class="form-control"
-                                                    value="{{ $loggedInUser->name }}" name="prepared_by" readonly>
+                                                    value="<?php echo e($loggedInUser->name); ?>" name="prepared_by" readonly>
                                             </div>
 
                                             
@@ -167,7 +168,7 @@
         <th>Item</th>
         <th>Length</th>
         <th>Width</th>
-        <!-- <th>Size</th> -->
+        <th>Size</th>
         <th>Qty</th>
         <th>Type</th>
         <th>Action</th>
@@ -176,66 +177,73 @@
 
     <tbody>
 
-@foreach($master->details as $detail)
+<?php $__currentLoopData = $master->details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $detail): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
 <tr>
 
 <td>
-{{ $detail->product_type }}
+<?php echo e($detail->product_type); ?>
 
-<input type="hidden" name="detail_id[]" value="{{ $detail->id }}">
-<input type="hidden" name="product_type[]" value="{{ $detail->product_type }}">
 
-</td>
-
-<td>
-
-{{ $detail->item_name }}
-
-<input type="hidden" name="item_name[]" value="{{ $detail->item_name }}">
-<input type="hidden" name="item_id[]" value="{{ $detail->item_id }}">
+<input type="hidden" name="detail_id[]" value="<?php echo e($detail->id); ?>">
+<input type="hidden" name="product_type[]" value="<?php echo e($detail->product_type); ?>">
 
 </td>
 
 <td>
 
-{{ $detail->length }}
+<?php echo e($detail->item_name); ?>
 
-<input type="hidden" name="length[]" value="{{ $detail->length }}">
 
-</td>
-
-<td>
-
-{{ $detail->width }}
-
-<input type="hidden" name="width[]" value="{{ $detail->width }}">
-
-</td>
-
-<!-- <td>
-
-{{ $detail->size }}
-
-<input type="hidden" name="size[]" value="{{ $detail->size }}">
-
-</td> -->
-
-<td>
-
-{{ $detail->qty }}
-
-<input type="hidden" name="qty[]" value="{{ $detail->qty }}">
+<input type="hidden" name="item_name[]" value="<?php echo e($detail->item_name); ?>">
+<input type="hidden" name="item_id[]" value="<?php echo e($detail->item_id); ?>">
 
 </td>
 
 <td>
 
-{{ $detail->adjustment_type }}
+<?php echo e($detail->length); ?>
+
+
+<input type="hidden" name="length[]" value="<?php echo e($detail->length); ?>">
+
+</td>
+
+<td>
+
+<?php echo e($detail->width); ?>
+
+
+<input type="hidden" name="width[]" value="<?php echo e($detail->width); ?>">
+
+</td>
+
+<td>
+
+<?php echo e($detail->size); ?>
+
+
+<input type="hidden" name="size[]" value="<?php echo e($detail->size); ?>">
+
+</td>
+
+<td>
+
+<?php echo e($detail->qty); ?>
+
+
+<input type="hidden" name="qty[]" value="<?php echo e($detail->qty); ?>">
+
+</td>
+
+<td>
+
+<?php echo e($detail->adjustment_type); ?>
+
 
 <input type="hidden"
 name="adjustment_type[]"
-value="{{ $detail->adjustment_type }}">
+value="<?php echo e($detail->adjustment_type); ?>">
 
 </td>
 
@@ -244,7 +252,7 @@ value="{{ $detail->adjustment_type }}">
 <button
 type="button"
 class="btn btn-danger btn-sm removeRow"
-data-id="{{ $detail->id }}">
+data-id="<?php echo e($detail->id); ?>">
 Delete
 
 </button>
@@ -253,7 +261,7 @@ Delete
 
 </tr>
 
-@endforeach
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 </tbody>
 
@@ -339,7 +347,10 @@ $('#addRow').click(function () {
             <input type="hidden" name="width[]" value="${width}">
         </td>
 
-        
+        <td>
+            ${size}
+            <input type="hidden" name="size[]" value="${size}">
+        </td>
 
         <td>
             ${qty}
@@ -392,7 +403,7 @@ $(document).ready(function() {
 function loadUpdatedStock()
 {
     $.ajax({
-        url: "{{ route('stock-adj.updated-stock') }}",
+        url: "<?php echo e(route('stock-adj.updated-stock')); ?>",
         type: "GET",
         data: {
             purchase_type: $('#product_type').val(),
@@ -627,4 +638,5 @@ function loadUpdatedStock()
     }
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/stock-adj/edit.blade.php ENDPATH**/ ?>

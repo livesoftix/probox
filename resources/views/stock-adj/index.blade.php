@@ -45,18 +45,7 @@
             <input type="date" class="form-control" id="end_date" name="end_date"
                    value="{{ request()->get('end_date') }}">
         </div>
-        <div class="form-group col-xl-4">
-            <label for="employee" class="sr-only">Status</label>
-            <select name="employee" class="form-control select2">
-                <option value="">All</option>
-                <option value="official" {{ request()->get('employee') == 'official' ? 'selected' : '' }}>
-                    Official
-                </option>
-                <option value="unofficial" {{ request()->get('employee') == 'unofficial' ? 'selected' : '' }}>
-                    Unofficial
-                </option>
-            </select>
-        </div>
+       
     
         <div class="form-group col-xl-4 mt-2">
             <label for="v_no" class="form-label">SA No</label>
@@ -70,17 +59,7 @@
             </select>
         </div>
                                     
-        <div class="form-group col-xl-4 mt-2" style="display:none;">
-    <label for="account_id" class="form-label">Party</label>
-    <select name="account_id" class="form-control select2" data-toggle="select2" data-placeholder="Select Customer">
-        <option value="">Select Party</option>
-        @foreach($accountIds as $id => $title)
-            <option value="{{ $id }}" {{ request()->get('account_id') == $id ? 'selected' : '' }}>
-                {{ $title }}
-            </option>
-        @endforeach
-    </select>
-</div>
+       
   
         <div class="form-group mt-3">
             <button type="submit" class="btn btn-primary">Search</button>
@@ -119,26 +98,32 @@
             <th>Item</th>
             <th>Qty</th>
             <!-- <th>Rate</th> -->
-            <th>Description</th>
+            <th>Type</th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($generalJobSheets as $general)
+        @foreach ($adjustments as $detail)
+        
         <tr>
-            <td>{{ \Carbon\Carbon::parse($general->updated_at)->format('Y-m-d') ?? 'N/A' }}</td>
-            <td>{{ 'SA' }}-{{ $general->v_no ?? 'N/A' }} </td>
-<!-- <td>{{ $general->account->title ?? 'N/A' }}</td> -->
-            <td>{{ $general->product_type ?? 'N/A' }}</td>
-            <td>{{ $general->item_name ?? 'N/A' }}</td>
-            <td>{{ $general->qty ?? 'N/A'}}</td>
-            <!-- <td>{{ $general->rate ?? 'N/A'}}</td> -->
-            <td>{{ $general->description ?? ' ' }}</td>
+           <td>{{ $detail->v_date }}</td>
+
+<td>SA-{{ $detail->v_no }}</td>
+
+<td>{{ $detail->product_type }}</td>
+
+<td>{{ $detail->item_name }}</td>
+
+<td>{{ $detail->qty }}</td>
+
+<td>{{ $detail->adjustment_type }}</td>
+
+<!-- <td>{{ $detail->description }}</td> -->
           
             <td class="no-print">
-    <a href="{{ route('stock-adj.edit', $general->id) }}" class="btn btn-warning btn-sm" onclick="return checkPermissionEdit()">Edit</a>
+    <a href="{{ route('stock-adj.edit', $detail->id) }}" class="btn btn-warning btn-sm" onclick="return checkPermissionEdit()">Edit</a>
    
-    <form action="{{ route('stock-adj.destroy', $general->id) }}" method="POST" style="display:inline-block;" onclick="return checkPermissionDel()">
+    <form action="{{ route('stock-adj.destroy', $detail->id) }}" method="POST" style="display:inline-block;" onclick="return checkPermissionDel()">
         @csrf
         @method('DELETE')
         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this transaction?')">Delete</button>

@@ -18,42 +18,38 @@ class StockAdjController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
- $query = StockAdjMaster::query()->with('accounts');
+   public function index(Request $request)
+{
+    $query = StockAdjDetail::with('master');
 
-        // Apply filters
-        if ($request->has('start_date') && $request->start_date) {
-            $query->whereDate('created_at', '>=', $request->start_date);
-        }
-
-        if ($request->has('end_date') && $request->end_date) {
-            $query->whereDate('created_at', '<=', $request->end_date);
-        }
-
-        if ($request->has('v_no') && $request->v_no) {
-            $query->where('v_no', $request->v_no);
-        }
-
-
-        if ($request->has('employee') && $request->employee) {
-            $query->where('employee_type', $request->employee);
-        }
-
-        $generalJobSheets = $query->get();
-
-        // Get only account_ids that exist in general_job_sheets
-        $vNos = StockAdjMaster::distinct()->pluck('v_no');
-        $accountIds = StockAdjMaster::with('accounts')
-            
-            ->distinct()
-            ->get()
-            ->pluck('account.title', 'account_id')
-            ->filter();
-
-        return view('stock-adj.index', compact('generalJobSheets', 'vNos', 'accountIds'));
+    if ($request->start_date) {
+        $query->whereDate('v_date','>=',$request->start_date);
     }
 
+    if ($request->end_date) {
+        $query->whereDate('v_date','<=',$request->end_date);
+    }
+
+    if ($request->v_no) {
+        $query->where('v_no',$request->v_no);
+    }
+
+    if ($request->product_type) {
+        $query->where('product_type',$request->product_type);
+    }
+
+    $adjustments = $query
+        ->orderBy('v_no','desc')
+        ->get();
+// dd($adjustments);
+    $vNos = StockAdjMaster::orderBy('v_no','desc')
+                ->pluck('v_no');
+
+    return view(
+        'stock-adj.index',
+        compact('adjustments','vNos')
+    );
+}
     /**
      * Show the form for creating a new resource.
      */
@@ -106,24 +102,24 @@ class StockAdjController extends Controller
 
 public function store(Request $request)
 {
-    $validatedData = $request->validate([
+    // dd($request->all());
+    $request->validate([
         'date' => 'required|date',
-        'product_type' => 'required|string',
-        'item_name' => 'required|string',
-        'qty' => 'required|numeric|min:0.01',
-        'description' => 'nullable|string',
-        'item_id' => 'nullable|numeric',
 
-        // Purchase Boxboard
-        'length' => 'nullable|numeric|required_if:product_type,Purchase Boxboard',
-        'width' => 'nullable|numeric|required_if:product_type,Purchase Boxboard',
+        'product_type' => 'required|array',
+        'product_type.*' => 'required|string',
 
-        // Purchase Plate
-        'product_name' => 'nullable|string|required_if:product_type,Purchase Plate',
-        'country_name' => 'nullable|string|required_if:product_type,Purchase Plate',
+        'item_name' => 'required|array',
+        'item_name.*' => 'required|string',
 
-        // Lamination / Corrugation
-        'size' => 'nullable|numeric|required_if:product_type,Lamination Purchase,Corrugation Purchase',
+        'item_id' => 'required|array',
+        'item_id.*' => 'required',
+
+        'qty' => 'required|array',
+        'qty.*' => 'required|numeric|min:0.01',
+
+        'adjustment_type' => 'required|array',
+        'adjustment_type.*' => 'required|in:IN,OUT',
     ]);
 
     DB::beginTransaction();
@@ -134,45 +130,55 @@ public function store(Request $request)
         $maxVoucher = StockAdjMaster::max('v_no');
         $newVoucher = $maxVoucher ? $maxVoucher + 1 : 1;
 
-        $stockAdj = new StockAdjMaster();
+        // Master
+        StockAdjMaster::create([
+            'v_no'        => $newVoucher,
+            'v_date'      => $request->date,
+            'prepared_by' => auth()->id(),
+            'cid'         => auth()->user()->cid ?? auth()->id(),
+        ]);
 
-        $stockAdj->v_no = $newVoucher;
-        $stockAdj->v_date = $validatedData['date'];
-        $stockAdj->item_id = $validatedData['item_id'];
+        // Details
+        foreach ($request->item_id as $key => $itemId) {
 
-        $stockAdj->prepared_by = auth()->user()->id;
-        $stockAdj->cid = auth()->user()->cid ?? auth()->user()->id;
+            StockAdjDetail::create([
 
-        $stockAdj->product_type = $validatedData['product_type'];
-        $stockAdj->item_name = $validatedData['item_name'];
-        $stockAdj->qty = $validatedData['qty'];
-        $stockAdj->description = $validatedData['description'] ?? null;
+                'v_no' => $newVoucher,
 
-        switch ($validatedData['product_type']) {
+                'v_date' => $request->date,
 
-            case 'Purchase Boxboard':
-                $stockAdj->length = $validatedData['length'];
-                $stockAdj->width = $validatedData['width'];
-                break;
+                'cid' => auth()->user()->cid ?? auth()->id(),
 
-            case 'Purchase Plate':
-                $stockAdj->product_name = $validatedData['product_name'];
-                $stockAdj->country_name = $validatedData['country_name'];
-                break;
+                'item_id' => $itemId,
 
-            case 'Lamination Purchase':
-            case 'Corrugation Purchase':
-                $stockAdj->size = $validatedData['size'];
-                break;
+                'product_type' => $request->product_type[$key],
+
+                'item_name' => $request->item_name[$key],
+
+                'qty' => $request->qty[$key],
+
+                'adjustment_type' => $request->adjustment_type[$key],
+
+                'description' => $request->description[$key] ?? null,
+
+                'length' => $request->length[$key] ?? null,
+
+                'width' => $request->width[$key] ?? null,
+
+                'product_name' => $request->product_name[$key] ?? null,
+
+                'country_name' => $request->country_name[$key] ?? null,
+
+                'size' => $request->size[$key] ?? null,
+
+            ]);
         }
-
-        $stockAdj->save();
 
         DB::commit();
 
         return redirect()
             ->route('stock-adj.index')
-            ->with('success', 'Stock Adjustment created successfully. Voucher No: ' . $newVoucher);
+            ->with('success', 'Stock Adjustment created successfully. Voucher No: '.$newVoucher);
 
     } catch (\Exception $e) {
 
@@ -180,7 +186,7 @@ public function store(Request $request)
 
         return redirect()->back()
             ->withInput()
-            ->with('error', 'Error creating Stock Adjustment: ' . $e->getMessage());
+            ->with('error', $e->getMessage());
     }
 }
 
@@ -195,116 +201,92 @@ public function store(Request $request)
     }
 
    
+public function edit($id)
+{
+    $detail = StockAdjDetail::findOrFail($id);
 
-    public function edit($id)
-    {
-  
-        try {
-            // Find the StockAdjMaster by ID with account relationship
-            $jobSheet = StockAdjMaster::with('accounts')->findOrFail($id);
+    $master = StockAdjMaster::with('details')
+                ->where('v_no', $detail->v_no)
+                ->firstOrFail();
 
-            // Get necessary data for the form
-            $loggedInUser = Auth::user();
-            $accounts = AccountMaster::whereIn('level2_id', [4, 7])->get();
-            $saleAccounts = AccountMaster::all();
-            $items = ItemMaster::all();
+    $loggedInUser = auth()->user();
 
-            return view('stock-adj.edit', compact(
-                'jobSheet',
-                'loggedInUser',
-                'items',
-                'accounts',
-                'saleAccounts'
-            ));
-
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Error loading edit form: '.$e->getMessage());
-        }
-    }
-
+    return view('stock-adj.edit', compact(
+        'master',
+        'loggedInUser',
+        'detail'
+    ));
+}
 
     /**
      * Update the specified resource in storage.
      */
-   public function update(Request $request, $id)
-    {
-        // Validate the request data
-        $validatedData = $request->validate([
-            'prepared_by' => 'required|string',
-            'account' => 'required|exists:account_masters,id',
-            'product_type' => 'required|string',
-            'item_name' => 'required|string',
-            'qty' => 'required|numeric|min:0.01',
-            'rate' => 'required|numeric|min:0',
-            'description' => 'nullable|string',
-            'item_id' => 'nullable|numeric',
+  public function update(Request $request,$id)
+{
+    // dd($request->all());
+    DB::beginTransaction();
 
-            // Conditional fields based on product type
-            'length' => 'nullable|numeric|required_if:product_type,Purchase Boxboard',
-            'width' => 'nullable|numeric|required_if:product_type,Purchase Boxboard',
-            'product_name' => 'nullable|string|required_if:product_type,Purchase Plate',
-            'country_name' => 'nullable|string|required_if:product_type,Purchase Plate',
-            'size' => 'nullable|numeric|required_if:product_type,Lamination Purchase,Corrugation Purchase',
+    try{
+
+        $master = StockAdjMaster::findOrFail($id);
+
+        $master->update([
+            'v_date'=>$request->date
         ]);
 
-        try {
-            // Find the existing GeneralJobSheet record
-            $jobSheet = StockAdjMaster::findOrFail($id);
+        StockAdjDetail::where('v_no',$master->v_no)->delete();
 
-            // Update the basic fields
-            $jobsheet->item_id=$validatedData['item_id'];
-            $jobSheet->prepared_by = auth()->user()->name;
-            $jobSheet->product_type = $validatedData['product_type'];
-            $jobSheet->item_name = $validatedData['item_name'];
-            $jobSheet->qty = $validatedData['qty'];
-            $jobSheet->description = $validatedData['description'] ?? null;
+        foreach($request->item_id as $key=>$item){
 
-            // Update fields based on product type
-            switch ($validatedData['product_type']) {
-                case 'Purchase Boxboard':
-                    $jobSheet->length = $validatedData['length'];
-                    $jobSheet->width = $validatedData['width'];
-                    // Clear other type-specific fields
-                    $jobSheet->product_name = null;
-                    $jobSheet->country_name = null;
-                    $jobSheet->size = null;
-                    break;
+            StockAdjDetail::create([
 
-                case 'Purchase Plate':
-                    $jobSheet->product_name = $validatedData['product_name'];
-                    $jobSheet->country_name = $validatedData['country_name'];
-                    // Clear other type-specific fields
-                    $jobSheet->length = null;
-                    $jobSheet->width = null;
-                    $jobSheet->size = null;
-                    break;
+                'v_no'=>$master->v_no,
 
-                case 'Lamination Purchase':
-                case 'Corrugation Purchase':
-                    $jobSheet->size = $validatedData['size'];
-                    // Clear other type-specific fields
-                    $jobSheet->length = null;
-                    $jobSheet->width = null;
-                    $jobSheet->product_name = null;
-                    $jobSheet->country_name = null;
-                    break;
-            }
+                'v_date'=>$request->date,
 
-            // Save the updated record
-            $jobSheet->save();
+                'cid'=>auth()->user()->cid ?? auth()->id(),
 
-            // Return success response
-            return redirect()->route('stock-adj.report')
-                ->with('success', 'Stock Adjustment updated successfully.');
+                'item_id'=>$item,
 
-        } catch (\Exception $e) {
-            // Return error response if something goes wrong
-            return redirect()->back()
-                ->with('error', 'Error updating Stock Adjustment: '.$e->getMessage())
-                ->withInput();
+                'product_type'=>$request->product_type[$key],
+
+                'item_name'=>$request->item_name[$key],
+
+                'qty'=>$request->qty[$key],
+
+                'adjustment_type'=>$request->adjustment_type[$key],
+
+                'description'=>$request->description[$key] ?? null,
+
+                'length'=>$request->length[$key] ?? null,
+
+                'width'=>$request->width[$key] ?? null,
+
+                'product_name'=>$request->product_name[$key] ?? null,
+
+                'country_name'=>$request->country_name[$key] ?? null,
+
+                'size'=>$request->size[$key] ?? null,
+
+            ]);
+
         }
+
+        DB::commit();
+
+        return redirect()
+            ->route('stock-adj.index')
+            ->with('success','Updated Successfully');
+
+    }catch(\Exception $e){
+
+        DB::rollBack();
+
+        return back()->withInput()->with('error',$e->getMessage());
+
     }
+
+}
     public function report(){
           $user = auth()->user();
 
@@ -317,23 +299,35 @@ public function store(Request $request)
     /**
      * Remove the specified resource from storage.
      */
- public function destroy($id)
+public function destroy($id)
 {
-    // Find master record (voucher)
-    $stockAdj = StockAdjMaster::find($id);
+    DB::beginTransaction();
 
-    if (!$stockAdj) {
-        return redirect()->back()->with('error', 'Record not found.');
+    try {
+
+        $detail = StockAdjDetail::findOrFail($id);
+
+        $vNo = $detail->v_no;
+
+        // Delete selected detail
+        $detail->delete();
+
+        // Delete master if no details remain
+        if (!StockAdjDetail::where('v_no', $vNo)->exists()) {
+            StockAdjMaster::where('v_no', $vNo)->delete();
+        }
+
+        DB::commit();
+
+        return back()->with('success', 'Deleted Successfully');
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return back()->with('error', $e->getMessage());
+
     }
-
-    // Delete all related details using v_no
-    // StockAdjDetail::where('v_no', $stockAdj->v_no)->delete();
-
-    // Delete master
-    $stockAdj->delete();
-    // dd('Deleted');
-
-    return redirect()->back()->with('success', 'Stock Adjustment deleted successfully.');
 }
 public function destroyDetail($id)
 {
