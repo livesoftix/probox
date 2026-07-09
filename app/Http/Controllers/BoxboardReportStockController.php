@@ -27,7 +27,7 @@ class BoxboardReportStockController extends Controller
         // Stock View Data
        $boxboardQuery = DB::table('boxboard_stock_qty')
     ->select(
-        'item_code',
+       
         'width',
         'length',
         'grammage',
@@ -77,7 +77,7 @@ if ($request->filled('length') && $request->filled('width')) {
 
 }
 $boxboardData = $boxboardQuery
-    ->orderBy('item_code', 'asc')
+    ->orderBy('item_id', 'asc')
     ->get();
 
         // Accounts List
