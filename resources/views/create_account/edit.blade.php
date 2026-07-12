@@ -1548,6 +1548,7 @@
 
             // Product Registration section
             ['productRegistrations', 'productRegistration-sub-options'],
+            ['stockAdjustment', 'stockAdjustment-options']
 
             // Job Sheet section
             ['job', 'job-options'],
