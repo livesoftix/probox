@@ -64,7 +64,7 @@
                                             
                                             
                                             <div class="mb-3">
-                                                <label for="product_type" class="sr-only">Purchase Type</label>
+                                                <label for="product_type" class="sr-only">Voucher Type</label>
                                                 <select name="product_type" class="form-control select2" data-toggle="select2" id="product_type">
                                                     <option value="">Select</option>
                                                     <option value="Purchase Boxboard" >Purchase Boxboard</option>
@@ -75,6 +75,7 @@
                                                     <option value="Corrugation Purchase" >Corrugation Purchase</option>
                                                     <option value="Shipper Purchase" >Shipper Purchase</option>
                                                     <option value="Dye Purchase">Dye Purchase</option>
+                                                    <option value="Others">Others</option>
                                                 </select>
                                             </div>
 
@@ -437,6 +438,15 @@ function loadUpdatedStock()
     // Product type change handler
     $('#product_type').change(function() {
         var selectedType = $(this).val();
+         if (selectedType === 'Others') {
+    $('#total_qty')
+        .prop('readonly', false)
+        .val('');
+} else {
+    $('#total_qty')
+        .prop('readonly', true)
+        .val('');
+}
         
         // Hide all fields first
         $('[id^="purchase_"]').hide();
@@ -469,6 +479,9 @@ function loadUpdatedStock()
                 case 'Corrugation Purchase':
                     $('#size_fields').show();
                     break;
+                case 'Others':
+                    $('#size_fields').show();
+                    break;
             }
         }
     });
@@ -499,6 +512,12 @@ function loadUpdatedStock()
         case 'Corrugation Purchase':
             $('#size_fields').show();
             break;
+        case 'Others':
+               $('#purchase_boxboard').show();
+
+               $('#length, #width').prop('readonly', false);
+               break;
+        
     }
 
     if(selectedType){
@@ -521,6 +540,44 @@ function loadUpdatedStock()
     });
 
     function loadItems(purchaseType) {
+
+     // OTHERS - ALL ITEM MASTER
+    // ============================
+       if (purchaseType === 'Others') {
+
+        $.ajax({
+            url: '/probox/get-all-items',
+            type: 'GET',
+            dataType: 'json',
+
+            success: function (data) {
+
+                let $select = $('#item_name')
+                    .empty()
+                    .append('<option value="">Select</option>');
+
+                $.each(data, function (key, item) {
+
+                    $select.append($('<option>', {
+                        value: item.item_code,
+                        text: item.item_code,
+                        'data-item-id': item.id,
+                        'data-remain-qty': 0
+                    }));
+                });
+
+                $select.trigger('change');
+                
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseText);
+            }
+        });
+
+        return;
+    }
+
         var viewMap = {
             'Purchase Boxboard': { view: 'boxboard_view', itemColumn: 'item_code' },
             'Purchase Plate': { view: 'plate_view', itemColumn: 'item_code' },
