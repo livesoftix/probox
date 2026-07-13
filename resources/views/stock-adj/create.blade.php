@@ -425,7 +425,7 @@ $('#product_type').change(function() {
 
   // OTHERS - ALL ITEM MASTER
     // ============================
-    if (purchaseType === 'Others') {
+       if (purchaseType === 'Others') {
 
         $.ajax({
             url: '/probox/get-all-items',
@@ -434,25 +434,16 @@ $('#product_type').change(function() {
 
             success: function (data) {
 
-                console.log('Item Master Items:', data);
-
                 let $select = $('#item_name')
                     .empty()
                     .append('<option value="">Select</option>');
 
                 $.each(data, function (key, item) {
 
-                    let displayText = item.item_code;
-
-                    if (item.size) {
-                        displayText += ' | Size: ' + item.size;
-                    }
-
                     $select.append($('<option>', {
                         value: item.item_code,
-                        text: displayText,
-                        'data-item-id': item.item_id ?? item.id,
-                        'data-size': item.size || '',
+                        text: item.item_code,
+                        'data-item-id': item.id,
                         'data-remain-qty': 0
                     }));
                 });
@@ -462,12 +453,12 @@ $('#product_type').change(function() {
 
             error: function (xhr) {
                 console.error(xhr.responseText);
-                alert('Failed to load Item Master items');
             }
         });
 
         return;
     }
+
 
 
     var viewMap = {
