@@ -677,7 +677,7 @@ firstRow.find('.item-selection option').each(function () {
         return false;
     }
 });
-
+console.log(matchedValue);
 if (matchedValue) {
 
     firstRow.find('.item-selection')
