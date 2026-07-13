@@ -646,51 +646,74 @@ $('#citem').val('').trigger('change');
                 $('#ups').val(ups);
                  let firstRow = $('.item-row:first');
                  console.log(res);
+let matchedOption = null;
 
-    firstRow.find('.item-selection option').each(function(){
+firstRow.find('.item-selection option').each(function () {
 
-        if($(this).data('itemid') == res.item_id){
+    let parts = $(this).val()
+        ? $(this).val().split('_')
+        : [];
 
-         let itemCode = $(this).text().split('(')[0].trim();
+    let optionItemId = parts[0];
+    let optionWidth  = parseFloat(parts[1]) || 0;
+    let optionLength = parseFloat(parts[2]) || 0;
 
-        // Option text update
-        $(this).text(
-            itemCode + ' (L:' + length + ' x W:' + width + ')'
-        );
-            firstRow.find('.item-selection')
-                .val($(this).val())
-                .trigger('change');
-            firstRow.find('.box-length')
-                .val(length);
-            firstRow.find('.box-width')
-                .val(width);
-
-            $.ajax({
-    url: '/probox/getItemStock',
-    type: 'GET',
-    data: {
-        item_id: res.item_id,
-        length: length,
-        width: width
-    },
-    success: function(stockRes){
-
-        let totalStock = 0;
-
-        stockRes.forEach(function(item){
-            totalStock += parseFloat(item.remain_qty) || 0;
-        });
-
-        firstRow.find('.total-stock').val(totalStock);
-
-        let usedQty = parseFloat(firstRow.find('.box-stock').val()) || 0;
-        firstRow.find('.box-total-stock').val(totalStock - usedQty);
+    if (
+        optionItemId == res.item_id &&
+        optionLength == length &&
+        optionWidth == width
+    ) {
+        matchedOption = $(this);
+        return false;
     }
 });
 
-            return false;
+if (matchedOption) {
+
+    firstRow.find('.item-selection')
+        .val(matchedOption.val())
+        .trigger('change');
+
+    firstRow.find('.box-length').val(length);
+    firstRow.find('.box-width').val(width);
+
+    $.ajax({
+        url: '/probox/getItemStock',
+        type: 'GET',
+        data: {
+            item_id: res.item_id,
+            length: length,
+            width: width
+        },
+        success: function (stockRes) {
+
+            let totalStock = 0;
+
+            stockRes.forEach(function (item) {
+                totalStock += parseFloat(item.remain_qty) || 0;
+            });
+
+            firstRow.find('.total-stock').val(totalStock);
+
+            let usedQty =
+                parseFloat(firstRow.find('.box-stock').val()) || 0;
+
+            firstRow.find('.box-total-stock')
+                .val(totalStock - usedQty);
         }
     });
+
+} else {
+
+    firstRow.find('.item-selection')
+        .val('')
+        .trigger('change');
+
+    firstRow.find('.box-length').val(length);
+    firstRow.find('.box-width').val(width);
+
+    console.log('Item with selected size not found');
+}
         // =========================
     // LAMINATION
     // =========================
