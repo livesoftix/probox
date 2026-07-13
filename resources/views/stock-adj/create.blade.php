@@ -338,6 +338,16 @@ $(document).ready(function() {
     // Product type change handler
     $('#product_type').change(function() {
         var selectedType = $(this).val();
+
+        if (selectedType === 'Others') {
+    $('#total_qty')
+        .prop('readonly', false)
+        .val('');
+} else {
+    $('#total_qty')
+        .prop('readonly', true)
+        .val('');
+}
         
         // Hide all fields first
         $('[id^="purchase_"]').hide();
@@ -449,6 +459,7 @@ $('#product_type').change(function() {
                 });
 
                 $select.trigger('change');
+                
             },
 
             error: function (xhr) {
