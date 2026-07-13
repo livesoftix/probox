@@ -426,6 +426,11 @@ $('#product_type').change(function() {
             case 'Corrugation Purchase':
                 $('#size_fields').show();
                 break;
+            case 'Others':
+               $('#purchase_boxboard').show();
+
+               $('#length, #width').prop('readonly', false);
+               break;
         }
     }
 });
