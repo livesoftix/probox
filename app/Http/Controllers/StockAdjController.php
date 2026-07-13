@@ -436,4 +436,17 @@ public function getUpdatedStock(Request $request)
             return response()->json(['error' => 'Server error: '.$e->getMessage()], 500);
         }
     }
+
+    public function getAllItems()
+{
+    $items = ItemMaster::select(
+            'id',
+            'item_code',
+            'size'
+        )
+        ->orderBy('item_code', 'asc')
+        ->get();
+
+    return response()->json($items);
+}
 }

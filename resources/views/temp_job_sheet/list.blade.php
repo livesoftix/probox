@@ -44,7 +44,7 @@
                     <div class="col-md-4 mb-3">
                         <label>Prepared By</label>
                         <input type="text" class="form-control" name="preparedby"
-                               >
+                         value="{{$loggedInUser->name}}"      readonly>
                     </div>
 
                     {{-- JOB NO --}}

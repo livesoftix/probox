@@ -65,7 +65,7 @@
                                           
                                             
                                             <div class="mb-3">
-    <label for="product_type" class="sr-only">Purchase Type</label>
+    <label for="product_type" class="sr-only">Voucher Type</label>
     <select name="product_type" class="form-control select2" data-toggle="select2" id="product_type">
         <option value="">Select</option>
         <option value="Purchase Boxboard">Purchase Boxboard</option>
@@ -76,6 +76,7 @@
         <option value="Corrugation Purchase">Corrugation Purchase</option>
         <option value="Shipper Purchase">Shipper Purchase</option>
         <option value="Dye Purchase">Dye Purchase</option>
+        <option value="Others">Others</option>
     </select>
 </div>
 
@@ -417,6 +418,55 @@ $('#product_type').change(function() {
 });
 
    function loadItems(purchaseType) {
+
+
+  // OTHERS - ALL ITEM MASTER
+    // ============================
+    if (purchaseType === 'Others') {
+
+        $.ajax({
+            url: '/probox/get-all-items',
+            type: 'GET',
+            dataType: 'json',
+
+            success: function (data) {
+
+                console.log('Item Master Items:', data);
+
+                let $select = $('#item_name')
+                    .empty()
+                    .append('<option value="">Select</option>');
+
+                $.each(data, function (key, item) {
+
+                    let displayText = item.item_code;
+
+                    if (item.size) {
+                        displayText += ' | Size: ' + item.size;
+                    }
+
+                    $select.append($('<option>', {
+                        value: item.item_code,
+                        text: displayText,
+                        'data-item-id': item.item_id ?? item.id,
+                        'data-size': item.size || '',
+                        'data-remain-qty': 0
+                    }));
+                });
+
+                $select.trigger('change');
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                alert('Failed to load Item Master items');
+            }
+        });
+
+        return;
+    }
+
+
     var viewMap = {
         'Purchase Boxboard': { view: 'boxboard_view', itemColumn: 'item_code' },
         'Purchase Plate': { view: 'plate_view', itemColumn: 'item_code' },

@@ -648,37 +648,46 @@ $('#citem').val('').trigger('change');
                  console.log(res);
 let matchedValue = null;
 
-console.log('PRODUCT:', {
-    item_id: res.item_id,
-    length: length,
-    width: width
-});
-
 firstRow.find('.item-selection option').each(function () {
 
-    let optionItemId = $(this).data('itemid');
-    let optionLength = parseFloat($(this).data('length')) || 0;
-    let optionWidth  = parseFloat($(this).data('width')) || 0;
+    let value = $(this).val();
 
-    console.log('OPTION:', {
-        item_id: optionItemId,
-        length: optionLength,
-        width: optionWidth
-    });
+    if (!value) {
+        return;
+    }
 
-    if (
-        String(optionItemId) === String(res.item_id) &&
-        Math.abs(optionLength - length) < 0.001 &&
-        Math.abs(optionWidth - width) < 0.001
-    ) {
-        matchedValue = $(this).val();
+    let parts = value.split('_');
+
+    let optionItemId = parts[0];
+    let optionWidth  = parseFloat(parts[1]) || 0;
+    let optionLength = parseFloat(parts[2]) || 0;
+    // console.log(optionItemId);
+    // console.log(parts);
+
+    let itemMatch =
+        String(optionItemId) === String(res.item_id);
+    // console.log("item  "+itemMatch);
+    // console.log("length "+optionLength + "res length" + length);
+    // console.log("width" +optionWidth + "res width" + width)
+    let sizeMatch =
+        (
+            optionLength == length &&
+            optionWidth == width
+        )
+        ||
+        (
+            optionLength == width &&
+            optionWidth == length
+        );
+    // console.log(sizeMatch);
+
+    if (itemMatch && sizeMatch) {
+        matchedValue = value;
         return false;
     }
 });
-
-if (matchedValue !== null) {
-
-    console.log('MATCH FOUND:', matchedValue);
+console.log(matchedValue);
+if (matchedValue) {
 
     firstRow.find('.item-selection')
         .val(matchedValue)
@@ -686,10 +695,8 @@ if (matchedValue !== null) {
 
 } else {
 
-    console.log('NO MATCH FOUND');
-
     firstRow.find('.item-selection')
-        .val(null)
+        .val('')
         .trigger('change');
 }
 

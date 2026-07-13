@@ -445,7 +445,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/probox/inventory/itemmaster/{id}/edit', [InventoryController::class, 'itemmasteredit'])->name('inventory.itemmaster.edit');
     Route::post('/probox/inventory/itemmaster/{id}', [InventoryController::class, 'itemmasterupdate'])->name('inventory.itemmaster.update');
     Route::delete('/probox/inventory/itemmaster/{id}', [InventoryController::class, 'itemmasterdestroy'])->name('inventory.itemmaster.destroy');
-       Route::get('/probox/productqty/{item_id}/{v_date}/{which}', [StockManageController::class, 'ink'])->name('paymentqty.list');
+    Route::get('/probox/productqty/{item_id}/{v_date}/{which}', [StockManageController::class, 'ink'])->name('paymentqty.list');
     Route::get('/probox/lamination/{item_id}/{v_date}/{size}', [StockManageController::class, 'lamination'])->name('paymentqty.lamination');
     Route::get('/probox/inventory/itemtype', [InventoryController::class, 'index_itemtype'])->name('inventory.itemtype.list');
     Route::post('/probox/inventory/itemmaster', [InventoryController::class, 'itemmaster'])->name('inventory.itemmaster');
@@ -455,7 +455,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/probox/inventory/itemtype/{id}', [InventoryController::class, 'itemtypedestroy'])->name('inventory.itemtype.destroy');
     Route::get('/probox/inventory/create/itemmaster', [InventoryController::class, 'createitemmaster'])->name('inventory.create.itemmaster');
     Route::get('/probox/inventory/itemLog', [InventoryController::class, 'itemlogList'])->name('inventory.item_log');
-
+    Route::get('/probox/get-all-items', [StockAdjController::class, 'getAllItems']);
 
     Route::get('/probox/inventory/create/itemtype', [InventoryController::class, 'createitemtype'])->name('inventory.create.itemtype');
     Route::post('/probox/inventory/boxboard', [InventoryController::class, 'boxboard'])->name('inventory.boxboard');
