@@ -662,9 +662,9 @@ firstRow.find('.item-selection option').each(function () {
 
     let itemMatch =
         String(optionItemId) === String(res.item_id);
-    console.log("item  "+itemMatch);
-    console.log("length "+optionLength + "res length" + length);
-    console.log("width" +optionWidth + "res width" + width)
+    // console.log("item  "+itemMatch);
+    // console.log("length "+optionLength + "res length" + length);
+    // console.log("width" +optionWidth + "res width" + width)
     let sizeMatch =
         (
             optionLength == length &&
