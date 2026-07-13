@@ -363,6 +363,9 @@ $(document).ready(function() {
                 case 'Corrugation Purchase':
                     $('#size_fields').show();
                     break;
+                case 'Others':
+                    $('#size_fields').show();
+                    break;
             }
         }
     });
@@ -572,7 +575,7 @@ $('#product_type').change(function() {
                 }
             });
         }
-        else if (purchaseType === 'Lamination Purchase' || purchaseType === 'Corrugation Purchase') {
+        else if (purchaseType === 'Lamination Purchase' || purchaseType === 'Corrugation Purchase' ||  purchaseType === 'Others') {
             $('#size').val(selectedOption.data('size') || '');
         }
     }
