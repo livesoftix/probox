@@ -657,6 +657,8 @@ firstRow.find('.item-selection option').each(function () {
     let optionItemId = parts[0];
     let optionWidth  = parseFloat(parts[1]) || 0;
     let optionLength = parseFloat(parts[2]) || 0;
+    console.log(optionItemId);
+    console.log(parts);
 
     let itemMatch =
         String(optionItemId) === String(res.item_id);
