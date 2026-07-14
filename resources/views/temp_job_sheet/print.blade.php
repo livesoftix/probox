@@ -516,16 +516,12 @@ table.spec tr:last-child td{
     border-bottom:1.5px solid var(--board-line);
 }
 
-/* =========================
-   FOOTER
-========================= */
-
 .footer{
     padding:22px 40px 30px;
     display:flex;
-    justify-content:space-between;
     align-items:center;
-    gap:16px;
+    justify-content:flex-start;
+    border-top:1px solid var(--line);
 }
 
 .footer .stamp{
@@ -534,28 +530,57 @@ table.spec tr:last-child td{
     color:var(--ink-faint);
 }
 
-.print-btn{
-    font-weight:600;
-    font-size:13px;
-    padding:10px 20px;
-    border-radius:999px;
-    border:1px solid var(--primary);
-    background:var(--primary);
-    color:#fff;
-    cursor:pointer;
+.job-actions{
+    width:210mm;
+    max-width:100%;
+    margin:18px auto 0;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:10px;
+    position:relative;
+    z-index:99999;
 }
 
-.back-btn{
-    font-weight:600;
-    font-size:13px;
+.job-back-btn,
+.job-print-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
     padding:10px 20px;
-    border-radius:999px;
-    border:1px solid var(--line);
+    border-radius:8px;
+    font-size:13px;
+    font-weight:600;
+    text-decoration:none !important;
+    cursor:pointer;
+    position:relative;
+    z-index:99999;
+    pointer-events:auto !important;
+}
+
+.job-back-btn{
     background:#fff;
     color:var(--ink);
-    text-decoration:none;
+    border:1px solid var(--line);
 }
 
+.job-print-btn{
+    background:var(--primary);
+    color:#fff;
+    border:1px solid var(--primary);
+}
+
+@media print{
+    .no-print,
+    .job-actions{
+        display:none !important;
+    }
+
+    .footer{
+        padding:10px 0 0;
+        border-top:1px solid var(--line);
+    }
+}
 /* =========================
    MOBILE
 ========================= */
@@ -788,6 +813,21 @@ table.spec tr:last-child td{
     .footer .stamp{
         font-size:9px;
     }
+    .action-buttons{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    position:relative;
+    z-index:9999;
+}
+
+.back-btn,
+.print-btn{
+    position:relative;
+    z-index:9999;
+    pointer-events:auto !important;
+    cursor:pointer !important;
+}
 }
 </style>
 
@@ -1467,41 +1507,35 @@ table.spec tr:last-child td{
 
     {{-- ================= FOOTER ================= --}}
 
-    <div class="footer">
+<!-- <div class="footer">
 
-        <span class="stamp">
+    <span class="stamp">
+        TJS-{{ $job->v_no }}
+        · Generated {{ now()->format('d M Y, H:i') }}
+    </span>
 
-            TJS-{{ $job->v_no }}
-            · Generated {{ now()->format('d M Y, H:i') }}
+</div> -->
 
-        </span>
+</div> 
 
+{{-- ================= ACTION BUTTONS ================= --}}
 
-        <div class="no-print">
+<div class="job-actions no-print">
 
-            <a href="{{ url()->previous() }}"
-               class="back-btn">
+    <a href="{{ route('tempjob.index') }}"
+       class="job-back-btn">
+        Back
+    </a>
 
-                Back
-
-            </a>
-
-
-            <button type="button"
-                    class="print-btn"
-                    onclick="window.print()">
-
-                Print Job Sheet
-
-            </button>
-
-        </div>
-
-    </div>
-
+    <button type="button"
+            class="job-print-btn"
+            onclick="window.print();">
+        Print Job Sheet
+    </button>
 
 </div>
 
-</div>
+</div> {{-- .job-print-wrapper --}}
 
 @endsection
+
