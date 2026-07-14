@@ -368,7 +368,7 @@ public function destroy($id)
         $key = $box->item_id . '_' . $box->length . '_' . $box->width;
 
         $view = $stockMap->get($key)?->first();
-        dd($key);
+        // dd($key);
 
         $box->t_stock = $view->remain_qty ?? 0;
         $box->remain_stock = $view->remain_qty ?? 0;
