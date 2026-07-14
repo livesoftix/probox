@@ -139,12 +139,7 @@
         <label for="qty" class="form-label">Quantity</label>
         <input type="number" id="qty" class="form-control" name="qty" step="any">
     </div>
-</div>
-                                            
-                                            
-                                            
-                                            
-                                            
+</div>                   
                                             
                                             <div class="mb-3" style="display:none">
                                                 <label for="rate" class="form-label">Rate</label>
@@ -153,7 +148,7 @@
                                             
                                             
 
-                                            <div class="mb-3" style="display:none">
+                                            <div class="mb-3" >
                                                 <label for="description" class="form-label">Description</label>
                                                 <textarea type="text" id="description" class="form-control" name="description"></textarea>
                                             </div>
