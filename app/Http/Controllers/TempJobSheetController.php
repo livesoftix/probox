@@ -349,7 +349,7 @@ public function destroy($id)
         'currItem'
     ])->findOrFail($id);
 
- $stockMap = DB::table('boxboard_stock_qty')
+    $stockMap = DB::table('boxboard_stock_qty')
         ->select(
             'item_id',
             'item_code',
@@ -361,18 +361,24 @@ public function destroy($id)
         )
         ->get()
         ->groupBy(function ($item) {
-            return $item->item_id . '_' . $item->length . '_' . $item->width;
+
+            return $item->item_id . '_'
+                . number_format((float) $item->length, 2, '.', '') . '_'
+                . number_format((float) $item->width, 2, '.', '');
         });
+
     foreach ($job->boxboards as $box) {
 
-        $key = $box->item_id . '_' . $box->length . '_' . $box->width;
+        $key = $box->item_id . '_'
+            . number_format((float) $box->length, 2, '.', '') . '_'
+            . number_format((float) $box->width, 2, '.', '');
 
         $view = $stockMap->get($key)?->first();
-        // dd($key);
 
         $box->t_stock = $view->remain_qty ?? 0;
         $box->remain_stock = $view->remain_qty ?? 0;
     }
+
     return view('temp_job_sheet.print', compact('job'));
 }
     /* -------------------------
