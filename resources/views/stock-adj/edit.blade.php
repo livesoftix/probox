@@ -653,8 +653,9 @@ function loadUpdatedStock()
     function loadItemDetails(purchaseType, itemValue) {
         var selectedOption = $('#item_name option:selected');
         var remainQty = selectedOption.data('remain-qty') || 0;
-        
+        var itemId = selectedOption.data('item-id') || 0;
         $('#total_qty').val(remainQty);
+         $('#item_id').val(itemId);
         
         if (purchaseType === 'Purchase Boxboard') {
             $('#length').val(selectedOption.data('length'));
