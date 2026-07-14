@@ -312,6 +312,7 @@ $('#addRow').click(function () {
     let size        = $('#size').val();
     let qty         = $('#qty').val();
     let description = $('#description').val();
+    console.log("item id " + itemId);
 
     if(productType == '' || itemName == '' || qty == ''){
         alert('Please fill required fields.');
