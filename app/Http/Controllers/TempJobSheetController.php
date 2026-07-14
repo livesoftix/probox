@@ -91,30 +91,6 @@ class TempJobSheetController extends Controller
         $jobNo = (TempJobSheet::max('id') ?? 0) + 1;
         $products= ProductMaster::all();
         $items = ItemMaster::all(); 
-        // dd($products->first());
-
-        // $boxboardData = DB::table('boxboard_views as b')
-        //     ->select(
-        //         'b.item_id',
-        //         'i.item_code',
-        //         'b.width',
-        //         'b.lenght as length',
-        //         'b.remain_qty'
-        //     )
-        //     ->join('item_masters as i', 'b.item_id', '=', 'i.id')
-        //     ->get();
-
-    //     $boxboardData = DB::table('boxboard_views as b')
-    // ->select(
-    //     'b.v_no',
-    //     'b.item_id',
-    //     'i.item_code',
-    //     'b.width',
-    //     'b.lenght as length',
-    //     'b.remain_qty'
-    // )
-    // ->join('item_masters as i', 'b.item_id', '=', 'i.id')
-    // ->get();
 $boxboardData = DB::table('boxboard_stock_qty')
     ->select(
         'item_id',
@@ -373,22 +349,30 @@ public function destroy($id)
         'currItem'
     ])->findOrFail($id);
 
-   $stockMap = DB::table('boxboard_stock_qty')
-    ->get()
-    ->groupBy(function ($item) {
-        return $item->item_id.'_'.$item->length.'_'.$item->width;
-    });
+ $stockMap = DB::table('boxboard_stock_qty')
+        ->select(
+            'item_id',
+            'item_code',
+            'width',
+            'length',
+            'grammage',
+            'remain_qty',
+            'total_wt'
+        )
+        ->get()
+        ->groupBy(function ($item) {
+            return $item->item_id . '_' . $item->length . '_' . $item->width;
+        });
 
-foreach ($job->boxboards as $box) {
+    foreach ($job->boxboards as $box) {
 
-    $key = $box->item_id.'_'.$box->length.'_'.$box->width;
+        $key = $box->item_id . '_' . $box->length . '_' . $box->width;
 
-    $view = $stockMap[$key][0] ?? null;
+        $view = $stockMap->get($key)?->first();
 
-    $box->t_stock      = $view->total_qty ?? 0;
-    $box->remain_stock = $view->remain_qty ?? 0;
-}
-
+        $box->t_stock = $view->remain_qty ?? 0;
+        $box->remain_stock = $view->remain_qty ?? 0;
+    }
     return view('temp_job_sheet.print', compact('job'));
 }
     /* -------------------------
