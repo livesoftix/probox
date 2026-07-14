@@ -616,7 +616,7 @@ function loadUpdatedStock()
                        $select.append($('<option>', {
     value: itemValue,
     text: displayText,
-    'data-id': value.item_id,   // <-- Add this
+    'data-item-id': value.item_id,   // <-- Add this
     'data-length': value.length,
     'data-width': value.width,
     'data-remain-qty': value.remain_qty || 0
@@ -627,12 +627,14 @@ function loadUpdatedStock()
                             value: itemValue,
                             text: displayText,
                             'data-remain-qty': value.remain_qty || 0,
-                            'data-size': value.size || ''
+                            'data-size': value.size || '',
+                             'data-item-id': value.item_id,
                         }));
                     } else {
                         $select.append($('<option>', {
                             value: itemValue,
                             text: displayText,
+                            'data-item-id': value.item_id,
                             'data-remain-qty': value.remain_qty || 0
                         }));
                     }
