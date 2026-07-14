@@ -84,6 +84,7 @@
                                                 <select name="item_name" class="form-control select2" data-toggle="select2" id="item_name" >
                                                     <option value="" selected></option>
                                                 </select>
+                                                <input type="hidden" name="item_id" id="item_id">
                                             </div>
 
                                             <!-- Boxboard Fields -->
@@ -365,6 +366,7 @@ $('#addRow').click(function () {
     $('#product_type').val('').trigger('change');
     $('#item_name').empty().append('<option value="">Select</option>').trigger('change');
 
+    $('#item_id').val('');
     $('#length').val('');
     $('#width').val('');
     $('#size').val('');
