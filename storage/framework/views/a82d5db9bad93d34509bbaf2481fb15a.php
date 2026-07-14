@@ -623,201 +623,53 @@ table.spec tr:last-child td{
     margin:9mm 10mm;
 }
 
-@media print{
-
-    body{
-        background:#fff !important;
-    }
-
-    .navbar,
-    .topbar-menu,
-    .leftside-menu,
-    .footer-wrapper,
-    .no-print{
-        display:none !important;
-    }
-
-    .content-page,
-    .container-fluid{
-        margin:0 !important;
-        padding:0 !important;
-    }
-
-    .job-print-wrapper{
-        padding:0 !important;
-    }
-
-    .sheet{
-        width:100%;
-        max-width:100%;
-        box-shadow:none;
-        border:none;
-        border-radius:0;
-    }
-
-    .topbar{
-        padding:0 0 10px;
-    }
-
-    .brand-mark{
-        width:34px;
-        height:34px;
-        font-size:12px;
-        border-radius:8px;
-    }
-
-    .brand-name{
-        font-size:17px;
-    }
-
-    .brand-sub{
-        font-size:9.5px;
-    }
-
-    .meta-item{
-        padding:0 12px;
-    }
-
-    .meta-item .lbl{
-        font-size:8.5px;
-    }
-
-    .meta-item .val{
-        font-size:12px;
-    }
-
-    .regbar{
-        height:3px;
-    }
-
-    .section{
-        padding:10px 0;
-    }
-
-    .section-title{
-        margin:0 0 8px;
-        font-size:10.5px;
-    }
-
-    .section-title svg{
-        width:12px;
-        height:12px;
-    }
-
-    .meta-grid{
-        gap:10px 20px;
-    }
-
-    .field .lbl{
-        font-size:8.5px;
-        margin-bottom:2px;
-    }
-
-    .field .val{
-        font-size:11.5px;
-    }
-
-    .field--full{
-        padding-bottom:8px;
-    }
-
-    .field--full .val.product{
-        font-size:14px;
-    }
-
-    table.spec{
-        font-size:10.5px;
-    }
-
-    table.spec th{
-        padding:0 8px 6px 0;
-        font-size:9px;
-    }
-
-    table.spec td{
-        padding:6px 8px 6px 0;
-    }
-
-    .chip-grid{
-        gap:5px;
-    }
-
-    .chip{
-        padding:3px 9px;
-        font-size:10px;
-    }
-
-    .finish-grid{
-        gap:10px;
-        margin-top:10px;
-    }
-
-    .finish-card{
-        padding:8px 10px;
-        box-shadow:none;
-        break-inside:avoid;
-    }
-
-    .note-card{
-        padding:8px 10px;
-        box-shadow:none;
-        break-inside:avoid;
-    }
-
-    .stages{
-        gap:8px;
-    }
+@media print {
 
     .stage{
-        box-shadow:none;
-        break-inside:avoid;
+        break-inside:avoid !important;
+        page-break-inside:avoid !important;
+        position:relative !important;
     }
 
     .stage-head{
-        padding:6px 10px;
+        break-after:avoid !important;
+        page-break-after:avoid !important;
     }
 
-    .stage-head .badge{
-        width:18px;
-        height:18px;
-        font-size:9px;
-    }
-
-    .stage-head .en{
-        font-size:8.5px;
-    }
-
-    .stage-head .ur{
-        font-size:14px;
+    .stage-body{
+        break-before:avoid !important;
+        page-break-before:avoid !important;
     }
 
     .stage-field{
-        padding:5px 8px 6px;
-    }
-
-    .stage-field label{
-        font-size:11px;
-        margin-bottom:3px;
-    }
-
-    .stage-line{
-        height:18px;
+        break-inside:avoid !important;
+        page-break-inside:avoid !important;
     }
 
     .footer{
-        padding:10px 0 0;
+        position:static !important;
+        display:block !important;
+        clear:both !important;
+
+        margin-top:15px !important;
+        padding:10px 0 0 !important;
+
+        border-top:1px solid var(--line);
+
+        break-inside:avoid !important;
+        page-break-inside:avoid !important;
+        page-break-before:auto !important;
     }
 
-    .footer .stamp{
-        font-size:9px;
+    .stages{
+        display:block !important;
     }
-    .action-buttons{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    position:relative;
-    z-index:9999;
+
+    .stage{
+        margin-bottom:8px !important;
+    }
 }
+
 
 .back-btn,
 .print-btn{
@@ -826,7 +678,7 @@ table.spec tr:last-child td{
     pointer-events:auto !important;
     cursor:pointer !important;
 }
-}
+
 </style>
 
 
@@ -1528,7 +1380,9 @@ table.spec tr:last-child td{
 
     </div>
 
+</div>
 
+</div> 
     
 
 <!-- <div class="footer">
@@ -1559,9 +1413,7 @@ table.spec tr:last-child td{
         Print Job Sheet
     </button>
 
-</div>
 
-</div> 
 
 <?php $__env->stopSection(); ?>
 
