@@ -359,10 +359,9 @@ public function destroy($id)
             'remain_qty',
             'total_wt'
         )
-        ->get()
-        ->groupBy(function ($item) {
-            return $item->item_id . '_' . $item->length . '_' . $item->width;
-        });
+        ->orderBy('item_code', 'asc')
+        ->get();
+
 
     foreach ($job->boxboards as $box) {
 
