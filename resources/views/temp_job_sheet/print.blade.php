@@ -314,7 +314,7 @@ body{
 
 <tbody>
 @forelse($job->boxboards as $key => $box)
-{{ dd($box) }}
+
     <tr>
         <td>{{ $key + 1 }}</td>
         <td>{{ $box->item->item_code ?? '' }}</td>
