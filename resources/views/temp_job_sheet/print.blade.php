@@ -570,15 +570,253 @@ table.spec tr:last-child td{
     border:1px solid var(--primary);
 }
 
+/* =========================
+   PRINT - SAME AS HTML VIEW
+========================= */
+
+@page{
+    size:A4 portrait;
+    margin:0;
+}
+
 @media print{
+
+    html,
+    body{
+        margin:0 !important;
+        padding:0 !important;
+        background:var(--paper) !important;
+
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
+    }
+
+    /* LAYOUT SIDEBAR / NAVBAR HIDE */
+    .navbar,
+    .topbar-menu,
+    .leftside-menu,
+    .footer-wrapper,
     .no-print,
     .job-actions{
         display:none !important;
     }
 
+    .content-page,
+    .content,
+    .container-fluid{
+        margin:0 !important;
+        padding:0 !important;
+        width:100% !important;
+        max-width:100% !important;
+    }
+
+    .job-print-wrapper{
+        padding:0 !important;
+        margin:0 !important;
+        width:100% !important;
+    }
+
+    /*
+       IMPORTANT:
+       SAME SCREEN DESIGN
+    */
+    .sheet{
+        width:210mm !important;
+        max-width:none !important;
+        margin:0 auto !important;
+
+        background:var(--card) !important;
+        border:1px solid var(--line) !important;
+        border-radius:16px !important;
+        overflow:visible !important;
+
+        box-shadow:none !important;
+    }
+
+    /*
+       KEEP ORIGINAL HTML SIZES
+    */
+    .topbar{
+        padding:28px 40px !important;
+    }
+
+    .brand-mark{
+        width:44px !important;
+        height:44px !important;
+        border-radius:12px !important;
+        font-size:15px !important;
+    }
+
+    .brand-name{
+        font-size:22px !important;
+    }
+
+    .brand-sub{
+        font-size:11.5px !important;
+    }
+
+    .meta-item{
+        padding:0 20px !important;
+    }
+
+    .meta-item .lbl{
+        font-size:10.5px !important;
+    }
+
+    .meta-item .val{
+        font-size:14.5px !important;
+    }
+
+    .regbar{
+        height:4px !important;
+    }
+
+    .section{
+        padding:30px 40px !important;
+    }
+
+    .section-title{
+        font-size:12.5px !important;
+        margin:0 0 18px !important;
+    }
+
+    .section-title svg{
+        width:16px !important;
+        height:16px !important;
+    }
+
+    .meta-grid{
+        grid-template-columns:repeat(4,1fr) !important;
+        gap:20px 24px !important;
+    }
+
+    .field .lbl{
+        font-size:11px !important;
+        margin-bottom:4px !important;
+    }
+
+    .field .val{
+        font-size:15px !important;
+    }
+
+    .field--full{
+        padding-bottom:14px !important;
+        margin-bottom:4px !important;
+    }
+
+    .field--full .val.product{
+        font-size:19px !important;
+    }
+
+    table.spec{
+        font-size:13px !important;
+    }
+
+    table.spec th{
+        font-size:11px !important;
+        padding:0 10px 10px 0 !important;
+    }
+
+    table.spec td{
+        padding:12px 10px 12px 0 !important;
+    }
+
+    .chip-grid{
+        gap:8px !important;
+    }
+
+    .chip{
+        padding:6px 12px !important;
+        font-size:12.5px !important;
+    }
+
+    .finish-grid{
+        grid-template-columns:1fr 1fr !important;
+        gap:16px !important;
+        margin-top:18px !important;
+    }
+
+    .finish-card{
+        padding:14px 16px !important;
+        box-shadow:var(--shadow-sm) !important;
+    }
+
+    .note-card{
+        padding:16px 18px !important;
+        box-shadow:var(--shadow-sm) !important;
+    }
+
+    .stages{
+        display:flex !important;
+        flex-direction:column !important;
+        gap:14px !important;
+    }
+
+    .stage{
+        border-radius:var(--radius) !important;
+        box-shadow:var(--shadow-sm) !important;
+
+        break-inside:avoid !important;
+        page-break-inside:avoid !important;
+    }
+
+    .stage-head{
+        padding:14px 18px !important;
+    }
+
+    .stage-head .badge{
+        width:24px !important;
+        height:24px !important;
+        font-size:11px !important;
+    }
+
+    .stage-head .en{
+        font-size:10.5px !important;
+    }
+
+    .stage-head .ur{
+        font-size:19px !important;
+    }
+
+    .stage-body{
+        display:grid !important;
+        grid-template-columns:
+            repeat(auto-fit,minmax(140px,1fr)) !important;
+    }
+
+    .stage-field{
+        padding:10px 14px 12px !important;
+    }
+
+    .stage-field label{
+        font-size:14px !important;
+        margin-bottom:6px !important;
+    }
+
+    .stage-line{
+        height:26px !important;
+    }
+
+    /*
+       FOOTER NORMAL FLOW
+       NO OVERLAP
+    */
     .footer{
-        padding:10px 0 0;
-        border-top:1px solid var(--line);
+        position:static !important;
+        clear:both !important;
+
+        padding:22px 40px 30px !important;
+
+        display:flex !important;
+        justify-content:space-between !important;
+        align-items:center !important;
+
+        break-inside:avoid !important;
+        page-break-inside:avoid !important;
+    }
+
+    .footer .stamp{
+        font-size:11px !important;
     }
 }
 /* =========================
