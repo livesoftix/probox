@@ -117,7 +117,17 @@
                                                     <input type="number" id="size" class="form-control" name="size" step="any" value="" >
                                                 </div>
                                             </div>
-  <div class="col-md-4 mb-3"  >
+                                            <!-- Common Quantity Field -->
+                                            <div class="row">
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="total_qty" class="form-label">Total Qty</label>
+                                                    <input type="number" id="total_qty" class="form-control" name="total_qty" step="any" value="" readonly>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="qty" class="form-label">Quantity</label>
+                                                    <input type="number" id="qty" class="form-control" name="qty" step="any" value="">
+                                                </div>
+                                                <div class="col-md-4 mb-3"  >
     <label>Adjustment Type</label>
 
     <select class="form-control select2" id="adjustment_type" data-toggle="select2">
@@ -125,16 +135,6 @@
         <option value="IN">IN</option>
     </select>
 </div>
-                                            <!-- Common Quantity Field -->
-                                            <div class="row">
-                                                <div class="col-md-6 mb-3">
-                                                    <label for="total_qty" class="form-label">Total Qty</label>
-                                                    <input type="number" id="total_qty" class="form-control" name="total_qty" step="any" value="" readonly>
-                                                </div>
-                                                <div class="col-md-6 mb-3">
-                                                    <label for="qty" class="form-label">Quantity</label>
-                                                    <input type="number" id="qty" class="form-control" name="qty" step="any" value="">
-                                                </div>
                                             </div>
                                             
                                             <div class="mb-3" style="display:none">
