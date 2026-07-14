@@ -306,7 +306,7 @@ $('#addRow').click(function () {
 
     let productType = $('#product_type').val();
     let itemName    = $('#item_name').val();
-    let itemId      = $('#item_name option:selected').data('id');
+    let itemId      = $('#item_name option:selected').data('item-id');
     let length      = $('#length').val();
     let width       = $('#width').val();
     let size        = $('#size').val();
