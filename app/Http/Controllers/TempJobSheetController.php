@@ -363,13 +363,12 @@ public function destroy($id)
         ->groupBy(function ($item) {
             return $item->item_id . '_' . $item->length . '_' . $item->width;
         });
-        dd($stockMap);
-
     foreach ($job->boxboards as $box) {
 
         $key = $box->item_id . '_' . $box->length . '_' . $box->width;
 
         $view = $stockMap->get($key)?->first();
+        dd($view);
 
         $box->t_stock = $view->remain_qty ?? 0;
         $box->remain_stock = $view->remain_qty ?? 0;
