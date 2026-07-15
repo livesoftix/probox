@@ -482,7 +482,7 @@ table.spec tr:last-child td{
 
 .stage-head .ur{
     font-family:'Noto Nastaliq Urdu',serif;
-    font-size:19px;
+    font-size:14px;
     font-weight:700;
     color:var(--primary);
     direction:rtl;
@@ -576,7 +576,7 @@ table.spec tr:last-child td{
 
 @page{
     size:A4 portrait;
-    margin:8mm;
+    /* margin:8mm; */
 }
 
 @media print{
@@ -617,8 +617,8 @@ table.spec tr:last-child td{
          page margins = 8mm + 8mm
          printable width = 194mm
         */
-        width:194mm !important;
-        max-width:194mm !important;
+        width:210mm !important;
+        max-width:210mm !important;
         min-height:281mm !important;
 
         margin:0 auto !important;
@@ -684,7 +684,7 @@ table.spec tr:last-child td{
 
 @page{
     size:A4;
-    margin:9mm 10mm;
+    /* margin:9mm 10mm; */
 }
 
 @media print {

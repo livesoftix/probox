@@ -44,7 +44,7 @@
                     <div class="col-md-4 mb-3">
                         <label>Prepared By</label>
                         <input type="text" class="form-control" name="preparedby"
-                               >
+                         value="<?php echo e($loggedInUser->name); ?>"      readonly>
                     </div>
 
                     
@@ -200,6 +200,23 @@
     <div class="col-md-3">
         <label>No Of Used Rims / Pkt</label>
         <input type="number" class="form-control box-stock" name="box_qty[]">
+    </div>
+    <div class="col-md-3">
+        <label>After Cutting</label>
+        <select name="after_cutting" id="after_cutting" class="form-control select2">
+        <option value="">Select</option>
+        
+            <option value="2">
+                2
+            </option>
+         <option value="3">
+                3
+            </option>
+            <option value="4">
+                4
+            </option>
+       
+    </select>
     </div>
     <div class="col-md-3">
         <label>Remainig Stock</label>
@@ -550,12 +567,14 @@ $(document).ready(function(){
 
     console.log("sxn");
     let ups = parseFloat($('#ups').val()) || 0;
+    let afterCutting = $('#after_cutting').val() || 0;
+    console.log(afterCutting);
 
     let firstRowQty =
         parseFloat($('.item-row:first .box-stock').val()) || 0;
     let sheets=(firstRowQty*100);
 
-    $('#qty_boxes').val(ups * sheets);
+    $('#qty_boxes').val(ups * sheets * afterCutting);
 }
 
     // ITEM CHANGE
@@ -806,7 +825,9 @@ if(res.lam_win == 1){
 $(document).on('input', '#ups', function(){
     calculateBoxes();
 });
-
+$('#after_cutting').on('change', function(){
+ calculateBoxes();
+});
 $('#lamination').on('change', function(){
 //    console.log("sjxn");
     if($(this).is(':checked')){

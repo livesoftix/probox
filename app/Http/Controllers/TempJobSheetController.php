@@ -123,6 +123,7 @@ $boxboardData = DB::table('boxboard_stock_qty')
         'preparedby' => 'nullable|string',
         'printing_for' => 'nullable|string',
         'job_id' => 'nullable|numeric',
+        'after_cutting' => 'nullable|numeric',
         'size' => 'nullable|string',
         'qty' => 'nullable|numeric',
 
@@ -175,6 +176,7 @@ $boxboardData = DB::table('boxboard_stock_qty')
 
         $job->date = $validated['date'] ?? now();
         $job->printing_for=$validated['printing_for'] ?? null;
+        $job->after_cutting=$validated['after_cutting'] ?? null;
         $job->preparedby=$validated['preparedby'] ?? null;
 
         // temp_job_sheets table uses v_no

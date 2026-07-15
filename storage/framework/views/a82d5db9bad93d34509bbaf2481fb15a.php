@@ -480,7 +480,7 @@ table.spec tr:last-child td{
 
 .stage-head .ur{
     font-family:'Noto Nastaliq Urdu',serif;
-    font-size:19px;
+    font-size:14px;
     font-weight:700;
     color:var(--primary);
     direction:rtl;
@@ -568,15 +568,77 @@ table.spec tr:last-child td{
     border:1px solid var(--primary);
 }
 
+/* =========================
+   PRINT - SAME AS HTML VIEW
+========================= */
+
+@page{
+    size:A4 portrait;
+    /* margin:8mm; */
+}
+
 @media print{
+
+    html,
+    body{
+        width:210mm !important;
+        margin:0 !important;
+        padding:0 !important;
+        background:#fff !important;
+
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
+    }
+
+    .navbar,
+    .topbar-menu,
+    .leftside-menu,
+    .footer-wrapper,
     .no-print,
     .job-actions{
         display:none !important;
     }
 
+    .content-page,
+    .content,
+    .container-fluid,
+    .job-print-wrapper{
+        width:100% !important;
+        max-width:100% !important;
+        margin:0 !important;
+        padding:0 !important;
+    }
+
+    .sheet{
+        /*
+         A4 width 210mm
+         page margins = 8mm + 8mm
+         printable width = 194mm
+        */
+        width:210mm !important;
+        max-width:210mm !important;
+        min-height:281mm !important;
+
+        margin:0 auto !important;
+
+        box-sizing:border-box !important;
+        overflow:visible !important;
+
+        box-shadow:none !important;
+        border-radius:0 !important;
+    }
+
+    .stage,
+    .finish-card,
+    .note-card{
+        break-inside:avoid !important;
+        page-break-inside:avoid !important;
+    }
+
     .footer{
-        padding:10px 0 0;
-        border-top:1px solid var(--line);
+        position:static !important;
+        break-inside:avoid !important;
+        page-break-inside:avoid !important;
     }
 }
 /* =========================
@@ -620,7 +682,7 @@ table.spec tr:last-child td{
 
 @page{
     size:A4;
-    margin:9mm 10mm;
+    /* margin:9mm 10mm; */
 }
 
 @media print {
