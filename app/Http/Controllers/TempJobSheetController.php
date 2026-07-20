@@ -60,7 +60,7 @@ class TempJobSheetController extends Controller
     // }
 
     $generalJobSheets = $query->orderBy('id', 'desc')->get();
-      $products= ProductMaster::all();
+      $products= ProductMaster::where('status','active')->get();
 
     // dropdown data
     $vNos = TempJobSheet::distinct()->pluck('v_no');
@@ -89,7 +89,7 @@ class TempJobSheetController extends Controller
         $loggedInUser = Auth::user();
 
         $jobNo = (TempJobSheet::max('id') ?? 0) + 1;
-        $products= ProductMaster::all();
+        $products= ProductMaster::where('status','active')->get();
         $items = ItemMaster::all(); 
 $boxboardData = DB::table('boxboard_stock_qty')
     ->select(

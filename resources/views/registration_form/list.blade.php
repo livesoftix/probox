@@ -395,6 +395,17 @@
         Pin Product (Show on Dashboard)
     </label>
 </div>
+<div class="mb-3">
+    <label for="status" class="form-label">Status</label>
+    <select name="status" class="form-control select2" data-toggle="select2" id="status">
+        <option value="active">
+            Active
+        </option>
+        <option value="inactive">
+            Inactive
+        </option>
+    </select>
+</div>
                             <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                     </form>

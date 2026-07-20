@@ -63,7 +63,7 @@ class JobSheetController extends Controller
         $processSections = ProcessSection::all();
         $departmentSections = DepartmentSection::all();
         // dd($departmentSections);
-        $productMasters = ProductMaster::all();
+        $productMasters = ProductMaster::where('status','active')->get();
         $employeeNames = Employee::all();
 
         $employeeTypes = DB::table('employee_type_detail')->get();

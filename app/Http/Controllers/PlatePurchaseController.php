@@ -21,7 +21,7 @@ class PlatePurchaseController extends Controller
         $loggedInUser = Auth::user();
         $items = ItemMaster::all();
         $erpParams = ErpParam::with('level2')->get();
-        $product = ProductMaster::all();
+        $product = ProductMaster::where('status','active')->get();
         $countries = Country::all();
         // Initialize accountMasters as an empty collection to avoid errors
         $accountMasters = collect();
@@ -47,7 +47,7 @@ class PlatePurchaseController extends Controller
     $countryId = $request->input('country_id');
     
     // Assuming you have a relationship between products and countries
-    $products = ProductMaster::where('country_id', $countryId)->get(['id', 'prod_name']);
+    $products = ProductMaster::where('country_id', $countryId)->where('status','active')->get(['id', 'prod_name']);
     
     return response()->json($products);
 }
@@ -141,7 +141,7 @@ class PlatePurchaseController extends Controller
     }
     public function reports(Request $request)
     {
-         $products = ProductMaster::all();
+         $products = ProductMaster::where('status','active')->get();
          $countries = Country::all();
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
@@ -207,7 +207,7 @@ class PlatePurchaseController extends Controller
     $accountMasters = collect();
     $accountSuppliers = collect();
     $purchaseAccount = null;
-$product = ProductMaster::all();
+$product = ProductMaster::where('status','active')->get();
     // Check if there is at least one ERP Param and that cash_level is set
     if ($erpParams->isNotEmpty()) {
         // Get the cash_level from the first ERP Param

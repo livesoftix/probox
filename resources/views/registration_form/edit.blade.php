@@ -333,7 +333,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                           
 
                             <!-- Varnish -->
                             <div class="form-check">
@@ -381,9 +381,9 @@
 
 
 
+ </div>
 
-
-                        </div>
+                       
 
 
 
@@ -453,6 +453,19 @@
     <label class="form-check-label" for="is_pinned">
         Pin Product (Show on Dashboard)
     </label>
+</div>
+<div class="mb-3">
+    <label for="status" class="form-label">Status</label>
+    <select name="status" class="form-control select2" data-toggle="select2" id="status">
+        <option value="active"
+            {{ old('status', $product->status ?? 'active') == 'active' ? 'selected' : '' }}>
+            Active
+        </option>
+        <option value="inactive"
+            {{ old('status', $product->status ?? 'active') == 'inactive' ? 'selected' : '' }}>
+            Inactive
+        </option>
+    </select>
 </div>
 
                         <div class="col-12">

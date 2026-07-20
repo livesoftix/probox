@@ -205,7 +205,9 @@
         <label>After Cutting</label>
         <select name="after_cutting" id="after_cutting" class="form-control select2">
         <option value="">Select</option>
-        
+         <option value="1">
+                1
+            </option>
             <option value="2">
                 2
             </option>

@@ -23,7 +23,7 @@ class ConfectioneryController extends Controller
         $loggedInUser = Auth::user();
         $accounts = AccountMaster::all();
         $items = ItemType::all();
-        $product = ProductMaster::all();
+        $product = ProductMaster::where('status','active')->get();
         $data = ConfectioneryMaster::all();
 
         return view('sales.confectionery.list', get_defined_vars());
@@ -107,7 +107,7 @@ class ConfectioneryController extends Controller
 
     public function reports(Request $request)
     {
-        $products = ProductMaster::all();
+        $products = ProductMaster::where('status','active')->get();
         $itemCodes = ConfectioneryDetail::distinct()->pluck('item_code');
         $account = ConfectioneryMaster::distinct()->pluck('account_id');
         $items = ItemType::whereIn('id', $itemCodes)->get();
@@ -268,7 +268,7 @@ public function edit($v_no)
     // Fetch data for dropdowns
     $accounts = AccountMaster::all();
     $items = ItemType::all();
-    $products = ProductMaster::all();
+    $products = ProductMaster::where('status','active')->get();
     $deliveryDetails = ConfectioneryMaster::where('v_no', $v_no)
     ->first();
     

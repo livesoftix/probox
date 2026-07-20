@@ -26,7 +26,7 @@ class GeneralDeliveryChallanController extends Controller
         $loggedInUser = Auth::user();
         $accounts = AccountMaster::all();
         $items = ItemType::all();
-        $product = ProductMaster::all();
+        $product = ProductMaster::where('status','active')->get();
         $generals = GeneralJobSheet::all();
        $selectedGjsNos = GeneralDeliveryChallen::pluck('gjs_no')->toArray();
 

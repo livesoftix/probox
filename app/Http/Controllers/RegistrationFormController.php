@@ -97,6 +97,7 @@ class RegistrationFormController extends Controller
         $productMaster->auto_pasting_rate = $request->auto_pasting_rate;
 
          $productMaster->is_pinned = $request->is_pinned ?? 0;
+         $productMaster->status = $request->status ?? null;
 
 
         if ($request->hasFile('file')) {
@@ -259,7 +260,7 @@ class RegistrationFormController extends Controller
         $productMaster->auto_pasting_rate = $request->auto_pasting_rate;
         
          $productMaster->is_pinned = $request->is_pinned ?? 0;
-
+         $productMaster->status = $request->status ?? null;
         // Check if a new file is uploaded, and update the file if necessary
         if ($request->hasFile('file')) {
             $file = $request->file('file');

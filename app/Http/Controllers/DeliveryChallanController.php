@@ -24,14 +24,14 @@ class DeliveryChallanController extends Controller
         $loggedInUser = Auth::user();
         $accounts = AccountMaster::all();
         $items = ItemType::all();
-        $product = ProductMaster::all();
+        $product = ProductMaster::where('status','active')->get();
         return view('sales.delivery_challan.list',get_defined_vars());
     }
     
     
 public function getProducts($partyId)
 {
-    $products = ProductMaster::where('aid', $partyId)->get();
+    $products = ProductMaster::where('aid', $partyId)->where('status','active')->get();
     return response()->json($products);
 }
 
@@ -102,7 +102,7 @@ if (is_numeric($maxVno)) {
 
 public function reports(Request $request)
 {
-    $products = ProductMaster::all();
+    $products = ProductMaster::where('status','active')->get();
 
     // Get unique item codes from the DeliveryDetail table
     $itemCodes = DeliveryDetail::distinct()->pluck('item_code');
@@ -260,7 +260,7 @@ public function edit($v_no)
 
     $accounts = AccountMaster::all();
     $items = ItemType::all();
-    $product = ProductMaster::all();
+    $product = ProductMaster::where('status','active')->get();
     $deliveryDetails = DeliveryMaster::where('v_no', $v_no)
     ->first();
 
