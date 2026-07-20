@@ -147,12 +147,27 @@
         </div>
     </div> <!-- End container -->
     
-      <script>
-    // Bank field is always enabled and required
+   <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const chqStatus = document.getElementById('chq_status');
         const bankSelect = document.getElementById('bank');
-        bankSelect.removeAttribute('disabled');
-        bankSelect.setAttribute('required', 'required');
+
+        function toggleBankRequirement() {
+            if (chqStatus.value === 'Completed') {
+                bankSelect.removeAttribute('disabled');  // Enable the dropdown
+                bankSelect.setAttribute('required', 'required');  // Make it required
+            } else {
+                bankSelect.value = '';  // Clear the selection if it's not Completed
+                bankSelect.setAttribute('disabled', 'disabled');  // Disable the dropdown
+                bankSelect.removeAttribute('required');  // Remove required attribute
+            }
+        }
+
+        // Initial check in case of pre-filled values
+        toggleBankRequirement();
+
+        // Add event listener for change in Chq Status
+        chqStatus.addEventListener('change', toggleBankRequirement);
     });
     </script>
 @endsection
