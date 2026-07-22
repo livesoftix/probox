@@ -857,9 +857,48 @@
                                     value="1">
                                 <label for="del-productRegistration">Delete</label><br>
                             </div>
+                            <hr>
                             
 
+<!-- Product Freezing -->
+<div class="form-check">
+    <input class="form-check-input" type="checkbox"
+        id="productFreezing"
+        name="productFreezing"
+        value="1">
 
+    <label class="form-check-label" for="productFreezing">
+        Product Freezing
+    </label>
+</div>
+
+<hr>
+
+<div id="productFreezing-options" style="display:none; margin-left:25px;">
+
+    <input type="checkbox"
+        id="add-productFreezing"
+        name="permissions[35][add]"
+        value="1">
+    <label for="add-productFreezing">Add</label>
+    <br>
+
+    <input type="checkbox"
+        id="edit-productFreezing"
+        name="permissions[35][edit]"
+        value="1">
+    <label for="edit-productFreezing">Edit</label>
+    <br>
+
+    <input type="checkbox"
+        id="del-productFreezing"
+        name="permissions[35][del]"
+        value="1">
+    <label for="del-productFreezing">Delete</label>
+
+</div>
+
+<hr>
 
 
 
@@ -1343,10 +1382,12 @@ toggleOptions('tempjob', 'tempjob-options');
         var subOptions = document.getElementById('productRegistration-sub-options');
         subOptions.style.display = this.checked ? 'block' : 'none';
     });
+    document.getElementById('productFreezing').addEventListener('change', function () {
+        var setupOptions = document.getElementById('productFreezing-options');
+        setupOptions.style.display = this.checked ? 'block' : 'none';
+    });
 
-
-
-
+    
 
 
     function toggleOptions(sectionId, optionId) {

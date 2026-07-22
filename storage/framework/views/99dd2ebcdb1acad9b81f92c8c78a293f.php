@@ -415,6 +415,13 @@
                     <span> Job Details </span>
                 </a>
             </li>
+            <li class="side-nav-item">
+                <a href="<?php echo e(route('product-freezing.index')); ?>" class="side-nav-link">
+                    <i class="uil-box"></i>
+                    <span> Product Freezing </span>
+                </a>
+            </li>
+            
 
             
             

@@ -75,5 +75,9 @@ class ProductMaster extends Model
     {
         return $this->belongsTo(AccountMaster::class, 'aid');
     }
+    public function freezings()
+{
+    return $this->hasMany(ProductFreezing::class,'product_id');
+}
     
 }

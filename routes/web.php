@@ -99,6 +99,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StockAdjController;
 use App\Http\Controllers\BoxboardReportStockController;
 use App\Http\Controllers\TempJobSheetController;
+use App\Http\Controllers\ProductFreezingController;
 use Illuminate\Support\Facades\Artisan;
 
 
@@ -638,8 +639,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/probox/registration_form/add_product', [RegistrationFormController::class, 'index'])->name('registration_form.list');
     Route::post('/probox/registration_form/add_product', [RegistrationFormController::class, 'store'])->name('registration_form.store');
     Route::get('/probox/registration_form/reports', [RegistrationFormController::class, 'reports'])->name('registration_form.reports');
-        Route::get('/probox/registration_form/{id}', [RegistrationFormController::class, 'show'])->name('registration_form.show');
-        Route::get('/product/{id}/jpg', [ProductController::class, 'downloadJpg'])->name('product.download.jpg');
+    Route::get('/probox/registration_form/{id}', [RegistrationFormController::class, 'show'])->name('registration_form.show');
+    Route::get('/product/{id}/jpg', [ProductController::class, 'downloadJpg'])->name('product.download.jpg');
+    Route::get('/product-freezing', [ProductFreezingController::class,'index'])->name('product-freezing.index');
+
+Route::get('/probox/product-freezing/create', [ProductFreezingController::class,'create'])->name('product-freezing.create');
+
+Route::post('/probox/product-freezing/store', [ProductFreezingController::class,'store'])->name('product-freezing.store');
+
+Route::get('/probox/product-freezing/{id}/edit', [ProductFreezingController::class,'edit'])->name('product-freezing.edit');
+
+Route::put('/probox/product-freezing/{id}', [ProductFreezingController::class,'update'])->name('product-freezing.update');
+
+Route::get('/probox/product-freezing/{id}', [ProductFreezingController::class,'show'])->name('product-freezing.show');
+
+Route::get('/probox/product-freezing/{id}/print', [ProductFreezingController::class,'print'])->name('product-freezing.print');
 
     Route::get('/probox/registration_form/edit/{id}', [RegistrationFormController::class, 'edit'])->name('registration_form.edit');
     Route::get('/probox/search-users', [RegistrationFormController::class, 'searchUsers'])->name('search.users');

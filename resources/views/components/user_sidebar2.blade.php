@@ -356,6 +356,11 @@
                     </a>
                 </li>
             @endif
+            @if(auth()->check() && auth()->user()->product_freezing == 1)
+                        <li>
+                            <a href="{{ route('product-freezing.index') }}">Product Freezing</a>
+                        </li>
+            @endif
              @if(auth()->check() && auth()->user()->job_detail == 1)
 
 

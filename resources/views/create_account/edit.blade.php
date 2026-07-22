@@ -1046,6 +1046,49 @@
                                 </div>
                             </div>
                             <hr>
+                            <div class="form-check">
+    <input class="form-check-input" type="checkbox"
+        id="productFreezing"
+        name="productFreezing"
+        value="1"
+        {{ old('productFreezing', $user->product_freezing) ? 'checked' : '' }}>
+
+    <label class="form-check-label" for="productFreezing">
+        Product Freezing
+    </label>
+</div>
+
+<hr>
+
+<div id="productFreezing-options"
+    style="display: {{ old('productFreezing', $user->product_freezing) ? 'block' : 'none' }}; margin-left:25px;">
+
+    <input type="checkbox"
+        id="add-productFreezing"
+        name="permissions[72][add]"
+        value="1"
+        {{ $userPermissions['productFreezing']['add'] ?? 0 ? 'checked' : '' }}>
+    <label for="add-productFreezing">Add</label>
+    <br>
+
+    <input type="checkbox"
+        id="edit-productFreezing"
+        name="permissions[72][edit]"
+        value="1"
+        {{ $userPermissions['productFreezing']['edit'] ?? 0 ? 'checked' : '' }}>
+    <label for="edit-productFreezing">Edit</label>
+    <br>
+
+    <input type="checkbox"
+        id="del-productFreezing"
+        name="permissions[72][del]"
+        value="1"
+        {{ $userPermissions['productFreezing']['del'] ?? 0 ? 'checked' : '' }}>
+    <label for="del-productFreezing">Delete</label>
+
+</div>
+
+<hr>
                             
                                 <!-- Stock Adjustment -->
                                  
@@ -1456,6 +1499,7 @@
             { id: 'purchase', options: 'purchase-options' },
             { id: 'inventory', options: 'inventory-options' },
             { id: 'productRegistration', options: 'productRegistration-options' },
+            { id: 'productFreezing', options: 'productFreezing-options' },
             { id: 'jobSheet', options: 'jobSheet-options' },
             { id: 'attendanceSystem', options: 'attendanceSystem-container' },
             { id: 'setup', options: 'setup-options' },
