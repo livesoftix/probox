@@ -1063,6 +1063,9 @@
 <div id="productFreezing-options"
     style="display: {{ old('productFreezing', $user->product_freezing) ? 'block' : 'none' }}; margin-left:25px;">
 
+    <input type="hidden"
+       name="permissions[72][level]"
+       value="productFreezing">
     <input type="checkbox"
         id="add-productFreezing"
         name="permissions[72][add]"
