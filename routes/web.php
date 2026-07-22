@@ -641,7 +641,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/probox/registration_form/reports', [RegistrationFormController::class, 'reports'])->name('registration_form.reports');
     Route::get('/probox/registration_form/{id}', [RegistrationFormController::class, 'show'])->name('registration_form.show');
     Route::get('/product/{id}/jpg', [ProductController::class, 'downloadJpg'])->name('product.download.jpg');
-    Route::get('/product-freezing', [ProductFreezingController::class,'index'])->name('product-freezing.index');
+    Route::get('/probox/product-freezing', [ProductFreezingController::class,'index'])->name('product-freezing.index');
 
 Route::get('/probox/product-freezing/create', [ProductFreezingController::class,'create'])->name('product-freezing.create');
 
