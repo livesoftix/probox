@@ -358,8 +358,10 @@
             @endif
             @if(auth()->check() && auth()->user()->product_freezing == 1)
                         <li class="side-nav-item">
-                            <i class="uil-leaf"></i>
-                            <a href="{{ route('product-freezing.index') }}">Product Freezing</a>
+                            <a href="{{ route('product-freezing.index') }}" class="side-nav-link">
+                            <i class="uil-snowflake"></i>
+                             <span> Product Freezing </span>
+                            </a>
                         </li>
             @endif
              @if(auth()->check() && auth()->user()->job_detail == 1)
