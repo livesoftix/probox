@@ -186,7 +186,7 @@
             <i class="uil uil-eye"></i>
         </a>
 
-        @if($product->status == 'Active')
+        @if($product->status == 'active')
 
             {{-- Edit --}}
             <a href="{{ route('registration_form.edit', $product->id) }}"
