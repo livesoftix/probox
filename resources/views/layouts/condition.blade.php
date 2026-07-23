@@ -62,9 +62,6 @@
                 display: none;
             }
         }
-        #basic-datatable tbody tr.inactive-row td{
-    background:#f8d7da !important;
-}
     </style>
 
 </head>
