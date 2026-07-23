@@ -201,7 +201,7 @@
     </div>
     <div class="col-md-3">
         <label>After Cutting</label>
-        <select name="after_cutting" id="after_cutting" class="form-control select2">
+        <select name="after_cutting[]"class="form-control select2 after-cutting">
         <option value="">Select</option>
          <option value="1">
                 1
@@ -539,40 +539,57 @@ $(document).ready(function(){
     $('[name="date"]').val(today);
 
     // ADD ROW
-    $(document).on('click', '.add-row', function(){
+$(document).on('click', '.add-row', function(){
 
-        let newRow = $('.item-row:first').clone();
+    let newRow = $('.item-row:first').clone();
 
-        newRow.find('select').val('');
-        newRow.find('.total-stock').val('');
-        newRow.find('.box-total-stock').val('');
-        newRow.find('.box-stock').val('');
+    // Reset all values
+    newRow.find('select').val('');
+    newRow.find('.after-cutting').val('');
+    newRow.find('.total-stock').val('');
+    newRow.find('.box-total-stock').val('');
+    newRow.find('.box-stock').val('');
+    newRow.find('.box-length').val('');
+    newRow.find('.box-width').val('');
 
-        newRow.find('.select2-container').remove();
+    // Remove old Select2
+    newRow.find('.select2-container').remove();
 
-        $('#boxboard-wrapper').append(newRow);
+    // Append row
+    $('#boxboard-wrapper').append(newRow);
 
-        initSelect2(newRow);
-    });
+    // Reinitialize Select2
+    initSelect2(newRow);
+
+    // Recalculate total boxes
+    calculateBoxes();
+});
 
     // REMOVE ROW
     $(document).on('click', '.remove-row', function(){
         if($('.item-row').length > 1){
             $(this).closest('.item-row').remove();
+            calculateBoxes();
         }
     });
-    function calculateBoxes(){
 
-    console.log("sxn");
+function calculateBoxes(){
+
     let ups = parseFloat($('#ups').val()) || 0;
-    let afterCutting = $('#after_cutting').val() || 0;
-    console.log(afterCutting);
+    let grandTotal = 0;
 
-    let firstRowQty =
-        parseFloat($('.item-row:first .box-stock').val()) || 0;
-    let sheets=(firstRowQty*100);
+    $('.item-row').each(function(){
 
-    $('#qty_boxes').val(ups * sheets * afterCutting);
+        let afterCutting = parseFloat($(this).find('.after-cutting').val()) || 0;
+        let qty = parseFloat($(this).find('.box-stock').val()) || 0;
+
+        let sheets = qty * 100;
+
+        grandTotal += (ups * sheets * afterCutting);
+
+    });
+
+    $('#qty_boxes').val(grandTotal);
 }
 
     // ITEM CHANGE
@@ -823,7 +840,7 @@ if(res.lam_win == 1){
 $(document).on('input', '#ups', function(){
     calculateBoxes();
 });
-$('#after_cutting').on('change', function(){
+$('.after_cutting').on('change', function(){
  calculateBoxes();
 });
 $('#lamination').on('change', function(){
