@@ -157,7 +157,7 @@
 
         <td colspan="3">
 
-            INACTIVE
+            {{ $productFreezing->product->status }}
 
         </td>
 
