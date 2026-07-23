@@ -93,13 +93,7 @@
 
 <div class="title">
 
-    YOUR COMPANY NAME
-
-</div>
-
-<div class="subtitle">
-
-    PRODUCT FREEZING SLIP
+   PRODUCT FREEZING SLIP
 
 </div>
 
