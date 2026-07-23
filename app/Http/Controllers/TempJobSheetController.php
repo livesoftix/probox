@@ -117,13 +117,13 @@ $boxboardData = DB::table('boxboard_stock_qty')
     ------------------------- */
    public function store(Request $request)
 {
+    // dd($request->all());
     $validated = $request->validate([
         'date' => 'nullable|date',
         'job_no' => 'nullable|string',
         'preparedby' => 'nullable|string',
         'printing_for' => 'nullable|string',
         'job_id' => 'nullable|numeric',
-        'after_cutting' => 'nullable|numeric',
         'size' => 'nullable|string',
         'qty' => 'nullable|numeric',
 
@@ -138,6 +138,7 @@ $boxboardData = DB::table('boxboard_stock_qty')
         'box_qty' => 'nullable|array',
         'box_length' => 'nullable|array',
         'box_width' => 'nullable|array',
+        'after_cutting.*' => 'nullable|numeric',
         'ups'      =>'nullable|numeric',
           // Process Details
     'lamination' => 'nullable|boolean',
@@ -168,6 +169,8 @@ $boxboardData = DB::table('boxboard_stock_qty')
     'breaking' => 'nullable|boolean',
     ]);
 
+    // dd($validated);
+
     try {
 
         DB::beginTransaction();
@@ -176,7 +179,6 @@ $boxboardData = DB::table('boxboard_stock_qty')
 
         $job->date = $validated['date'] ?? now();
         $job->printing_for=$validated['printing_for'] ?? null;
-        $job->after_cutting=$validated['after_cutting'] ?? null;
         $job->preparedby=$validated['preparedby'] ?? null;
 
         // temp_job_sheets table uses v_no
@@ -238,31 +240,31 @@ $job->breaking = $validated['breaking'] ?? 0;
         ========================== */
         if (!empty($request->box_item)) {
 
-            foreach ($request->box_item as $key => $itemId) {
+     foreach ($request->box_item as $key => $itemId) {
 
-                $qty = $request->box_qty[$key] ?? 0;
-                $length = $request->box_length[$key] ?? null;
-                $width = $request->box_width[$key] ?? null;
-                $pvno=$request->purchase_vno[$key] ?? null;
+    $qty = $request->box_qty[$key] ?? 0;
+    $length = $request->box_length[$key] ?? null;
+    $width = $request->box_width[$key] ?? null;
+    $pvno = $request->purchase_vno[$key] ?? null;
+    $afterCutting = $request->after_cutting[$key] ?? null;
 
-                // dd($pvno);
-                if (!empty($itemId) && $qty > 0) {
+    if (!empty($itemId) && $qty > 0) {
 
-                    // item value comes like: 5_20_30
-                    $parts = explode('_', $itemId);
+        $parts = explode('_', $itemId);
 
-                    DB::table('temp_job_sheet_boxboard')->insert([
-                        'job_sheet_id' => $job->id,
-                        'item_id' => $parts[0] ?? $itemId,
-                        'purchase_v_no' =>$pvno,
-                        'length' => $length,
-                        'width' => $width,
-                        'qty' => $qty,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                }
-            }
+        DB::table('temp_job_sheet_boxboard')->insert([
+            'job_sheet_id'  => $job->id,
+            'item_id'       => $parts[0] ?? $itemId,
+            'purchase_v_no' => $pvno,
+            'length'        => $length,
+            'width'         => $width,
+            'qty'           => $qty,
+            'after_cutting' => $afterCutting,
+            'created_at'    => now(),
+            'updated_at'    => now(),
+        ]);
+    }
+}
         }
 
         DB::commit();

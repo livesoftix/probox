@@ -316,6 +316,7 @@
         
     <div class="form-check">
         <input type="checkbox" name="uv" id="uv" >
+        <input type="hidden" name="uv" value="0">
         <label class="form-check-label">UV</label>
     </div>
     
@@ -325,20 +326,23 @@
 
     <div class="col-md-2 mb-3">
         <div class="form-check">
-            <input type="checkbox" name="simple" id="simple" >
+            <input type="hidden" name="simple" value="0">
+            <input type="checkbox" name="simple" id="simple"  value="1">
             <label>Simple</label>
         </div>
     </div>
 
     <div class="col-md-2 mb-3">
         <div class="form-check">
-            <input type="checkbox" name="spot" id="spot" >
+            <input type="hidden" name="spot" value="0">
+            <input type="checkbox" name="spot" id="spot" value="1">
             <label>Spot</label>
         </div>
     </div>
 
     <div class="col-md-2 mb-3">
         <div class="form-check">
+            <input type="hidden" name="tripof" value="0">
             <input type="checkbox" name="tripof" id="tripof" >
             <label>Trip Of</label>
         </div>
@@ -430,10 +434,12 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="glass_win" name="glass_win"
                                             value="1" >
+                                            <input type="hidden" name="glass_win" value="0">
                                         <label class="form-check-label" for="glass_win">Glass Window</label>
                                     </div>
                                     <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="lam_win" name="lam_win" value="1">
+                                            <input type="hidden" name="lam_win" value="0">
                                             <label class="form-check-label" for="lam_win">Lamination Window</label>
                                         </div>
                                     <div id="glassWinRateContainer" style="display: none;">
@@ -533,10 +539,17 @@
     });
 });
 $(document).ready(function(){
-    function initSelect2(scope){
-        scope.find('.item-selection').select2();
-    }
+   function initSelect2(scope){
 
+    scope.find('.item-selection').select2({
+        width:'100%'
+    });
+
+    scope.find('.after-cutting').select2({
+        width:'100%'
+    });
+
+}
     initSelect2($(document));
 
     let today = new Date().toISOString().split('T')[0];
@@ -829,9 +842,6 @@ if(res.lam_win == 1){
     $('#tripof').prop('checked', res.tripof == 1);
 
 }
-   
-
-    
             });
         
     
@@ -844,8 +854,8 @@ if(res.lam_win == 1){
 $(document).on('input', '#ups', function(){
     calculateBoxes();
 });
-$('.after_cutting').on('change', function(){
- calculateBoxes();
+$(document).on('change', '.after-cutting', function () {
+    calculateBoxes();
 });
 $('#lamination').on('change', function(){
 //    console.log("sjxn");
