@@ -358,7 +358,7 @@
             @endif
             @if(auth()->check() && auth()->user()->product_freezing == 1)
                         <li class="side-nav-item">
-                            <i class="uil-box"></i>
+                            <i class="uil-leaf"></i>
                             <a href="{{ route('product-freezing.index') }}">Product Freezing</a>
                         </li>
             @endif
