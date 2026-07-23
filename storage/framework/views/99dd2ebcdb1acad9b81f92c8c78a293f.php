@@ -417,7 +417,7 @@
             </li>
             <li class="side-nav-item">
                 <a href="<?php echo e(route('product-freezing.index')); ?>" class="side-nav-link">
-                    <i class="uil-box"></i>
+                    <i class="uil-snowflake"></i>
                     <span> Product Freezing </span>
                 </a>
             </li>

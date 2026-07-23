@@ -654,6 +654,8 @@ Route::put('/probox/product-freezing/{id}', [ProductFreezingController::class,'u
 Route::get('/probox/product-freezing/{id}', [ProductFreezingController::class,'show'])->name('product-freezing.show');
 
 Route::get('/probox/product-freezing/{id}/print', [ProductFreezingController::class,'print'])->name('product-freezing.print');
+Route::delete('/probox/product-freezing/{id}', [ProductFreezingController::class, 'destroy'])
+    ->name('product-freezing.destroy');
 
     Route::get('/probox/registration_form/edit/{id}', [RegistrationFormController::class, 'edit'])->name('registration_form.edit');
     Route::get('/probox/search-users', [RegistrationFormController::class, 'searchUsers'])->name('search.users');

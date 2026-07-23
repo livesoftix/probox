@@ -107,7 +107,7 @@
 
                                     <option
                                         value="{{ $product->id }}"
-                                        {{ $product->id==$productFreezing->product_id ? 'selected':'' }}>
+                                        {{ $product->id == $productFreezing->product_id ? 'selected':'' }}>
 
                                         {{ $product->prod_name }}
 
@@ -121,19 +121,27 @@
 
                             <!-- Status -->
 
-                            <div class="col-md-3 mb-3">
+                           <div class="col-md-3 mb-3">
 
-                                <label class="form-label">
-                                    Status
-                                </label>
+    <label class="form-label">
+        Status
+    </label>
 
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    value="Inactive"
-                                    readonly>
+    <select name="status" class="form-control select2" data-toggle="select2">
 
-                            </div>
+        <option value="Active"
+            {{ $productFreezing->product->status == 'active' ? 'selected' : '' }}>
+            Active
+        </option>
+
+        <option value="Inactive"
+            {{ $productFreezing->product->status == 'inactive' ? 'selected' : '' }}>
+            Inactive
+        </option>
+
+    </select>
+
+</div>
 
                             <!-- Description -->
 

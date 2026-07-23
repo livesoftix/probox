@@ -151,15 +151,11 @@
                                 {{ $row->product->prod_name }}
                             </td>
 
-                            <td>
-
-                                <span class="badge bg-danger">
-
-                                    Inactive
-
-                                </span>
-
-                            </td>
+                          <td>
+    <span class="badge {{ $row->product->status == 'active' ? 'bg-success' : 'bg-danger' }}">
+        {{ $row->product->status }}
+    </span>
+</td>
 
                             <td>
 
@@ -169,29 +165,40 @@
 
                             <td class="no-print">
 
-                                <a href="{{ route('product-freezing.show',$row->id) }}"
-                                   class="btn btn-info btn-sm">
+    <div class="d-flex">
 
-                                    View
+        <a href="{{ route('product-freezing.show', $row->id) }}"
+            class="btn btn-info btn-sm me-1">
+            View
+        </a>
 
-                                </a>
+        <a href="{{ route('product-freezing.edit', $row->id) }}"
+            class="btn btn-warning btn-sm me-1">
+            Edit
+        </a>
 
-                                <a href="{{ route('product-freezing.edit',$row->id) }}"
-                                   class="btn btn-warning btn-sm">
+        <a href="{{ route('product-freezing.print', $row->id) }}"
+            target="_blank"
+            class="btn btn-success btn-sm me-1">
+            Print
+        </a>
 
-                                    Edit
+        <form action="{{ route('product-freezing.destroy', $row->id) }}"
+              method="POST"
+              onsubmit="return confirm('Are you sure you want to delete this Product Freezing record?');">
 
-                                </a>
+            @csrf
+            @method('DELETE')
 
-                                <a href="{{ route('product-freezing.print',$row->id) }}"
-                                   target="_blank"
-                                   class="btn btn-success btn-sm">
+            <button type="submit" class="btn btn-danger btn-sm">
+                Delete
+            </button>
 
-                                    Print
+        </form>
 
-                                </a>
+    </div>
 
-                            </td>
+</td>
 
                         </tr>
 

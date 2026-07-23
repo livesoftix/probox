@@ -158,6 +158,7 @@
                                                                 <tr>
                                                                     <th>SR</th>
                                                                     <th class="no-print">Actions</th>
+                                                                    <th>Status</th>
                                                                     <th>Date</th>
                                                                     <th>Product Name</th>
                                                                     <th>Product Type</th>
@@ -175,45 +176,67 @@
                                                             </thead>
                                                             <tbody>
                                                                 <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                    <tr>
+                                                             <tr class="<?php echo e(strtolower($product->status) == 'inactive' ? 'table-secondary' : ''); ?>">
                                                                         <td><?php echo e($product->id); ?></td>
-                                                                        <td class="no-print">
-                                                                            <div
-                                                                                class="d-flex gap-2 justify-content-center align-items-center">
+                                                                       <td class="no-print">
+    <div class="d-flex gap-2 justify-content-center align-items-center">
 
-                                                                                <!-- Show -->
-                                                                                <a href="<?php echo e(route('registration_form.show', $product->id)); ?>"
-                                                                                    class="btn btn-outline-info btn-sm d-flex align-items-center justify-content-center"
-                                                                                    title="View Details">
-                                                                                    <i class="uil uil-eye"></i>
-                                                                                </a>
+        
+        <a href="<?php echo e(route('registration_form.show', $product->id)); ?>"
+           class="btn btn-outline-info btn-sm d-flex align-items-center justify-content-center"
+           title="View Details">
+            <i class="uil uil-eye"></i>
+        </a>
 
-                                                                                <!-- Edit -->
-                                                                                <a href="<?php echo e(route('registration_form.edit', $product->id)); ?>"
-                                                                                    onclick="return checkPermissionEdit()"
-                                                                                    class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center"
-                                                                                    title="Edit Product">
-                                                                                    <i class="uil uil-edit"></i>
-                                                                                </a>
+        <?php if($product->status == 'Active'): ?>
 
-                                                                                <!-- Delete -->
-                                                                                <form
-                                                                                    action="<?php echo e(route('registration_form.destroy', $product->id)); ?>"
-                                                                                    method="POST"
-                                                                                    onsubmit="return confirm('Are you sure you want to delete this product?');"
-                                                                                    style="display:inline;">
-                                                                                    <?php echo csrf_field(); ?>
-                                                                                    <?php echo method_field('DELETE'); ?>
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center"
-                                                                                        onclick="return checkPermissionDel()"
-                                                                                        title="Delete Product">
-                                                                                        <i class="uil uil-trash-alt"></i>
-                                                                                    </button>
-                                                                                </form>
+            
+            <a href="<?php echo e(route('registration_form.edit', $product->id)); ?>"
+               onclick="return checkPermissionEdit()"
+               class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center"
+               title="Edit Product">
+                <i class="uil uil-edit"></i>
+            </a>
 
-                                                                            </div>
-                                                                        </td>
+            
+            <form action="<?php echo e(route('registration_form.destroy', $product->id)); ?>"
+                  method="POST"
+                  onsubmit="return confirm('Are you sure you want to delete this product?');"
+                  style="display:inline;">
+                <?php echo csrf_field(); ?>
+                <?php echo method_field('DELETE'); ?>
+
+                <button type="submit"
+                        class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center"
+                        onclick="return checkPermissionDel()"
+                        title="Delete Product">
+                    <i class="uil uil-trash-alt"></i>
+                </button>
+            </form>
+
+        <?php else: ?>
+
+            
+            <button class="btn btn-outline-secondary btn-sm" disabled title="Product is Inactive">
+                <i class="uil uil-edit"></i>
+            </button>
+
+            
+            <button class="btn btn-outline-secondary btn-sm" disabled title="Product is Inactive">
+                <i class="uil uil-trash-alt"></i>
+            </button>
+
+        <?php endif; ?>
+
+    </div>
+</td>
+                                                                        <td>
+    <span class="badge <?php echo e($product->status == 'active' ? 'bg-success' : 'bg-danger'); ?>">
+        <?php echo e($product->status); ?>
+
+    </span>
+</td>
+                                                                        
                                                                         <td><?php echo e(\Carbon\Carbon::parse($product->updated_at)->format('m/d/Y h:i A')); ?>
 
                                                                         </td>
@@ -376,9 +399,8 @@
                                 window.location.reload(); // Reload to restore the original page content
                             }
                         </script>
-
                         <style>
-                            <style>.btn i {
+                           .btn i {
                                 font-size: 1rem;
                                 /* small, balanced icon size */
                                 line-height: 1;
@@ -389,8 +411,7 @@
                                 border-radius: 6px;
                             }
                         </style>
-
-                        </style>
+                        
                     <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/registration_form/index.blade.php ENDPATH**/ ?>

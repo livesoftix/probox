@@ -93,7 +93,7 @@ class ProductFreezingController extends Controller
     );
 }
 
-  public function update(Request $request, $id)
+  public function update(Request $request,$id)
 {
     $request->validate([
         'date' => 'required',
@@ -109,9 +109,9 @@ class ProductFreezingController extends Controller
         'description' => $request->description,
     ]);
 
-    ProductMaster::where('id', $request->product_id)
+    ProductMaster::where('id', $freezing->product_id)
         ->update([
-            'status' => 'Inactive'
+            'status' => $request->status
         ]);
 
     return redirect()
@@ -119,17 +119,22 @@ class ProductFreezingController extends Controller
         ->with('success', 'Product Freezing Updated Successfully.');
 }
 
-    public function destroy(ProductFreezing $productFreezing)
-    {
-        ProductMaster::where('id',$productFreezing->product_id)
-            ->update([
-                'status'=>'Active'
-            ]);
+    public function destroy($id)
+{
+    $productFreezing = ProductFreezing::findOrFail($id);
 
-        $productFreezing->delete();
+    // Optional: make the product active again when deleting the freezing record
+    ProductMaster::where('id', $productFreezing->product_id)
+        ->update([
+            'status' => 'Active'
+        ]);
 
-        return back()->with('success','Deleted Successfully');
-    }
+    $productFreezing->delete();
+
+    return redirect()
+        ->route('product-freezing.index')
+        ->with('success', 'Product Freezing deleted successfully.');
+}
     public function print($id)
 {
     $productFreezing = ProductFreezing::with('product')->findOrFail($id);

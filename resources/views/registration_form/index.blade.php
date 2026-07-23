@@ -156,6 +156,7 @@
                                                                 <tr>
                                                                     <th>SR</th>
                                                                     <th class="no-print">Actions</th>
+                                                                    <th>Status</th>
                                                                     <th>Date</th>
                                                                     <th>Product Name</th>
                                                                     <th>Product Type</th>
@@ -173,45 +174,66 @@
                                                             </thead>
                                                             <tbody>
                                                                 @foreach ($products as $product)
-                                                                    <tr>
+                                                             <tr class="{{ strtolower($product->status) == 'inactive' ? 'table-secondary' : '' }}">
                                                                         <td>{{ $product->id }}</td>
-                                                                        <td class="no-print">
-                                                                            <div
-                                                                                class="d-flex gap-2 justify-content-center align-items-center">
+                                                                       <td class="no-print">
+    <div class="d-flex gap-2 justify-content-center align-items-center">
 
-                                                                                <!-- Show -->
-                                                                                <a href="{{ route('registration_form.show', $product->id) }}"
-                                                                                    class="btn btn-outline-info btn-sm d-flex align-items-center justify-content-center"
-                                                                                    title="View Details">
-                                                                                    <i class="uil uil-eye"></i>
-                                                                                </a>
+        {{-- View --}}
+        <a href="{{ route('registration_form.show', $product->id) }}"
+           class="btn btn-outline-info btn-sm d-flex align-items-center justify-content-center"
+           title="View Details">
+            <i class="uil uil-eye"></i>
+        </a>
 
-                                                                                <!-- Edit -->
-                                                                                <a href="{{ route('registration_form.edit', $product->id) }}"
-                                                                                    onclick="return checkPermissionEdit()"
-                                                                                    class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center"
-                                                                                    title="Edit Product">
-                                                                                    <i class="uil uil-edit"></i>
-                                                                                </a>
+        @if($product->status == 'Active')
 
-                                                                                <!-- Delete -->
-                                                                                <form
-                                                                                    action="{{ route('registration_form.destroy', $product->id) }}"
-                                                                                    method="POST"
-                                                                                    onsubmit="return confirm('Are you sure you want to delete this product?');"
-                                                                                    style="display:inline;">
-                                                                                    @csrf
-                                                                                    @method('DELETE')
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center"
-                                                                                        onclick="return checkPermissionDel()"
-                                                                                        title="Delete Product">
-                                                                                        <i class="uil uil-trash-alt"></i>
-                                                                                    </button>
-                                                                                </form>
+            {{-- Edit --}}
+            <a href="{{ route('registration_form.edit', $product->id) }}"
+               onclick="return checkPermissionEdit()"
+               class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center"
+               title="Edit Product">
+                <i class="uil uil-edit"></i>
+            </a>
 
-                                                                            </div>
-                                                                        </td>
+            {{-- Delete --}}
+            <form action="{{ route('registration_form.destroy', $product->id) }}"
+                  method="POST"
+                  onsubmit="return confirm('Are you sure you want to delete this product?');"
+                  style="display:inline;">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit"
+                        class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center"
+                        onclick="return checkPermissionDel()"
+                        title="Delete Product">
+                    <i class="uil uil-trash-alt"></i>
+                </button>
+            </form>
+
+        @else
+
+            {{-- Disabled Edit --}}
+            <button class="btn btn-outline-secondary btn-sm" disabled title="Product is Inactive">
+                <i class="uil uil-edit"></i>
+            </button>
+
+            {{-- Disabled Delete --}}
+            <button class="btn btn-outline-secondary btn-sm" disabled title="Product is Inactive">
+                <i class="uil uil-trash-alt"></i>
+            </button>
+
+        @endif
+
+    </div>
+</td>
+                                                                        <td>
+    <span class="badge {{ $product->status == 'active' ? 'bg-success' : 'bg-danger' }}">
+        {{ $product->status }}
+    </span>
+</td>
+                                                                        
                                                                         <td>{{ \Carbon\Carbon::parse($product->updated_at)->format('m/d/Y h:i A') }}
                                                                         </td>
                                                                         <td>{{ $product->prod_name }}</td>
@@ -370,9 +392,8 @@
                                 window.location.reload(); // Reload to restore the original page content
                             }
                         </script>
-
                         <style>
-                            <style>.btn i {
+                           .btn i {
                                 font-size: 1rem;
                                 /* small, balanced icon size */
                                 line-height: 1;
@@ -383,6 +404,5 @@
                                 border-radius: 6px;
                             }
                         </style>
-
-                        </style>
+                        
                     @endsection

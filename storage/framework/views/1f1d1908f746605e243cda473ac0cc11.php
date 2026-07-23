@@ -156,15 +156,12 @@
 
                             </td>
 
-                            <td>
+                          <td>
+    <span class="badge <?php echo e($row->product->status == 'active' ? 'bg-success' : 'bg-danger'); ?>">
+        <?php echo e($row->product->status); ?>
 
-                                <span class="badge bg-danger">
-
-                                    Inactive
-
-                                </span>
-
-                            </td>
+    </span>
+</td>
 
                             <td>
 
@@ -175,29 +172,40 @@
 
                             <td class="no-print">
 
-                                <a href="<?php echo e(route('product-freezing.show',$row->id)); ?>"
-                                   class="btn btn-info btn-sm">
+    <div class="d-flex">
 
-                                    View
+        <a href="<?php echo e(route('product-freezing.show', $row->id)); ?>"
+            class="btn btn-info btn-sm me-1">
+            View
+        </a>
 
-                                </a>
+        <a href="<?php echo e(route('product-freezing.edit', $row->id)); ?>"
+            class="btn btn-warning btn-sm me-1">
+            Edit
+        </a>
 
-                                <a href="<?php echo e(route('product-freezing.edit',$row->id)); ?>"
-                                   class="btn btn-warning btn-sm">
+        <a href="<?php echo e(route('product-freezing.print', $row->id)); ?>"
+            target="_blank"
+            class="btn btn-success btn-sm me-1">
+            Print
+        </a>
 
-                                    Edit
+        <form action="<?php echo e(route('product-freezing.destroy', $row->id)); ?>"
+              method="POST"
+              onsubmit="return confirm('Are you sure you want to delete this Product Freezing record?');">
 
-                                </a>
+            <?php echo csrf_field(); ?>
+            <?php echo method_field('DELETE'); ?>
 
-                                <a href="<?php echo e(route('product-freezing.print',$row->id)); ?>"
-                                   target="_blank"
-                                   class="btn btn-success btn-sm">
+            <button type="submit" class="btn btn-danger btn-sm">
+                Delete
+            </button>
 
-                                    Print
+        </form>
 
-                                </a>
+    </div>
 
-                            </td>
+</td>
 
                         </tr>
 

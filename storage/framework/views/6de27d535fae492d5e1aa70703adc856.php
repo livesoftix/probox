@@ -107,7 +107,7 @@
 
                                     <option
                                         value="<?php echo e($product->id); ?>"
-                                        <?php echo e($product->id==$productFreezing->product_id ? 'selected':''); ?>>
+                                        <?php echo e($product->id == $productFreezing->product_id ? 'selected':''); ?>>
 
                                         <?php echo e($product->prod_name); ?>
 
@@ -122,19 +122,27 @@
 
                             <!-- Status -->
 
-                            <div class="col-md-3 mb-3">
+                           <div class="col-md-3 mb-3">
 
-                                <label class="form-label">
-                                    Status
-                                </label>
+    <label class="form-label">
+        Status
+    </label>
 
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    value="Inactive"
-                                    readonly>
+    <select name="status" class="form-control select2" data-toggle="select2">
 
-                            </div>
+        <option value="Active"
+            <?php echo e($productFreezing->product->status == 'active' ? 'selected' : ''); ?>>
+            Active
+        </option>
+
+        <option value="Inactive"
+            <?php echo e($productFreezing->product->status == 'inactive' ? 'selected' : ''); ?>>
+            Inactive
+        </option>
+
+    </select>
+
+</div>
 
                             <!-- Description -->
 
