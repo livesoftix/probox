@@ -164,7 +164,7 @@ body{
     padding:28px;
     min-height:220px;
     line-height:38px;
-    font-size:22px;
+    font-size:20px;
     color:#444;
 
 }
@@ -216,13 +216,15 @@ body{
 }
 
 .footer{
+    position:absolute;
+    bottom:20px;
+    right:40px;
+}
 
-    margin-top:45px;
-    display:flex;
-    justify-content:space-between;
-    color:#888;
-    font-size:15px;
-
+.generated-on{
+    text-align:right;
+    font-size:14px;
+    color:#666;
 }
 
 .print-btn{
@@ -469,7 +471,18 @@ PRODUCTION BY
 <!-- ============================= -->
 <!-- Footer -->
 <!-- ============================= -->
+<div class="footer">
 
+    <div class="generated-on">
+
+        <strong>Generated On</strong><br>
+
+        <?php echo e(now()->format('d-m-Y h:i A')); ?>
+
+
+    </div>
+
+</div>
 
 
 </div> <!-- sheet -->

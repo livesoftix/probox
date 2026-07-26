@@ -216,13 +216,15 @@ body{
 }
 
 .footer{
+    position:absolute;
+    bottom:20px;
+    right:40px;
+}
 
-    margin-top:45px;
-    display:flex;
-    justify-content:space-between;
-    color:#888;
-    font-size:15px;
-
+.generated-on{
+    text-align:right;
+    font-size:14px;
+    color:#666;
 }
 
 .print-btn{
@@ -463,7 +465,17 @@ PRODUCTION BY
 <!-- ============================= -->
 <!-- Footer -->
 <!-- ============================= -->
+<div class="footer">
 
+    <div class="generated-on">
+
+        <strong>Generated On</strong><br>
+
+        {{ now()->format('d-m-Y h:i A') }}
+
+    </div>
+
+</div>
 
 
 </div> <!-- sheet -->
