@@ -246,6 +246,7 @@ data-bs-target="#editModal{{ $productFreezing->id }}">
 
 <i class="bi bi-pencil-square"></i>
 
+
 Edit
 
 </button>
@@ -275,12 +276,12 @@ Print
 PRODUCT FREEZING SLIP
 
 </div>
-
+<!-- 
 <div class="sub">
 
 System Generated • Confidential Document
 
-</div>
+</div> -->
 
 </div>
 
@@ -450,3 +451,7 @@ Manufacturing ERP System
 </div>
 
 </div>
+@include('product_freezing.modal_edit', [
+    'productFreezing' => $productFreezing,
+    'products' => $products
+])

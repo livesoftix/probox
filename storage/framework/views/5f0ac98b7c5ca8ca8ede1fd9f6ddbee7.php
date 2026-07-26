@@ -246,6 +246,7 @@ data-bs-target="#editModal<?php echo e($productFreezing->id); ?>">
 
 <i class="bi bi-pencil-square"></i>
 
+
 Edit
 
 </button>
@@ -275,12 +276,12 @@ Print
 PRODUCT FREEZING SLIP
 
 </div>
-
+<!-- 
 <div class="sub">
 
 System Generated • Confidential Document
 
-</div>
+</div> -->
 
 </div>
 
@@ -455,4 +456,8 @@ Manufacturing ERP System
 </div>
 
 </div>
+<?php echo $__env->make('product_freezing.modal_edit', [
+    'productFreezing' => $productFreezing,
+    'products' => $products
+], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/product_freezing/show.blade.php ENDPATH**/ ?>

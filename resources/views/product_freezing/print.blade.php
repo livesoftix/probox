@@ -296,11 +296,11 @@ PRODUCT FREEZING SLIP
 
 </h1>
 
-<p>
+<!-- <p>
 
 System Generated • Confidential Document
 
-</p>
+</p> -->
 
 </div>
 
@@ -465,7 +465,7 @@ PRODUCTION BY
 <!-- ============================= -->
 <!-- Footer -->
 <!-- ============================= -->
-<div class="footer">
+<!-- <div class="footer">
 
     <div class="generated-on">
 
@@ -475,7 +475,7 @@ PRODUCTION BY
 
     </div>
 
-</div>
+</div> -->
 
 
 </div> <!-- sheet -->

@@ -95,14 +95,16 @@ public function store(Request $request)
         ->with('success', 'Product freezed successfully.');
 }
 
-  public function show($id)
+public function show($id)
 {
     $productFreezing = ProductFreezing::with('product')->findOrFail($id);
 
-    return view(
-        'product_freezing.show',
-        compact('productFreezing')
-    );
+    $products = ProductMaster::orderBy('prod_name')->get();
+
+    return view('product_freezing.show', compact(
+        'productFreezing',
+        'products'
+    ));
 }
 
     public function edit($id)

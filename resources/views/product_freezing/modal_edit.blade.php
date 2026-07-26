@@ -1,7 +1,6 @@
-@foreach($records as $row)
 
 <div class="modal fade"
-     id="editModal{{ $row->id }}"
+     id="editModal{{ $productFreezing->id }}"
      tabindex="-1"
      aria-hidden="true">
 
@@ -9,7 +8,7 @@
 
         <div class="modal-content shadow-lg border-0 rounded-3">
 
-            <form action="{{ route('product-freezing.update',$row->id) }}"
+            <form action="{{ route('product-freezing.update',$productFreezing->id) }}"
                   method="POST">
 
                 @csrf
@@ -51,7 +50,7 @@
 
                             <input type="text"
                                    class="form-control"
-                                   value="{{ $row->slip_no }}"
+                                   value="{{ $productFreezing->slip_no }}"
                                    readonly>
 
                         </div>
@@ -69,7 +68,7 @@
                             <input type="date"
                                    name="date"
                                    class="form-control"
-                                   value="{{ $row->date }}"
+                                   value="{{ $productFreezing->date }}"
                                    required>
 
                         </div>
@@ -88,14 +87,14 @@
                                     class="form-control">
 
                                 <option value="Active"
-                                    {{ $row->product->status=='active' ? 'selected':'' }}>
+                                    {{ $productFreezing->product->status=='active' ? 'selected':'' }}>
 
                                     Active
 
                                 </option>
 
                                 <option value="Inactive"
-                                    {{ $row->product->status=='Inactive' ? 'selected':'' }}>
+                                    {{ $productFreezing->product->status=='Inactive' ? 'selected':'' }}>
 
                                     Inactive
 
@@ -116,14 +115,14 @@
                             </label>
 
                             <select name="product_id"
-                                    id="edit_product{{ $row->id }}"
+                                    id="edit_product{{ $productFreezing->id }}"
                                     class="form-control edit-select2"
                                     required>
 
                                 @foreach($products as $product)
 
                                 <option value="{{ $product->id }}"
-                                    {{ $product->id==$row->product_id ? 'selected':'' }}>
+                                    {{ $product->id==$productFreezing->product_id ? 'selected':'' }}>
 
                                     {{ $product->prod_name }}
 
@@ -147,7 +146,7 @@
 
                             <textarea name="description"
                                       class="form-control"
-                                      rows="4">{{ $row->description }}</textarea>
+                                      rows="4">{{ $productFreezing->description }}</textarea>
 
                         </div>
 
@@ -182,7 +181,7 @@
                             <input type="text"
                                    name="prepared_by"
                                    class="form-control"
-                                   value="{{ $row->prepared_by }}">
+                                   value="{{ $productFreezing->prepared_by }}">
 
                         </div>
 
@@ -197,7 +196,7 @@
                             <input type="text"
                                    name="production_by"
                                    class="form-control"
-                                   value="{{ $row->production_by }}">
+                                   value="{{ $productFreezing->production_by }}">
 
                         </div>
 
@@ -247,7 +246,7 @@
 
 </div>
 
-@endforeach
+
 
 <script>
 
