@@ -1,245 +1,484 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-    <meta charset="utf-8">
+<meta charset="UTF-8">
 
-    <title>Product Freezing Slip</title>
+<title>Product Freezing Slip</title>
 
-    <style>
+<style>
 
-        body{
-            font-family:Arial, Helvetica, sans-serif;
-            margin:25px;
-            color:#000;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .title{
+body{
 
-            text-align:center;
-            font-size:24px;
-            font-weight:bold;
-            margin-bottom:5px;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#eef2f7;
+    padding:35px;
+    color:#2d3748;
 
-        }
+}
 
-        .subtitle{
+@page{
 
-            text-align:center;
-            font-size:16px;
-            margin-bottom:30px;
+    size:A4;
+    margin:12mm;
 
-        }
+}
 
-        table{
+.sheet{
 
-            width:100%;
-            border-collapse:collapse;
+    width:100%;
+    max-width:900px;
+    margin:auto;
+    background:#fff;
+    border-radius:18px;
+    padding:35px 45px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
 
-        }
+}
 
-        td{
+.header{
 
-            padding:10px;
-            border:1px solid #000;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:25px;
 
-        }
+}
 
-        .heading{
+.left h1{
 
-            background:#efefef;
-            font-weight:bold;
-            width:180px;
+    font-size:28px;
+    color:#1d6ef5;
+    font-weight:800;
+    letter-spacing:.5px;
 
-        }
+}
 
-        .description{
+.left p{
 
-            height:120px;
-            vertical-align:top;
+    color:#777;
+    margin-top:10px;
+    font-size:16px;
 
-        }
+}
 
-        .signature{
+.right{
 
-            margin-top:80px;
+    text-align:right;
+    line-height:32px;
 
-        }
+}
 
-        .sign-box{
+.right span{
 
-            width:220px;
-            text-align:center;
-            border-top:1px solid #000;
-            padding-top:8px;
-        }
+    color:#666;
+    font-weight:600;
 
-        @media print{
+}
 
-            .no-print{
+.right strong{
 
-                display:none;
+    font-size:16px;
+    color:#2d3748;
 
-            }
+}
 
-        }
+.blue-line{
 
-    </style>
+    width:100%;
+    height:4px;
+
+    background-color:#0d6efd !important;
+
+    border-top:4px solid #0d6efd;
+
+    margin:20px 0 30px;
+
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+
+}
+
+.section{
+
+    margin-bottom:35px;
+
+}
+
+.label{
+
+    color:#666;
+    font-size:16px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    margin-bottom:5px;
+
+}
+
+.product{
+
+    font-size:18px;
+    font-weight:700;
+    color:#222;
+    line-height:55px;
+
+}
+
+.status{
+
+    display:inline-block;
+    padding:5px 32px;
+    border-radius:30px;
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:.5px;
+}
+
+.status-active{
+
+    background:#daf7e6;
+    color:#0f7a38;
+
+}
+
+.status-inactive{
+
+    background:#ffe3e3;
+    color:#b42318;
+
+}
+
+.description{
+
+    background:#f7f9fc;
+    border-left:6px solid #1d6ef5;
+    border-radius:12px;
+    padding:28px;
+    min-height:220px;
+    line-height:38px;
+    font-size:20px;
+    color:#444;
+
+}
+
+.signature-area{
+
+    margin-top:70px;
+    border-top:2px dashed #d8d8d8;
+    padding-top:45px;
+
+}
+
+.signature-table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+.signature-table td{
+
+    width:50%;
+    text-align:center;
+
+}
+
+.sign-line{
+
+    width:220px;
+    border-top:2px solid #555;
+    margin:18px auto 10px;
+
+}
+
+.sign-title{
+
+    font-weight:700;
+    color:#666;
+    text-transform:uppercase;
+
+}
+
+.sign-name{
+
+    font-size:22px;
+    font-weight:700;
+    margin-top:12px;
+
+}
+
+.footer{
+
+    margin-top:45px;
+    display:flex;
+    justify-content:space-between;
+    color:#888;
+    font-size:15px;
+
+}
+
+.print-btn{
+
+    position:fixed;
+    right:30px;
+    top:30px;
+    background:#1d6ef5;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    padding:12px 22px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+@media print{
+
+body{
+
+background:white;
+padding:0;
+
+}
+
+.sheet{
+
+box-shadow:none;
+border-radius:0;
+padding:0;
+
+}
+
+.print-btn{
+
+display:none;
+
+}
+*{
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+}
+
+}
+
+</style>
 
 </head>
 
 <body>
 
-<div class="title">
+<button
+class="print-btn"
+onclick="window.print()">
 
-   PRODUCT FREEZING SLIP
+🖨 Print
+
+</button>
+
+<div class="sheet">
+
+<div class="header">
+
+<div class="left">
+
+<h1>
+
+PRODUCT FREEZING SLIP
+
+</h1>
+
+<p>
+
+System Generated • Confidential Document
+
+</p>
 
 </div>
 
-<table>
+<div class="right">
 
-    <tr>
+<div>
 
-        <td class="heading">
-            Date
-        </td>
+<span>Date:</span>
 
-        <td>
+<strong>
 
-            {{ date('d-m-Y',strtotime($productFreezing->date)) }}
+{{ \Carbon\Carbon::parse($productFreezing->date)->format('d-m-Y') }}
 
-        </td>
+</strong>
 
-        <td class="heading">
+</div>
 
-            Slip No
+<div>
 
-        </td>
+<span>Slip No:</span>
 
-        <td>
+<strong>
 
-            {{ $productFreezing->slip_no }}
+{{ $productFreezing->slip_no }}
 
-        </td>
+</strong>
 
-    </tr>
+</div>
 
-    <tr>
+</div>
 
-        <td class="heading">
+</div>
 
-            Product Name
+<div class="blue-line"></div>
+<!-- ============================= -->
+<!-- Product Information -->
+<!-- ============================= -->
 
-        </td>
+<div class="section">
 
-        <td colspan="3">
+    <div class="label">
 
-            {{ $productFreezing->product->prod_name }}
+        PRODUCT NAME
 
-        </td>
+    </div>
 
-    </tr>
+    <div class="product">
 
-    <tr>
+        {{ $productFreezing->product->prod_name }}
 
-        <td class="heading">
+    </div>
 
-            Status
+</div>
 
-        </td>
+<div class="section">
 
-        <td colspan="3">
+    <div class="label">
 
-            {{ $productFreezing->product->status }}
+        STATUS
 
-        </td>
+    </div>
 
-    </tr>
+    @if(strtolower($productFreezing->product->status) == 'active')
 
-    <tr>
+        <span class="status status-active">
 
-        <td class="heading">
+            ACTIVE
 
-            Description
+        </span>
 
-        </td>
+    @else
 
-        <td colspan="3" class="description">
+        <span class="status status-inactive">
+
+            INACTIVE
+
+        </span>
+
+    @endif
+
+</div>
+
+<!-- ============================= -->
+<!-- Description -->
+<!-- ============================= -->
+
+<div class="section">
+
+    <div class="label">
+
+        DESCRIPTION
+
+    </div>
+
+    <div class="description">
+
+        @if(!empty($productFreezing->description))
 
             {!! nl2br(e($productFreezing->description)) !!}
 
-        </td>
+        @else
 
-    </tr>
+            No description available.
+
+        @endif
+
+    </div>
+
+</div>
+
+<!-- ============================= -->
+<!-- Signature Section -->
+<!-- ============================= -->
+
+<div class="signature-area">
+
+<table class="signature-table">
+
+<tr>
+
+<td>
+
+<div class="sign-line"></div>
+
+<div class="sign-title">
+
+PREPARED BY
+
+</div>
+
+<div class="sign-name">
+
+{{ $productFreezing->prepared_by ?: '_____________' }}
+
+</div>
+
+</td>
+
+<td>
+
+<div class="sign-line"></div>
+
+<div class="sign-title">
+
+PRODUCTION BY
+
+</div>
+
+<div class="sign-name">
+
+{{ $productFreezing->production_by ?: '_____________' }}
+
+</div>
+
+</td>
+
+</tr>
 
 </table>
 
-<div class="signature">
-
-    <table style="border:none;">
-
-        <tr style="border:none;">
-
-            <td style="border:none;text-align:left;">
-
-                <div class="sign-box">
-
-                    Prepared By
-
-                </div>
-
-            </td>
-
-            <td style="border:none;text-align:center;">
-
-                <div class="sign-box">
-
-                    Checked By
-
-                </div>
-
-            </td>
-
-            <td style="border:none;text-align:right;">
-
-                <div class="sign-box">
-
-                    Authorized Signature
-
-                </div>
-
-            </td>
-
-        </tr>
-
-    </table>
-
 </div>
+<!-- ============================= -->
+<!-- Footer -->
+<!-- ============================= -->
 
-<div class="no-print" style="text-align:center;margin-top:40px;">
 
-    <button onclick="window.print()"
-            style="padding:10px 25px;">
 
-        Print
-
-    </button>
-
-    <button onclick="window.close()"
-            style="padding:10px 25px;">
-
-        Close
-
-    </button>
-
-</div>
+</div> <!-- sheet -->
 
 <script>
 
 window.onload=function(){
 
     window.print();
+
+};
+
+window.onafterprint=function(){
+
+    window.close();
 
 };
 

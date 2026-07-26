@@ -199,7 +199,7 @@
     
     <div class="col-md-3">
         <label>No Of Used Rims / Pkt</label>
-        <input type="number" class="form-control box-stock" name="box_qty[]">
+        <input type="number" class="form-control box-stock" name="box_qty[]" step="any">
     </div>
     <div class="col-md-3">
         <label>After Cutting</label>

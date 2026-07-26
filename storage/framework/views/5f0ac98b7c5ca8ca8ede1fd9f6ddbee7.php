@@ -1,6 +1,6 @@
-@extends('layouts.app')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 
 <link rel="stylesheet"
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -226,11 +226,11 @@ margin:12mm;
 
 <div class="slip-wrapper mt-4">
 
-@if(!request()->routeIs('product-freezing.print'))
+<?php if(!request()->routeIs('product-freezing.print')): ?>
 
 <div class="top-buttons text-end">
 
-<a href="{{ route('product-freezing.index') }}"
+<a href="<?php echo e(route('product-freezing.index')); ?>"
 class="btn btn-secondary">
 
 <i class="bi bi-arrow-left"></i>
@@ -242,7 +242,7 @@ Back
 <button
 class="btn btn-warning"
 data-bs-toggle="modal"
-data-bs-target="#editModal{{ $productFreezing->id }}">
+data-bs-target="#editModal<?php echo e($productFreezing->id); ?>">
 
 <i class="bi bi-pencil-square"></i>
 
@@ -250,7 +250,7 @@ Edit
 
 </button>
 
-<a href="{{ route('product-freezing.print',$productFreezing->id) }}"
+<a href="<?php echo e(route('product-freezing.print',$productFreezing->id)); ?>"
 target="_blank"
 class="btn btn-primary">
 
@@ -262,7 +262,7 @@ Print
 
 </div>
 
-@endif
+<?php endif; ?>
 
 <div class="slip-card">
 
@@ -289,14 +289,14 @@ System Generated • Confidential Document
 <h5>
 
 Date:
-<strong>{{ date('d-m-Y',strtotime($productFreezing->date)) }}</strong>
+<strong><?php echo e(date('d-m-Y',strtotime($productFreezing->date))); ?></strong>
 
 </h5>
 
 <h5>
 
 Slip No:
-<strong>{{ $productFreezing->slip_no }}</strong>
+<strong><?php echo e($productFreezing->slip_no); ?></strong>
 
 </h5>
 
@@ -314,7 +314,8 @@ PRODUCT NAME
 
 <div class="product">
 
-{{ $productFreezing->product->prod_name }}
+<?php echo e($productFreezing->product->prod_name); ?>
+
 
 </div>
 
@@ -324,7 +325,7 @@ STATUS
 
 </div>
 
-@if(strtolower($productFreezing->product->status)=='active')
+<?php if(strtolower($productFreezing->product->status)=='active'): ?>
 
 <div class="status active">
 
@@ -332,7 +333,7 @@ ACTIVE
 
 </div>
 
-@else
+<?php else: ?>
 
 <div class="status inactive">
 
@@ -340,7 +341,7 @@ INACTIVE
 
 </div>
 
-@endif
+<?php endif; ?>
 
 <div class="label mt-5">
 
@@ -349,17 +350,18 @@ DESCRIPTION
 </div>
 
 <div class="description-box">
-    @if(!empty($productFreezing->description))
+    <?php if(!empty($productFreezing->description)): ?>
 
-{!! nl2br(e($productFreezing->description)) !!}
+<?php echo nl2br(e($productFreezing->description)); ?>
 
-@else
+
+<?php else: ?>
 
 <span style="color:#999;">
 No description available.
 </span>
 
-@endif
+<?php endif; ?>
 
 </div>
 
@@ -375,7 +377,8 @@ No description available.
 
 <div class="person">
 
-{{ $productFreezing->prepared_by ?: '_____________' }}
+<?php echo e($productFreezing->prepared_by ?: '_____________'); ?>
+
 
 </div>
 
@@ -397,7 +400,8 @@ PREPARED BY
 
 <div class="person">
 
-{{ $productFreezing->production_by ?: '_____________' }}
+<?php echo e($productFreezing->production_by ?: '_____________'); ?>
+
 
 </div>
 
@@ -437,7 +441,8 @@ Manufacturing ERP System
 
 <strong>Generated On</strong><br>
 
-{{ now()->format('d-m-Y h:i A') }}
+<?php echo e(now()->format('d-m-Y h:i A')); ?>
+
 
 </div>
 
@@ -450,3 +455,4 @@ Manufacturing ERP System
 </div>
 
 </div>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/product_freezing/show.blade.php ENDPATH**/ ?>

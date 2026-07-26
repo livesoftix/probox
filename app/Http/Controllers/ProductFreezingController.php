@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class ProductFreezingController extends Controller
 {
-   public function index(Request $request)
+public function index(Request $request)
 {
     $products = ProductMaster::orderBy('id')->get();
 
@@ -23,7 +23,15 @@ class ProductFreezingController extends Controller
 
     $records = $query->latest()->get();
 
-    return view('product_freezing.index', compact('records', 'products'));
+    // Generate next slip number for popup
+    $lastId = ProductFreezing::max('id') + 1;
+    $slipNo = 'PF-' . str_pad($lastId, 5, '0', STR_PAD_LEFT);
+
+    return view('product_freezing.index', compact(
+        'records',
+        'products',
+        'slipNo'
+    ));
 }
 
   public function create()
@@ -43,29 +51,48 @@ class ProductFreezingController extends Controller
     ));
 }
 
-    public function store(Request $request)
+public function store(Request $request)
 {
     $request->validate([
-        'date'=>'required',
-        'product_id'=>'required',
-        'description'=>'nullable'
+
+        'date' => 'required|date',
+
+        'slip_no' => 'required',
+
+        'product_id' => 'required|exists:product_master,id',
+
+        'description' => 'nullable|string',
+
+        'prepared_by' => 'nullable|string|max:255',
+
+        'production_by' => 'nullable|string|max:255',
+
     ]);
 
     ProductFreezing::create([
-        'date'=>$request->date,
-        'slip_no'=>$request->slip_no,
-        'product_id'=>$request->product_id,
-        'description'=>$request->description,
+
+        'date' => $request->date,
+
+        'slip_no' => $request->slip_no,
+
+        'product_id' => $request->product_id,
+
+        'description' => $request->description,
+
+        'prepared_by' => $request->prepared_by,
+
+        'production_by' => $request->production_by,
+
     ]);
 
-    ProductMaster::where('id',$request->product_id)
+    ProductMaster::where('id', $request->product_id)
         ->update([
-            'status'=>'Inactive'
+            'status' => 'Inactive'
         ]);
 
     return redirect()
         ->route('product-freezing.index')
-        ->with('success','Product freezed successfully.');
+        ->with('success', 'Product freezed successfully.');
 }
 
   public function show($id)
@@ -93,32 +120,75 @@ class ProductFreezingController extends Controller
     );
 }
 
-  public function update(Request $request,$id)
+ public function update(Request $request, $id)
 {
     $request->validate([
-        'date' => 'required',
-        'product_id' => 'required',
-        'description' => 'nullable'
+
+        'date'            => 'required|date',
+
+        'product_id'      => 'required|exists:product_masters,id',
+
+        'status'          => 'required|in:Active,Inactive',
+
+        'description'     => 'nullable|string',
+
+        'prepared_by'     => 'nullable|string|max:255',
+
+        'production_by'   => 'nullable|string|max:255',
+
     ]);
 
     $freezing = ProductFreezing::findOrFail($id);
 
+    /*
+    |--------------------------------------------------------------------------
+    | If product is changed, restore old product status first
+    |--------------------------------------------------------------------------
+    */
+
+    if ($freezing->product_id != $request->product_id) {
+
+        ProductMaster::where('id', $freezing->product_id)
+            ->update([
+                'status' => 'Active'
+            ]);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Update Product Freezing
+    |--------------------------------------------------------------------------
+    */
+
     $freezing->update([
-        'date' => $request->date,
-        'product_id' => $request->product_id,
-        'description' => $request->description,
+
+        'date'            => $request->date,
+
+        'product_id'      => $request->product_id,
+
+        'description'     => $request->description,
+
+        'prepared_by'     => $request->prepared_by,
+
+        'production_by'   => $request->production_by,
+
     ]);
 
-    ProductMaster::where('id', $freezing->product_id)
+    /*
+    |--------------------------------------------------------------------------
+    | Update Selected Product Status
+    |--------------------------------------------------------------------------
+    */
+
+    ProductMaster::where('id', $request->product_id)
         ->update([
             'status' => $request->status
         ]);
 
     return redirect()
         ->route('product-freezing.index')
-        ->with('success', 'Product Freezing Updated Successfully.');
+        ->with('success', 'Product Freezing updated successfully.');
 }
-
     public function destroy($id)
 {
     $productFreezing = ProductFreezing::findOrFail($id);

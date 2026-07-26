@@ -13,6 +13,8 @@ class ProductFreezing extends Model
     'slip_no',
     'product_id',
     'description',
+    'prepared_by',
+    'production_by',
     ];
     public function product()
 {

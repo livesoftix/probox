@@ -188,7 +188,7 @@
             <i class="uil uil-eye"></i>
         </a>
 
-        <?php if($product->status == 'Active'): ?>
+        <?php if($product->status == 'active'): ?>
 
             
             <a href="<?php echo e(route('registration_form.edit', $product->id)); ?>"
