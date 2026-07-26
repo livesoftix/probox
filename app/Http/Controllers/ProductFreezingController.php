@@ -126,7 +126,7 @@ public function store(Request $request)
 
         'date'            => 'required|date',
 
-        'product_id'      => 'required|exists:product_masters,id',
+        'product_id'      => 'required|exists:product_master,id',
 
         'status'          => 'required|in:Active,Inactive',
 
