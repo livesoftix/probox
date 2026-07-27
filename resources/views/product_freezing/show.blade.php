@@ -11,11 +11,14 @@ body{
     background:#eef2f7;
     font-family:'Segoe UI',sans-serif;
 }
-
+.container-fluid.fs{
+    padding-top:70px !important;
+}
 .slip-wrapper{
 
     max-width:900px;
     margin:40px auto;
+    padding-left:20px;
 
 }
 
@@ -179,7 +182,6 @@ body{
 .top-buttons{
 
     margin-bottom:25px;
-    margin-top:100px !important;
 
 }
 
@@ -222,7 +224,7 @@ margin:12mm;
 
 </style>
 
-<div class="container-fluid mt-4">
+<div class="container-fluid fs mt-4">
 
 <div class="slip-wrapper mt-4">
 

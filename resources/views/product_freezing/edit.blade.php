@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $row = $row ?? $row;
+@endphp
 
 <div class="container-fluid">
 
@@ -49,7 +52,7 @@
 
                 <div class="card-body">
 
-                    <form action="{{ route('product-freezing.update',$productFreezing->id) }}"
+                    <form action="{{ route('product-freezing.update',$row->id) }}"
                           method="POST">
 
                         @csrf
@@ -69,7 +72,7 @@
                                     type="date"
                                     name="date"
                                     class="form-control"
-                                    value="{{ old('date',$productFreezing->date) }}"
+                                    value="{{ old('date',$row->date) }}"
                                     required>
 
                             </div>
@@ -85,7 +88,7 @@
                                 <input
                                     type="text"
                                     class="form-control"
-                                    value="{{ $productFreezing->slip_no }}"
+                                    value="{{ $row->slip_no }}"
                                     readonly>
 
                             </div>
@@ -107,7 +110,7 @@
 
                                     <option
                                         value="{{ $product->id }}"
-                                        {{ $product->id == $productFreezing->product_id ? 'selected':'' }}>
+                                        {{ $product->id == $row->product_id ? 'selected':'' }}>
 
                                         {{ $product->prod_name }}
 
@@ -130,12 +133,12 @@
     <select name="status" class="form-control select2" data-toggle="select2">
 
         <option value="Active"
-            {{ $productFreezing->product->status == 'active' ? 'selected' : '' }}>
+            {{ $row->product->status == 'active' ? 'selected' : '' }}>
             Active
         </option>
 
         <option value="Inactive"
-            {{ $productFreezing->product->status == 'inactive' ? 'selected' : '' }}>
+            {{ $row->product->status == 'inactive' ? 'selected' : '' }}>
             Inactive
         </option>
 
@@ -154,7 +157,7 @@
                                 <textarea
                                     name="description"
                                     rows="5"
-                                    class="form-control">{{ old('description',$productFreezing->description) }}</textarea>
+                                    class="form-control">{{ old('description',$row->description) }}</textarea>
 
                             </div>
 

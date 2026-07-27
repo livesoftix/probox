@@ -1,6 +1,8 @@
-
+<?php
+    $row = $row ?? $productFreezing;
+?>
 <div class="modal fade"
-     id="editModal<?php echo e($productFreezing->id); ?>"
+     id="editModal<?php echo e($row->id); ?>"
      tabindex="-1"
      aria-hidden="true">
 
@@ -8,7 +10,7 @@
 
         <div class="modal-content shadow-lg border-0 rounded-3">
 
-            <form action="<?php echo e(route('product-freezing.update',$productFreezing->id)); ?>"
+            <form action="<?php echo e(route('product-freezing.update',$row->id)); ?>"
                   method="POST">
 
                 <?php echo csrf_field(); ?>
@@ -50,7 +52,7 @@
 
                             <input type="text"
                                    class="form-control"
-                                   value="<?php echo e($productFreezing->slip_no); ?>"
+                                   value="<?php echo e($row->slip_no); ?>"
                                    readonly>
 
                         </div>
@@ -68,7 +70,7 @@
                             <input type="date"
                                    name="date"
                                    class="form-control"
-                                   value="<?php echo e($productFreezing->date); ?>"
+                                   value="<?php echo e($row->date); ?>"
                                    required>
 
                         </div>
@@ -87,14 +89,14 @@
                                     class="form-control">
 
                                 <option value="Active"
-                                    <?php echo e($productFreezing->product->status=='active' ? 'selected':''); ?>>
+                                    <?php echo e($row->product->status=='active' ? 'selected':''); ?>>
 
                                     Active
 
                                 </option>
 
                                 <option value="Inactive"
-                                    <?php echo e($productFreezing->product->status=='Inactive' ? 'selected':''); ?>>
+                                    <?php echo e($row->product->status=='Inactive' ? 'selected':''); ?>>
 
                                     Inactive
 
@@ -115,14 +117,14 @@
                             </label>
 
                             <select name="product_id"
-                                    id="edit_product<?php echo e($productFreezing->id); ?>"
+                                    id="edit_product<?php echo e($row->id); ?>"
                                     class="form-control edit-select2"
                                     required>
 
                                 <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                 <option value="<?php echo e($product->id); ?>"
-                                    <?php echo e($product->id==$productFreezing->product_id ? 'selected':''); ?>>
+                                    <?php echo e($product->id==$row->product_id ? 'selected':''); ?>>
 
                                     <?php echo e($product->prod_name); ?>
 
@@ -147,7 +149,7 @@
 
                             <textarea name="description"
                                       class="form-control"
-                                      rows="4"><?php echo e($productFreezing->description); ?></textarea>
+                                      rows="4"><?php echo e($row->description); ?></textarea>
 
                         </div>
 
@@ -182,7 +184,7 @@
                             <input type="text"
                                    name="prepared_by"
                                    class="form-control"
-                                   value="<?php echo e($productFreezing->prepared_by); ?>">
+                                   value="<?php echo e($row->prepared_by); ?>">
 
                         </div>
 
@@ -197,7 +199,7 @@
                             <input type="text"
                                    name="production_by"
                                    class="form-control"
-                                   value="<?php echo e($productFreezing->production_by); ?>">
+                                   value="<?php echo e($row->production_by); ?>">
 
                         </div>
 
