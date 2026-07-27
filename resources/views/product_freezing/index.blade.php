@@ -86,13 +86,13 @@
 
                         <option value="">All</option>
 
-                        <option value="Active"
-                            {{ request('status')=='Active' ? 'selected' : '' }}>
+                        <option value="active"
+                            {{ request('status')=='active' ? 'selected' : '' }}>
                             Active
                         </option>
 
-                        <option value="Inactive"
-                            {{ request('status')=='Inactive' ? 'selected' : '' }}>
+                        <option value="inactive"
+                            {{ request('status')=='inactive' ? 'selected' : '' }}>
                             Inactive
                         </option>
 
