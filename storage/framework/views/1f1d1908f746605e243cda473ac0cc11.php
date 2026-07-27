@@ -25,7 +25,112 @@
     </div>
 
     <div class="card">
+<div class="card mb-3">
+    <div class="card-body">
 
+        <form method="GET" action="<?php echo e(route('product-freezing.index')); ?>">
+
+            <div class="row">
+
+                <!-- Start Date -->
+                <div class="col-md-3 mb-2">
+                    <label class="form-label">Start Date</label>
+
+                    <input type="date"
+                           name="start_date"
+                           class="form-control"
+                           value="<?php echo e(request('start_date')); ?>">
+                </div>
+
+                <!-- End Date -->
+                <div class="col-md-3 mb-2">
+                    <label class="form-label">End Date</label>
+
+                    <input type="date"
+                           name="end_date"
+                           class="form-control"
+                           value="<?php echo e(request('end_date')); ?>">
+                </div>
+
+                <!-- Product -->
+                <div class="col-md-3 mb-2">
+                    <label class="form-label">Product</label>
+
+  <select name="product_id"
+        class="form-control product-filter">
+
+    <option value="">All Products</option>
+
+    <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+        <option value="<?php echo e($product->id); ?>"
+            <?php echo e(request('product_id') == $product->id ? 'selected' : ''); ?>>
+
+            <?php echo e($product->prod_name); ?>
+
+
+        </option>
+
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+</select>
+
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-2 mb-2">
+
+                    <label class="form-label">Status</label>
+
+                    <select name="status"
+                            class="form-control">
+
+                        <option value="">All</option>
+
+                        <option value="Active"
+                            <?php echo e(request('status')=='Active' ? 'selected' : ''); ?>>
+                            Active
+                        </option>
+
+                        <option value="Inactive"
+                            <?php echo e(request('status')=='Inactive' ? 'selected' : ''); ?>>
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- Buttons -->
+                <div class="col-md-1 d-flex align-items-end mb-2">
+
+                    <button class="btn btn-primary w-100">
+
+                        <i class="bi bi-search"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="mt-2">
+
+                <a href="<?php echo e(route('product-freezing.index')); ?>"
+                   class="btn btn-secondary btn-sm">
+
+                    <i class="bi bi-arrow-clockwise"></i>
+
+                    Reset
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
         <div class="card-body">
 
             <table class="table table-bordered table-striped">
@@ -135,10 +240,12 @@
 </div>
 
 <?php echo $__env->make('product_freezing.modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('product_freezing.modal_edit', [
-    'productFreezing' => $row,
-    'products' => $products
-], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php if($records->count()): ?>
+    <?php echo $__env->make('product_freezing.modal_edit', [
+        'records' => $records,
+        'products' => $products
+    ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php endif; ?>
 <link rel="stylesheet"
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -146,23 +253,29 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+ $(document).ready(function () {
 
-    $(function () {
-
-    $('.select2').select2({
-        dropdownParent: $('#freezeModal')
+    // Filter dropdown
+    $('.product-filter').select2({
+        width: '100%',
+        placeholder: 'All Products',
+        allowClear: true
     });
 
-    $('#product_id').change(function () {
+    // Modal dropdown
+    $('#freezeModal .modal-product').select2({
+        dropdownParent: $('#freezeModal'),
+        width: '100%'
+    });
+
+    // Status change inside modal
+    $('#freezeModal').on('change', '#product_id', function () {
 
         let status = $(this).find(':selected').data('status');
 
-        if(status=="active")
-        {
+        if (status === 'Active') {
             $('#status').val('Inactive');
-        }
-        else
-        {
+        } else {
             $('#status').val(status);
         }
 

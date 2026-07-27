@@ -39,7 +39,9 @@
                                 Slip No <span class="text-danger">*</span>
 
                             </label>
-
+<?php
+$slipNo = 'PF-' . str_pad((\App\Models\ProductFreezing::max('id') ?? 0) + 1, 5, '0', STR_PAD_LEFT);
+?>
                             <input type="text"
                                    class="form-control"
                                    name="slip_no"

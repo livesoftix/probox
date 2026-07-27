@@ -9,40 +9,46 @@ class ProductFreezingController extends Controller
 {
 public function index(Request $request)
 {
-    $products = ProductMaster::orderBy('id')->get();
-
     $query = ProductFreezing::with('product');
-
-    if ($request->filled('date')) {
-        $query->whereDate('date', $request->date);
-    }
 
     if ($request->filled('product_id')) {
         $query->where('product_id', $request->product_id);
     }
 
+    if ($request->filled('start_date')) {
+        $query->whereDate('date', '>=', $request->start_date);
+    }
+
+    if ($request->filled('end_date')) {
+        $query->whereDate('date', '<=', $request->end_date);
+    }
+
+    if ($request->filled('status')) {
+        $query->whereHas('product', function ($q) use ($request) {
+            $q->where('status', $request->status);
+        });
+    }
+
     $records = $query->latest()->get();
 
-    // Generate next slip number for popup
-    $lastId = ProductFreezing::max('id') + 1;
-    $slipNo = 'PF-' . str_pad($lastId, 5, '0', STR_PAD_LEFT);
+    $products = ProductMaster::where('status','active')->get();
+    // dd($products);
 
     return view('product_freezing.index', compact(
         'records',
-        'products',
-        'slipNo'
+        'products'
     ));
 }
 
   public function create()
 {
-    $products = ProductMaster::where('status','Active')
+    $products = ProductMaster::where('status','active')
                     ->orderBy('id')
                     ->get();
 
     $lastId = ProductFreezing::max('id') + 1;
 
-    $slipNo = 'PF-' . str_pad($lastId,5,'0',STR_PAD_LEFT);
+    // $slipNo = 'PF-' . str_pad($lastId,5,'0',STR_PAD_LEFT);
     // dd($products);
 
     return view('product_freezing.create',compact(
