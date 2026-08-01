@@ -133,12 +133,12 @@ public function store(Request $request)
             ]);
         }
     }
-     StockService::addStock(
-        $newInvoiceNumber,
-        Carbon::now()->format('Y-m-d'),
-        $request->entries,
-        'Purchase'
-    );
+    //  StockService::addStock(
+    //     $newInvoiceNumber,
+    //     Carbon::now()->format('Y-m-d'),
+    //     $request->entries,
+    //     'Purchase'
+    // );
 
     return redirect()->route('payment_invoice.reports')
         ->with('success', 'Voucher ' . $request->v_type . '-' . $newInvoiceNumber . ' has been saved successfully.');
@@ -325,12 +325,12 @@ public function update(Request $request, $id)
             }
         }
 
-         StockService::addStock(
-            $id, // voucher number
-            now()->format('Y-m-d'),
-            $request->entries,
-            'Purchase'
-        );
+        //  StockService::addStock(
+        //     $id, // voucher number
+        //     now()->format('Y-m-d'),
+        //     $request->entries,
+        //     'Purchase'
+        // );
         DB::commit();
 
         return $request->ajax()
