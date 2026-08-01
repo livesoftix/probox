@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalQty = parseFloat(totalQtyInput.value) || 0;
         const qty = parseFloat(this.value) || 0;
 
-        if (qty > totalQty && $adjtype != "IN") {
+        if (qty > totalQty && adjtype != "IN") {
             this.value = totalQty;
             alert('Quantity cannot exceed Total Quantity');
         }
