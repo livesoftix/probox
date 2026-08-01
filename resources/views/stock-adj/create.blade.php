@@ -204,11 +204,15 @@ document.getElementById('entryDate').value = today;
 document.addEventListener('DOMContentLoaded', function() {
     const totalQtyInput = document.getElementById('total_qty');
     const qtyInput = document.getElementById('qty');
-    const adjtype = document.getElementById('adjustment_type');
+    
+   
     
     qtyInput.addEventListener('input', function() {
+        const adjtype = document.getElementById('adjustment_type').value;
         const totalQty = parseFloat(totalQtyInput.value) || 0;
         const qty = parseFloat(this.value) || 0;
+        
+         console.log(adjtype);
 
         if (qty > totalQty && adjtype != "IN") {
             this.value = totalQty;
@@ -218,10 +222,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Optional: Also validate when leaving the field (on blur)
     qtyInput.addEventListener('blur', function() {
+        const adjtype = document.getElementById('adjustment_type').value;
         const totalQty = parseFloat(totalQtyInput.value) || 0;
         const qty = parseFloat(this.value) || 0;
         
-        if (qty > totalQty) {
+        if (qty > totalQty && adjtype != "IN") {
             this.value = totalQty;
             alert('Quantity cannot exceed Total Quantity');
         }

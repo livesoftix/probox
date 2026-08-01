@@ -45,18 +45,7 @@
             <input type="date" class="form-control" id="end_date" name="end_date"
                    value="<?php echo e(request()->get('end_date')); ?>">
         </div>
-        <div class="form-group col-xl-4">
-            <label for="employee" class="sr-only">Status</label>
-            <select name="employee" class="form-control select2">
-                <option value="">All</option>
-                <option value="official" <?php echo e(request()->get('employee') == 'official' ? 'selected' : ''); ?>>
-                    Official
-                </option>
-                <option value="unofficial" <?php echo e(request()->get('employee') == 'unofficial' ? 'selected' : ''); ?>>
-                    Unofficial
-                </option>
-            </select>
-        </div>
+       
     
         <div class="form-group col-xl-4 mt-2">
             <label for="v_no" class="form-label">SA No</label>

@@ -66,7 +66,7 @@
                                           
                                             
                                             <div class="mb-3">
-    <label for="product_type" class="sr-only">Purchase Type</label>
+    <label for="product_type" class="sr-only">Voucher Type</label>
     <select name="product_type" class="form-control select2" data-toggle="select2" id="product_type">
         <option value="">Select</option>
         <option value="Purchase Boxboard">Purchase Boxboard</option>
@@ -77,6 +77,7 @@
         <option value="Corrugation Purchase">Corrugation Purchase</option>
         <option value="Shipper Purchase">Shipper Purchase</option>
         <option value="Dye Purchase">Dye Purchase</option>
+        <option value="Others">Others</option>
     </select>
 </div>
 
@@ -139,12 +140,7 @@
         <label for="qty" class="form-label">Quantity</label>
         <input type="number" id="qty" class="form-control" name="qty" step="any">
     </div>
-</div>
-                                            
-                                            
-                                            
-                                            
-                                            
+</div>                   
                                             
                                             <div class="mb-3" style="display:none">
                                                 <label for="rate" class="form-label">Rate</label>
@@ -153,7 +149,7 @@
                                             
                                             
 
-                                            <div class="mb-3" style="display:none">
+                                            <div class="mb-3" >
                                                 <label for="description" class="form-label">Description</label>
                                                 <textarea type="text" id="description" class="form-control" name="description"></textarea>
                                             </div>
@@ -174,7 +170,7 @@
             <th>Item</th>
             <th>Length</th>
             <th>Width</th>
-            <th>Size</th>
+            <!-- <th>Size</th> -->
             <th>Stock Qty</th>
             <th>Adjust Qty</th>
             <th>Type</th>
@@ -210,11 +206,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const totalQtyInput = document.getElementById('total_qty');
     const qtyInput = document.getElementById('qty');
     
+   
+    
     qtyInput.addEventListener('input', function() {
+        const adjtype = document.getElementById('adjustment_type').value;
         const totalQty = parseFloat(totalQtyInput.value) || 0;
         const qty = parseFloat(this.value) || 0;
         
-        if (qty > totalQty) {
+         console.log(adjtype);
+
+        if (qty > totalQty && adjtype != "IN") {
             this.value = totalQty;
             alert('Quantity cannot exceed Total Quantity');
         }
@@ -222,10 +223,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Optional: Also validate when leaving the field (on blur)
     qtyInput.addEventListener('blur', function() {
+        const adjtype = document.getElementById('adjustment_type').value;
         const totalQty = parseFloat(totalQtyInput.value) || 0;
         const qty = parseFloat(this.value) || 0;
         
-        if (qty > totalQty) {
+        if (qty > totalQty && adjtype != "IN") {
             this.value = totalQty;
             alert('Quantity cannot exceed Total Quantity');
         }
@@ -275,10 +277,10 @@ $('#addRow').click(function () {
         + '<input type="hidden" name="width[]" value="'+$('#width').val()+'">'
         + '</td>';
 
-    row += '<td>'
-        + $('#size').val()
-        + '<input type="hidden" name="size[]" value="'+$('#size').val()+'">'
-        + '</td>';
+    // row += '<td>'
+    //     + $('#size').val()
+    //     + '<input type="hidden" name="size[]" value="'+$('#size').val()+'">'
+    //     + '</td>';
 
     row += '<td>'
         + $('#total_qty').val()
@@ -313,7 +315,7 @@ row += '<input type="hidden" name="description[]" value="'+$('#description').val
     $('#item_id').val('');
     $('#length').val('');
     $('#width').val('');
-    $('#size').val('');
+    // $('#size').val('');
     $('#product_name').val('');
     $('#country_name').val('');
     $('#total_qty').val('');
@@ -338,6 +340,16 @@ $(document).ready(function() {
     // Product type change handler
     $('#product_type').change(function() {
         var selectedType = $(this).val();
+
+        if (selectedType === 'Others') {
+    $('#total_qty')
+        .prop('readonly', false)
+        .val('');
+} else {
+    $('#total_qty')
+        .prop('readonly', true)
+        .val('');
+}
         
         // Hide all fields first
         $('[id^="purchase_"]').hide();
@@ -361,6 +373,9 @@ $(document).ready(function() {
                     break;
                 case 'Lamination Purchase':
                 case 'Corrugation Purchase':
+                    $('#size_fields').show();
+                    break;
+                case 'Others':
                     $('#size_fields').show();
                     break;
             }
@@ -413,11 +428,57 @@ $('#product_type').change(function() {
             case 'Corrugation Purchase':
                 $('#size_fields').show();
                 break;
+            case 'Others':
+               $('#purchase_boxboard').show();
+
+               $('#length, #width').prop('readonly', false);
+               break;
         }
     }
 });
 
    function loadItems(purchaseType) {
+
+
+  // OTHERS - ALL ITEM MASTER
+    // ============================
+       if (purchaseType === 'Others') {
+
+        $.ajax({
+            url: '/probox/get-all-items',
+            type: 'GET',
+            dataType: 'json',
+
+            success: function (data) {
+
+                let $select = $('#item_name')
+                    .empty()
+                    .append('<option value="">Select</option>');
+
+                $.each(data, function (key, item) {
+
+                    $select.append($('<option>', {
+                        value: item.item_code,
+                        text: item.item_code,
+                        'data-item-id': item.id,
+                        'data-remain-qty': 0
+                    }));
+                });
+
+                $select.trigger('change');
+                
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseText);
+            }
+        });
+
+        return;
+    }
+
+
+
     var viewMap = {
         'Purchase Boxboard': { view: 'boxboard_view', itemColumn: 'item_code' },
         'Purchase Plate': { view: 'plate_view', itemColumn: 'item_code' },
@@ -523,7 +584,7 @@ $('#product_type').change(function() {
                 }
             });
         }
-        else if (purchaseType === 'Lamination Purchase' || purchaseType === 'Corrugation Purchase') {
+        else if (purchaseType === 'Lamination Purchase' || purchaseType === 'Corrugation Purchase' ||  purchaseType === 'Others') {
             $('#size').val(selectedOption.data('size') || '');
         }
     }
