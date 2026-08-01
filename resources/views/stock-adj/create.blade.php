@@ -204,12 +204,13 @@ document.getElementById('entryDate').value = today;
 document.addEventListener('DOMContentLoaded', function() {
     const totalQtyInput = document.getElementById('total_qty');
     const qtyInput = document.getElementById('qty');
+    const adjtype = document.getElementById('adjustment_type');
     
     qtyInput.addEventListener('input', function() {
         const totalQty = parseFloat(totalQtyInput.value) || 0;
         const qty = parseFloat(this.value) || 0;
-        
-        if (qty > totalQty) {
+
+        if (qty > totalQty && $adjtype != "In") {
             this.value = totalQty;
             alert('Quantity cannot exceed Total Quantity');
         }
