@@ -445,7 +445,7 @@ SEARCH PANEL
 
 </div>
 
-<div class="report-actions">
+<!-- <div class="report-actions">
 
 <div class="date-box">
 
@@ -465,24 +465,7 @@ SEARCH PANEL
 placeholder="Search...">
 
 </div>
-
-<button
-
-type="button"
-
-class="export-btn"
-
-onclick="printTable()">
-
-<i class="mdi mdi-printer"></i>
-
-&nbsp;
-
-Export PDF
-
-</button>
-
-</div>
+</div> -->
 
 </div>
 
@@ -496,13 +479,6 @@ Export PDF
 
 </div>
 
-<div class="summary-item">
-
-<span>Unique products</span>
-
-<strong><?php echo e(count($boxboardData)); ?></strong>
-
-</div>
 
 <div class="summary-item">
 
@@ -665,17 +641,28 @@ class="suggestion-box list-group position-absolute w-100">
 
                         </div>
 
-                        <div class="col-xl-1 d-flex align-items-end">
+                     <div class="col-xl-2 d-flex align-items-end gap-2">
 
-                            <button
-                                type="submit"
-                                class="search-btn">
+    <button
+        type="submit"
+        class="search-btn">
 
-                                <i class="mdi mdi-magnify"></i>
+        <i class="mdi mdi-magnify"></i>
+        <span>Search</span>
 
-                            </button>
+    </button>
 
-                        </div>
+    <button
+        type="button"
+        class="export-btn"
+        onclick="printTable()">
+
+        <i class="mdi mdi-printer"></i>
+        <span>Print</span>
+
+    </button>
+
+</div>
 
                     </div>
 
@@ -1084,6 +1071,67 @@ color:#64748b;
 
 }
 
+.search-btn,
+.export-btn {
+
+    height: 50px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+}
+
+.search-btn {
+
+    width: 110px;
+
+    background: #3563ff;
+
+    color: #fff;
+
+}
+
+.search-btn:hover {
+
+    background: #2853ec;
+
+}
+
+.export-btn {
+
+    width: 110px;
+
+    background: #eef3ff;
+
+    color: #3563ff;
+
+}
+
+.export-btn:hover {
+
+    background: #e0e9ff;
+
+}
+
+.search-btn i,
+.export-btn i {
+
+    font-size: 17px;
+
+}
 </style>
 
 </head>
