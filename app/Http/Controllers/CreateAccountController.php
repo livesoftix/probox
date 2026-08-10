@@ -66,11 +66,13 @@ class CreateAccountController extends Controller
     $user->purchase = in_array('Purchase', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->inventory = in_array('Inventory', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->product_registration = in_array('Product Registration', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
+    $user->die_section = in_array('Die Section', $validatedData['navigationOptions'] ?? []) ? 1 : 0; 
     $user->product_freezing = in_array('Product Freezing', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->setup = in_array('Set up', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->employee = in_array('Employee', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->report = in_array('Report', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->job_detail = $request->has('job_detail') ? 1 : 0;
+    
 
    $user->boxboard_stock_report =
     in_array('BoxboardStockReport', $request->input('navigationOptions', [])) ? 1 : 0;
@@ -165,6 +167,7 @@ public function edit($id)
         'Set-Up Department' => $user->setup_department,
         'Employee Department' => $user->employee_department,
         'BoxboardStockReport' => $user->boxboard_stock_report,
+        'Die Section'         => $user->die_section,
     ];
 
     return view('create_account.edit', compact('user', 'navigationOptions', 'rights'));
@@ -204,7 +207,8 @@ public function update(Request $request, $id)
         'purchase' => 'purchase',
         'inventory' => 'inventory',
         'productRegistration' => 'product_registration',
-        'productFreezing' => 'product_freezing',   
+        'productFreezing' => 'product_freezing',  
+        'Die Section' => 'die_section',    
         'setup' => 'setup',
         'report' => 'report',
         'job_sheet' => 'job_sheet',

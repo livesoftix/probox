@@ -100,6 +100,7 @@ use App\Http\Controllers\StockAdjController;
 use App\Http\Controllers\BoxboardReportStockController;
 use App\Http\Controllers\TempJobSheetController;
 use App\Http\Controllers\ProductFreezingController;
+use App\Http\Controllers\DieController;
 use Illuminate\Support\Facades\Artisan;
 
 
@@ -517,6 +518,39 @@ Route::middleware('auth')->group(function () {
     Route::delete('/probox/wastage_sale/{id}/delete', [WastageSaleController::class, 'delete'])->name('wastage_sale.delete');
     Route::get('/probox/wastage_sale/edit/{v_no}', [WastageSaleController::class, 'edit'])->name('wastage_sale.edit');
     Route::put('/probox/wastage_sale/update/{id}', [WastageSaleController::class, 'update'])->name('wastage_sale.update');
+
+
+    //die 
+    Route::prefix('/probox/dies')
+    ->name('dies.')
+    ->controller(DieController::class)
+    ->group(function () {
+
+        Route::get('/', 'index')
+            ->name('index');
+
+        Route::post('/', 'store')
+            ->name('store');
+
+        Route::get('/product/{product}', 'product')
+            ->name('product');
+
+        Route::put('/{die}', 'update')
+            ->name('update');
+
+        Route::delete('/{die}', 'destroy')
+            ->name('destroy');
+        
+    });
+    Route::get(
+    '/probox/dies/{die}/repair-data',
+    [DieController::class, 'repairData']
+)->name('dies.repair.data');
+
+Route::post(
+    '/probox/dies/repair',
+    [DieController::class, 'storeRepair']
+)->name('dies.repair.store');
     
     
     

@@ -1092,7 +1092,53 @@
 </div>
 
 <hr>
-                            
+<div style="margin-left: 25px;">
+                             <div class="form-check">
+    <input class="form-check-input" type="checkbox"
+        id="dieSection"
+        name="dieSection"
+        value="1"
+        {{ old('dieSection', $user->die_section) ? 'checked' : '' }}>
+
+    <label class="form-check-label" for="dieSection">
+        Die Section
+    </label>
+</div>
+
+<hr>
+
+<div id="dieSection-options"
+    style="display: {{ old('dieSection', $user->die_section) ? 'block' : 'none' }}; margin-left:25px;">
+
+    <input type="hidden"
+       name="permissions[73][level]"
+       value="dieSection">
+    <input type="checkbox"
+        id="add-dieSection"
+        name="permissions[73][add]"
+        value="1"
+        {{ $userPermissions['dieSection']['add'] ?? 0 ? 'checked' : '' }}>
+    <label for="add-dieSection">Add</label>
+    <br>
+
+    <input type="checkbox"
+        id="edit-dieSection"
+        name="permissions[73][edit]"
+        value="1"
+        {{ $userPermissions['dieSection']['edit'] ?? 0 ? 'checked' : '' }}>
+    <label for="edit-dieSection">Edit</label>
+    <br>
+
+    <input type="checkbox"
+        id="del-dieSection"
+        name="permissions[73][del]"
+        value="1"
+        {{ $userPermissions['dieSection']['del'] ?? 0 ? 'checked' : '' }}>
+    <label for="del-dieSection">Delete</label>
+
+</div>
+</div>
+                 
                                 <!-- Stock Adjustment -->
                                  
                                 
@@ -1595,7 +1641,8 @@
 
             // Product Registration section
             ['productRegistrations', 'productRegistration-sub-options'],
-            ['stockAdjustment', 'stockAdjustment-options']
+            ['dieSection', 'dieSection-options'],
+            ['stockAdjustment', 'stockAdjustment-options'],
 
             // Job Sheet section
             ['job', 'job-options'],

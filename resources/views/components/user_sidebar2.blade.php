@@ -364,6 +364,14 @@
                             </a>
                         </li>
             @endif
+            @if(auth()->check() && auth()->user()->die_section == 1)
+                        <li class="side-nav-item">
+                            <a href="{{ route('dies.index') }}" class="side-nav-link">
+                            <i class="fas fa-scissors"></i>
+                             <span> Die Section </span>
+                            </a>
+                        </li>
+            @endif
              @if(auth()->check() && auth()->user()->job_detail == 1)
 
 

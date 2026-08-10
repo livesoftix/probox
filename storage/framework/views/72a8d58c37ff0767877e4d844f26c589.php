@@ -955,7 +955,99 @@
                                 </div>
                             </div>
                             <hr>
-                            
+                            <div class="form-check">
+    <input class="form-check-input" type="checkbox"
+        id="productFreezing"
+        name="productFreezing"
+        value="1"
+        <?php echo e(old('productFreezing', $user->product_freezing) ? 'checked' : ''); ?>>
+
+    <label class="form-check-label" for="productFreezing">
+        Product Freezing
+    </label>
+</div>
+
+<hr>
+
+<div id="productFreezing-options"
+    style="display: <?php echo e(old('productFreezing', $user->product_freezing) ? 'block' : 'none'); ?>; margin-left:25px;">
+
+    <input type="hidden"
+       name="permissions[72][level]"
+       value="productFreezing">
+    <input type="checkbox"
+        id="add-productFreezing"
+        name="permissions[72][add]"
+        value="1"
+        <?php echo e($userPermissions['productFreezing']['add'] ?? 0 ? 'checked' : ''); ?>>
+    <label for="add-productFreezing">Add</label>
+    <br>
+
+    <input type="checkbox"
+        id="edit-productFreezing"
+        name="permissions[72][edit]"
+        value="1"
+        <?php echo e($userPermissions['productFreezing']['edit'] ?? 0 ? 'checked' : ''); ?>>
+    <label for="edit-productFreezing">Edit</label>
+    <br>
+
+    <input type="checkbox"
+        id="del-productFreezing"
+        name="permissions[72][del]"
+        value="1"
+        <?php echo e($userPermissions['productFreezing']['del'] ?? 0 ? 'checked' : ''); ?>>
+    <label for="del-productFreezing">Delete</label>
+
+</div>
+
+<hr>
+<div style="margin-left: 25px;">
+                             <div class="form-check">
+    <input class="form-check-input" type="checkbox"
+        id="dieSection"
+        name="dieSection"
+        value="1"
+        <?php echo e(old('dieSection', $user->die_section) ? 'checked' : ''); ?>>
+
+    <label class="form-check-label" for="dieSection">
+        Die Section
+    </label>
+</div>
+
+<hr>
+
+<div id="dieSection-options"
+    style="display: <?php echo e(old('dieSection', $user->die_section) ? 'block' : 'none'); ?>; margin-left:25px;">
+
+    <input type="hidden"
+       name="permissions[73][level]"
+       value="dieSection">
+    <input type="checkbox"
+        id="add-dieSection"
+        name="permissions[73][add]"
+        value="1"
+        <?php echo e($userPermissions['dieSection']['add'] ?? 0 ? 'checked' : ''); ?>>
+    <label for="add-dieSection">Add</label>
+    <br>
+
+    <input type="checkbox"
+        id="edit-dieSection"
+        name="permissions[73][edit]"
+        value="1"
+        <?php echo e($userPermissions['dieSection']['edit'] ?? 0 ? 'checked' : ''); ?>>
+    <label for="edit-dieSection">Edit</label>
+    <br>
+
+    <input type="checkbox"
+        id="del-dieSection"
+        name="permissions[73][del]"
+        value="1"
+        <?php echo e($userPermissions['dieSection']['del'] ?? 0 ? 'checked' : ''); ?>>
+    <label for="del-dieSection">Delete</label>
+
+</div>
+</div>
+                 
                                 <!-- Stock Adjustment -->
                                  
                                 
@@ -1340,6 +1432,7 @@
             { id: 'purchase', options: 'purchase-options' },
             { id: 'inventory', options: 'inventory-options' },
             { id: 'productRegistration', options: 'productRegistration-options' },
+            { id: 'productFreezing', options: 'productFreezing-options' },
             { id: 'jobSheet', options: 'jobSheet-options' },
             { id: 'attendanceSystem', options: 'attendanceSystem-container' },
             { id: 'setup', options: 'setup-options' },
@@ -1432,6 +1525,8 @@
 
             // Product Registration section
             ['productRegistrations', 'productRegistration-sub-options'],
+            ['dieSection', 'dieSection-options'],
+            ['stockAdjustment', 'stockAdjustment-options'],
 
             // Job Sheet section
             ['job', 'job-options'],

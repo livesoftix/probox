@@ -857,13 +857,92 @@
                                     value="1">
                                 <label for="del-productRegistration">Delete</label><br>
                             </div>
+                            <hr>
                             
 
+<!-- Product Freezing -->
+<div class="form-check">
+    <input class="form-check-input" type="checkbox"
+        id="productFreezing"
+        name="productFreezing"
+        value="1">
 
+    <label class="form-check-label" for="productFreezing">
+        Product Freezing
+    </label>
+</div>
 
+<hr>
 
+<div id="productFreezing-options" style="display:none; margin-left:25px;">
 
-                            <hr>
+    <input type="checkbox"
+        id="add-productFreezing"
+        name="permissions[35][add]"
+        value="1">
+    <label for="add-productFreezing">Add</label>
+    <br>
+
+    <input type="checkbox"
+        id="edit-productFreezing"
+        name="permissions[35][edit]"
+        value="1">
+    <label for="edit-productFreezing">Edit</label>
+    <br>
+
+    <input type="checkbox"
+        id="del-productFreezing"
+        name="permissions[35][del]"
+        value="1">
+    <label for="del-productFreezing">Delete</label>
+
+</div>
+<hr>
+<!-- Die Section -->
+
+<div class="form-check">
+    <input class="form-check-input"
+           type="checkbox"
+           id="dieSection"
+           name="navigationOptions[]"
+           value="Die Section">
+
+    <label class="form-check-label" for="dieSection">
+        Die Section
+    </label>
+</div>
+
+<input type="hidden"
+       name="permissions[73][level]"
+       value="DieSection">
+
+<hr>
+
+<div id="dieSection-options" style="display:none; margin-left:25px;">
+
+    <input type="checkbox"
+           id="add-dieSection"
+           name="permissions[73][add]"
+           value="1">
+    <label for="add-dieSection">Add</label>
+    <br>
+
+    <input type="checkbox"
+           id="edit-dieSection"
+           name="permissions[73][edit]"
+           value="1">
+    <label for="edit-dieSection">Edit</label>
+    <br>
+
+    <input type="checkbox"
+           id="del-dieSection"
+           name="permissions[73][del]"
+           value="1">
+    <label for="del-dieSection">Delete</label>
+
+</div>
+
+<hr>
                             <!-- Stock Adjustment -->
 <div style="margin-left: 25px;">
     <input type="checkbox" id="stockAdjustment" name="permissions[70][level]"
@@ -927,6 +1006,20 @@
                                     <input type="checkbox" id="del-generaljobSheet" name="permissions[53][del]" value="1">
                                     <label for="del-generaljobSheet">Delete</label><br>
                                 </div>
+                                
+                                <div style="margin-left: 25px;">
+                                    <input type="checkbox" id="tempjob" name="permissions[71][level]" value="tempjobSheet">
+                                    <label for="tempjob">New Job Sheet</label>
+                                </div>
+                                <div id="tempjob-options" style="display: none; margin-left: 50px;">
+                                    <input type="checkbox" id="add-tempjobSheet" name="permissions[71][add]" value="1">
+                                    <label for="add-tempjobSheet">Add</label><br>
+                                    <input type="checkbox" id="edit-tempjobSheet" name="permissions[71][edit]" value="1">
+                                    <label for="edit-tempjobSheet">Edit</label><br>
+                                    <input type="checkbox" id="del-tempjobSheet" name="permissions[71[del]" value="1">
+                                    <label for="del-tempjobSheet">Delete</label><br>
+                                </div>
+
                             </div>
                             <hr>
                             <div class="form-check">
@@ -1267,6 +1360,7 @@ function toggleOptions(sectionId, optionsId) {
 // Set up toggle for all job sheet options
 toggleOptions('job', 'job-options');
 toggleOptions('generaljob', 'generaljob-options');
+toggleOptions('tempjob', 'tempjob-options');
     //Attendance System
 
     document.getElementById('attendanceSystem').addEventListener('change', function () {
@@ -1328,10 +1422,12 @@ toggleOptions('generaljob', 'generaljob-options');
         var subOptions = document.getElementById('productRegistration-sub-options');
         subOptions.style.display = this.checked ? 'block' : 'none';
     });
+    document.getElementById('productFreezing').addEventListener('change', function () {
+        var setupOptions = document.getElementById('productFreezing-options');
+        setupOptions.style.display = this.checked ? 'block' : 'none';
+    });
 
-
-
-
+    
 
 
     function toggleOptions(sectionId, optionId) {
@@ -1422,6 +1518,10 @@ toggleOptions('generaljob', 'generaljob-options');
 
     document.getElementById('billing').addEventListener('change', function () {
         var accountOptions = document.getElementById('billing-options');
+        accountOptions.style.display = this.checked ? 'block' : 'none';
+    });
+    document.getElementById('dieSection').addEventListener('change', function () {
+        var accountOptions = document.getElementById('dieSection-options');
         accountOptions.style.display = this.checked ? 'block' : 'none';
     });
 

@@ -421,6 +421,12 @@
                     <span> Product Freezing </span>
                 </a>
             </li>
+             <li class="side-nav-item">
+                <a href="<?php echo e(route('dies.index')); ?>" class="side-nav-link">
+                    <i class="fas fa-scissors"></i>
+                    <span> Die Section </span>
+                </a>
+            </li>
             
 
             
