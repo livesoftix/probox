@@ -4,7 +4,8 @@
         ? \App\Models\Right::where('user_id', auth()->id())->pluck('app_name')->toArray() 
         : [];
 @endphp
-
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <div class="leftside-menu">
     <!-- Brand Logo Light -->
     <a href="index.html" class="logo logo-light">
