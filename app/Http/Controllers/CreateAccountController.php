@@ -208,7 +208,7 @@ public function update(Request $request, $id)
         'inventory' => 'inventory',
         'productRegistration' => 'product_registration',
         'productFreezing' => 'product_freezing',  
-        'Die Section' => 'die_section',    
+        'dieSection' => 'die_section',    
         'setup' => 'setup',
         'report' => 'report',
         'job_sheet' => 'job_sheet',
