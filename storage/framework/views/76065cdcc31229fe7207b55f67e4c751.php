@@ -44,6 +44,11 @@
                                                 style="width:auto;"
                                                 value="<?php echo e(optional($voucher->first())->date ? \Carbon\Carbon::parse(optional($voucher->first())->date)->format('Y-m-d') : ''); ?>">
                                         </div>
+                                        <div class="ms-3">
+                                <label for="preparedBy" class="form-label">Prepared By</label>
+                                <input type="text" id="preparedBy" class="form-control d-inline-block" style="width:auto;"
+                                    name="prepared_by" value="<?php echo e(optional($voucher->first())->preparedby ? optional($voucher->first())->preparedby : $loggedInUser->name); ?>" readonly>
+                            </div>
                                     </div>
                                     <div style="overflow-x:auto;">
                                         <table class="table table-sm table-bordered align-middle mt-4" id="entriesTable"

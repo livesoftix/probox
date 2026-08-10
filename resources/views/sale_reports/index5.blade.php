@@ -284,6 +284,12 @@
                                                         </h3>
                                                     </div>
                                                 </div>
+                                                 <div style="text-align: left;">
+                                                        <h3 style="margin: 0; font-weight: bold;">Prepared By: 
+                                                             {{ $trndtl->first()->preparedby }}
+                                                        </h3>
+                                                       
+                                                    </div>
                                             </div>
                                             <thead>
                                                 <tr>
