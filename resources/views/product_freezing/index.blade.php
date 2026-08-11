@@ -161,15 +161,11 @@
 
                     <td>{{ $row->product->prod_name }}</td>
 
-                    <td>
-
-                        <span class="badge bg-danger">
-
-                            {{ ucfirst($row->product->status) }}
-
-                        </span>
-
-                    </td>
+                  <td>
+    <span class="badge {{ strtolower($row->product->status) === 'active' ? 'bg-success' : 'bg-danger' }}">
+        {{ ucfirst($row->product->status) }}
+    </span>
+</td>
 
                     <td>{{ $row->description }}</td>
 <td>

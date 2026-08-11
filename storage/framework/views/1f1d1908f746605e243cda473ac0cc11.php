@@ -87,13 +87,13 @@
 
                         <option value="">All</option>
 
-                        <option value="Active"
-                            <?php echo e(request('status')=='Active' ? 'selected' : ''); ?>>
+                        <option value="active"
+                            <?php echo e(request('status')=='active' ? 'selected' : ''); ?>>
                             Active
                         </option>
 
-                        <option value="Inactive"
-                            <?php echo e(request('status')=='Inactive' ? 'selected' : ''); ?>>
+                        <option value="inactive"
+                            <?php echo e(request('status')=='inactive' ? 'selected' : ''); ?>>
                             Inactive
                         </option>
 
@@ -162,16 +162,12 @@
 
                     <td><?php echo e($row->product->prod_name); ?></td>
 
-                    <td>
+                  <td>
+    <span class="badge <?php echo e(strtolower($row->product->status) === 'active' ? 'bg-success' : 'bg-danger'); ?>">
+        <?php echo e(ucfirst($row->product->status)); ?>
 
-                        <span class="badge bg-danger">
-
-                            <?php echo e(ucfirst($row->product->status)); ?>
-
-
-                        </span>
-
-                    </td>
+    </span>
+</td>
 
                     <td><?php echo e($row->description); ?></td>
 <td>
