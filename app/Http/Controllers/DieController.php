@@ -290,15 +290,18 @@ public function viewData($id)
     /**
      * Delete die.
      */
-    public function destroy(DieMaster $die): RedirectResponse
-    {
-        $die->delete();
+ public function destroy(DieMaster $die): RedirectResponse
+{
+    // Delete all repair history for this die
+    DieRepair::where('die_id', $die->id)->delete();
 
-        return redirect()
-            ->route('dies.index')
-            ->with('success', 'Die deleted successfully.');
-    }
-   
+    // Delete the die
+    $die->delete();
+
+    return redirect()
+        ->route('dies.index')
+        ->with('success', 'Die and its repair history deleted successfully.');
+}
 public function storeRepair(Request $request): RedirectResponse
 {
     $validated = $request->validate([
