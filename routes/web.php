@@ -546,11 +546,16 @@ Route::middleware('auth')->group(function () {
     '/probox/dies/{die}/repair-data',
     [DieController::class, 'repairData']
 )->name('dies.repair.data');
+Route::get('/probox/dies/{id}/view-data', [DieController::class, 'viewData'])
+    ->name('dies.view.data');
 
 Route::post(
     '/probox/dies/repair',
     [DieController::class, 'storeRepair']
 )->name('dies.repair.store');
+
+Route::post('/dies/{die}/repeat', [DieController::class, 'repeat'])
+    ->name('dies.repeat');
     
     
     

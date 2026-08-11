@@ -21,7 +21,7 @@ class DieMaster extends Model
     'type',
     'repeat_date',
     'repair_count',
-    'description',
+    'description','die_code',
     ];
 
     protected $casts = [

@@ -9,35 +9,38 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Models\DieRepair;
-
+use Illuminate\Validation\Rule;
 class DieController extends Controller
 {
     /**
      * Display all dies.
      */
-    public function index(): View
-    {
-        $dies = DieMaster::with('product.items')
-            ->latest()
-            ->get();
+   public function index(): View
+{
+    $dies = DieMaster::with('product.items')
+        ->latest()
+        ->get();
 
-        $products = ProductMaster::with('items')
-            ->where('status','active')
-            ->orderBy('item_id')
-            ->get([
-                'id',
-                'item_id',
-                'length',
-                'width',
-                'ups',
-                'prod_name'
-            ]);
+    $products = ProductMaster::with('items')
+        ->whereNotNull('item_id')
+        ->where('status','active')
+        ->orderBy('item_id')
+        ->get([
+            'id',
+            'item_id',
+            'length',
+            'width',
+            'ups',
+            'prod_name',
+        ]);
 
-        return view('dies.index', compact(
-            'dies',
-            'products'
-        ));
-    }
+    // dd($products);
+
+    return view('dies.index', compact(
+        'dies',
+        'products'
+    ));
+}
 
     /**
      * Get product information for AJAX.
@@ -58,13 +61,15 @@ class DieController extends Controller
      */
 public function store(Request $request): RedirectResponse
 {
-    /*
-    |--------------------------------------------------------------------------
-    | VALIDATION
-    |--------------------------------------------------------------------------
-    */
-// dd($request->all());
+    // dd($request->all());
     $validated = $request->validate([
+        'die_code' => [
+            'required',
+            'string',
+            'max:100',
+            'unique:die_masters,die_code',
+        ],
+
         'product_id' => [
             'required',
             'integer',
@@ -87,16 +92,131 @@ public function store(Request $request): RedirectResponse
             'date',
         ],
 
+        'repair_count' => [
+            'nullable',
+            'integer',
+            'min:0',
+        ],
+
         'description' => [
             'nullable',
             'string',
         ],
     ]);
 
+    if ($request->type === 'repeat' && !$request->repeat_date) {
+        return back()
+            ->withErrors([
+                'repeat_date' => 'Repeat date is required for repeat type.'
+            ])
+            ->withInput();
+    }
+
+    $product = ProductMaster::with('items')
+    ->findOrFail($validated['product_id']);
+
+    DieMaster::create([
+        'die_code'     => $validated['die_code'],
+        'product_id'   => $product->id,
+        'item_id'      => $product->item_id,
+        'item_name'    => $product->items?->item_code,
+        'length'       => $product->length,
+        'width'        => $product->width,
+        'no_of_ups'    => $product->ups,
+        'rate'         => $validated['rate'],
+        'type'         => $validated['type'],
+        'repeat_date'  => $validated['type'] === 'repeat'
+                            ? $validated['repeat_date']
+                            : null,
+        'repair_count' => $validated['repair_count'] ?? 0,
+        'description'  => $validated['description'] ?? null,
+    ]);
+
+    return redirect()
+        ->route('dies.index')
+        ->with('success', 'Die created successfully.');
+}
+
+public function viewData($id)
+{
+    $die = DieMaster::with('product.items')
+        ->findOrFail($id);
+
+    return response()->json([
+        'id' => $die->id,
+
+        'item_name' => $die->product?->items?->item_code ?? '—',
+
+        'length' => $die->length,
+
+        'width' => $die->width,
+
+        'ups' => $die->no_of_ups,
+
+        'rate' => $die->rate,
+
+        'type' => $die->type ?? 'new',
+
+        'repeat_date' => $die->repeat_date,
+
+        'repair_count' => $die->repair_count ?? 0,
+
+        'description' => $die->description,
+
+        'repairs' => [],
+    ]);
+}
+    /**
+     * Update die.
+     */
+  public function update(Request $request, DieMaster $die): RedirectResponse
+{
+    $validated = $request->validate([
+        'die_code' => [
+            'required',
+            'string',
+            'max:100',
+            Rule::unique('die_masters', 'die_code')
+                ->ignore($die->id),
+        ],
+
+        'product_id' => [
+            'required',
+            'integer',
+            'exists:product_master,id',
+        ],
+
+        'rate' => [
+            'required',
+            'numeric',
+            'min:0',
+        ],
+
+        'type' => [
+            'required',
+            'in:new,repair,repeat',
+        ],
+
+        'repeat_date' => [
+            'nullable',
+            'date',
+        ],
+
+        'repair_count' => [
+            'nullable',
+            'integer',
+            'min:0',
+        ],
+
+        'description' => [
+            'nullable',
+            'string',
+        ],
+    ]);
 
     /*
     |--------------------------------------------------------------------------
-    | REPEAT DATE REQUIRED FOR REPEAT TYPE
+    | Repeat Date Validation
     |--------------------------------------------------------------------------
     */
 
@@ -106,60 +226,39 @@ public function store(Request $request): RedirectResponse
     ) {
         return back()
             ->withErrors([
-                'repeat_date' =>
-                    'Repeat date is required for repeat type.'
+                'repeat_date' => 'Repeat date is required for repeat type.'
             ])
             ->withInput();
     }
 
-
     /*
     |--------------------------------------------------------------------------
-    | GET PRODUCT
+    | Get Product
     |--------------------------------------------------------------------------
     */
-// dd($validated['product_id']);
-    $product = ProductMaster::with('items')->where('id',
+
+    $product = ProductMaster::findOrFail(
         $validated['product_id']
-    )->first();
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | REPAIR COUNT
-    |--------------------------------------------------------------------------
-    |
-    | New     = 0
-    | Repair  = 1
-    | Repeat  = 0
-    |
-    */
-
-    $repairCount = 0;
-
-    if ($validated['type'] === 'repair') {
-        $repairCount = 1;
-    }
-
+    );
 
     /*
     |--------------------------------------------------------------------------
-    | CREATE DIE
+    | Update Die
     |--------------------------------------------------------------------------
     */
-// dd($product);
-    DieMaster::create([
+
+    $die->update([
+        'die_code' => $validated['die_code'],
 
         'product_id' => $product->id,
-        'item_id'   =>$product->item_id,
 
-        'item_name' => $product->items?->item_code,
+        'item_id' => $product->item_name,
 
         'length' => $product->length,
 
         'width' => $product->width,
 
-        'no_of_ups' => $product->ups,
+        'ups' => $product->no_of_ups,
 
         'rate' => $validated['rate'],
 
@@ -170,55 +269,23 @@ public function store(Request $request): RedirectResponse
                 ? $validated['repeat_date']
                 : null,
 
-        'repair_count' => $repairCount,
+        'repair_count' =>
+            $validated['repair_count'] ?? 0,
 
         'description' =>
             $validated['description'] ?? null,
     ]);
 
-
     /*
     |--------------------------------------------------------------------------
-    | REDIRECT
+    | Redirect
     |--------------------------------------------------------------------------
     */
 
     return redirect()
         ->route('dies.index')
-        ->with(
-            'success',
-            'Die created successfully.'
-        );
+        ->with('success', 'Die updated successfully.');
 }
-
-    /**
-     * Update die.
-     */
-    public function update(Request $request,DieMaster $die): RedirectResponse {
-        $validated = $request->validate([
-            'product_id' => [
-                'required',
-                'integer',
-                'exists:product_master,id',
-            ],
-        ]);
-
-        $product = ProductMaster::findOrFail(
-            $validated['product_id']
-        );
-
-        $die->update([
-            'product_id' => $product->id,
-            'item_name' => $product->item_name,
-            'length' => $product->length,
-            'width' => $product->width,
-            'ups' => $product->no_of_ups,
-        ]);
-
-        return redirect()
-            ->route('dies.index')
-            ->with('success', 'Die updated successfully.');
-    }
 
     /**
      * Delete die.
@@ -231,19 +298,11 @@ public function store(Request $request): RedirectResponse
             ->route('dies.index')
             ->with('success', 'Die deleted successfully.');
     }
-    public function repairData(DieMaster $die): JsonResponse
-{
-    return response()->json([
-        'id' => $die->id,
-        'item_name' => $die->item_name,
-        'length' => $die->length,
-        'width' => $die->width,
-        'repair_count' => $die->repair_count ?? 0,
-    ]);
-}
+   
 public function storeRepair(Request $request): RedirectResponse
 {
     $validated = $request->validate([
+
         'die_id' => [
             'required',
             'integer',
@@ -253,6 +312,16 @@ public function storeRepair(Request $request): RedirectResponse
         'repair_date' => [
             'required',
             'date',
+        ],
+
+        'repair_types' => [
+            'nullable',
+            'array',
+        ],
+
+        'repair_types.*' => [
+            'string',
+            'max:100',
         ],
 
         'description' => [
@@ -275,10 +344,14 @@ public function storeRepair(Request $request): RedirectResponse
     */
 
     DieRepair::create([
+
         'die_id' => $die->id,
 
         'repair_date' =>
             $validated['repair_date'],
+
+        'repair_types' =>
+            $validated['repair_types'] ?? [],
 
         'description' =>
             $validated['description'] ?? null,
@@ -300,5 +373,63 @@ public function storeRepair(Request $request): RedirectResponse
             'success',
             'Die repair recorded successfully.'
         );
+}
+public function repairData($id)
+{
+    $die = DieMaster::with([
+        'product.items',
+        'repairs' => function ($query) {
+            $query->latest('repair_date');
+        }
+    ])->findOrFail($id);
+
+    return response()->json([
+        'id' => $die->id,
+
+        'item_name' => $die->product?->items?->item_code,
+
+        'length' => $die->length,
+
+        'width' => $die->width,
+
+        'repair_count' => $die->repair_count ?? 0,
+
+        'repairs' => $die->repairs->map(function ($repair) {
+            return [
+                'id' => $repair->id,
+
+                'repair_date' => $repair->repair_date,
+
+                'repair_types' => $repair->repair_types,
+
+                'description' => $repair->description,
+            ];
+        })->values(),
+    ]);
+}
+
+public function repeat(DieMaster $die): RedirectResponse
+{
+    DieMaster::create([
+        'die_code'      => $die->die_code, // SAME DIE CODE
+        'product_id'    => $die->product_id,
+        'item_id'       => $die->item_id,
+        'length'        => $die->length,
+        'width'         => $die->width,
+        'ups'           => $die->ups,
+        'rate'          => $die->rate,
+
+        'type'          => 'repeat',
+
+        'repeat_date'   => now()->toDateString(),
+
+        'repair_count'  => 0,
+
+        'description'   => $die->description,
+    ]);
+
+    return redirect()
+        ->route('dies.index')
+        ->with('success', 'Die repeated successfully.');
 }
 }

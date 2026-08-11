@@ -904,7 +904,970 @@
         }
 
     }
+/* =========================================================
+   VIEW / DETAIL MODAL
+========================================================= */
 
+.die-detail-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 27, 43, .48);
+    backdrop-filter: blur(5px);
+}
+
+.die-detail-modal.active {
+    display: flex;
+}
+
+.die-detail-card {
+    width: 100%;
+    max-width: 830px;
+    max-height: 90vh;
+
+    background: #ffffff;
+
+    border-radius: 25px;
+
+    box-shadow: 0 25px 70px rgba(15, 23, 42, .25);
+
+    overflow: hidden;
+
+    animation: dieDetailModalIn .22s ease;
+
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes dieDetailModalIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* Header */
+
+.die-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 25px 30px 18px;
+
+    flex-shrink: 0;
+}
+
+.die-detail-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.die-detail-title-icon {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #2864e8;
+    color: #ffffff;
+
+    font-size: 19px;
+}
+
+.die-detail-title h3 {
+    margin: 0;
+
+    color: #102744;
+
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.die-detail-close {
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    background: transparent;
+
+    color: #94a3b8;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.die-detail-close:hover {
+    color: #475569;
+}
+
+
+/* Body */
+
+.die-detail-body {
+    padding: 0 30px 30px;
+
+    overflow-y: auto;
+}
+
+
+/* Details grid */
+
+.die-detail-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    column-gap: 70px;
+    row-gap: 24px;
+
+    padding: 5px 0 25px;
+}
+
+.die-detail-item {
+    min-width: 0;
+}
+
+.die-detail-label {
+    margin-bottom: 4px;
+
+    color: #71849a;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.die-detail-value {
+    color: #102744;
+
+    font-size: 19px;
+    font-weight: 500;
+}
+
+.die-detail-value.empty {
+    color: #1f324b;
+}
+
+
+/* Type */
+
+.die-detail-type {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 80px;
+    height: 30px;
+
+    padding: 0 16px;
+
+    border-radius: 18px;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.die-detail-type-new {
+    background: #dceafe;
+    color: #2864e8;
+}
+
+.die-detail-type-repair {
+    background: #eee7ff;
+    color: #733cff;
+}
+
+.die-detail-type-repeat {
+    background: #fff0bd;
+    color: #bc6900;
+}
+
+
+/* Divider */
+
+.die-detail-divider {
+    height: 1px;
+
+    background: #e7edf3;
+
+    margin: 0 0 22px;
+}
+
+
+/* Repair heading */
+
+.die-repair-history-title {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    margin-bottom: 12px;
+}
+
+.die-repair-history-title i {
+    color: #733cff;
+    font-size: 19px;
+}
+
+.die-repair-history-title h4 {
+    margin: 0;
+
+    color: #243b58;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+
+/* Repair history */
+
+.die-repair-history {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.die-repair-history-item {
+    padding: 13px 18px;
+
+    background: #f7f9fc;
+
+    border-left: 4px solid #733cff;
+
+    border-radius: 14px;
+}
+
+.die-repair-history-date {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 6px;
+
+    color: #733cff;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.die-repair-history-date i {
+    font-size: 13px;
+}
+
+.die-repair-history-description {
+    color: #243b58;
+
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.die-repair-history-description i {
+    color: #a6b0bd;
+
+    margin-right: 8px;
+
+    font-size: 13px;
+}
+
+
+/* No history */
+
+.die-no-repair-history {
+    padding: 20px;
+
+    text-align: center;
+
+    border-radius: 12px;
+
+    background: #f7f9fc;
+
+    color: #8a99aa;
+
+    font-size: 14px;
+}
+
+
+/* Description */
+
+.die-detail-description {
+    margin-top: 22px;
+}
+
+.die-detail-description-box {
+    margin-top: 8px;
+
+    padding: 13px 16px;
+
+    border-radius: 12px;
+
+    background: #f7f9fc;
+
+    color: #344b66;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* Footer */
+
+.die-detail-footer {
+    display: flex;
+
+    justify-content: flex-end;
+
+    padding: 18px 30px 22px;
+
+    border-top: 1px solid #e7edf3;
+
+    flex-shrink: 0;
+}
+
+.die-detail-close-btn {
+    height: 46px;
+
+    padding: 0 28px;
+
+    border: 1px solid #cbd8e7;
+
+    border-radius: 24px;
+
+    background: #ffffff;
+
+    color: #344b66;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.die-detail-close-btn:hover {
+    background: #f5f8fb;
+}
+
+
+/* Responsive */
+
+@media (max-width: 700px) {
+
+    .die-detail-card {
+        max-height: 94vh;
+
+        border-radius: 20px;
+    }
+
+    .die-detail-header {
+        padding: 20px;
+    }
+
+    .die-detail-body {
+        padding: 0 20px 25px;
+    }
+
+    .die-detail-grid {
+        grid-template-columns: 1fr;
+
+        row-gap: 18px;
+
+        column-gap: 0;
+    }
+
+    .die-detail-footer {
+        padding: 15px 20px 18px;
+    }
+
+    .die-detail-close-btn {
+        width: 100%;
+    }
+
+}
+/* ============================================================
+   REPAIR DIE MODAL
+============================================================= */
+
+.repair-modal-card {
+    width: 100%;
+    max-width: 805px;
+
+    background: #ffffff;
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 30px 80px rgba(15, 23, 42, 0.25);
+
+    overflow: hidden;
+
+    animation: repairModalIn .22s ease;
+}
+
+
+@keyframes repairModalIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* ============================================================
+   HEADER
+============================================================= */
+
+.repair-modal-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    padding: 28px 46px 10px;
+
+}
+
+
+.repair-modal-heading {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+}
+
+
+.repair-modal-icon {
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #7c4dff;
+
+    font-size: 30px;
+
+    flex-shrink: 0;
+
+}
+
+
+.repair-modal-title {
+
+    margin: 0;
+
+    color: #16233b;
+
+    font-size: 30px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+
+    letter-spacing: -0.5px;
+}
+
+
+.repair-modal-subtitle {
+
+    margin: 10px 0 0;
+
+    color: #6d809c;
+
+    font-size: 17px;
+
+    line-height: 1.4;
+
+}
+
+
+.repair-modal-subtitle strong {
+
+    color: #53657d;
+
+    font-weight: 800;
+
+}
+
+
+.repair-modal-close {
+
+    width: 38px;
+    height: 38px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #91a1b7;
+
+    font-size: 23px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    transition: .18s ease;
+}
+
+
+.repair-modal-close:hover {
+
+    color: #53657d;
+
+    transform: scale(1.05);
+
+}
+
+
+/* ============================================================
+   BODY
+============================================================= */
+
+.repair-modal-body {
+
+    padding: 15px 46px 28px;
+
+}
+
+
+.repair-field-group {
+
+    margin-top: 22px;
+
+}
+
+
+.repair-field-label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 9px;
+
+    color: #34445b;
+
+    font-size: 17px;
+
+    font-weight: 750;
+}
+
+
+.repair-field-label i {
+
+    width: 20px;
+
+    color: #687b95;
+
+    font-size: 17px;
+
+}
+
+
+/* ============================================================
+   DATE INPUT
+============================================================= */
+
+.repair-field-control {
+
+    width: 100%;
+
+    height: 60px;
+
+    padding: 0 20px;
+
+    border: 2px solid #d8e0ea;
+
+    border-radius: 15px;
+
+    background: #ffffff;
+
+    color: #26354c;
+
+    font-size: 18px;
+
+    outline: none;
+
+    transition: all .18s ease;
+}
+
+
+.repair-field-control:focus {
+
+    border-color: #9a70f7;
+
+    box-shadow:
+        0 0 0 3px rgba(124, 77, 255, .08);
+}
+
+
+/* ============================================================
+   CHECKBOXES
+============================================================= */
+
+.repair-checkbox-row {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 27px;
+
+    padding-top: 2px;
+}
+
+
+.repair-checkbox-item {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #37455a;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+
+.repair-checkbox-item input {
+
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+.repair-custom-checkbox {
+
+    width: 23px;
+    height: 23px;
+
+    border: 2px solid #8793a2;
+
+    border-radius: 4px;
+
+    background: #ffffff;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: all .18s ease;
+
+    flex-shrink: 0;
+}
+
+
+.repair-checkbox-item input:checked
++ .repair-custom-checkbox {
+
+    background: #8755ed;
+
+    border-color: #8755ed;
+}
+
+
+.repair-checkbox-item input:checked
++ .repair-custom-checkbox::after {
+
+    content: "\f00c";
+
+    font-family: "Font Awesome 6 Free";
+
+    font-weight: 900;
+
+    color: #ffffff;
+
+    font-size: 13px;
+}
+
+
+/* ============================================================
+   DESCRIPTION
+============================================================= */
+
+.repair-description-control {
+
+    width: 100%;
+
+    min-height: 100px;
+
+    padding: 14px 20px;
+
+    border: 2px solid #d8e0ea;
+
+    border-radius: 15px;
+
+    background: #ffffff;
+
+    color: #26354c;
+
+    font-size: 17px;
+
+    line-height: 1.5;
+
+    resize: vertical;
+
+    outline: none;
+
+    font-family: inherit;
+
+    transition: all .18s ease;
+}
+
+
+.repair-description-control::placeholder {
+
+    color: #8c8f96;
+}
+
+
+.repair-description-control:focus {
+
+    border-color: #9a70f7;
+
+    box-shadow:
+        0 0 0 3px rgba(124, 77, 255, .08);
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================= */
+
+.repair-modal-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 14px;
+
+    margin-top: 28px;
+
+    padding-top: 27px;
+
+    border-top: 1px solid #e8edf3;
+}
+
+
+.repair-cancel-btn {
+
+    min-width: 130px;
+
+    height: 56px;
+
+    padding: 0 28px;
+
+    border: 2px solid #d2ddea;
+
+    border-radius: 30px;
+
+    background: #ffffff;
+
+    color: #52627a;
+
+    font-size: 17px;
+
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition: all .18s ease;
+}
+
+
+.repair-cancel-btn:hover {
+
+    background: #f7f9fc;
+
+    border-color: #bdc9d8;
+}
+
+
+.repair-save-btn {
+
+    min-width: 210px;
+
+    height: 56px;
+
+    padding: 0 28px;
+
+    border: none;
+
+    border-radius: 30px;
+
+    background: #8755ed;
+
+    color: #ffffff;
+
+    font-size: 17px;
+
+    font-weight: 750;
+
+    cursor: pointer;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    box-shadow:
+        0 8px 18px rgba(135, 85, 237, .22);
+
+    transition: all .18s ease;
+}
+
+
+.repair-save-btn:hover {
+
+    background: #7542dc;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 10px 22px rgba(135, 85, 237, .28);
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================= */
+
+@media (max-width: 700px) {
+
+    .repair-modal-card {
+
+        max-width: 100%;
+
+        border-radius: 22px;
+
+    }
+
+
+    .repair-modal-header {
+
+        padding: 22px 24px 8px;
+
+    }
+
+
+    .repair-modal-body {
+
+        padding: 12px 24px 24px;
+
+    }
+
+
+    .repair-modal-title {
+
+        font-size: 25px;
+
+    }
+
+
+    .repair-modal-subtitle {
+
+        font-size: 14px;
+
+    }
+
+
+    .repair-checkbox-row {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 14px;
+
+    }
+
+
+    .repair-modal-footer {
+
+        flex-direction: column-reverse;
+
+    }
+
+
+    .repair-cancel-btn,
+    .repair-save-btn {
+
+        width: 100%;
+
+    }
+
+}
 
     /* =========================================================
        PRINT
@@ -939,6 +1902,274 @@
         }
 
     }
+    /* =========================================================
+   REPAIR MODAL
+========================================================= */
+
+.repair-modal-card {
+    max-width: 760px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+
+/* =========================================================
+   REPAIR TYPES
+========================================================= */
+
+.repair-type-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding-top: 3px;
+}
+
+.repair-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #344b66;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.repair-check input {
+    width: 21px;
+    height: 21px;
+
+    accent-color: #733cff;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   REPAIR SAVE BUTTON
+========================================================= */
+
+.repair-save-btn {
+    background: #733cff;
+    color: #ffffff;
+}
+
+.repair-save-btn:hover {
+    background: #6330e5;
+}
+
+
+/* =========================================================
+   REPAIR HISTORY
+========================================================= */
+
+.repair-history-section {
+
+    margin-top: 28px;
+
+    padding-top: 22px;
+
+    border-top: 1px solid #e5eaf0;
+}
+
+
+.repair-history-header {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 14px;
+}
+
+
+.repair-history-title {
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    color: #34445c;
+
+    font-size: 16px;
+    font-weight: 750;
+}
+
+
+.repair-history-title i {
+
+    color: #733cff;
+
+    font-size: 17px;
+}
+
+
+.repair-history-count {
+
+    min-width: 28px;
+    height: 28px;
+
+    padding: 0 9px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: #eee7ff;
+    color: #733cff;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+
+.repair-history-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    max-height: 250px;
+
+    overflow-y: auto;
+
+    padding-right: 3px;
+}
+
+
+/* =========================================================
+   HISTORY ITEM
+========================================================= */
+
+.repair-history-item {
+
+    padding: 14px 16px;
+
+    border-left: 4px solid #8b5cf6;
+
+    border-radius: 10px;
+
+    background: #f7f9fc;
+}
+
+
+.repair-history-date {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #733cff;
+
+    font-size: 13px;
+
+    font-weight: 750;
+
+    margin-bottom: 8px;
+}
+
+
+.repair-history-date i {
+
+    font-size: 12px;
+}
+
+
+.repair-history-types {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin-bottom: 7px;
+}
+
+
+.repair-history-type {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 4px 9px;
+
+    border-radius: 12px;
+
+    background: #eee7ff;
+
+    color: #6534d7;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+.repair-history-description {
+
+    color: #34445c;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+.repair-history-description.empty {
+
+    color: #94a3b8;
+
+    font-style: italic;
+}
+
+
+.repair-history-loading,
+.repair-history-empty {
+
+    padding: 25px;
+
+    text-align: center;
+
+    border-radius: 12px;
+
+    background: #f7f9fc;
+
+    color: #8796a8;
+
+    font-size: 13px;
+}
+
+
+.repair-history-loading i {
+
+    margin-right: 7px;
+
+    color: #733cff;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .repair-type-options {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .repair-modal-card {
+        max-height: 95vh;
+    }
+
+}
 
 </style>
 
@@ -1139,7 +2370,7 @@
 
                                 <span class="die-up">
 
-                                    <?php echo e($die->ups ?? '—'); ?>
+                                    <?php echo e($die->no_of_ups ?? '—'); ?>
 
 
                                 </span>
@@ -1152,7 +2383,8 @@
 
                                 <span class="die-type-badge die-type-new">
 
-                                    New
+                                    <?php echo e($die->type ?? 'New'); ?>
+
 
                                 </span>
 
@@ -1201,48 +2433,58 @@
                                     </button>
 
 
-                                    
-                                    <button type="button"
-                                            class="die-action-btn die-edit-btn"
-                                            title="Edit"
-                                            onclick="editDie(
-                                                <?php echo e($die->id); ?>,
-                                                <?php echo e($die->product_id); ?>
+<button type="button"
+        class="die-action-btn die-edit-btn"
+        title="Edit"
+        data-id="<?php echo e($die->id); ?>"
+        data-die-code="<?php echo e($die->die_code); ?>"
+        data-product-id="<?php echo e($die->product_id); ?>"
+        data-rate="<?php echo e($die->rate); ?>"
+        data-type="<?php echo e($die->type); ?>"
+        data-repeat-date="<?php echo e($die->repeat_date); ?>"
+        data-description="<?php echo e($die->description); ?>"
+        data-repair-count="<?php echo e($die->repair_count ?? 0); ?>"
+        onclick="editDie(this)">
 
-                                            )">
+    <i class="fas fa-pen"></i>
 
-                                        <i class="fas fa-pen"></i>
+</button>
 
-                                    </button>
-
-
-                                    
-                                    <button type="button"
-                                            class="die-action-btn die-repeat-btn"
-                                            title="Repeat"
-                                            onclick="repeatDie(
-                                                <?php echo e($die->id); ?>
-
-                                            )">
-
-                                        <i class="fas fa-rotate-right"></i>
-
-                                    </button>
 
 
                                     
-                                    <button type="button"
-                                            class="die-action-btn die-repair-btn"
-                                            title="Repair"
-                                            onclick="repairDie(
-                                                <?php echo e($die->id); ?>
+                                    <form action="<?php echo e(route('dies.repeat', $die)); ?>"
+      method="POST"
+      style="display:inline;"
+      onsubmit="return confirmRepeat();">
 
-                                            )">
+    <?php echo csrf_field(); ?>
 
-                                        <i class="fas fa-screwdriver-wrench"></i>
+    <button type="submit"
+            class="die-action-btn die-repeat-btn"
+            title="Repeat">
 
-                                    </button>
+        <i class="fas fa-rotate-right"></i>
 
+    </button>
+
+</form>
+
+
+                                
+<button type="button"
+        class="die-action-btn die-repair-btn"
+        title="Repair"
+        data-id="<?php echo e($die->id); ?>"
+        data-item_name="<?php echo e($die->product?->items?->item_code); ?>"
+        data-length="<?php echo e($die->length); ?>"
+        data-width="<?php echo e($die->width); ?>"
+        data-repair-count="<?php echo e($die->repair_count ?? 0); ?>"
+        onclick="repairDie(this)">
+
+    <i class="fas fa-screwdriver-wrench"></i>
+
+</button>
 
                                     
                                     <form action="<?php echo e(route('dies.destroy', $die)); ?>"
@@ -1378,6 +2620,21 @@
 
                 <div class="die-form-grid">
 
+<div class="die-form-group">
+
+    <label class="die-form-label">
+        Die Code
+        <span class="die-required">*</span>
+    </label>
+
+    <input type="text"
+           name="die_code"
+           id="dieCode"
+           class="die-form-control"
+           placeholder="Enter die code"
+           required>
+
+</div>
 
                     
                     <div class="die-form-group full">
@@ -1403,6 +2660,7 @@
                             <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                 <option value="<?php echo e($product->id); ?>"
+                                        data-itemId="<?php echo e($product->item_id); ?>"
                                         data-item="<?php echo e($product->items?->item_code); ?>"
                                         data-length="<?php echo e($product->length); ?>"
                                         data-width="<?php echo e($product->width); ?>"
@@ -1666,10 +2924,12 @@
 
 
 
+
+
 <div class="die-modal"
      id="repairDieModal">
 
-    <div class="die-modal-card">
+    <div class="die-modal-card repair-modal-card">
 
         
         <div class="die-modal-header">
@@ -1690,13 +2950,15 @@
                     </h3>
 
                     <p>
-                        Record a repair for this die
+                        Record repair details for
+                        <strong id="repairItemNameText">
+                            —
+                        </strong>
                     </p>
 
                 </div>
 
             </div>
-
 
             <button type="button"
                     class="die-modal-close"
@@ -1710,6 +2972,7 @@
 
 
         
+
         <form method="POST"
               id="repairDieForm"
               action="<?php echo e(route('dies.repair.store')); ?>">
@@ -1730,75 +2993,18 @@
                     <div class="die-form-group full">
 
                         <label class="die-form-label">
-                            Item Name
-                        </label>
 
-                        <input type="text"
-                               id="repairItemName"
-                               class="die-form-control"
-                               readonly>
-
-                    </div>
-
-
-                    
-                    <div class="die-form-group">
-
-                        <label class="die-form-label">
-                            Length
-                        </label>
-
-                        <input type="text"
-                               id="repairLength"
-                               class="die-form-control"
-                               readonly>
-
-                    </div>
-
-
-                    
-                    <div class="die-form-group">
-
-                        <label class="die-form-label">
-                            Width
-                        </label>
-
-                        <input type="text"
-                               id="repairWidth"
-                               class="die-form-control"
-                               readonly>
-
-                    </div>
-
-
-                    
-                    <div class="die-form-group">
-
-                        <label class="die-form-label">
-                            Current Repair Count
-                        </label>
-
-                        <input type="number"
-                               id="repairCurrentCount"
-                               class="die-form-control"
-                               readonly>
-
-                    </div>
-
-
-                    
-                    <div class="die-form-group">
-
-                        <label class="die-form-label">
+                            <i class="fas fa-calendar-days"></i>
                             Repair Date
+
                             <span class="die-required">*</span>
+
                         </label>
 
                         <input type="date"
                                name="repair_date"
                                id="repairDate"
                                class="die-form-control"
-                               value="<?php echo e(date('Y-m-d')); ?>"
                                required>
 
                     </div>
@@ -1808,18 +3014,132 @@
                     <div class="die-form-group full">
 
                         <label class="die-form-label">
-                            Repair Description
+
+                            <i class="fas fa-screwdriver-wrench"></i>
+
+                            What is being repaired?
+
+                        </label>
+
+
+                        <div class="repair-type-options">
+
+                            <label class="repair-check">
+
+                                <input type="checkbox"
+                                       name="repair_types[]"
+                                       value="Blade rule change">
+
+                                <span>
+                                    Blade rule change
+                                </span>
+
+                            </label>
+
+
+                            <label class="repair-check">
+
+                                <input type="checkbox"
+                                       name="repair_types[]"
+                                       value="Crease rule">
+
+                                <span>
+                                    Crease rule
+                                </span>
+
+                            </label>
+
+
+                            <label class="repair-check">
+
+                                <input type="checkbox"
+                                       name="repair_types[]"
+                                       value="Wood ply">
+
+                                <span>
+                                    Wood ply
+                                </span>
+
+                            </label>
+
+
+                            <label class="repair-check">
+
+                                <input type="checkbox"
+                                       name="repair_types[]"
+                                       value="Other">
+
+                                <span>
+                                    Other
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    
+                    <div class="die-form-group full">
+
+                        <label class="die-form-label">
+
+                            <i class="fas fa-align-left"></i>
+
+                            Description / Details
+
                         </label>
 
                         <textarea name="description"
                                   id="repairDescription"
                                   class="die-form-control"
                                   rows="4"
-                                  style="height:auto;padding:12px 13px;resize:vertical;"
-                                  placeholder="Enter repair details..."></textarea>
+                                  placeholder="Describe what was repaired, which parts were changed, etc."
+                                  style="height:auto;padding:12px 13px;resize:vertical;"></textarea>
 
                     </div>
 
+
+                </div>
+
+
+                
+
+                <div class="repair-history-section">
+
+                    <div class="repair-history-header">
+
+                        <div class="repair-history-title">
+
+                            <i class="fas fa-clock-rotate-left"></i>
+
+                            <span>
+                                Previous Repairs
+                            </span>
+
+                        </div>
+
+                        <span class="repair-history-count"
+                              id="repairHistoryCount">
+                            0
+                        </span>
+
+                    </div>
+
+
+                    <div id="repairHistoryList"
+                         class="repair-history-list">
+
+                        <div class="repair-history-loading">
+
+                            <i class="fas fa-spinner fa-spin"></i>
+
+                            Loading repair history...
+
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -1837,12 +3157,11 @@
 
 
                     <button type="submit"
-                            class="die-form-btn"
-                            style="background:#733cff;color:#fff;">
+                            class="die-form-btn repair-save-btn">
 
-                        <i class="fas fa-screwdriver-wrench"></i>
+                        <i class="fas fa-floppy-disk"></i>
 
-                        Record Repair
+                        Save Repair
 
                     </button>
 
@@ -1856,6 +3175,218 @@
 
 </div>
 
+
+<div class="die-detail-modal"
+     id="dieDetailModal">
+
+    <div class="die-detail-card">
+
+        
+        <div class="die-detail-header">
+
+            <div class="die-detail-title">
+
+                <div class="die-detail-title-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+
+                <div>
+
+                    <h3>
+                        Dieline Details
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <button type="button"
+                    class="die-detail-close"
+                    onclick="closeDieDetailModal()">
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
+        </div>
+
+
+        
+        <div class="die-detail-body">
+
+            <div class="die-detail-grid">
+
+                
+                <div class="die-detail-item">
+
+                    <div class="die-detail-label">
+                        Item Name
+                    </div>
+
+                    <div class="die-detail-value"
+                         id="detailItemName">
+                        —
+                    </div>
+
+                </div>
+
+
+                
+                <div class="die-detail-item">
+
+                    <div class="die-detail-label">
+                        Size
+                    </div>
+
+                    <div class="die-detail-value"
+                         id="detailSize">
+                        —
+                    </div>
+
+                </div>
+
+
+                
+                <div class="die-detail-item">
+
+                    <div class="die-detail-label">
+                        Rate
+                    </div>
+
+                    <div class="die-detail-value"
+                         id="detailRate">
+                        —
+                    </div>
+
+                </div>
+
+
+                
+                <div class="die-detail-item">
+
+                    <div class="die-detail-label">
+                        Up
+                    </div>
+
+                    <div class="die-detail-value"
+                         id="detailUps">
+                        —
+                    </div>
+
+                </div>
+
+
+                
+                <div class="die-detail-item">
+
+                    <div class="die-detail-label">
+                        Type
+                    </div>
+
+                    <div class="die-detail-value">
+
+                        <span id="detailType"
+                              class="die-detail-type die-detail-type-new">
+                            New
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                
+                <div class="die-detail-item">
+
+                    <div class="die-detail-label">
+                        Repeat Date
+                    </div>
+
+                    <div class="die-detail-value"
+                         id="detailRepeatDate">
+                        —
+                    </div>
+
+                </div>
+
+
+                
+                <div class="die-detail-item">
+
+                    <div class="die-detail-label">
+                        Total Repairs
+                    </div>
+
+                    <div class="die-detail-value"
+                         id="detailRepairCount">
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            
+            <div class="die-detail-description"
+                 id="detailDescriptionSection"
+                 style="display:none;">
+
+                <div class="die-detail-label">
+                    Description
+                </div>
+
+                <div class="die-detail-description-box"
+                     id="detailDescription">
+                </div>
+
+            </div>
+
+
+            <div class="die-detail-divider"
+                 style="margin-top:25px;">
+            </div>
+
+
+            
+            <div class="die-repair-history-title">
+
+                <i class="fas fa-screwdriver-wrench"></i>
+
+                <h4>
+                    Repair History
+                </h4>
+
+            </div>
+
+
+            <div class="die-repair-history"
+                 id="dieRepairHistory">
+
+                
+
+            </div>
+
+        </div>
+
+
+        
+        <div class="die-detail-footer">
+
+            <button type="button"
+                    class="die-detail-close-btn"
+                    onclick="closeDieDetailModal()">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 <script>
 
 $(document).ready(function () {
@@ -1929,7 +3460,8 @@ $(document).ready(function () {
         | GET DATA ATTRIBUTES
         |--------------------------------------------------------------------------
         */
-
+        let itemId =
+            selectedOption.attr('data-itemId') || '';
         let item =
             selectedOption.attr('data-item') || '';
 
@@ -1951,7 +3483,7 @@ $(document).ready(function () {
 
         console.log('Selected Product:', productId);
 
-        console.log('Item:', item);
+        console.log('Item:', itemId);
         console.log('Length:', length);
         console.log('Width:', width);
         console.log('Ups:', ups);
@@ -2052,7 +3584,13 @@ handleDieType();
     | OPEN CREATE MODAL
     |--------------------------------------------------------------------------
     */
+window.confirmRepeat = function () {
 
+    return confirm(
+        'Are you sure you want to create a repeat entry for this die?'
+    );
+
+};
     window.openDieModal = function(mode = 'create') {
 
         $('#dieModal').addClass('active');
@@ -2142,62 +3680,56 @@ handleDieType();
     |--------------------------------------------------------------------------
     */
 
-    window.editDie = function(id, productId) {
+ window.editDie = function (button) {
 
-        /*
-        |--------------------------------------------------------------------------
-        | FORM ACTION
-        |--------------------------------------------------------------------------
-        */
+    const id = button.dataset.id;
+    const dieCode = button.dataset.dieCode;
+    const productId = button.dataset.productId;
+    const rate = button.dataset.rate;
+    const type = button.dataset.type;
+    const repeatDate = button.dataset.repeatDate;
+    const description = button.dataset.description;
+    const repairCount = button.dataset.repairCount;
 
-        $('#dieForm').attr(
-            'action',
-            "<?php echo e(url('dies')); ?>/" + id
-        );
+    $('#dieForm').attr(
+        'action',
+        "<?php echo e(url('dies')); ?>/" + id
+    );
 
+    $('#dieFormMethod').val('PUT');
 
-        /*
-        |--------------------------------------------------------------------------
-        | METHOD
-        |--------------------------------------------------------------------------
-        */
+    $('#dieModalTitle').text('Edit Die');
+    $('#dieSubmitText').text('Update Die');
 
-        $('#dieFormMethod').val('PUT');
+    // Die Code
+    $('#dieCode').val(dieCode);
 
+    // Product
+    $('#dieProduct')
+        .val(productId)
+        .trigger('change');
 
-        /*
-        |--------------------------------------------------------------------------
-        | MODAL TEXT
-        |--------------------------------------------------------------------------
-        */
+    // Rate
+    $('#dieRate').val(rate);
 
-        $('#dieModalTitle').text('Edit Die');
+    // Type
+    $('#dieType').val(type);
 
-        $('#dieSubmitText').text('Update Die');
+    // Repeat Date
+    $('#dieRepeatDate').val(repeatDate);
 
+    // Description
+    $('#dieDescription').val(description);
 
-        /*
-        |--------------------------------------------------------------------------
-        | SET PRODUCT
-        |--------------------------------------------------------------------------
-        */
+    // Repair Count
+    $('#dieRepairCount').val(repairCount || 0);
 
-        $('#dieProduct')
-            .val(productId)
-            .trigger('change');
+    handleDieType();
 
+    $('#dieModal').addClass('active');
 
-        /*
-        |--------------------------------------------------------------------------
-        | OPEN MODAL
-        |--------------------------------------------------------------------------
-        */
-
-        $('#dieModal').addClass('active');
-
-        $('body').css('overflow', 'hidden');
-
-    };
+    $('body').css('overflow', 'hidden');
+};
 
 
     /*
@@ -2206,14 +3738,240 @@ handleDieType();
     |--------------------------------------------------------------------------
     */
 
-    window.viewDie = function(id) {
+window.viewDie = function(id) {
 
-        alert("shdbx");
+    let url = "<?php echo e(route('dies.view.data', ':id')); ?>";
+    url = url.replace(':id', id);
 
-    };
+    console.log('View Die URL:', url);
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(async response => {
+
+        console.log('Response status:', response.status);
+
+        const text = await response.text();
+
+        console.log('Response:', text);
+
+        if (!response.ok) {
+            throw new Error(
+                'HTTP ' + response.status + ': ' + text
+            );
+        }
+
+        try {
+            return JSON.parse(text);
+        } catch (e) {
+            throw new Error(
+                'Server did not return valid JSON.'
+            );
+        }
+
+    })
+    .then(data => {
+
+        console.log('Die details:', data);
+
+        /*
+        |--------------------------------------------------------------------------
+        | BASIC INFORMATION
+        |--------------------------------------------------------------------------
+        */
+
+        $('#detailItemName').text(
+            data.item_name || '—'
+        );
+
+        $('#detailSize').text(
+            (data.length ?? '—') +
+            ' × ' +
+            (data.width ?? '—')
+        );
+
+        $('#detailRate').text(
+            data.rate !== null &&
+            data.rate !== undefined &&
+            data.rate !== ''
+                ? data.rate
+                : '—'
+        );
+
+        $('#detailUps').text(
+            data.ups ?? '—'
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | TYPE
+        |--------------------------------------------------------------------------
+        */
+
+        let type = data.type || 'new';
+
+        let typeText =
+            type.charAt(0).toUpperCase() +
+            type.slice(1);
+
+        $('#detailType')
+            .text(typeText)
+            .removeClass(
+                'die-detail-type-new ' +
+                'die-detail-type-repair ' +
+                'die-detail-type-repeat'
+            );
+
+        if (type === 'repeat') {
+
+            $('#detailType')
+                .addClass('die-detail-type-repeat');
+
+        } else if (type === 'repair') {
+
+            $('#detailType')
+                .addClass('die-detail-type-repair');
+
+        } else {
+
+            $('#detailType')
+                .addClass('die-detail-type-new');
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | REPEAT DATE
+        |--------------------------------------------------------------------------
+        */
+
+        $('#detailRepeatDate').text(
+            data.repeat_date || '—'
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | REPAIR COUNT
+        |--------------------------------------------------------------------------
+        */
+
+        $('#detailRepairCount').text(
+            data.repair_count ?? 0
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DESCRIPTION
+        |--------------------------------------------------------------------------
+        */
+
+        if (data.description) {
+
+            $('#detailDescription')
+                .text(data.description);
+
+            $('#detailDescriptionSection')
+                .show();
+
+        } else {
+
+            $('#detailDescription')
+                .text('');
+
+            $('#detailDescriptionSection')
+                .hide();
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | REPAIR HISTORY
+        |--------------------------------------------------------------------------
+        */
+
+        let historyHtml = '';
+
+        if (
+            data.repairs &&
+            data.repairs.length > 0
+        ) {
+
+            data.repairs.forEach(function(repair) {
+
+                historyHtml += `
+                    <div class="die-repair-history-item">
+
+                        <div class="die-repair-history-date">
+
+                            <i class="fas fa-calendar-days"></i>
+
+                            ${repair.repair_date || '—'}
+
+                        </div>
+
+                        <div class="die-repair-history-description">
+
+                            <i class="fas fa-wrench"></i>
+
+                            ${repair.description || 'Repair recorded'}
+
+                        </div>
+
+                    </div>
+                `;
+
+            });
+
+        } else {
+
+            historyHtml = `
+                <div class="die-no-repair-history">
+
+                    <i class="fas fa-screwdriver-wrench"></i>
+
+                    No repair history available.
+
+                </div>
+            `;
+        }
+
+        $('#dieRepairHistory').html(historyHtml);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | OPEN MODAL
+        |--------------------------------------------------------------------------
+        */
+
+        $('#dieDetailModal')
+            .addClass('active');
+
+        $('body').css('overflow', 'hidden');
+
+    })
+    .catch(error => {
+
+        console.error('VIEW DIE ERROR:', error);
+
+        alert(
+            'Unable to load die details.\n\n' +
+            error.message
+        );
+
+    });
+};
 function repairDie(id) {
 
-    fetch("<?php echo e(url('dies')); ?>/" + id + "/repair-data")
+    fetch("<?php echo e(url('/probox/dies')); ?>/" + id + "/repair-data")
         .then(response => {
 
             if (!response.ok) {
@@ -2260,14 +4018,31 @@ function repairDie(id) {
         });
 
 }
-function closeRepairDieModal() {
+window.closeRepairDieModal = function () {
 
     $('#repairDieModal')
         .removeClass('active');
 
-    document.body.style.overflow = '';
+    $('body').css('overflow', '');
 
-}
+};
+window.closeDieDetailModal = function() {
+
+    $('#dieDetailModal')
+        .removeClass('active');
+
+    $('body').css('overflow', '');
+
+};
+$('#dieDetailModal').on('click', function(event) {
+
+    if (event.target === this) {
+
+        closeDieDetailModal();
+
+    }
+
+});
 
 
     /*
@@ -2288,14 +4063,468 @@ function closeRepairDieModal() {
     | REPAIR
     |--------------------------------------------------------------------------
     */
+function renderRepairHistory(repairs)
+{
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE COUNT
+    |--------------------------------------------------------------------------
+    */
 
-    window.repairDie = function(id) {
-
-        repairDie(id);
-
-    };
+    $('#repairHistoryCount')
+        .text(repairs.length);
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | NO HISTORY
+    |--------------------------------------------------------------------------
+    */
+
+    if (!repairs.length) {
+
+        $('#repairHistoryList').html(`
+
+            <div class="repair-history-empty">
+
+                <i class="fas fa-screwdriver-wrench"></i>
+
+                <div style="margin-top:7px;">
+                    No previous repairs recorded.
+                </div>
+
+            </div>
+
+        `);
+
+        return;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | BUILD HISTORY
+    |--------------------------------------------------------------------------
+    */
+
+    let html = '';
+
+
+    repairs.forEach(function (repair) {
+
+        /*
+        |--------------------------------------------------------------------------
+        | DATE
+        |--------------------------------------------------------------------------
+        */
+
+        let date = repair.repair_date || '';
+
+
+        if (date) {
+
+            let parsedDate =
+                new Date(date);
+
+            if (!isNaN(parsedDate)) {
+
+                date =
+                    parsedDate.toLocaleDateString(
+                        'en-US',
+                        {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                        }
+                    );
+
+            }
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | REPAIR TYPES
+        |--------------------------------------------------------------------------
+        */
+
+        let types =
+            repair.repair_types || [];
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Handle JSON string
+        |--------------------------------------------------------------------------
+        */
+
+        if (typeof types === 'string') {
+
+            try {
+
+                types = JSON.parse(types);
+
+            } catch (e) {
+
+                types = [types];
+
+            }
+
+        }
+
+
+        if (!Array.isArray(types)) {
+
+            types = [];
+
+        }
+
+
+        let typesHtml = '';
+
+
+        types.forEach(function (type) {
+
+            typesHtml += `
+
+                <span class="repair-history-type">
+
+                    ${escapeRepairHtml(type)}
+
+                </span>
+
+            `;
+
+        });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | If no type
+        |--------------------------------------------------------------------------
+        */
+
+        if (!typesHtml) {
+
+            typesHtml = `
+
+                <span class="repair-history-type">
+
+                    General Repair
+
+                </span>
+
+            `;
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DESCRIPTION
+        |--------------------------------------------------------------------------
+        */
+
+        let description =
+            repair.description || '';
+
+
+        let descriptionHtml =
+            description
+                ? escapeRepairHtml(description)
+                : 'No description provided.';
+
+
+        let descriptionClass =
+            description
+                ? 'repair-history-description'
+                : 'repair-history-description empty';
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CREATE HTML
+        |--------------------------------------------------------------------------
+        */
+
+        html += `
+
+            <div class="repair-history-item">
+
+                <div class="repair-history-date">
+
+                    <i class="fas fa-calendar-days"></i>
+
+                    ${escapeRepairHtml(date)}
+
+                </div>
+
+
+                <div class="repair-history-types">
+
+                    ${typesHtml}
+
+                </div>
+
+
+                <div class="${descriptionClass}">
+
+                    ${descriptionHtml}
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | INSERT
+    |--------------------------------------------------------------------------
+    */
+
+    $('#repairHistoryList')
+        .html(html);
+}
+function escapeRepairHtml(value)
+{
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+window.repairDie = function (button) {
+
+    /*
+    |--------------------------------------------------------------------------
+    | GET DATA FROM BUTTON
+    |--------------------------------------------------------------------------
+    */
+
+    let id = $(button).data('id');
+
+    let itemName = $(button).data('item_name');
+
+    let length = $(button).data('length');
+
+    let width = $(button).data('width');
+
+    let repairCount = $(button).data('repair-count');
+
+
+    console.log('Repair Die ID:', id);
+    console.log('Item Name:', itemName);
+    console.log('Length:', length);
+    console.log('Width:', width);
+    console.log('Repair Count:', repairCount);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | VALIDATE ID
+    |--------------------------------------------------------------------------
+    */
+
+    if (!id) {
+
+        alert('Invalid die ID.');
+
+        return;
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SET DIE ID
+    |--------------------------------------------------------------------------
+    */
+
+    $('#repairDieId').val(id);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SET ITEM NAME
+    |--------------------------------------------------------------------------
+    */
+
+    $('#repairItemNameText').text(
+        itemName || 'Unknown Item'
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SET CURRENT DATE
+    |--------------------------------------------------------------------------
+    */
+
+    let today =
+        new Date().toISOString().split('T')[0];
+
+    $('#repairDate').val(today);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESET FORM
+    |--------------------------------------------------------------------------
+    */
+
+    $('#repairDieForm input[name="repair_types[]"]')
+        .prop('checked', false);
+
+    $('#repairDescription').val('');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESET HISTORY
+    |--------------------------------------------------------------------------
+    */
+
+    $('#repairHistoryCount').text('0');
+
+    $('#repairHistoryList').html(`
+        <div class="repair-history-loading">
+
+            <i class="fas fa-spinner fa-spin"></i>
+
+            Loading repair history...
+
+        </div>
+    `);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | OPEN MODAL
+    |--------------------------------------------------------------------------
+    */
+
+    $('#repairDieModal').addClass('active');
+
+    $('body').css('overflow', 'hidden');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOAD REPAIR HISTORY
+    |--------------------------------------------------------------------------
+    */
+
+    fetch(
+        "<?php echo e(url('/probox/dies')); ?>/" + id + "/repair-data"
+    )
+    .then(response => {
+
+        if (!response.ok) {
+
+            throw new Error(
+                'Failed to load repair history.'
+            );
+
+        }
+
+        return response.json();
+
+    })
+    .then(data => {
+
+        console.log(
+            'Repair Data:',
+            data
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE ITEM NAME
+        |--------------------------------------------------------------------------
+        */
+
+        $('#repairItemNameText').text(
+            data.item_name ||
+            itemName ||
+            'Unknown Item'
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE LENGTH / WIDTH
+        |--------------------------------------------------------------------------
+        */
+
+        if (data.length !== undefined) {
+
+            $('#repairLength').val(
+                data.length
+            );
+
+        }
+
+        if (data.width !== undefined) {
+
+            $('#repairWidth').val(
+                data.width
+            );
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE CURRENT REPAIR COUNT
+        |--------------------------------------------------------------------------
+        */
+
+        $('#repairCurrentCount').val(
+            data.repair_count ?? repairCount ?? 0
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | RENDER HISTORY
+        |--------------------------------------------------------------------------
+        */
+
+        renderRepairHistory(
+            data.repairs || []
+        );
+
+    })
+    .catch(error => {
+
+        console.error(
+            'Repair history error:',
+            error
+        );
+
+
+        $('#repairHistoryList').html(`
+
+            <div class="repair-history-empty">
+
+                <i class="fas fa-circle-exclamation"></i>
+
+                Unable to load repair history.
+
+            </div>
+
+        `);
+
+    });
+
+};
     /*
     |--------------------------------------------------------------------------
     | DELETE CONFIRMATION
@@ -2334,15 +4563,19 @@ function closeRepairDieModal() {
     |--------------------------------------------------------------------------
     */
 
-    $(document).on('keydown', function(event) {
+  $(document).on('keydown', function(event) {
 
-        if (event.key === 'Escape') {
+    if (event.key === 'Escape') {
 
-            closeDieModal();
+        closeDieModal();
 
-        }
+        closeRepairDieModal();
 
-    });
+        closeDieDetailModal();
+
+    }
+
+});
 
 });
 

@@ -7,12 +7,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DieRepair extends Model
 {
-    protected $fillable = [
-        'die_id',
-        'repair_date',
-        'description',
-    ];
+   protected $fillable = [
+    'die_id',
+    'repair_date',
+    'repair_types',
+    'description',
+];
 
+protected $casts = [
+    'repair_types' => 'array',
+    'repair_date' => 'date',
+];
 
     public function die(): BelongsTo
     {
