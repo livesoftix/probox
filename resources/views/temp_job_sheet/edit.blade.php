@@ -1040,7 +1040,7 @@
                                 style="{{ $job->emboss == 1 ? 'display:block;' : 'display:none;' }}"
                             >
 
-                                <div class="mb-3">
+                                <!-- <div class="mb-3" >
 
                                     <label
                                         for="emboss_rate"
@@ -1058,7 +1058,7 @@
                                         value="{{ $job->emboss_rate }}"
                                     >
 
-                                </div>
+                                </div> -->
 
                             </div>
 
