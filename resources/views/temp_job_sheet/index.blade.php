@@ -127,20 +127,33 @@
                                 <!-- <td>{{ $job->account->title ?? 'N/A' }}</td> -->
                                 <td>{{ $job->note }}</td>
 
-                                <td>
-                                    <form action="{{ route('tempjob.destroy', $job->id) }}"
-                                          method="POST"
-                                          onsubmit="return confirm('Are you sure?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
-                                    <a href="{{ route('tempjob.print', $job->id) }}"
+<td>
+    {{-- Edit --}}
+    <a href="{{ route('tempjob.edit', $job->id) }}"
+       class="btn btn-primary btn-sm">
+        Edit
+    </a>
+
+    {{-- Delete --}}
+    <form action="{{ route('tempjob.destroy', $job->id) }}"
+          method="POST"
+          style="display:inline-block;"
+          onsubmit="return confirm('Are you sure?')">
+        @csrf
+        @method('DELETE')
+
+        <button type="submit" class="btn btn-danger btn-sm">
+            Delete
+        </button>
+    </form>
+
+    {{-- View --}}
+    <a href="{{ route('tempjob.print', $job->id) }}"
        target="_blank"
        class="btn btn-warning btn-sm">
         View
     </a>
-                                </td>
+</td>
                             </tr>
                         @empty
                             <tr>

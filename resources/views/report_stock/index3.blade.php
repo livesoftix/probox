@@ -777,7 +777,7 @@ class="suggestion-box list-group position-absolute w-100">
 
                                 <strong>
 
-                                    {{ $data->remain_qty }}
+                                    {{ round($data->remain_qty,2) }}
 
                                 </strong>
 

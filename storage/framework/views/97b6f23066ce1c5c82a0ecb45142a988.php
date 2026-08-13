@@ -131,20 +131,33 @@
                                 <!-- <td><?php echo e($job->account->title ?? 'N/A'); ?></td> -->
                                 <td><?php echo e($job->note); ?></td>
 
-                                <td>
-                                    <form action="<?php echo e(route('tempjob.destroy', $job->id)); ?>"
-                                          method="POST"
-                                          onsubmit="return confirm('Are you sure?')">
-                                        <?php echo csrf_field(); ?>
-                                        <?php echo method_field('DELETE'); ?>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
-                                    <a href="<?php echo e(route('tempjob.print', $job->id)); ?>"
+<td>
+    
+    <a href="<?php echo e(route('tempjob.edit', $job->id)); ?>"
+       class="btn btn-primary btn-sm">
+        Edit
+    </a>
+
+    
+    <form action="<?php echo e(route('tempjob.destroy', $job->id)); ?>"
+          method="POST"
+          style="display:inline-block;"
+          onsubmit="return confirm('Are you sure?')">
+        <?php echo csrf_field(); ?>
+        <?php echo method_field('DELETE'); ?>
+
+        <button type="submit" class="btn btn-danger btn-sm">
+            Delete
+        </button>
+    </form>
+
+    
+    <a href="<?php echo e(route('tempjob.print', $job->id)); ?>"
        target="_blank"
        class="btn btn-warning btn-sm">
         View
     </a>
-                                </td>
+</td>
                             </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                             <tr>

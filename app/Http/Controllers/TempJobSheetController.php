@@ -288,27 +288,333 @@ $job->breaking = $validated['breaking'] ?? 0;
     /* -------------------------
         EDIT
     ------------------------- */
-    public function edit($id)
-    {
-        $job = TempJobSheet::findOrFail($id);
-        $loggedInUser = Auth::user();
+   public function edit($id)
+{
+    $job = TempJobSheet::with('boxboards')->findOrFail($id);
 
-        return view('temp_job_sheet.edit', compact('job', 'loggedInUser'));
-    }
+    $loggedInUser = Auth::user();
+
+    $products = ProductMaster::where('status', 'active')->get();
+
+    $items = ItemMaster::all();
+
+    $boxboardData = DB::table('boxboard_stock_qty')
+        ->select(
+            'item_id',
+            'item_code',
+            'width',
+            'length',
+            'grammage',
+            'remain_qty',
+            'total_wt'
+        )
+        ->orderBy('item_code', 'asc')
+        ->get();
+
+    return view('temp_job_sheet.edit', compact(
+        'job',
+        'loggedInUser',
+        'products',
+        'items',
+        'boxboardData'
+    ));
+}
 
     /* -------------------------
         UPDATE
     ------------------------- */
-    public function update(Request $request, $id)
-    {
+  public function update(Request $request, $id)
+{
+    // dd($request->all());
+    $validated = $request->validate([
+        'date' => 'nullable|date',
+        'job_no' => 'nullable|string',
+        'preparedby' => 'nullable|string',
+        'printing_for' => 'nullable|string',
+        'job_id' => 'nullable|numeric',
+        'size' => 'nullable|string',
+        'qty' => 'nullable|numeric',
+        'p_size' => 'nullable|string',
+        'ream_pkt' => 'nullable|string',
+
+        'note' => 'nullable|string',
+        'm_date' => 'nullable|date',
+        'e_date' => 'nullable|date',
+
+        'ups' => 'nullable|numeric',
+
+        // Boxboard
+        'box_item' => 'nullable|array',
+        'box_item.*' => 'nullable|string',
+
+        'box_qty' => 'nullable|array',
+        'box_qty.*' => 'nullable|numeric',
+
+        'box_length' => 'nullable|array',
+        'box_length.*' => 'nullable|numeric',
+
+        'box_width' => 'nullable|array',
+        'box_width.*' => 'nullable|numeric',
+
+        'purchase_vno' => 'nullable|array',
+        'purchase_vno.*' => 'nullable|string',
+
+        'after_cutting' => 'nullable|array',
+        'after_cutting.*' => 'nullable|numeric',
+
+        // Process Details
+        'lamination' => 'nullable|boolean',
+        'lsize' => 'nullable|numeric',
+        'litem' => 'nullable|integer',
+
+        'corrugation' => 'nullable|boolean',
+        'csize' => 'nullable|numeric',
+        'citem' => 'nullable|integer',
+
+        'color' => 'nullable|numeric',
+        'noColor' => 'nullable|boolean',
+
+        'window' => 'nullable|boolean',
+        'glass_win' => 'nullable|boolean',
+        'lam_win' => 'nullable|boolean',
+
+        'uv' => 'nullable|boolean',
+        'simple' => 'nullable|boolean',
+        'spot' => 'nullable|boolean',
+        'tripof' => 'nullable|boolean',
+
+        'varnish' => 'nullable|boolean',
+
+        'emboss' => 'nullable|boolean',
+        'emboss_rate' => 'nullable|numeric',
+
+        'breaking' => 'nullable|boolean',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+
         $job = TempJobSheet::findOrFail($id);
 
-        $job->update($request->all());
+        /*
+        |--------------------------------------------------------------------------
+        | BASIC INFORMATION
+        |--------------------------------------------------------------------------
+        */
+
+        $job->date = $validated['date'] ?? null;
+
+        $job->v_no = $validated['job_no'] ?? $job->v_no;
+
+        $job->preparedby = $validated['preparedby'] ?? null;
+
+        $job->printing_for = $validated['printing_for'] ?? null;
+
+        $job->job_id = $validated['job_id'] ?? null;
+
+        $job->size = $validated['size'] ?? null;
+
+        $job->qty = $validated['qty'] ?? 0;
+
+        $job->p_size = $validated['p_size'] ?? null;
+
+        $job->ream_packet = $validated['ream_pkt'] ?? null;
+
+        $job->ups = $validated['ups'] ?? 0;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | LAMINATION
+        |--------------------------------------------------------------------------
+        */
+
+        $job->lamination = (int) $request->input('lamination', 0);
+
+        $job->lam_size = $request->input('lsize') ?: null;
+
+        $job->lam_item = $request->input('litem') ?: null;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CORRUGATION
+        |--------------------------------------------------------------------------
+        */
+
+        $job->corrugation = (int) $request->input('corrugation', 0);
+
+        $job->curr_size = $request->input('csize') ?: null;
+
+        $job->curr_item = $request->input('citem') ?: null;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | COLOR
+        |--------------------------------------------------------------------------
+        */
+
+        $job->color = (int) $request->input('noColor', 0);
+
+        $job->color_no = $request->input('color') ?: null;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | WINDOW
+        |--------------------------------------------------------------------------
+        */
+
+        $job->window = (int) $request->input('window', 0);
+
+        $job->glass_win = (int) $request->input('glass_win', 0);
+
+        $job->lam_window = (int) $request->input('lam_win', 0);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | UV
+        |--------------------------------------------------------------------------
+        */
+
+        $job->uv = (int) $request->input('uv', 0);
+
+        $job->simple = (int) $request->input('simple', 0);
+
+        $job->spot = (int) $request->input('spot', 0);
+
+        $job->tripof = (int) $request->input('tripof', 0);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | VARNISH
+        |--------------------------------------------------------------------------
+        */
+
+        $job->varnish = (int) $request->input('varnish', 0);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | EMBOSS
+        |--------------------------------------------------------------------------
+        */
+
+        $job->emboss = (int) $request->input('emboss', 0);
+
+        if ($job->emboss == 1) {
+            $job->emboss_rate = $request->input('emboss_rate') ?: null;
+        } else {
+            $job->emboss_rate = null;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | BREAKING
+        |--------------------------------------------------------------------------
+        */
+
+        $job->breaking = (int) $request->input('breaking', 0);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | OTHER
+        |--------------------------------------------------------------------------
+        */
+
+        $job->note = $validated['note'] ?? null;
+
+        $job->m_date = $validated['m_date'] ?? null;
+
+        $job->e_date = $validated['e_date'] ?? null;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SAVE MAIN JOB
+        |--------------------------------------------------------------------------
+        */
+
+        $job->save();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | BOXBOARD
+        |--------------------------------------------------------------------------
+        |
+        | Delete existing rows and recreate them from submitted form.
+        |
+        */
+
+        DB::table('temp_job_sheet_boxboard')
+            ->where('job_sheet_id', $job->id)
+            ->delete();
+
+
+        if (!empty($request->box_item)) {
+
+            foreach ($request->box_item as $key => $itemValue) {
+
+                if (empty($itemValue)) {
+                    continue;
+                }
+
+                $parts = explode('_', $itemValue);
+
+                $itemId = $parts[0] ?? null;
+
+                $qty = $request->box_qty[$key] ?? 0;
+
+                if (empty($itemId) || $qty <= 0) {
+                    continue;
+                }
+
+                $length = $request->box_length[$key] ?? null;
+
+                $width = $request->box_width[$key] ?? null;
+
+                $purchaseVno = $request->purchase_vno[$key] ?? null;
+
+                $afterCutting = $request->after_cutting[$key] ?? null;
+
+
+                DB::table('temp_job_sheet_boxboard')->insert([
+                    'job_sheet_id' => $job->id,
+                    'item_id' => $itemId,
+                    'purchase_v_no' => $purchaseVno,
+                    'length' => $length,
+                    'width' => $width,
+                    'qty' => $qty,
+                    'after_cutting' => $afterCutting,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
+
+        DB::commit();
 
         return redirect()
             ->route('tempjob.index')
-            ->with('success', 'Updated successfully');
+            ->with('success', 'Job Sheet updated successfully');
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return back()
+            ->withInput()
+            ->with('error', 'Update failed: ' . $e->getMessage());
     }
+}
 
     /* -------------------------
         DELETE
