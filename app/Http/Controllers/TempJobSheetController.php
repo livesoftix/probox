@@ -506,11 +506,11 @@ $job->breaking = $validated['breaking'] ?? 0;
 
         $job->emboss = (int) $request->input('emboss', 0);
 
-        if ($job->emboss == 1) {
-            $job->emboss_rate = $request->input('emboss_rate') ?: null;
-        } else {
-            $job->emboss_rate = null;
-        }
+        // if ($job->emboss == 1) {
+        //     $job->emboss_rate = $request->input('emboss_rate') ?: null;
+        // } else {
+        //     $job->emboss_rate = null;
+        // }
 
 
         /*
