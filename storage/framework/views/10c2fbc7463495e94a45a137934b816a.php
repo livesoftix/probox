@@ -1065,7 +1065,7 @@
                                 style="<?php echo e($job->emboss == 1 ? 'display:block;' : 'display:none;'); ?>"
                             >
 
-                                <!-- <div class="mb-3">
+                                <!-- <div class="mb-3" >
 
                                     <label
                                         for="emboss_rate"
