@@ -100,6 +100,10 @@ use App\Http\Controllers\StockAdjController;
 use App\Http\Controllers\BoxboardReportStockController;
 use App\Http\Controllers\TempJobSheetController;
 use App\Http\Controllers\ProductFreezingController;
+use App\Http\Controllers\WageCorrugationDcController;
+use App\Http\Controllers\WageManualPastingDcController;
+use App\Http\Controllers\WageAutoPastingDcController;
+use App\Http\Controllers\WageBreakingDcController;
 use App\Http\Controllers\DieController;
 use Illuminate\Support\Facades\Artisan;
 
