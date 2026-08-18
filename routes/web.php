@@ -206,7 +206,72 @@ Route::put('/probox/tempjob/{id}', [TempJobSheetController::class, 'update'])
     Route::get('/probox/expense/reports', [ExpenseController::class, 'reports'])->name('expense.reports');
 
     
+    //wages
+    Route::get('/printingcell/boxboard/wage', [WageBoxboardController::class, 'index'])->name('boxboard_wage.list');
+    Route::get('/printingcell/boxboard/wage/report', [WageBoxboardController::class, 'report'])->name('boxboard_wage.report');
+    Route::get('/printingcell/boxboard/wage/vouchers/{employee_id}', [WageBoxboardController::class, 'getVouchersByEmployee'])->name('boxboard_wage.vouchers');
+    Route::get('/printingcell/boxboard/wage/details/{employee_id}/{v_no}', [WageBoxboardController::class, 'getVoucherDetails'])->name('boxboard_wage.details');
+    Route::post('/printingcell/boxboard/wage/store', [WageBoxboardController::class, 'store'])->name('boxboard_wage.store');
     
+    Route::delete('/printingcell/boxboard/wage/store/{id}', [WageBoxboardController::class, 'destroy'])->name('boxboard_wage.destroy');
+    //wage corugation dc
+    Route::get('/printingcell/corrugation/wage/dc', [WageCorrugationDcController::class, 'index'])->name('corrugation_wage_dc.list');
+    Route::get('/printingcell/corrugation/wage/dc/report', [WageCorrugationDcController::class, 'report'])->name('corrugation_wage_dc.report');
+    Route::get('/printingcell/corrugation/wage/dc/vouchers/{type}/{v_no}', [WageCorrugationDcController::class, 'getVoucherDetails'])->name('corrugation_wage_dc.vouchers');
+    Route::post('/printingcell/corrugation/wage/dc/store', [WageCorrugationDcController::class, 'store'])->name('corrugation_wage_dc.store');
+    Route::get('/printingcell/employee/{id}/closing-balance', [WageCorrugationDcController::class, 'closingBalance']);
+    Route::get('/printingcell/corrugation/wage/dc/{b_no}/print', [WageCorrugationDcController::class, 'print'])
+    ->name('corrugation_wage_dc.print');
+    Route::get('/printingcell/corrugation/wage/dc/{b_no}/edit', [WageCorrugationDcController::class, 'edit'])
+    ->name('corrugation_wage_dc.edit');
+    Route::put('/printingcell/corrugation/wage/dc/{b_no}', [WageCorrugationDcController::class, 'update'])
+    ->name('corrugation_wage_dc.update');
+    
+    Route::delete('/printingcell/dc/corrugation/wage/dc/store/{id}', [WageCorrugationDcController::class, 'destroy'])->name('corrugation_wage_dc.destroy');
+    // wage manual pasting 
+    Route::get('/printingcell/manualPasting/wage/dc', [WageManualPastingDcController::class, 'index'])->name('manualPasting_wage_dc.list');
+    Route::get('/printingcell/manualPasting/wage/dc/report', [WageManualPastingDcController::class, 'report'])->name('manualPasting_wage_dc.report');
+    Route::get('/printingcell/manualPasting/wage/dc/vouchers/{type}/{v_no}', [WageManualPastingDcController::class, 'getVoucherDetails'])->name('manualPasting_wage_dc.vouchers');
+    Route::post('/printingcell/manualPasting/wage/dc/store', [WageManualPastingDcController::class, 'store'])->name('manualPasting_wage_dc.store');
+    Route::get('/printingcell/manualPasting/wage/dc/{b_no}/print', [WageManualPastingDcController::class, 'print'])
+    ->name('manualPasting_wage_dc.print');
+    
+    Route::get('/printingcell/manualPasting/wage/dc/{b_no}/edit', [WageManualPastingDcController::class, 'edit'])
+    ->name('manualPasting_wage_dc.edit');
+    Route::put('/printingcell/manualPasting/wage/dc/{b_no}', [WageManualPastingDcController::class, 'update'])
+    ->name('manualPasting_wage_dc.update');
+    
+    Route::delete('/printingcell/dc/manualPasting/wage/dc/store/{id}', [WageManualPastingDcController::class, 'destroy'])->name('manualPasting_wage_dc.destroy');
+    // wage Auto Pasting
+    Route::get('/printingcell/autoPasting/wage/dc', [WageAutoPastingDcController::class, 'index'])->name('autoPasting_wage_dc.list');
+    Route::get('/printingcell/autoPasting/wage/dc/report', [WageAutoPastingDcController::class, 'report'])->name('autoPasting_wage_dc.report');
+    Route::get('/printingcell/autoPasting/wage/dc/vouchers/{type}/{v_no}', [WageAutoPastingDcController::class, 'getVoucherDetails'])->name('autoPasting_wage_dc.vouchers');
+    Route::post('/printingcell/autoPasting/wage/dc/store', [WageAutoPastingDcController::class, 'store'])->name('autoPasting_wage_dc.store');
+    Route::get('/printingcell/autoPasting/wage/dc/{b_no}/print', [WageAutoPastingDcController::class, 'print'])
+    ->name('autoPasting_wage_dc.print');
+
+    Route::get('/printingcell/autoPasting/wage/dc/{b_no}/edit', [WageAutoPastingDcController::class, 'edit'])
+    ->name('autoPasting_wage_dc.edit');
+    Route::put('/printingcell/autoPasting/wage/dc/{b_no}', [WageAutoPastingDcController::class, 'update'])
+    ->name('autoPasting_wage_dc.update');
+    
+    
+    Route::delete('/printingcell/dc/autoPasting/wage/dc/store/{id}', [WageAutoPastingDcController::class, 'destroy'])->name('autoPasting_wage_dc.destroy');
+    // wage breaking dc
+     Route::get('/printingcell/breaking/wage/dc', [WageBreakingDcController::class, 'index'])->name('breaking_wage_dc.list');
+    Route::get('/printingcell/breaking/wage/dc/report', [WageBreakingDcController::class, 'report'])->name('breaking_wage_dc.report');
+    Route::get('/printingcell/breaking/wage/dc/vouchers/{type}/{v_no}', [WageBreakingDcController::class, 'getVoucherDetails'])->name('breaking_wage_dc.vouchers');
+        Route::get('/printingcell/breaking/wage/dc/product', [WageBreakingDcController::class, 'getProductVoucher'])->name('breaking_wage_dc.product');
+    Route::post('/printingcell/breaking/wage/dc/store', [WageBreakingDcController::class, 'store'])->name('breaking_wage_dc.store');
+    Route::get('/printingcell/breaking/wage/dc/{b_no}/print', [WageBreakingDcController::class, 'print'])
+    ->name('breaking_wage_dc.print');
+    Route::get('/printingcell/breaking/wage/dc/{b_no}/edit', [WageBreakingDcController::class, 'edit'])
+    ->name('breaking_wage_dc.edit');
+    Route::put('/printingcell/breaking/wage/dc/{b_no}', [WageBreakingDcController::class, 'update'])
+    ->name('breaking_wage_dc.update');
+    
+    Route::delete('/printingcell/dc/breaking/wage/dc/store/{id}', [WageBreakingDcController::class, 'destroy'])->name('breaking_wage_dc.destroy');
+
     
     Route::get('/probox/general/job/sheet', [GeneralJobSheetController::class, 'index'])->name('general_job_sheet.list');
     Route::post('/probox/general-job-sheet', [GeneralJobSheetController::class, 'store'])->name('general-job-sheet.store');
