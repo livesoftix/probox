@@ -302,6 +302,7 @@ Route::put('/probox/tempjob/{id}', [TempJobSheetController::class, 'update'])
     Route::delete('/probox/general-delivery-challan/{id}', [GeneralDeliveryChallanController::class, 'destroy'])->name('general_delivery_challan.destroy'); 
     Route::get('/probox/general-delivery-challan/{id}/edit', [GeneralDeliveryChallanController::class, 'edit'])->name('general_delivery_challan.edit'); 
     Route::put('/probox/general-delivery-challan//{id}', [GeneralDeliveryChallanController::class, 'update'])->name('general_delivery_challan.update'); 
+    Route::get('/probox/general-delivery-challan/{id}/view', [GeneralDeliveryChallanController::class, 'view'])->name('general_delivery_challan.view');
      
      
     Route::get('/probox/general/billing', [GeneralBillingController::class, 'index'])->name('general_billing.list');
