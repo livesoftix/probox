@@ -580,7 +580,7 @@ Route::put('/probox/tempjob/{id}', [TempJobSheetController::class, 'update'])
     Route::put('/probox/confectionery/update/{id}', [ConfectioneryController::class, 'update'])->name('confectionery.update');
     Route::get('/probox/confectionery/{v_no}/delete', [ConfectioneryController::class, 'destroy'])->name('confectionery.destroy');
     Route::delete('/probox/confectionery/{id}/del', [ConfectioneryController::class, 'delete'])->name('confectionery.delete');
-    Route::get('/probox/confectionery/view/{v_no}',[ConfectioneryController::class, 'view'])->name('delivery_challan.view');
+    Route::get('/probox/confectionery/view/{v_no}',[ConfectioneryController::class, 'view'])->name('confectionery.view');
     //  stock-adj
     Route::resource('/probox/stock-adj', StockAdjController::class)->names('stock-adj');
     Route::delete('/stock-adj-detail/{id}', [StockAdjController::class, 'destroyDetail'])
