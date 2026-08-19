@@ -561,6 +561,10 @@ Route::put('/probox/tempjob/{id}', [TempJobSheetController::class, 'update'])
     Route::get('/probox/delivery_challan/reports', [DeliveryChallanController::class, 'reports'])->name('delivery_challan.reports');
     Route::post('/probox/delivery_challan', [DeliveryChallanController::class, 'store'])->name('delivery_challan.store');
     Route::get('/probox/delivery_challan/edit/{v_no}', [DeliveryChallanController::class, 'edit'])->name('delivery_challan.edit');
+    Route::get(
+    '/probox/delivery-challan/view/{v_no}',
+    [DeliveryChallanController::class, 'view']
+)->name('delivery_challan.view');
     Route::put('/probox/delivery_challan/update/{id}', [DeliveryChallanController::class, 'update'])->name('delivery_challan.update');
     Route::get('/probox/delivery_challan/{v_no}/delete', [DeliveryChallanController::class, 'destroy'])->name('delivery_challan.destroy');
     Route::delete('/probox/delivery_challan/{id}/del', [DeliveryChallanController::class, 'delete'])->name('delivery_challan.delete');

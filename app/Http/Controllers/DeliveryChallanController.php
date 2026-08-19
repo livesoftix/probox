@@ -217,7 +217,20 @@ if ($v_no && $totalRecords <= 50) {
 
 
 
+public function view($v_no)
+{
+    $voucher = DeliveryMaster::where('v_no', $v_no)->get();
 
+    if ($voucher->isEmpty()) {
+        return redirect()
+            ->route('delivery_challan.reports')
+            ->with('error', 'Delivery Challan not found.');
+    }
+
+    $deliveryDetails = $voucher->first()->deliveryDetails;
+
+    return view('sales.delivery_challan.view', get_defined_vars());
+}
 public function edit($v_no)
 {
     // Check if bill exists in TRNDTL

@@ -293,8 +293,6 @@
                                                         </h3>
                                                     </div>
                                                 </div>
-                                                <?php echo e($trndtl); ?>
-
                                                  <div style="text-align: left;">
                                                         <h3 style="margin: 0; font-weight: bold;">Prepared By: 
                                                              <?php echo e($trndtl->first()->preparedby); ?>

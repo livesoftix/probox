@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid">
         <!-- start page title -->
         <div class="row">
@@ -18,42 +16,44 @@
             </div>
         </div>
         <!-- end page title -->
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
                     aria-label="Close"></button>
-                {{ session('success') }}
-            </div>
-        @endif
+                <?php echo e(session('success')); ?>
 
-        @if (session('error'))
+            </div>
+        <?php endif; ?>
+
+        <?php if(session('error')): ?>
             <div class="alert alert-danger alert-dismissible text-bg-danger border-0 fade show" role="alert">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
                     aria-label="Close"></button>
-                {{ session('error') }}
+                <?php echo e(session('error')); ?>
+
             </div>
-        @endif
+        <?php endif; ?>
         <!-- Search Form -->
         <div class="row">
             <div class="card mt-2">
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="col-12">
-                            <form action="{{ route('delivery_challan.reports') }}" method="GET" class="form-inline"
+                            <form action="<?php echo e(route('delivery_challan.reports')); ?>" method="GET" class="form-inline"
                                 id="search-form">
                                 <div class="row">
                                     <!-- Start Date -->
                                     <div class="form-group col-xl-2">
                                         <label for="start_date" class="sr-only">Start Date</label>
                                         <input type="date" class="form-control" id="start_date" name="start_date"
-                                            value="{{ request()->get('start_date') }}">
+                                            value="<?php echo e(request()->get('start_date')); ?>">
                                     </div>
 
                                     <!-- End Date -->
                                     <div class="form-group col-xl-2">
                                         <label for="end_date" class="sr-only">End Date</label>
                                         <input type="date" class="form-control" id="end_date" name="end_date"
-                                            value="{{ request()->get('end_date') }}">
+                                            value="<?php echo e(request()->get('end_date')); ?>">
                                     </div>
 
                                     <div class="form-group col-xl-2">
@@ -61,9 +61,9 @@
                                         <select name="status" class="form-control select2">
                                             <option value="">All</option>
 
-                                            <option value="official" {{ $status == 'official' ? 'selected' : '' }}>Official
+                                            <option value="official" <?php echo e($status == 'official' ? 'selected' : ''); ?>>Official
                                             </option>
-                                            <option value="unofficial" {{ $status == 'unofficial' ? 'selected' : '' }}>
+                                            <option value="unofficial" <?php echo e($status == 'unofficial' ? 'selected' : ''); ?>>
                                                 Unofficial</option>
 
                                         </select>
@@ -74,12 +74,13 @@
                                         <label for="v_no" class="sr-only">Voucher Number</label>
                                         <select name="v_no" class="form-control select2" data-toggle="select2">
                                             <option value="">Select Voucher</option>
-                                            @foreach ($vNoList as $vNo)
-                                                <option value="{{ $vNo }}"
-                                                    {{ request()->get('v_no') == $vNo ? 'selected' : '' }}>
-                                                    {{ $vNo }}
+                                            <?php $__currentLoopData = $vNoList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $vNo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($vNo); ?>"
+                                                    <?php echo e(request()->get('v_no') == $vNo ? 'selected' : ''); ?>>
+                                                    <?php echo e($vNo); ?>
+
                                                 </option>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
                                     <!-- P.O -->
@@ -91,12 +92,13 @@
                                         <select name="batch_no" class="form-control select2" data-toggle="select2"
                                             id="batch_no">
                                             <option value="">Select Batch No</option>
-                                            @foreach ($poNumbers as $poNumber)
-                                                <option value="{{ $poNumber }}"
-                                                    {{ request()->get('batch_no') == $poNumber ? 'selected' : '' }}>
-                                                    {{ $poNumber }}
+                                            <?php $__currentLoopData = $poNumbers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $poNumber): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($poNumber); ?>"
+                                                    <?php echo e(request()->get('batch_no') == $poNumber ? 'selected' : ''); ?>>
+                                                    <?php echo e($poNumber); ?>
+
                                                 </option>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
                                     <!-- Item Title -->
@@ -106,12 +108,13 @@
                                         <select name="item" class="form-control select2" data-toggle="select2"
                                             id="itemTitle">
                                             <option value="">Select Item</option>
-                                            @foreach ($items as $item)
-                                                <option value="{{ $item->id }}"
-                                                    {{ request()->get('item') == $item->id ? 'selected' : '' }}>
-                                                    {{ $item->type_title }}
+                                            <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($item->id); ?>"
+                                                    <?php echo e(request()->get('item') == $item->id ? 'selected' : ''); ?>>
+                                                    <?php echo e($item->type_title); ?>
+
                                                 </option>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
                                     <br><br>
@@ -120,19 +123,20 @@
                                         <select name="account" class="form-control select2" data-toggle="select2"
                                             id="accountTitle">
                                             <option value="">Select Account</option>
-                                            @foreach ($accounts as $account)
-                                                <option value="{{ $account->id }}"
-                                                    {{ request()->get('account') == $account->id ? 'selected' : '' }}>
-                                                    {{ $account->title }}
+                                            <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($account->id); ?>"
+                                                    <?php echo e(request()->get('account') == $account->id ? 'selected' : ''); ?>>
+                                                    <?php echo e($account->title); ?>
+
                                                 </option>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
 
                                     <!-- Submit Button -->
                                     <div class="form-group mt-3">
                                         <button type="submit" class="btn btn-primary">Search</button>
-                                        <a class="btn btn-success" href="{{ route('delivery_challan.list') }}"
+                                        <a class="btn btn-success" href="<?php echo e(route('delivery_challan.list')); ?>"
                                             role="button" onclick="return checkPermission()">Add New</a>
                                     </div>
                                 </div>
@@ -192,37 +196,40 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($trndtl as $data)
+                                                    <?php $__currentLoopData = $trndtl; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <tr>
-                                                            <td>{{ \Carbon\Carbon::parse($data->date)->format('d-m-Y') }}
+                                                            <td><?php echo e(\Carbon\Carbon::parse($data->date)->format('d-m-Y')); ?>
+
                                                             </td>
-                                                            <td>{{ $data->v_type }}-{{ $data->v_no }}</td>
-                                                            <td>{{ $data->accounts->title ?? 'N/A' }}</td>
-                                                            <td>{{ $data->deliveryDetails->products->prod_name ?? 'N/A' }}
+                                                            <td><?php echo e($data->v_type); ?>-<?php echo e($data->v_no); ?></td>
+                                                            <td><?php echo e($data->accounts->title ?? 'N/A'); ?></td>
+                                                            <td><?php echo e($data->deliveryDetails->products->prod_name ?? 'N/A'); ?>
+
                                                             </td>
-                                                            <td>{{ $data->deliveryDetails->batch_no ?? 'N/A' }}</td>
-                                                            <td>{{ $data->deliveryDetails->box ?? 'N/A' }}</td>
-                                                            <td>{{ $data->deliveryDetails->pack_qty ?? 'N/A' }}</td>
-                                                            <td>{{ $data->deliveryDetails->total ?? 'N/A' }}</td>
-                                                            <td>{{ $data->deliveryDetails->freight ?? 'N/A' }}</td>
+                                                            <td><?php echo e($data->deliveryDetails->batch_no ?? 'N/A'); ?></td>
+                                                            <td><?php echo e($data->deliveryDetails->box ?? 'N/A'); ?></td>
+                                                            <td><?php echo e($data->deliveryDetails->pack_qty ?? 'N/A'); ?></td>
+                                                            <td><?php echo e($data->deliveryDetails->total ?? 'N/A'); ?></td>
+                                                            <td><?php echo e($data->deliveryDetails->freight ?? 'N/A'); ?></td>
                                                             <td class="no-print" style="display:none;">
-                                                                {{ $data->deliveryDetails->itemType->type_title ?? 'N/A' }}
+                                                                <?php echo e($data->deliveryDetails->itemType->type_title ?? 'N/A'); ?>
+
                                                             </td>
                                                             <td class="no-print">
                                                                 <input type="checkbox" class="status-checkbox"
-                                                                    data-id="{{ $data->id }}"
-                                                                    {{ $data->status == 'official' ? 'checked' : '' }}>
+                                                                    data-id="<?php echo e($data->id); ?>"
+                                                                    <?php echo e($data->status == 'official' ? 'checked' : ''); ?>>
                                                             </td>
                                                             <td class="no-print">
                                                                 <div
                                                                     class="d-flex justify-content-start align-items-center gap-2">
                                                                     <form
-                                                                        action="{{ route('delivery_challan.delete', ['id' => $data->id]) }}"
+                                                                        action="<?php echo e(route('delivery_challan.delete', ['id' => $data->id])); ?>"
                                                                         method="POST"
                                                                         onsubmit="return checkPermissionDel()"
                                                                         class="m-0 p-0">
-                                                                        @csrf
-                                                                        @method('DELETE')
+                                                                        <?php echo csrf_field(); ?>
+                                                                        <?php echo method_field('DELETE'); ?>
                                                                         <button type="submit"
                                                                             class="btn btn-danger btn-sm"
                                                                             onclick="return confirmDelete(this)"
@@ -230,20 +237,20 @@
                                                                             <i class="uil uil-trash-alt"></i>
                                                                         </button>
                                                                     </form>
- <a href="{{ route('delivery_challan.view', ['v_no' => $data->v_no]) }}"
+ <a href="<?php echo e(route('delivery_challan.view', ['v_no' => $data->v_no])); ?>"
             class="btn btn-info btn-sm"
             title="View">
             <i class="uil uil-eye"></i>
         </a>
 
-                                                                    <a href="{{ route('delivery_challan.edit', ['v_no' => $data->v_no]) }}"
+                                                                    <a href="<?php echo e(route('delivery_challan.edit', ['v_no' => $data->v_no])); ?>"
                                                                         class="btn btn-warning btn-sm"
                                                                         onclick="return checkPermissionEdit()"
                                                                         title="Edit">
                                                                         <i class="uil uil-edit"></i>
                                                                     </a>
 
-                                                                    <a href="{{ route('delivery_challan.editDel', ['v_no' => $data->v_no]) }}"
+                                                                    <a href="<?php echo e(route('delivery_challan.editDel', ['v_no' => $data->v_no])); ?>"
                                                                         class="btn btn-primary btn-sm" title="Freight">
                                                                         <i class="uil uil-truck"></i>
                                                                     </a>
@@ -252,7 +259,7 @@
 
 
                                                         </tr>
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -267,14 +274,14 @@
                                                     <div style="text-align: left;">
                                                         <h3 style="margin: 0; font-weight: bold;">Category: Pharmaceuticals</h3>
                                                         <!-- OPTIMIZED MARGINS HERE: Reduced top margin to 2px -->
-                                                        <h3 style="margin: 2px 0 0 0; font-weight: bold;">Name: {{ $trndtl->unique('accounts.title')->pluck('accounts.title')->implode(', ') }}</h3>
+                                                        <h3 style="margin: 2px 0 0 0; font-weight: bold;">Name: <?php echo e($trndtl->unique('accounts.title')->pluck('accounts.title')->implode(', ')); ?></h3>
                                                     </div>
                                                     <div style="text-align: right;">
-                                                        <h3 style="margin: 0; font-weight: bold;">Date: {{ $trndtl->unique('date')->pluck('date')->map(function ($date) {
+                                                        <h3 style="margin: 0; font-weight: bold;">Date: <?php echo e($trndtl->unique('date')->pluck('date')->map(function ($date) {
                                                                 return \Carbon\Carbon::parse($date)->format('d-m-Y');
-                                                            })->implode(', ') }}</h3>
+                                                            })->implode(', ')); ?></h3>
                                                         <!-- OPTIMIZED MARGINS HERE: Reduced top margin to 2px -->
-                                                        <h3 style="margin: 2px 0 0 0; font-weight: bold;">V.No: {{ $trndtl->unique('v_no')->pluck('v_no')->implode(', ') }}</h3>
+                                                        <h3 style="margin: 2px 0 0 0; font-weight: bold;">V.No: <?php echo e($trndtl->unique('v_no')->pluck('v_no')->implode(', ')); ?></h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -292,44 +299,50 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($trndtl as $data)
+                                                <?php $__currentLoopData = $trndtl; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <tr>
-                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td><?php echo e($loop->iteration); ?></td>
                                                         <td colspan="2">
-                                                            {{ $data->deliveryDetails->products->prod_name ?? 'N/A' }}</td>
-                                                        <td colspan="2">{{ $data->deliveryDetails->batch_no ?? 'N/A' }}
+                                                            <?php echo e($data->deliveryDetails->products->prod_name ?? 'N/A'); ?></td>
+                                                        <td colspan="2"><?php echo e($data->deliveryDetails->batch_no ?? 'N/A'); ?>
+
                                                         </td>
-                                                        <td colspan="2">{{ $data->deliveryDetails->box ?? 'N/A' }}</td>
-                                                        <td colspan="2">{{ $data->deliveryDetails->pack_qty ?? 'N/A' }}
+                                                        <td colspan="2"><?php echo e($data->deliveryDetails->box ?? 'N/A'); ?></td>
+                                                        <td colspan="2"><?php echo e($data->deliveryDetails->pack_qty ?? 'N/A'); ?>
+
                                                         </td>
-                                                        <td colspan="2">{{ $data->deliveryDetails->freight ?? 'N/A' }}
+                                                        <td colspan="2"><?php echo e($data->deliveryDetails->freight ?? 'N/A'); ?>
+
                                                         </td>
-                                                        <td colspan="2">{{ $data->deliveryDetails->total ?? 'N/A' }}
+                                                        <td colspan="2"><?php echo e($data->deliveryDetails->total ?? 'N/A'); ?>
+
                                                         </td>
 
                                                     </tr>
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
                                       
-                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Driver Name: {{ $driverdetails->driver_name?? '' }}</strong> </td>
+                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Driver Name: <?php echo e($driverdetails->driver_name?? ''); ?></strong> </td>
                                                     <td colspan="8" style="text-align: right;"><strong>Total
                                                             CTN:</strong></td>
                                                     <td colspan="1">
-                                                        {{ $trndtl->sum(function ($item) {
+                                                        <?php echo e($trndtl->sum(function ($item) {
                                                             return $item->deliveryDetails->box ?? 0;
-                                                        }) }}
+                                                        })); ?>
+
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Vehicle No: {{ $driverdetails->vehicle_number?? '' }}</strong></td>
+                                                    <td colspan="3" style="text-align: left;padding-top:8px !important; padding-bottom:8px !important;">  <strong>Vehicle No: <?php echo e($driverdetails->vehicle_number?? ''); ?></strong></td>
                                                     <td colspan="8" style="text-align: right;"><strong>Grand
                                                             Total:</strong></td>
                                                     <td colspan="1">
-                                                        {{ $trndtl->sum(function ($item) {
+                                                        <?php echo e($trndtl->sum(function ($item) {
                                                             return $item->deliveryDetails->total ?? 0;
-                                                        }) }}
+                                                        })); ?>
+
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -343,9 +356,10 @@
 
                                     </div>
                                               <div class="mt-3 mx-auto">
-   @if ($trndtl instanceof \Illuminate\Pagination\LengthAwarePaginator)
-    {{ $trndtl->links() }}
-@endif
+   <?php if($trndtl instanceof \Illuminate\Pagination\LengthAwarePaginator): ?>
+    <?php echo e($trndtl->links()); ?>
+
+<?php endif; ?>
 </div>
                                 </div>
                             </div>
@@ -357,7 +371,7 @@
 
         <script>
             function checkPermission() {
-                @php
+                <?php
                     $isAdmin = auth()->user()->is_admin;
                     $canAdd = true;
 
@@ -367,9 +381,9 @@
                             ->first();
                         $canAdd = $userRights && $userRights->add == 1;
                     }
-                @endphp
+                ?>
 
-                if (!@json($canAdd)) {
+                if (!<?php echo json_encode($canAdd, 15, 512) ?>) {
                     alert('You do not have Permission to Add');
                     return false; // Prevent the default action (navigation)
                 }
@@ -378,7 +392,7 @@
 
 
             function checkPermissionEdit() {
-                @php
+                <?php
                     $isAdmin = auth()->user()->is_admin;
                     $canAdd = true;
 
@@ -388,9 +402,9 @@
                             ->first();
                         $canAdd = $userRights && $userRights->edit == 1;
                     }
-                @endphp
+                ?>
 
-                if (!@json($canAdd)) {
+                if (!<?php echo json_encode($canAdd, 15, 512) ?>) {
                     alert('You do not have Permission to Edit');
                     return false; // Prevent the default action (navigation)
                 }
@@ -402,7 +416,7 @@
 
 
 
-                @php
+                <?php
                     $isAdmin = auth()->user()->is_admin;
                     $canAdd = true;
 
@@ -412,8 +426,8 @@
                             ->first();
                         $canAdd = $userRights && $userRights->del == 1;
                     }
-                @endphp
-                if (!@json($canAdd)) {
+                ?>
+                if (!<?php echo json_encode($canAdd, 15, 512) ?>) {
                     alert('You do not have Permission to Delete');
                     return false; // Prevent the default action (navigation)
                 }
@@ -458,7 +472,7 @@
         </div>
         `;
                 } else if (selectedHeading === 'ProBox Packages' || selectedHeading === 'ProBox Packages official') {
-                    const logoUrl = "{{ asset('assets/images/proboxlogo.jpg') }}";
+                    const logoUrl = "<?php echo e(asset('assets/images/proboxlogo.jpg')); ?>";
                     styledHeader = `
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 2px; margin-bottom: 2px;">
             <!-- Header Section -->
@@ -670,7 +684,7 @@
             document.getElementById('end_date').value = today;
         </script>
 
-      @section('scripts')
+      <?php $__env->startSection('scripts'); ?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -774,7 +788,7 @@ wrapper.querySelectorAll("table").forEach(tbl => {
     // =========================
    if (selectedHeading === 'Haider Packages GRW') {
 
-    const imageUrl = "{{ asset('assets/images/hlogo.png') }}";
+    const imageUrl = "<?php echo e(asset('assets/images/hlogo.png')); ?>";
 
     const img = new Image();
     img.crossOrigin = "anonymous";
@@ -803,7 +817,7 @@ wrapper.querySelectorAll("table").forEach(tbl => {
     // =========================
     else {
 
-        const imageUrl = "{{ asset('assets/images/proboxlogo.jpg') }}";
+        const imageUrl = "<?php echo e(asset('assets/images/proboxlogo.jpg')); ?>";
 
         const img = new Image();
         img.crossOrigin = "anonymous";
@@ -828,5 +842,6 @@ wrapper.querySelectorAll("table").forEach(tbl => {
 }
 </script>
 
-@endsection
-    @endsection
+<?php $__env->stopSection(); ?>
+    <?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/sale_reports/index.blade.php ENDPATH**/ ?>
