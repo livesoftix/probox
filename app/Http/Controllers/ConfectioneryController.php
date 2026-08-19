@@ -700,4 +700,19 @@ public function updateCon(Request $request, $id)
         return redirect()->route('confectionery.reports')->with('error', 'An error occurred: ' . $e->getMessage());
     }
 }
+
+public function view($v_no)
+{
+    $voucher = ConfectioneryMaster::where('v_no', $v_no)->get();
+
+    if ($voucher->isEmpty()) {
+        return redirect()
+            ->route('delivery_challan.reports')
+            ->with('error', 'Delivery Challan not found.');
+    }
+
+    $deliveryDetails = $voucher->first()->confectioneryDetails;
+
+    return view('sales.confectionery.view', get_defined_vars());
+}
 }

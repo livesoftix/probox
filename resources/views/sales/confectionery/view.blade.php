@@ -604,7 +604,7 @@
 
                                     <td>
 
-                                        {{ $detail->batch_no ?? '—' }}
+                                        {{ $detail->po_no ?? '—' }}
 
                                     </td>
 

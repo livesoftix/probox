@@ -615,7 +615,7 @@
 
                                     <td>
 
-                                        <?php echo e($detail->po_no ?? '—'); ?>
+                                        <?php echo e($detail->batch_no ?? '—'); ?>
 
 
                                     </td>
@@ -734,7 +734,7 @@
 
                                     <div class="delivery-value">
 
-                                        <?php echo e($deliveryDetails->driver_name ?? '—'); ?>
+                                        <?php echo e($voucher->first()->driver_name ?? '—'); ?>
 
 
                                     </div>
@@ -766,7 +766,7 @@
 
                                     <div class="delivery-value">
 
-                                        <?php echo e($deliveryDetails->vehicle_number ?? '—'); ?>
+                                        <?php echo e($voucher->first()->vehicle_number ?? '—'); ?>
 
 
                                     </div>

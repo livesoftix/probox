@@ -232,6 +232,11 @@
                                                                         <i class="uil uil-trash-alt"></i>
                                                                     </button>
                                                                 </form>
+                                                                  <a href="{{ route('confectionery.view', ['v_no' => $data->v_no]) }}"
+            class="btn btn-info btn-sm"
+            title="View">
+            <i class="uil uil-eye"></i>
+        </a>
 
                                                                 <!-- Edit -->
                                                                 <a href="{{ route('confectionery.edit', ['v_no' => $data->v_no]) }}"
