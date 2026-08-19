@@ -241,7 +241,12 @@ public function destroy($id)
             ->with('error', 'Error deleting delivery challan: ' . $e->getMessage());
     }
 }
+public function view($id)
+{
+    $deliveryChallan = GeneralDeliveryChallen::findOrFail($id);
 
+    return view('general_delivery_challan.view', compact('deliveryChallan'));
+}
 public function edit($id)
 {
     $deliveryChallan = GeneralDeliveryChallen::findOrFail($id);
