@@ -529,7 +529,7 @@
 
                                 @php
 
-                                    $detail = $trndtl->deliveryDetails;
+                                    $detail = $trndtl->confectioneryDetails;
 
                                     $total = (float) ($detail->total ?? 0);
 
@@ -782,7 +782,7 @@
 
                     <div class="d-flex gap-2">
 
-                        <a href="{{ route('delivery_challan.edit', ['v_no' => $voucher->first()->v_no]) }}"
+                        <a href="{{ route('confectionery.edit', ['v_no' => $voucher->first()->v_no]) }}"
                             class="btn btn-warning">
 
                             <i class="uil uil-edit me-1"></i>
