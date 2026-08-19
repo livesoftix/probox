@@ -174,7 +174,8 @@
                                                             <a href="{{ route('general_delivery_challan.view', $general->id) }}"
                                                                  class="btn btn-info btn-sm"
                                                                   title="View">
-                                                              <i class="uil uil-eye"></i>
+                                                              <!-- <i class="uil uil-eye"></i> -->
+                                                               View
                                                             </a>
                                                             <a href="{{ route('general_delivery_challan.edit', $general->id) }}"
                                                                 class="btn btn-warning btn-sm"
