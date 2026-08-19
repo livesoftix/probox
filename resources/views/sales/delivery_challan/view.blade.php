@@ -529,7 +529,7 @@
 
                                 @php
 
-                                    $detail = $trndtl->confectioneryDetails;
+                                    $detail = $trndtl->deliveryDetails;
 
                                     $total = (float) ($detail->total ?? 0);
 
