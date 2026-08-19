@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        Quotation <?php echo e($quotation->quotation_no); ?>
+
+    </title>
+
+    <style>
+
+        @page {
+            margin: 30px;
+        }
+
+        body {
+            font-family: DejaVu Sans, sans-serif;
+            color: #0f1e37;
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .header {
+            border-bottom: 2px solid #0f1e37;
+            padding-bottom: 18px;
+            margin-bottom: 22px;
+        }
+
+        .company-table {
+            width: 100%;
+        }
+
+        .company-logo {
+            width: 55px;
+            height: 55px;
+            background: #0f1e37;
+            color: #dda42e;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .company-name {
+            font-size: 23px;
+            font-weight: bold;
+            margin-left: 12px;
+        }
+
+        .company-name span {
+            color: #dda42e;
+        }
+
+        .quotation-heading {
+            text-align: right;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .quotation-number {
+            color: #526d89;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .info-box {
+            background: #f1f4f8;
+            padding: 15px;
+            margin-bottom: 22px;
+        }
+
+        .info-table {
+            width: 100%;
+        }
+
+        .info-label {
+            color: #526d89;
+            font-size: 9px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        table.items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table.items th {
+            background: #0f1e37;
+            color: white;
+            padding: 10px 7px;
+            font-size: 10px;
+            text-align: left;
+        }
+
+        table.items td {
+            padding: 10px 7px;
+            border-bottom: 1px solid #dfe5ec;
+            vertical-align: middle;
+        }
+
+        .text-right {
+            text-align: right !important;
+        }
+
+        .item-name {
+            font-weight: bold;
+        }
+
+        .details {
+            color: #526d89;
+        }
+
+        .total-row td {
+            border-top: 2px solid #0f1e37;
+            border-bottom: none;
+            padding-top: 15px;
+        }
+
+        .grand-total {
+            color: #dda42e;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .description-box {
+            background: #f5f7f9;
+            border-left: 4px solid #dda42e;
+            padding: 14px 16px;
+            margin-top: 25px;
+        }
+
+        .description-title {
+            color: #526d89;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .description-content {
+            line-height: 1.6;
+        }
+
+        .footer {
+            margin-top: 35px;
+            border-top: 1px solid #dfe5ec;
+            padding-top: 12px;
+            text-align: center;
+            color: #8a98a9;
+            font-size: 9px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<?php
+    $grandTotal = 0;
+?>
+
+
+
+
+<div class="header">
+
+    <table class="company-table">
+
+        <tr>
+
+            <td width="60">
+
+                <div class="company-logo">
+                    PB
+                </div>
+
+            </td>
+
+            <td>
+
+                <div class="company-name">
+                    Pro-Box <span>Packages</span>
+                </div>
+
+            </td>
+
+            <td class="quotation-heading">
+
+                QUOTATION
+
+                <div class="quotation-number">
+
+                    #<?php echo e($quotation->quotation_no); ?>
+
+
+                </div>
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+
+
+
+<div class="info-box">
+
+    <table class="info-table">
+
+        <tr>
+
+            <td width="50%">
+
+                <div class="info-label">
+                    Party / Client
+                </div>
+
+                <div class="info-value">
+
+                    <?php echo e($quotation->party_name ?? 'N/A'); ?>
+
+
+                </div>
+
+            </td>
+
+
+            <td width="50%">
+
+                <div class="info-label">
+                    Date
+                </div>
+
+                <div class="info-value">
+
+                    <?php echo e(\Carbon\Carbon::parse($quotation->quotation_date)->format('d M Y')); ?>
+
+
+                </div>
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+
+
+
+<table class="items">
+
+    <thead>
+
+        <tr>
+
+            <th width="25%">
+                Item
+            </th>
+
+            <th width="35%">
+                Details
+            </th>
+
+            <th width="13%" class="text-right">
+                Rate
+            </th>
+
+            <th width="10%" class="text-right">
+                Qty
+            </th>
+
+            <th width="17%" class="text-right">
+                Total
+            </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <?php $__empty_1 = true; $__currentLoopData = $quotation->details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+
+            <?php
+
+                $rate = (float) $item->rate;
+
+                $qty = (float) $item->qty;
+
+                $total = $rate * $qty;
+
+                $grandTotal += $total;
+
+            ?>
+
+            <tr>
+
+                <td>
+
+                    <div class="item-name">
+                        <?php echo e($item->item_name); ?>
+
+                    </div>
+
+                </td>
+
+                <td>
+
+                    <div class="details">
+
+                        <?php echo e($item->item_details ?? '-'); ?>
+
+
+                    </div>
+
+                </td>
+
+                <td class="text-right">
+
+                    PKR <?php echo e(number_format($rate, 2)); ?>
+
+
+                </td>
+
+                <td class="text-right">
+
+                    <?php echo e(number_format($qty, 0)); ?>
+
+
+                </td>
+
+                <td class="text-right">
+
+                    PKR <?php echo e(number_format($total, 2)); ?>
+
+
+                </td>
+
+            </tr>
+
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+
+            <tr>
+
+                <td colspan="5" style="text-align:center;">
+
+                    No items found.
+
+                </td>
+
+            </tr>
+
+        <?php endif; ?>
+
+
+        
+
+        <tr class="total-row">
+
+            <td colspan="4" class="text-right">
+
+                <strong>
+                    GRAND TOTAL
+                </strong>
+
+            </td>
+
+            <td class="text-right grand-total">
+
+                PKR <?php echo e(number_format($grandTotal, 2)); ?>
+
+
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+
+
+
+<?php if(!empty($quotation->description)): ?>
+
+    <div class="description-box">
+
+        <div class="description-title">
+
+            Description / Payment Terms
+
+        </div>
+
+        <div class="description-content">
+
+            <?php echo nl2br(e($quotation->description)); ?>
+
+
+        </div>
+
+    </div>
+
+<?php endif; ?>
+
+
+
+
+<div class="footer">
+
+    Pro-Box Packages &nbsp; | &nbsp;
+    Quotation <?php echo e($quotation->quotation_no); ?>
+
+
+</div>
+
+
+</body>
+</html><?php /**PATH C:\laragon\www\probox\resources\views/quotations/pdf.blade.php ENDPATH**/ ?>

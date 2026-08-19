@@ -104,6 +104,7 @@ use App\Http\Controllers\WageCorrugationDcController;
 use App\Http\Controllers\WageManualPastingDcController;
 use App\Http\Controllers\WageAutoPastingDcController;
 use App\Http\Controllers\WageBreakingDcController;
+use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\DieController;
 use Illuminate\Support\Facades\Artisan;
 
@@ -193,6 +194,13 @@ Route::middleware('auth')->group(function () {
     ->name('tempjob.print');
     Route::get('/probox/tempjob/{id}/edit', [TempJobSheetController::class, 'edit'])
     ->name('tempjob.edit');
+    Route::resource('/probox/quotations', QuotationController::class);
+    Route::get('/probox/quotation/{id}', [QuotationController::class, 'show'])
+    ->name('quotation.show');
+    Route::get(
+    '/probox/quotations/{id}/pdf',
+    [QuotationController::class, 'pdf']
+)->name('quotations.pdf');
 
 Route::put('/probox/tempjob/{id}', [TempJobSheetController::class, 'update'])
     ->name('tempjob.update');
