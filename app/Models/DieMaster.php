@@ -44,4 +44,9 @@ class DieMaster extends Model
         'die_id'
     );
 }
+public function repeats()
+{
+    return $this->hasMany(DieRepeat::class, 'die_id')
+                ->latest('repeat_date');
+}
 }

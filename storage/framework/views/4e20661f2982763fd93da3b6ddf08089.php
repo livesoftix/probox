@@ -2171,6 +2171,94 @@
 
 }
 
+/* ============================================================
+   UNIFIED DIE MODAL
+   Add / Edit / Repair / Repeat
+============================================================ */
+
+.die-modal {
+    position: fixed;
+    inset: 0;
+
+    z-index: 10000;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 27, 43, .48);
+    backdrop-filter: blur(5px);
+
+    overflow-y: auto;
+}
+
+.die-modal.active {
+    display: flex;
+}
+
+.die-modal-card {
+    width: 100%;
+    max-width: 830px;
+    max-height: 90vh;
+
+    background: #ffffff;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 25px 70px rgba(15, 23, 42, .25);
+
+    overflow-y: auto;
+
+    animation: dieDetailModalIn .22s ease;
+}
+
+.die-modal-card.repair-modal-card {
+    max-width: 830px;
+}
+
+@media (max-width: 700px) {
+
+    .die-modal {
+        padding: 10px;
+    }
+
+    .die-modal-card,
+    .die-modal-card.repair-modal-card {
+        max-width: 100%;
+        max-height: 94vh;
+        border-radius: 20px;
+    }
+}
+.die-detail-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.die-detail-print-btn {
+    height: 40px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 20px;
+    background: #2864e8;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.die-detail-print-btn:hover {
+    background: #1e54cb;
+    transform: translateY(-1px);
+}
 </style>
 
 
@@ -2219,7 +2307,7 @@
                 </button>
 
 
-                <button type="button"
+                <!-- <button type="button"
                         class="die-top-btn die-add-btn"
                         onclick="openDieModal('create')">
 
@@ -2227,7 +2315,7 @@
 
                     Add / Edit
 
-                </button>
+                </button> -->
 
             </div>
 
@@ -2282,7 +2370,7 @@
 
                             <th>#</th>
 
-                            <th>Item Name</th>
+                            <th> Name</th>
 
                             <th>Size</th>
 
@@ -2321,17 +2409,17 @@
 
                                 <span class="die-item-name">
 
-                                    <?php echo e($die->product?->items?->item_code); ?>
+                                    <?php echo e($die->product?->prod_name); ?>
 
 
                                 </span>
 
-                                <span class="die-product-id">
+                                <!-- <span class="die-product-id">
 
                                     Product #<?php echo e($die->product_id); ?>
 
 
-                                </span>
+                                </span> -->
 
                             </td>
 
@@ -2453,22 +2541,15 @@
 
 
                                     
-                                    <form action="<?php echo e(route('dies.repeat', $die)); ?>"
-      method="POST"
-      style="display:inline;"
-      onsubmit="return confirmRepeat();">
 
-    <?php echo csrf_field(); ?>
+ <button type="button"
+        class="die-action-btn die-repeat-btn"
+        title="Repeat"
+        onclick="openRepeatDieModal(<?php echo e($die->id); ?>)">
 
-    <button type="submit"
-            class="die-action-btn die-repeat-btn"
-            title="Repeat">
+    <i class="fas fa-rotate-right"></i>
 
-        <i class="fas fa-rotate-right"></i>
-
-    </button>
-
-</form>
+</button>
 
 
                                 
@@ -2684,7 +2765,7 @@
                          id="dieProductInfo">
 
 
-                        <div>
+                        <!-- <div>
 
                             <div class="die-info-label">
                                 Item Name
@@ -2695,7 +2776,7 @@
                                 —
                             </div>
 
-                        </div>
+                        </div> -->
 
 
                         <div>
@@ -2744,7 +2825,7 @@
 
 
                     
-                    <div class="die-form-group">
+                    <!-- <div class="die-form-group">
 
                         <label class="die-form-label">
                             Item Name
@@ -2755,7 +2836,7 @@
                                class="die-form-control"
                                readonly>
 
-                    </div>
+                    </div> -->
 
 
 
@@ -3200,14 +3281,23 @@
 
             </div>
 
+     
+    <div class="die-detail-header-actions">
 
-            <button type="button"
-                    class="die-detail-close"
-                    onclick="closeDieDetailModal()">
+        <button type="button"
+                class="die-detail-print-btn"
+                onclick="printDieView()">
+            <i class="fas fa-print"></i>
+            Print
+        </button>
 
-                <i class="fas fa-times"></i>
+        <button type="button"
+                class="die-detail-close"
+                onclick="closeDieDetailModal()">
+            <i class="fas fa-times"></i>
+        </button>
 
-            </button>
+    </div>
 
         </div>
 
@@ -3221,7 +3311,7 @@
                 <div class="die-detail-item">
 
                     <div class="die-detail-label">
-                        Item Name
+                         Name
                     </div>
 
                     <div class="die-detail-value"
@@ -3350,15 +3440,13 @@
 
 
             
-            <div class="die-repair-history-title">
+           <div class="die-repair-history-title">
+    <i class="fas fa-screwdriver-wrench"></i>
 
-                <i class="fas fa-screwdriver-wrench"></i>
-
-                <h4>
-                    Repair History
-                </h4>
-
-            </div>
+    <h4>
+        Repair History
+    </h4>
+</div>
 
 
             <div class="die-repair-history"
@@ -3367,6 +3455,29 @@
                 
 
             </div>
+            
+            <div class="die-detail-divider"></div>
+
+<div class="die-repair-history-title">
+
+    <div class="die-repair-history-heading">
+
+        <i class="fas fa-rotate-right"></i>
+
+        <h4>
+            Repeat History
+        </h4>
+
+    </div>
+
+</div>
+
+<div id="dieRepeatHistory"
+     class="die-repair-history">
+
+    
+
+</div>
 
         </div>
 
@@ -3383,6 +3494,114 @@
             </button>
 
         </div>
+
+    </div>
+
+</div>
+
+<!-- Repeat Die Modal -->
+<div id="repeatDieModal" class="die-modal">
+
+    <div class="die-modal-card">
+
+        <div class="die-modal-header">
+
+            <div>
+                <h3 id="repeatDieModalTitle">
+                    <i class="fas fa-rotate-right"></i>
+                    Repeat Die
+                </h3>
+
+                <p>
+                    Create repeat entry for this die
+                </p>
+            </div>
+
+            <button type="button"
+                    class="die-modal-close"
+                    onclick="closeRepeatDieModal()">
+                &times;
+            </button>
+
+        </div>
+
+
+        <form id="repeatDieForm" method="POST">
+
+            <?php echo csrf_field(); ?>
+
+            <div class="die-modal-body">
+
+                
+                <div class="form-group">
+
+                    <label for="repeat_back_date">
+                        Back Date
+                    </label>
+
+                    <input type="date"
+                           id="repeat_back_date"
+                           name="back_date"
+                           class="form-control"
+                           readonly>
+
+                </div>
+
+
+                
+                <div class="form-group">
+
+                    <label for="repeat_date">
+                        Repeat Date
+                    </label>
+
+                    <input type="date"
+                           id="repeat_date"
+                           name="repeat_date"
+                           class="form-control"
+                           required>
+
+                </div>
+
+
+                
+                <div class="form-group">
+
+                    <label for="repeat_description">
+                        Description
+                    </label>
+
+                    <textarea id="repeat_description"
+                              name="description"
+                              class="form-control"
+                              rows="4"
+                              placeholder="Enter reason for repeating this die..."
+                              required></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="die-modal-footer">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        onclick="closeRepeatDieModal()">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    <i class="fas fa-rotate-right"></i>
+                    Repeat Die
+
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 
@@ -3556,6 +3775,273 @@ function handleDieType() {
 
     }
 }
+window.printDieView = function () {
+
+    const dieView = document.getElementById('dieDetailModal');
+
+    if (!dieView) {
+        console.error('Die detail modal not found.');
+        alert('Unable to print die details.');
+        return;
+    }
+
+    const printWindow = window.open(
+        '',
+        '_blank',
+        'width=1000,height=800'
+    );
+
+    if (!printWindow) {
+        alert('Please allow popups in your browser to print.');
+        return;
+    }
+
+    const content = dieView.querySelector('.die-detail-card');
+
+    if (!content) {
+        alert('Die details content not found.');
+        printWindow.close();
+        return;
+    }
+
+    printWindow.document.open();
+
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+
+            <meta charset="UTF-8">
+
+            <title>Die Details</title>
+
+            <link rel="stylesheet"
+                  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+            <style>
+
+                * {
+                    box-sizing: border-box;
+                }
+
+                html,
+                body {
+                    margin: 0;
+                    padding: 0;
+                    background: #ffffff;
+                    color: #102744;
+                    font-family: Arial, sans-serif;
+                }
+
+                body {
+                    padding: 30px;
+                }
+
+                .die-detail-card {
+                    width: 100%;
+                    max-width: 850px;
+                    margin: 0 auto;
+                    background: #ffffff;
+                }
+
+                .die-detail-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 0 18px;
+                    border-bottom: 2px solid #e7edf3;
+                }
+
+                .die-detail-title {
+                    display: flex;
+                    align-items: center;
+                    gap: 14px;
+                }
+
+                .die-detail-title-icon {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #2864e8;
+                    color: #ffffff;
+                    font-size: 19px;
+                }
+
+                .die-detail-title h3 {
+                    margin: 0;
+                    color: #102744;
+                    font-size: 24px;
+                    font-weight: 800;
+                }
+
+                .die-detail-header-actions {
+                    display: none !important;
+                }
+
+                .die-detail-body {
+                    padding: 25px 0;
+                    overflow: visible;
+                }
+
+                .die-detail-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    column-gap: 70px;
+                    row-gap: 24px;
+                    padding: 5px 0 25px;
+                }
+
+                .die-detail-item {
+                    min-width: 0;
+                }
+
+                .die-detail-label {
+                    margin-bottom: 4px;
+                    color: #71849a;
+                    font-size: 13px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: .5px;
+                }
+
+                .die-detail-value {
+                    color: #102744;
+                    font-size: 19px;
+                    font-weight: 500;
+                }
+
+                .die-detail-divider {
+                    height: 1px;
+                    background: #e7edf3;
+                    margin: 0 0 22px;
+                }
+
+                .die-repair-history-title {
+                    display: flex;
+                    align-items: center;
+                    gap: 11px;
+                    margin-bottom: 12px;
+                }
+
+                .die-repair-history-title i {
+                    color: #733cff;
+                    font-size: 19px;
+                }
+
+                .die-repair-history-title h4 {
+                    margin: 0;
+                    color: #243b58;
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+
+                .die-repair-history-heading {
+                    display: flex;
+                    align-items: center;
+                    gap: 11px;
+                }
+
+                .die-repair-history {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                }
+
+                .die-repair-history-item {
+                    padding: 13px 18px;
+                    background: #f7f9fc;
+                    border-left: 4px solid #733cff;
+                    border-radius: 14px;
+                }
+
+                .die-repair-history-date {
+                    display: flex;
+                    align-items: center;
+                    gap: 7px;
+                    margin-bottom: 6px;
+                    color: #733cff;
+                    font-size: 14px;
+                    font-weight: 700;
+                }
+
+                .die-repair-history-description {
+                    color: #243b58;
+                    font-size: 16px;
+                    line-height: 1.45;
+                }
+
+                .die-detail-description {
+                    margin-top: 22px;
+                }
+
+                .die-detail-description-box {
+                    margin-top: 8px;
+                    padding: 13px 16px;
+                    border-radius: 12px;
+                    background: #f7f9fc;
+                    color: #344b66;
+                    font-size: 14px;
+                    line-height: 1.6;
+                }
+
+                .die-detail-footer,
+                .die-detail-close,
+                button,
+                .btn {
+                    display: none !important;
+                }
+
+                @media print {
+
+                    @page {
+                        size: A4;
+                        margin: 15mm;
+                    }
+
+                    body {
+                        padding: 0;
+                    }
+
+                    .die-detail-card {
+                        max-width: 100%;
+                    }
+
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            ${content.outerHTML}
+
+        </body>
+        </html>
+    `);
+
+    printWindow.document.close();
+
+    printWindow.onload = function () {
+
+        setTimeout(function () {
+
+            printWindow.focus();
+
+            printWindow.print();
+
+            setTimeout(function () {
+                printWindow.close();
+            }, 500);
+
+        }, 300);
+
+    };
+
+};
 
 
 /*
@@ -3584,12 +4070,140 @@ handleDieType();
     | OPEN CREATE MODAL
     |--------------------------------------------------------------------------
     */
-window.confirmRepeat = function () {
+window.openRepeatDieModal = function (dieId) {
 
-    return confirm(
-        'Are you sure you want to create a repeat entry for this die?'
+    const modal = $('#repeatDieModal');
+    const form = $('#repeatDieForm');
+
+    if (!modal.length || !form.length) {
+        console.error('Repeat modal not found.');
+        return;
+    }
+
+    // Form action
+    form.attr(
+        'action',
+        "<?php echo e(url('dies')); ?>/" + dieId + "/repeat"
     );
 
+    // Current date
+    const today = new Date()
+        .toISOString()
+        .split('T')[0];
+
+    $('#repeat_date').val(today);
+
+    // Reset description
+    $('#repeat_description').val('');
+
+    // Open exactly like existing Die/Repair modal
+    modal.addClass('active');
+
+    $('body').css('overflow', 'hidden');
+
+
+    // Get original die creation date
+    fetch(
+        "<?php echo e(url('dies')); ?>/" + dieId + "/repeat-info",
+        {
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }
+    )
+    .then(response => response.json())
+    .then(data => {
+
+        $('#repeat_back_date').val(
+            data.back_date
+        );
+
+    })
+    .catch(error => {
+
+        console.error(
+            'Repeat info error:',
+            error
+        );
+
+    });
+};
+
+
+window.closeRepeatDieModal = function () {
+
+    $('#repeatDieModal').removeClass('active');
+
+    $('body').css('overflow', '');
+
+};
+
+
+window.openRepeatDieModal = function (dieId) {
+
+    const modal = document.getElementById('repeatDieModal');
+    const form = document.getElementById('repeatDieForm');
+
+    console.log('Repeat clicked:', dieId);
+    console.log('Modal:', modal);
+    console.log('Form:', form);
+
+    if (!modal || !form) {
+        console.error('Repeat modal or form not found.');
+        return;
+    }
+
+    // Set form action
+    form.action = `/probox/dies/${dieId}/repeat`;
+
+    // Current date
+    const today = new Date().toISOString().split('T')[0];
+
+    $('#repeat_date').val(today);
+
+    // Clear description
+    $('#repeat_description').val('');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Open modal IMMEDIATELY
+    |--------------------------------------------------------------------------
+    */
+
+    modal.classList.add('active');
+
+    $('body').css('overflow', 'hidden');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Load original die information
+    |--------------------------------------------------------------------------
+    */
+
+    fetch(`/probox/dies/${dieId}/repeat-info`)
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error('Failed to load die information.');
+            }
+
+            return response.json();
+        })
+        .then(data => {
+
+            console.log('Repeat info:', data);
+
+            $('#repeat_back_date').val(data.back_date);
+
+        })
+        .catch(error => {
+
+            console.error('Repeat info error:', error);
+
+            $('#repeat_back_date').val('');
+
+        });
 };
     window.openDieModal = function(mode = 'create') {
 
@@ -3732,26 +4346,52 @@ window.confirmRepeat = function () {
 };
 
 
+
+
     /*
     |--------------------------------------------------------------------------
     | VIEW
     |--------------------------------------------------------------------------
     */
 
-window.viewDie = function(id) {
+window.viewDie = function (id) {
 
+    // ------------------------------------------------------------
+    // Validate ID
+    // ------------------------------------------------------------
+    if (!id) {
+        console.error('VIEW DIE ERROR: Missing die ID');
+        alert('Unable to load die details. Die ID is missing.');
+        return;
+    }
+
+    // ------------------------------------------------------------
+    // Build URL
+    // ------------------------------------------------------------
     let url = "<?php echo e(route('dies.view.data', ':id')); ?>";
-    url = url.replace(':id', id);
+    url = url.replace(':id', encodeURIComponent(id));
 
     console.log('View Die URL:', url);
 
+    // ------------------------------------------------------------
+    // Show loading state if available
+    // ------------------------------------------------------------
+    $('#dieDetailModal').addClass('loading');
+
+    // ------------------------------------------------------------
+    // Fetch Die Details
+    // ------------------------------------------------------------
     fetch(url, {
         method: 'GET',
+
         headers: {
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
-        }
+        },
+
+        credentials: 'same-origin'
     })
+
     .then(async response => {
 
         console.log('Response status:', response.status);
@@ -3761,122 +4401,210 @@ window.viewDie = function(id) {
         console.log('Response:', text);
 
         if (!response.ok) {
+
+            let errorMessage = 'Unable to load die details.';
+
+            try {
+                const errorData = JSON.parse(text);
+
+                errorMessage =
+                    errorData.message ||
+                    errorData.error ||
+                    errorMessage;
+
+            } catch (e) {
+                // Response was not JSON
+            }
+
             throw new Error(
-                'HTTP ' + response.status + ': ' + text
+                'HTTP ' + response.status + ': ' + errorMessage
             );
         }
 
+        if (!text || !text.trim()) {
+            throw new Error('Server returned an empty response.');
+        }
+
         try {
+
             return JSON.parse(text);
+
         } catch (e) {
+
+            console.error('Invalid JSON response:', text);
+
             throw new Error(
                 'Server did not return valid JSON.'
             );
         }
-
     })
+
     .then(data => {
 
         console.log('Die details:', data);
 
-        /*
-        |--------------------------------------------------------------------------
-        | BASIC INFORMATION
-        |--------------------------------------------------------------------------
-        */
+        // --------------------------------------------------------
+        // Normalize response
+        // --------------------------------------------------------
+        if (!data || typeof data !== 'object') {
+            throw new Error('Invalid die details received from server.');
+        }
 
+        // Sometimes Laravel may return the data inside "data"
+        if (
+            data.data &&
+            typeof data.data === 'object' &&
+            !Array.isArray(data.data)
+        ) {
+            data = data.data;
+        }
+
+        console.log('Normalized die details:', data);
+
+
+        // ========================================================
+        // BASIC INFORMATION
+        // ========================================================
+
+        // Item Name
         $('#detailItemName').text(
-            data.item_name || '—'
+            data.prod_name ??
+            data.prod_name ??
+            '—'
         );
+
+
+        // Size
+        const length =
+            data.length ??
+            data.die_length ??
+            '—';
+
+        const width =
+            data.width ??
+            data.die_width ??
+            '—';
 
         $('#detailSize').text(
-            (data.length ?? '—') +
-            ' × ' +
-            (data.width ?? '—')
+            length + ' × ' + width
         );
 
+
+        // Rate
+        const rate =
+            data.rate ??
+            data.die_rate ??
+            '';
+
         $('#detailRate').text(
-            data.rate !== null &&
-            data.rate !== undefined &&
-            data.rate !== ''
-                ? data.rate
+            rate !== '' && rate !== null && rate !== undefined
+                ? rate
                 : '—'
         );
 
+
+        // UPS
         $('#detailUps').text(
-            data.ups ?? '—'
+            data.ups ??
+            data.UPS ??
+            '—'
         );
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | TYPE
-        |--------------------------------------------------------------------------
-        */
+        // ========================================================
+        // TYPE
+        // ========================================================
 
-        let type = data.type || 'new';
+        let type = String(
+            data.type ??
+            data.die_type ??
+            'new'
+        ).toLowerCase();
 
-        let typeText =
-            type.charAt(0).toUpperCase() +
-            type.slice(1);
-
+        // Remove all existing type classes first
         $('#detailType')
-            .text(typeText)
             .removeClass(
                 'die-detail-type-new ' +
                 'die-detail-type-repair ' +
                 'die-detail-type-repeat'
             );
 
+
+        // Default type
+        let typeText = 'New';
+
         if (type === 'repeat') {
+
+            typeText = 'Repeat';
 
             $('#detailType')
                 .addClass('die-detail-type-repeat');
 
         } else if (type === 'repair') {
 
+            typeText = 'Repair';
+
             $('#detailType')
                 .addClass('die-detail-type-repair');
 
         } else {
+
+            typeText = 'New';
 
             $('#detailType')
                 .addClass('die-detail-type-new');
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | REPEAT DATE
-        |--------------------------------------------------------------------------
-        */
+        $('#detailType').text(typeText);
+
+
+        // ========================================================
+        // REPEAT DATE
+        // ========================================================
 
         $('#detailRepeatDate').text(
-            data.repeat_date || '—'
+            data.repeat_date ??
+            data.repeatDate ??
+            '—'
         );
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | REPAIR COUNT
-        |--------------------------------------------------------------------------
-        */
+        // ========================================================
+        // REPAIR COUNT
+        // ========================================================
+
+        const repairCount =
+            data.repair_count ??
+            data.repairCount ??
+            (
+                Array.isArray(data.repairs)
+                    ? data.repairs.length
+                    : 0
+            );
 
         $('#detailRepairCount').text(
-            data.repair_count ?? 0
+            repairCount ?? 0
         );
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | DESCRIPTION
-        |--------------------------------------------------------------------------
-        */
+        // ========================================================
+        // DESCRIPTION
+        // ========================================================
 
-        if (data.description) {
+        const description =
+            data.description ??
+            data.die_description ??
+            '';
+
+        if (
+            description !== null &&
+            description !== undefined &&
+            String(description).trim() !== ''
+        ) {
 
             $('#detailDescription')
-                .text(data.description);
+                .text(description);
 
             $('#detailDescriptionSection')
                 .show();
@@ -3891,48 +4619,66 @@ window.viewDie = function(id) {
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | REPAIR HISTORY
-        |--------------------------------------------------------------------------
-        */
+        // ========================================================
+        // REPAIR HISTORY
+        // ========================================================
 
         let historyHtml = '';
 
-        if (
-            data.repairs &&
-            data.repairs.length > 0
-        ) {
+        const repairs = Array.isArray(data.repairs)
+            ? data.repairs
+            : [];
 
-            data.repairs.forEach(function(repair) {
+
+        if (repairs.length > 0) {
+
+            repairs.forEach(function (repair) {
+
+                const repairDate =
+                    repair.repair_date ??
+                    repair.date ??
+                    '—';
+
+                const repairDescription =
+                    repair.description ??
+                    repair.reason ??
+                    'Repair recorded';
+
 
                 historyHtml += `
+
                     <div class="die-repair-history-item">
 
                         <div class="die-repair-history-date">
 
                             <i class="fas fa-calendar-days"></i>
 
-                            ${repair.repair_date || '—'}
+                            <strong>
+                                Repair Date:
+                            </strong>
+
+                            ${escapeHtml(repairDate)}
 
                         </div>
+
 
                         <div class="die-repair-history-description">
 
                             <i class="fas fa-wrench"></i>
 
-                            ${repair.description || 'Repair recorded'}
+                            ${escapeHtml(repairDescription)}
 
                         </div>
 
                     </div>
-                `;
 
+                `;
             });
 
         } else {
 
             historyHtml = `
+
                 <div class="die-no-repair-history">
 
                     <i class="fas fa-screwdriver-wrench"></i>
@@ -3940,35 +4686,187 @@ window.viewDie = function(id) {
                     No repair history available.
 
                 </div>
+
             `;
         }
 
-        $('#dieRepairHistory').html(historyHtml);
+
+        $('#dieRepairHistory')
+            .html(historyHtml);
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | OPEN MODAL
-        |--------------------------------------------------------------------------
-        */
+        // ========================================================
+        // REPEAT HISTORY
+        // ========================================================
+
+        let repeatHistoryHtml = '';
+
+        const repeats = Array.isArray(data.repeats)
+            ? data.repeats
+            : [];
+
+
+        console.log('Repeat history:', repeats);
+
+
+        if (repeats.length > 0) {
+
+            repeats.forEach(function (repeat) {
+
+                // ------------------------------------------------
+                // IMPORTANT:
+                // Back Date must come from backend.
+                // Do NOT replace it with repeat_date.
+                // ------------------------------------------------
+
+                const backDate =
+                    repeat.back_date ??
+                    repeat.backDate ??
+                    '—';
+
+
+                const repeatDate =
+                    repeat.repeat_date ??
+                    repeat.repeatDate ??
+                    '—';
+
+
+                const repeatDescription =
+                    repeat.description ??
+                    repeat.reason ??
+                    'Repeat recorded';
+
+
+                repeatHistoryHtml += `
+
+                    <div class="die-repair-history-item">
+
+                        <!-- BACK DATE -->
+                        <div class="die-repair-history-date">
+
+                            <i class="fas fa-calendar-days"></i>
+
+                            <strong>
+                                Back Date:
+                            </strong>
+
+                            ${escapeHtml(backDate)}
+
+                        </div>
+
+
+                        <!-- REPEAT DATE -->
+                        <div class="die-repair-history-date">
+
+                            <i class="fas fa-rotate-right"></i>
+
+                            <strong>
+                                Repeat Date:
+                            </strong>
+
+                            ${escapeHtml(repeatDate)}
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+                        <div class="die-repair-history-description">
+
+                            <i class="fas fa-align-left"></i>
+
+                            ${escapeHtml(repeatDescription)}
+
+                        </div>
+
+                    </div>
+
+                `;
+            });
+
+        } else {
+
+            repeatHistoryHtml = `
+
+                <div class="die-no-repair-history">
+
+                    <i class="fas fa-rotate-right"></i>
+
+                    No repeat history available.
+
+                </div>
+
+            `;
+        }
+
+
+        $('#dieRepeatHistory')
+            .html(repeatHistoryHtml);
+
+
+        // ========================================================
+        // OPEN MODAL
+        // ========================================================
 
         $('#dieDetailModal')
+            .removeClass('loading')
             .addClass('active');
 
-        $('body').css('overflow', 'hidden');
+        $('body')
+            .css('overflow', 'hidden');
+
+
+        // --------------------------------------------------------
+        // Debug
+        // --------------------------------------------------------
+
+        console.log('Die modal opened successfully.');
+        console.log('Die ID:', id);
+        console.log('Type:', type);
+        console.log('Repair history count:', repairs.length);
+        console.log('Repeat history count:', repeats.length);
 
     })
+
     .catch(error => {
 
-        console.error('VIEW DIE ERROR:', error);
+        console.error(
+            'VIEW DIE ERROR:',
+            error
+        );
+
+        $('#dieDetailModal')
+            .removeClass('loading');
 
         alert(
             'Unable to load die details.\n\n' +
             error.message
         );
-
     });
 };
+
+
+
+// ================================================================
+// HTML ESCAPE HELPER
+// Prevents descriptions containing HTML from breaking the modal
+// ================================================================
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return '—';
+    }
+
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 function repairDie(id) {
 
     fetch("<?php echo e(url('/probox/dies')); ?>/" + id + "/repair-data")
@@ -4018,6 +4916,16 @@ function repairDie(id) {
         });
 
 }
+window.closeRepeatDieModal = function () {
+
+    const modal = document.getElementById('repeatDieModal');
+
+    if (modal) {
+        modal.classList.remove('active');
+    }
+
+    document.body.style.overflow = '';
+};
 window.closeRepairDieModal = function () {
 
     $('#repairDieModal')
@@ -4319,7 +5227,7 @@ window.repairDie = function (button) {
 
 
     console.log('Repair Die ID:', id);
-    console.log('Item Name:', itemName);
+    // console.log('Item Name:', itemName);
     console.log('Length:', length);
     console.log('Width:', width);
     console.log('Repair Count:', repairCount);

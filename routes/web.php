@@ -642,8 +642,16 @@ Route::post(
     [DieController::class, 'storeRepair']
 )->name('dies.repair.store');
 
-Route::post('/dies/{die}/repeat', [DieController::class, 'repeat'])
-    ->name('dies.repeat');
+Route::get(
+    '/probox/dies/{die}/repeat-info',
+    [DieController::class, 'repeatInfo']
+)->name('dies.repeat.info');
+
+Route::post(
+    '/probox/dies/{die}/repeat',
+    [DieController::class, 'repeat']
+)->name('dies.repeat');
+
     
     
     

@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Models\DieRepair;
+use App\Models\DieRepeat;
 use Illuminate\Validation\Rule;
 class DieController extends Controller
 {
@@ -40,6 +41,22 @@ class DieController extends Controller
         'dies',
         'products'
     ));
+}
+
+public function repeatInfo(DieMaster $die): JsonResponse
+{
+    return response()->json([
+        'id' => $die->id,
+        'die_code' => $die->die_code,
+        'back_date' => $die->created_at->format('Y-m-d'),
+        'product_id' => $die->product_id,
+        'item_id' => $die->item_id,
+        'item_name' => $die->item_name,
+        'length' => $die->length,
+        'width' => $die->width,
+        'no_of_ups' => $die->no_of_ups,
+        'rate' => $die->rate,
+    ]);
 }
 
     /**
@@ -139,13 +156,23 @@ public function store(Request $request): RedirectResponse
 
 public function viewData($id)
 {
-    $die = DieMaster::with('product.items')
-        ->findOrFail($id);
+    $die = DieMaster::with([
+        'product.items',
+        'repairs' => function ($query) {
+            $query->latest('repair_date');
+        },
+        'repeats' => function ($query) {
+            $query->latest('repeat_date');
+        }
+    ])->findOrFail($id);
 
     return response()->json([
         'id' => $die->id,
+        'prod_name' =>
+            $die->product?->prod_name ?? '—',
 
-        'item_name' => $die->product?->items?->item_code ?? '—',
+        'item_name' =>
+            $die->product?->items?->item_code ?? '—',
 
         'length' => $die->length,
 
@@ -163,7 +190,27 @@ public function viewData($id)
 
         'description' => $die->description,
 
-        'repairs' => [],
+        'repairs' => $die->repairs->map(function ($repair) {
+
+            return [
+                'id' => $repair->id,
+                'repair_date' => $repair->repair_date,
+                'repair_types' => $repair->repair_types,
+                'description' => $repair->description,
+            ];
+
+        })->values(),
+
+        'repeats' => $die->repeats->map(function ($repeat) {
+
+            return [
+                'id' => $repeat->id,
+                'back_date' => $repeat->back_date?->format('Y-m-d'),
+                'repeat_date' => $repeat->repeat_date?->format('Y-m-d'),
+                'description' => $repeat->description,
+            ];
+
+        })->values(),
     ]);
 }
     /**
@@ -411,28 +458,44 @@ public function repairData($id)
     ]);
 }
 
-public function repeat(DieMaster $die): RedirectResponse
-{
-    DieMaster::create([
-        'die_code'      => $die->die_code, // SAME DIE CODE
-        'product_id'    => $die->product_id,
-        'item_id'       => $die->item_id,
-        'length'        => $die->length,
-        'width'         => $die->width,
-        'ups'           => $die->ups,
-        'rate'          => $die->rate,
+public function repeat(
+    Request $request,
+    DieMaster $die
+): RedirectResponse {
 
-        'type'          => 'repeat',
+    $validated = $request->validate([
+        'back_date' => [
+            'required',
+            'date',
+        ],
 
-        'repeat_date'   => now()->toDateString(),
+        'repeat_date' => [
+            'required',
+            'date',
+        ],
 
-        'repair_count'  => 0,
+        'description' => [
+            'required',
+            'string',
+            'max:2000',
+        ],
+    ]);
 
-        'description'   => $die->description,
+    DieRepeat::create([
+        'die_id' => $die->id,
+
+        'back_date' => $validated['back_date'],
+
+        'repeat_date' => $validated['repeat_date'],
+
+        'description' => $validated['description'],
     ]);
 
     return redirect()
         ->route('dies.index')
-        ->with('success', 'Die repeated successfully.');
+        ->with(
+            'success',
+            'Die repeat entry created successfully.'
+        );
 }
 }
