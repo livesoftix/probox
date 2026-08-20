@@ -2259,6 +2259,18 @@
     background: #1e54cb;
     transform: translateY(-1px);
 }
+/* =========================================================
+   REPEAT DIE
+========================================================= */
+
+.die-repeat-submit-btn {
+    background: #b85d00;
+    color: #ffffff;
+}
+
+.die-repeat-submit-btn:hover {
+    background: #9f4f00;
+}
 </style>
 
 
@@ -3500,104 +3512,142 @@
 </div>
 
 <!-- Repeat Die Modal -->
+
+
 <div id="repeatDieModal" class="die-modal">
 
     <div class="die-modal-card">
 
+        
         <div class="die-modal-header">
 
-            <div>
-                <h3 id="repeatDieModalTitle">
-                    <i class="fas fa-rotate-right"></i>
-                    Repeat Die
-                </h3>
+            <div class="die-modal-title">
 
-                <p>
-                    Create repeat entry for this die
-                </p>
+                <div class="die-modal-title-icon">
+                    <i class="fas fa-rotate-right"></i>
+                </div>
+
+                <div>
+                    <h3 id="repeatDieModalTitle">
+                        Repeat Die
+                    </h3>
+
+                    <p>
+                        Create repeat entry for this die
+                    </p>
+                </div>
+
             </div>
 
             <button type="button"
                     class="die-modal-close"
                     onclick="closeRepeatDieModal()">
-                &times;
+
+                <i class="fas fa-times"></i>
+
             </button>
 
         </div>
 
 
-        <form id="repeatDieForm" method="POST">
+        
+        <form id="repeatDieForm"
+              method="POST">
 
             <?php echo csrf_field(); ?>
 
-            <div class="die-modal-body">
+            <div class="die-form">
 
-                
-                <div class="form-group">
+                <div class="die-form-grid">
 
-                    <label for="repeat_back_date">
-                        Back Date
-                    </label>
 
-                    <input type="date"
-                           id="repeat_back_date"
-                           name="back_date"
-                           class="form-control"
-                           readonly>
+                    
+                    <div class="die-form-group">
+
+                        <label for="repeat_back_date"
+                               class="die-form-label">
+
+                            Back Date
+
+                        </label>
+
+                        <input type="date"
+                               id="repeat_back_date"
+                               name="back_date"
+                               class="die-form-control"
+                               readonly>
+
+                    </div>
+
+
+                    
+                    <div class="die-form-group">
+
+                        <label for="repeat_date"
+                               class="die-form-label">
+
+                            Repeat Date
+
+                            <span class="die-required">*</span>
+
+                        </label>
+
+                        <input type="date"
+                               id="repeat_date"
+                               name="repeat_date"
+                               class="die-form-control"
+                               required>
+
+                    </div>
+
+
+                    
+                    <div class="die-form-group full">
+
+                        <label for="repeat_description"
+                               class="die-form-label">
+
+                            Description
+
+                            <span class="die-required">*</span>
+
+                        </label>
+
+                        <textarea id="repeat_description"
+                                  name="description"
+                                  class="die-form-control"
+                                  rows="4"
+                                  placeholder="Enter reason for repeating this die..."
+                                  required></textarea>
+
+                    </div>
+
 
                 </div>
 
 
                 
-                <div class="form-group">
+                <div class="die-form-footer">
 
-                    <label for="repeat_date">
-                        Repeat Date
-                    </label>
+                    <button type="button"
+                            class="die-form-btn die-cancel-btn"
+                            onclick="closeRepeatDieModal()">
 
-                    <input type="date"
-                           id="repeat_date"
-                           name="repeat_date"
-                           class="form-control"
-                           required>
+                        Cancel
 
-                </div>
+                    </button>
 
 
-                
-                <div class="form-group">
+                    <button type="submit"
+                            class="die-form-btn die-repeat-submit-btn">
 
-                    <label for="repeat_description">
-                        Description
-                    </label>
+                        <i class="fas fa-rotate-right"></i>
 
-                    <textarea id="repeat_description"
-                              name="description"
-                              class="form-control"
-                              rows="4"
-                              placeholder="Enter reason for repeating this die..."
-                              required></textarea>
+                        Repeat Die
+
+                    </button>
 
                 </div>
-
-            </div>
-
-
-            <div class="die-modal-footer">
-
-                <button type="button"
-                        class="btn btn-secondary"
-                        onclick="closeRepeatDieModal()">
-                    Cancel
-                </button>
-
-                <button type="submit"
-                        class="btn btn-primary">
-
-                    <i class="fas fa-rotate-right"></i>
-                    Repeat Die
-
-                </button>
 
             </div>
 
