@@ -1366,7 +1366,7 @@ return;
 
 
 $.get(
-'/printingcell/employee/'+employee+'/closing-balance',
+'/probox/employee/'+employee+'/closing-balance',
 function(res){
 
 

@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -9,42 +7,44 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
-                <h4 class="page-title">Auto Pasting Department</h4>
+                <h4 class="page-title">Corrugation Department</h4>
             </div>
         </div>
     </div>
 
-    @if (session('success'))
+    <?php if(session('success')): ?>
         <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show">
             <button type="button"
                     class="btn-close btn-close-white"
                     data-bs-dismiss="alert"></button>
 
-            {{ session('success') }}
-        </div>
-    @endif
+            <?php echo e(session('success')); ?>
 
-    @if (session('error'))
+        </div>
+    <?php endif; ?>
+
+    <?php if(session('error')): ?>
         <div class="alert alert-danger alert-dismissible text-bg-danger border-0 fade show">
             <button type="button"
                     class="btn-close btn-close-white"
                     data-bs-dismiss="alert"></button>
 
-            {{ session('error') }}
-        </div>
-    @endif
+            <?php echo e(session('error')); ?>
 
-    @if ($errors->any())
+        </div>
+    <?php endif; ?>
+
+    <?php if($errors->any()): ?>
         <div class="alert alert-danger">
 
             <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
+                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <li><?php echo e($error); ?></li>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </ul>
 
         </div>
-    @endif
+    <?php endif; ?>
 
 
     <div class="row">
@@ -55,14 +55,14 @@
                 <div class="card-body">
 
                     <form id="voucherForm"
-                          action="{{ route('autoPasting_wage_dc.store') }}"
+                          action="<?php echo e(route('corrugation_wage_dc.store')); ?>"
                           method="POST">
 
-                        @csrf
+                        <?php echo csrf_field(); ?>
 
                         <div class="row">
 
-                            {{-- Date --}}
+                            
                             <div class="col-md-6 mb-3">
 
                                 <label class="form-label">
@@ -77,7 +77,7 @@
                             </div>
 
 
-                            {{-- Prepared By --}}
+                            
                             <div class="col-md-6 mb-3">
 
                                 <label class="form-label">
@@ -87,13 +87,13 @@
                                 <input type="text"
                                        name="prepared_by"
                                        class="form-control"
-                                       value="{{ $loggedInUser->name }}"
+                                       value="<?php echo e($loggedInUser->name); ?>"
                                        readonly>
 
                             </div>
 
 
-                            {{-- Delivery Challan --}}
+                            
                             <div class="col-md-6 mb-3">
 
                                 <label class="form-label">
@@ -107,16 +107,15 @@
                                         Select Delivery Challan
                                     </option>
 
-                                    @foreach ($deliverychallans as $dc)
+                                    <?php $__currentLoopData = $deliverychallans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $dc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                                        <option value="{{ $dc['v_no'] }}"
-                                                data-type="{{ $dc['type'] }}">
+                                        <option value="<?php echo e($dc['v_no']); ?>"
+                                                data-type="<?php echo e($dc['type']); ?>">
 
-                                            {{ $dc['v_no'] }} - {{ $dc['party'] }} ({{ ucfirst($dc['type']) }})
-
+                                            <?php echo e($dc['v_no']); ?> - <?php echo e($dc['party']); ?> (<?php echo e(ucfirst($dc['type'])); ?>)
                                         </option>
 
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                 </select>
 
@@ -145,7 +144,7 @@
                         </div>
 
 
-                        {{-- Entries Table --}}
+                        
 
                         <div class="row mt-4">
 
@@ -204,9 +203,7 @@
 
                                                 <th colspan="2" class="text-end">Total Amount:</th>
                                                 <input type="hidden" id="originalGrandTotal" value="0">
-                                                <th id="grandTotalAmt">
-                                                    0.00
-                                                </th>
+                                                <th id="grandTotalAmt">0.00</th>
                                                 <th></th>
 
                                             </tr>
@@ -216,7 +213,7 @@
                                     </table>
 
                                 </div>
-                                   <hr>
+                                <hr>
 
 <h5>Employee Loan Deduction</h5>
 
@@ -243,7 +240,6 @@
         </tbody>
     </table>
 </div>
-
 
                             </div>
 
@@ -295,6 +291,7 @@ $(document).ready(function () {
                 $(this).find('.amt-value').val()
             ) || 0;
 
+
             totalQty += qty;
             totalAmt += amt;
 
@@ -311,7 +308,8 @@ $(document).ready(function () {
     }
 
 
-    $('#loadEntry').click(function () {
+$('#loadEntry').click(function () 
+{
 
         const dropdown = $('#delivery_challan');
 
@@ -322,6 +320,7 @@ $(document).ready(function () {
             .data('type');
         const selectedOption = dropdown.find(':selected');
         const optionText = selectedOption.text();
+
 
 
         if (!vNo || !type) {
@@ -349,10 +348,10 @@ $(document).ready(function () {
         }
 
 
-        const url = "{{ route('autoPasting_wage_dc.vouchers', [
+        const url = "<?php echo e(route('corrugation_wage_dc.vouchers', [
             'type' => 'TYPE',
             'v_no' => 'V_NO'
-        ]) }}"
+        ])); ?>"
         .replace('TYPE', type)
         .replace('V_NO', encodeURIComponent(vNo));
 
@@ -447,15 +446,17 @@ $(document).ready(function () {
                                 ${item.product_name}
 
                             </td>
-                             <td>
+                            <td>
 
-                                <input type="hidden"
-                                       name="batch_no[]"
-                                       value="${item.batch_no}">
+<input type="hidden"
+name="batch_no[]"
+value="${item.batch_no}">
 
-                                ${item.batch_no}
 
-                            </td>
+
+${item.batch_no}
+
+</td>
 
 
                             <td>
@@ -531,6 +532,10 @@ $(document).ready(function () {
 
 
                 updateGrandTotal();
+
+
+        
+
             },
 
 
@@ -578,7 +583,7 @@ $(document).on('click', '.remove-row', function () {
 
     updateGrandTotal();
 });
-    let employees = @json($employees);
+let employees = <?php echo json_encode($employees, 15, 512) ?>;
 function employeeRow() {
 
 return `
@@ -710,4 +715,5 @@ recalculateGrandTotal();
 
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/wages/corrugation/list.blade.php ENDPATH**/ ?>

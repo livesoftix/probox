@@ -14,7 +14,7 @@ class TempJobSheetBoxboard extends Model
     protected $fillable = [
         'job_sheet_id',
         'item_id',
-        'length',
+        'length','grammage',
         'width',
         'qty','purchase_v_no',
     ];

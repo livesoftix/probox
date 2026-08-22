@@ -138,6 +138,7 @@ $boxboardData = DB::table('boxboard_stock_qty')
         'box_qty' => 'nullable|array',
         'box_length' => 'nullable|array',
         'box_width' => 'nullable|array',
+        'box_grammage' => 'nullable|array',
         'after_cutting.*' => 'nullable|numeric',
         'ups'      =>'nullable|numeric',
           // Process Details
@@ -245,6 +246,7 @@ $job->breaking = $validated['breaking'] ?? 0;
     $qty = $request->box_qty[$key] ?? 0;
     $length = $request->box_length[$key] ?? null;
     $width = $request->box_width[$key] ?? null;
+    $grammage = $request->box_grammage[$key] ?? null;
     $pvno = $request->purchase_vno[$key] ?? null;
     $afterCutting = $request->after_cutting[$key] ?? null;
 
@@ -258,6 +260,7 @@ $job->breaking = $validated['breaking'] ?? 0;
             'purchase_v_no' => $pvno,
             'length'        => $length,
             'width'         => $width,
+            'grammage'      => $grammage,
             'qty'           => $qty,
             'after_cutting' => $afterCutting,
             'created_at'    => now(),
@@ -579,6 +582,7 @@ $job->breaking = $validated['breaking'] ?? 0;
                 $length = $request->box_length[$key] ?? null;
 
                 $width = $request->box_width[$key] ?? null;
+                $grammage = $request->box_grammage[$key] ?? null;
 
                 $purchaseVno = $request->purchase_vno[$key] ?? null;
 
@@ -715,6 +719,7 @@ public function destroy($id)
     return response()->json([
         'length' => $product->length ?? 0,
         'width'  => $product->width ?? 0,
+        'grammage' =>$product->grammage ?? 0,
         'ups'    =>$product->ups  ?? 0,
         'item_id'   =>$product->item_id ?? 0,
         'item'     =>$product->items?->item_code,

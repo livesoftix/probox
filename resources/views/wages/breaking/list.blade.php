@@ -568,7 +568,7 @@ let row=$(this).closest('tr');
 
 let employee=$(this).val();
 
-$.get('/printingcell/employee/'+employee+'/closing-balance',function(res){
+$.get('/probox/employee/'+employee+'/closing-balance',function(res){
 
 row.find('.previous-loan').val(res.balance);
 

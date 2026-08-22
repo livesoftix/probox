@@ -411,16 +411,210 @@
                                     <input type="checkbox" id="del-general" name="permissions[14][del]" value="1">
                                     <label for="del-general">Delete</label><br>
                                 </div>
-
-
-
-
-
-
-
-
                             </div>
+<div class="form-check">
+    <input class="form-check-input"
+           type="checkbox"
+           id="wages"
+           name="navigationOptions[]"
+           value="Wages">
 
+    <label class="form-check-label" for="wages">
+        Wages
+    </label>
+</div>
+
+<hr>
+
+<!-- Corrugation Wages -->
+<div id="wages-options" style="display: none;">
+
+    <div style="margin-left: 25px;">
+        <input type="checkbox"
+               id="corrugationwages"
+               name="permissions[74][level]"
+               value="corrugationwages">
+
+        <label for="corrugationwages">
+            Corrugation
+        </label>
+    </div>
+
+    <div id="corrugationwages-options"
+         style="display:none; margin-left:50px;">
+
+        <input type="checkbox"
+               id="add-corrugationwages"
+               name="permissions[74][add]"
+               value="1">
+
+        <label for="add-corrugationwages">
+            Add
+        </label>
+        <br>
+
+        <input type="checkbox"
+               id="edit-corrugationwages"
+               name="permissions[74][edit]"
+               value="1">
+
+        <label for="edit-corrugationwages">
+            Edit
+        </label>
+        <br>
+
+        <input type="checkbox"
+               id="del-corrugationwages"
+               name="permissions[74][del]"
+               value="1">
+
+        <label for="del-corrugationwages">
+            Delete
+        </label>
+        <br>
+
+    </div>
+    <!-- Manual Pasting Wages -->
+     <div style="margin-left: 25px;">
+        <input type="checkbox"
+               id="manualpastingwages"
+               name="permissions[75][level]"
+               value="manualpastingwages">
+
+        <label for="manualpastingwages">
+            Manual Pasting
+        </label>
+    </div>
+
+    <div id="manualpastingwages-options"
+         style="display:none; margin-left:50px;">
+
+        <input type="checkbox"
+               id="add-manualpastingwages"
+               name="permissions[75][add]"
+               value="1">
+
+        <label for="add-manualpastingwages">
+            Add
+        </label>
+        <br>
+
+        <input type="checkbox"
+               id="edit-manualpastingwages"
+               name="permissions[75][edit]"
+               value="1">
+
+        <label for="edit-manualpastingwages">
+            Edit
+        </label>
+        <br>
+
+        <input type="checkbox"
+               id="del-manualpastingwages"
+               name="permissions[75][del]"
+               value="1">
+
+        <label for="del-manualpastingwages">
+            Delete
+        </label>
+        <br>
+
+    </div>
+    <!-- auto pasting wage -->
+     <div style="margin-left: 25px;">
+        <input type="checkbox"
+               id="autopastingwages"
+               name="permissions[76][level]"
+               value="autopastingwages">
+
+        <label for="autopastingwages">
+            Auto Pasting
+        </label>
+    </div>
+
+    <div id="autopastingwages-options"
+         style="display:none; margin-left:50px;">
+
+        <input type="checkbox"
+               id="add-autopastingwages"
+               name="permissions[76][add]"
+               value="1">
+
+        <label for="add-autopastingwages">
+            Add
+        </label>
+        <br>
+
+        <input type="checkbox"
+               id="edit-autopastingwages"
+               name="permissions[76][edit]"
+               value="1">
+
+        <label for="edit-autopastingwages">
+            Edit
+        </label>
+        <br>
+
+        <input type="checkbox"
+               id="del-autopastingwages"
+               name="permissions[76][del]"
+               value="1">
+
+        <label for="del-autopastingwages">
+            Delete
+        </label>
+        <br>
+
+    </div>
+<!-- breaking wages -->
+ 
+    <div style="margin-left: 25px;">
+        <input type="checkbox"
+               id="breakingwages"
+               name="permissions[77][level]"
+               value="breakingwages">
+
+        <label for="breakingwages">
+            Breaking
+        </label>
+    </div>
+
+    <div id="breakingwages-options"
+         style="display:none; margin-left:50px;">
+
+        <input type="checkbox"
+               id="add-breakingwages"
+               name="permissions[77][add]"
+               value="1">
+
+        <label for="add-breakingwages">
+            Add
+        </label>
+        <br>
+
+        <input type="checkbox"
+               id="edit-breakingwages"
+               name="permissions[77][edit]"
+               value="1">
+
+        <label for="edit-breakingwages">
+            Edit
+        </label>
+        <br>
+
+        <input type="checkbox"
+               id="del-breakingwages"
+               name="permissions[77][del]"
+               value="1">
+
+        <label for="del-breakingwages">
+            Delete
+        </label>
+        <br>
+
+    </div>
+</div>
+<hr>
                             <hr>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="wagecalculator"
@@ -1323,6 +1517,27 @@
         var accountOptions = document.getElementById('wasteSale-options');
         accountOptions.style.display = this.checked ? 'block' : 'none';
     });
+
+    document.getElementById('wages').addEventListener('change', function() {
+    var jobSheetOptions = document.getElementById('wages-options');
+    jobSheetOptions.style.display = this.checked ? 'block' : 'none';
+});
+document.getElementById('corrugationwages').addEventListener('change', function() {
+    var jobSheetOptions = document.getElementById('corrugationwages-options');
+    jobSheetOptions.style.display = this.checked ? 'block' : 'none';
+});
+document.getElementById('manualpastingwages').addEventListener('change', function() {
+    var jobSheetOptions = document.getElementById('manualpastingwages-options');
+    jobSheetOptions.style.display = this.checked ? 'block' : 'none';
+});
+document.getElementById('autopastingwages').addEventListener('change', function() {
+    var jobSheetOptions = document.getElementById('autopastingwages-options');
+    jobSheetOptions.style.display = this.checked ? 'block' : 'none';
+});
+document.getElementById('breakingwages').addEventListener('change', function() {
+    var jobSheetOptions = document.getElementById('breakingwages-options');
+    jobSheetOptions.style.display = this.checked ? 'block' : 'none';
+});
 
     // If you want to use the toggleOptions function for future toggles
     function toggleOptions(sectionId, optionsId) {

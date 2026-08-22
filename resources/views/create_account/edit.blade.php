@@ -1552,6 +1552,7 @@
             { id: 'jobSheet', options: 'jobSheet-options' },
             { id: 'attendanceSystem', options: 'attendanceSystem-container' },
             { id: 'setup', options: 'setup-options' },
+            { id: 'wages', options: 'wages-options' },
             { id: 'setupDepartment', options: 'setup-department-options' },
             { id: 'employeeDepartment', options: 'employee-department-options' }
         ];
@@ -1615,6 +1616,11 @@
 
             // Waste Sale section
             ['waste', 'waste-options'],
+
+            ['corrugationwages', 'corrugationwages-options'],
+            ['manualpastingwages', 'manualpastingwages-options'],
+            ['autopastingwages', 'autopastingwages-options'],
+            ['breakingwages', 'breakingwages-options'], 
 
             // Gate Ex section
             ['gate', 'gateEx-options'],

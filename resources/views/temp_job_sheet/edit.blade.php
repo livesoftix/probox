@@ -222,7 +222,8 @@
                                             $boxValue =
                                                 $box->item_id . '_' .
                                                 $box->width . '_' .
-                                                $box->length;
+                                                $box->length . '_' .
+                                                $box->grammage;
                                         @endphp
 
                                         <div class="row item-row mb-3">
@@ -245,7 +246,7 @@
                                                             value="{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}"
                                                             data-stock="{{ $item->remain_qty }}"
                                                             data-itemid="{{ $item->item_id }}"
-                                                            {{ $boxValue == ($item->item_id . '_' . $item->width . '_' . $item->length) ? 'selected' : '' }}
+                                                            {{ $boxValue == ($item->item_id . '_' . $item->width . '_' . $item->length .'_' . $item->grammage) ? 'selected' : '' }}
                                                         >
                                                             {{ $item->item_code }}
                                                             (L:{{ $item->length }} x W:{{ $item->width }})
@@ -295,7 +296,20 @@
                                                 >
 
                                             </div>
+  {{-- grammage --}}
+                                            <div class="col-md-3">
 
+                                                <label>Grammage</label>
+
+                                                <input
+                                                    type="text"
+                                                    class="form-control box-grammage"
+                                                    name="box_grammage[]"
+                                                    value="{{ $box->grammage }}"
+                                                    readonly
+                                                >
+
+                                            </div>
 
                                             {{-- STOCK --}}
                                             <div class="col-md-3">
@@ -412,10 +426,9 @@
                                                 @foreach($boxboardData as $item)
 
                                                     <option
-                                                        value="{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}"
+                                                        value="{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}_{{ $item->grammage }}"
                                                         data-stock="{{ $item->remain_qty }}"
-                                                        data-itemid="{{ $item->item_id }}"
-                                                    >
+                                                        data-itemid="{{ $item->item_id }}" >
                                                         {{ $item->item_code }}
                                                         (L:{{ $item->length }} x W:{{ $item->width }})
                                                     </option>
@@ -459,7 +472,19 @@
                                             >
 
                                         </div>
+  {{-- Grammage --}}
+                                            <div class="col-md-3">
 
+                                                <label>Grammage</label>
+
+                                                <input
+                                                    type="text"
+                                                    class="form-control box-grammage"
+                                                    name="box_grammage[]"
+                                                    readonly
+                                                >
+
+                                            </div>
 
                                         <div class="col-md-3">
 
@@ -1254,8 +1279,7 @@ $(document).ready(function () {
         newRow.find('.box-length').val('');
 
         newRow.find('.box-width').val('');
-
-
+        newRow.find('.box-grammage').val('');
         $('#boxboard-wrapper').append(newRow);
 
 
@@ -1382,12 +1406,14 @@ $(document).ready(function () {
 
         row.find('.box-total-stock')
             .val(stock - qty);
-
+console.log(parts);
 
         if (parts.length >= 3) {
 
             row.find('.box-length')
                 .val(parts[2]);
+            row.find('.box-grammage')
+                .val(parts[3]);
 
             row.find('.box-width')
                 .val(parts[1]);

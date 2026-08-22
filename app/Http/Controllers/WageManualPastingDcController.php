@@ -331,7 +331,7 @@ public function store(Request $request)
         $acc=Employees::where('id',$contractorAccountId)->firstOrFail();
         $acc_id=$acc->cad;
         // dd($acc_id->cad);
-        $lastEntry = WageManualPastingDc::orderByDesc('id')->first();
+        $lastEntry = WageManualPastingDc::orderByDesc('b_no')->first();
         $newInvoiceNumber = $lastEntry
             ? ((int) $lastEntry->b_no + 1)
             : 1;
@@ -834,7 +834,7 @@ public function report(Request $request)
     */
 
     $WageManualPastings = $query
-        ->orderByDesc('date')
+        ->orderByDesc('b_no')
         ->get();
 
     /*

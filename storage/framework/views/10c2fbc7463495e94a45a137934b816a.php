@@ -226,7 +226,8 @@
                                             $boxValue =
                                                 $box->item_id . '_' .
                                                 $box->width . '_' .
-                                                $box->length;
+                                                $box->length . '_' .
+                                                $box->grammage;
                                         ?>
 
                                         <div class="row item-row mb-3">
@@ -249,7 +250,7 @@
                                                             value="<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>"
                                                             data-stock="<?php echo e($item->remain_qty); ?>"
                                                             data-itemid="<?php echo e($item->item_id); ?>"
-                                                            <?php echo e($boxValue == ($item->item_id . '_' . $item->width . '_' . $item->length) ? 'selected' : ''); ?>
+                                                            <?php echo e($boxValue == ($item->item_id . '_' . $item->width . '_' . $item->length .'_' . $item->grammage) ? 'selected' : ''); ?>
 
                                                         >
                                                             <?php echo e($item->item_code); ?>
@@ -301,7 +302,20 @@
                                                 >
 
                                             </div>
+  
+                                            <div class="col-md-3">
 
+                                                <label>Grammage</label>
+
+                                                <input
+                                                    type="text"
+                                                    class="form-control box-grammage"
+                                                    name="box_grammage[]"
+                                                    value="<?php echo e($box->grammage); ?>"
+                                                    readonly
+                                                >
+
+                                            </div>
 
                                             
                                             <div class="col-md-3">
@@ -420,10 +434,9 @@
                                                 <?php $__currentLoopData = $boxboardData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                                     <option
-                                                        value="<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>"
+                                                        value="<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>_<?php echo e($item->grammage); ?>"
                                                         data-stock="<?php echo e($item->remain_qty); ?>"
-                                                        data-itemid="<?php echo e($item->item_id); ?>"
-                                                    >
+                                                        data-itemid="<?php echo e($item->item_id); ?>" >
                                                         <?php echo e($item->item_code); ?>
 
                                                         (L:<?php echo e($item->length); ?> x W:<?php echo e($item->width); ?>)
@@ -468,7 +481,19 @@
                                             >
 
                                         </div>
+  
+                                            <div class="col-md-3">
 
+                                                <label>Grammage</label>
+
+                                                <input
+                                                    type="text"
+                                                    class="form-control box-grammage"
+                                                    name="box_grammage[]"
+                                                    readonly
+                                                >
+
+                                            </div>
 
                                         <div class="col-md-3">
 
@@ -1280,8 +1305,7 @@ $(document).ready(function () {
         newRow.find('.box-length').val('');
 
         newRow.find('.box-width').val('');
-
-
+        newRow.find('.box-grammage').val('');
         $('#boxboard-wrapper').append(newRow);
 
 
@@ -1408,12 +1432,14 @@ $(document).ready(function () {
 
         row.find('.box-total-stock')
             .val(stock - qty);
-
+console.log(parts);
 
         if (parts.length >= 3) {
 
             row.find('.box-length')
                 .val(parts[2]);
+            row.find('.box-grammage')
+                .val(parts[3]);
 
             row.find('.box-width')
                 .val(parts[1]);

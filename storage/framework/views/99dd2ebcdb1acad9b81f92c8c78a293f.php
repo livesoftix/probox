@@ -184,6 +184,44 @@
                 </div>
             </li>
             
+
+<li class="side-nav-item">
+    <a data-bs-toggle="collapse"
+       href="#sidebarWages"
+       aria-expanded="false"
+       aria-controls="sidebarWages"
+       class="side-nav-link">
+
+        <i class="uil-envelope"></i>
+        <span> Wages </span>
+        <span class="menu-arrow"></span>
+    </a>
+
+    <div class="collapse" id="sidebarWages">
+        <ul class="side-nav-second-level">
+            <li>
+                <a href="<?php echo e(route('corrugation_wage_dc.report')); ?>">
+                    Corrugation
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo e(route('manualPasting_wage_dc.report')); ?>">
+                    Manual Pasting
+                </a>
+            </li>
+             <li>
+                <a href="<?php echo e(route('autoPasting_wage_dc.report')); ?>">
+                    Auto Pasting
+                </a>
+            </li>
+             <li>
+                <a href="<?php echo e(route('breaking_wage_dc.report')); ?>">
+                    Breaking
+                </a>
+            </li>
+        </ul>
+    </div>
+</li>
              <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarEmails26" aria-expanded="false" aria-controls="sidebarEmails26"
                     class="side-nav-link">

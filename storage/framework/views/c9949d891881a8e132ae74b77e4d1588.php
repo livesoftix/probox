@@ -165,7 +165,7 @@
             <option value="">Select Item</option>
             <?php $__currentLoopData = $boxboardData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
              <option
-    value="<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>"
+    value="<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>_<?php echo e($item->grammage); ?>"
     data-stock="<?php echo e($item->remain_qty); ?>"
     data-itemid="<?php echo e($item->item_id); ?>">
     <?php echo e($item->item_code); ?>
@@ -187,6 +187,11 @@
     <div class="col-md-3">
         <label>Width</label>
         <input type="text" class="form-control box-width" name="box_width[]" readonly>
+    </div>
+     
+    <div class="col-md-3">
+        <label>Grammage</label>
+        <input type="text" class="form-control box-grammage" name="box_grammage[]" readonly>
     </div>
 
     
@@ -568,6 +573,7 @@ $(document).on('click', '.add-row', function(){
     newRow.find('.box-stock').val('');
     newRow.find('.box-length').val('');
     newRow.find('.box-width').val('');
+    newRow.find('.box-grammage').val('');
 
     // Remove old Select2
     newRow.find('.select2-container').remove();
@@ -622,7 +628,7 @@ function calculateBoxes(){
         row.find('.box-total-stock').val(stock);
 
         if(parts.length){
-            console.log(parts[0]);
+            // console.log(parts[0]);
             // row.find('input[name="box_item_id[]"]').val(parts[0]);
             // row.find('input[name="box_length[]"]').val(parts[2]);
             // row.find('input[name="box_width[]"]').val(parts[1]);
@@ -630,6 +636,7 @@ function calculateBoxes(){
 row.find('input[name="box_item_id[]"]').val(parts[0]);
 row.find('input[name="box_width[]"]').val(parts[1]);
 row.find('input[name="box_length[]"]').val(parts[2]);
+row.find('input[name="box_grammage[]"]').val(parts[3]);
         }
     });
 
@@ -673,7 +680,7 @@ $('#lam_win').prop('checked', false);
 $('#laminationFields, #corrugationFields, #uvFields, #noColorFields, #windowOptions')
     .hide();
 
-$('#lsize, #csize, #color','.box-length','.box-width').val('');
+$('#lsize, #csize, #color','.box-length','.box-width','box-grammage').val('');
 
 $('#litem').val('').trigger('change');
 $('#citem').val('').trigger('change');
@@ -687,6 +694,7 @@ $('#citem').val('').trigger('change');
 
                 let length = parseFloat(res.length) || 0;
                 let width  = parseFloat(res.width) || 0;
+                let grammage  = parseFloat(res.grammage) || 0;
                 let ups  = parseFloat(res.ups) || 0;
                 let itemId  = parseFloat(res.item_id) || 0;
 
@@ -708,6 +716,7 @@ firstRow.find('.item-selection option').each(function () {
     }
 
     let parts = value.split('_');
+    // console.log(parts);
 
     let optionItemId = parts[0];
     let optionWidth  = parseFloat(parts[1]) || 0;

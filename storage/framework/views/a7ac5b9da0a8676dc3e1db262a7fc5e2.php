@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -9,42 +7,44 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
-                <h4 class="page-title">Auto Pasting Department</h4>
+                <h4 class="page-title">Breaking Department</h4>
             </div>
         </div>
     </div>
 
-    @if (session('success'))
+    <?php if(session('success')): ?>
         <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show">
             <button type="button"
                     class="btn-close btn-close-white"
                     data-bs-dismiss="alert"></button>
 
-            {{ session('success') }}
-        </div>
-    @endif
+            <?php echo e(session('success')); ?>
 
-    @if (session('error'))
+        </div>
+    <?php endif; ?>
+
+    <?php if(session('error')): ?>
         <div class="alert alert-danger alert-dismissible text-bg-danger border-0 fade show">
             <button type="button"
                     class="btn-close btn-close-white"
                     data-bs-dismiss="alert"></button>
 
-            {{ session('error') }}
-        </div>
-    @endif
+            <?php echo e(session('error')); ?>
 
-    @if ($errors->any())
+        </div>
+    <?php endif; ?>
+
+    <?php if($errors->any()): ?>
         <div class="alert alert-danger">
 
             <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
+                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <li><?php echo e($error); ?></li>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </ul>
 
         </div>
-    @endif
+    <?php endif; ?>
 
 
     <div class="row">
@@ -55,14 +55,14 @@
                 <div class="card-body">
 
                     <form id="voucherForm"
-                          action="{{ route('autoPasting_wage_dc.store') }}"
+                          action="<?php echo e(route('breaking_wage_dc.store')); ?>"
                           method="POST">
 
-                        @csrf
+                        <?php echo csrf_field(); ?>
 
                         <div class="row">
 
-                            {{-- Date --}}
+                            
                             <div class="col-md-6 mb-3">
 
                                 <label class="form-label">
@@ -77,7 +77,7 @@
                             </div>
 
 
-                            {{-- Prepared By --}}
+                            
                             <div class="col-md-6 mb-3">
 
                                 <label class="form-label">
@@ -87,39 +87,37 @@
                                 <input type="text"
                                        name="prepared_by"
                                        class="form-control"
-                                       value="{{ $loggedInUser->name }}"
+                                       value="<?php echo e($loggedInUser->name); ?>"
                                        readonly>
 
                             </div>
 
 
-                            {{-- Delivery Challan --}}
+                            
                             <div class="col-md-6 mb-3">
 
-                                <label class="form-label">
-                                    Delivery Challan
-                                </label>
+                              <label class="form-label">
+    Product
+</label>
 
-                                <select id="delivery_challan"
-                                        class="form-control select2">
+<select id="product_id"
+        class="form-control select2">
 
-                                    <option value="">
-                                        Select Delivery Challan
-                                    </option>
+    <option value="">
+        Select Product
+    </option>
 
-                                    @foreach ($deliverychallans as $dc)
+    <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+<option
+    value="<?php echo e($product['id']); ?>"
+    data-batch="<?php echo e($product['batch_no']); ?>"
+    data-type="<?php echo e($product['type']); ?>"
+>
+    <?php echo e($product['name']); ?> (<?php echo e($product['batch_no']); ?>)
+</option>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                        <option value="{{ $dc['v_no'] }}"
-                                                data-type="{{ $dc['type'] }}">
-
-                                            {{ $dc['v_no'] }} - {{ $dc['party'] }} ({{ ucfirst($dc['type']) }})
-
-                                        </option>
-
-                                    @endforeach
-
-                                </select>
-
+</select>
                             </div>
 
 
@@ -145,7 +143,7 @@
                         </div>
 
 
-                        {{-- Entries Table --}}
+                        
 
                         <div class="row mt-4">
 
@@ -216,7 +214,7 @@
                                     </table>
 
                                 </div>
-                                   <hr>
+                                  <hr>
 
 <h5>Employee Loan Deduction</h5>
 
@@ -224,12 +222,12 @@
     <table class="table table-bordered" id="employeeTable">
         <thead>
             <tr>
-                <th width="30%">Employee</th>
-                <th width="20%">Previous Loan</th>
-                <th width="20%">Deduction</th>
+                <th width="20%">Employee</th>
+                <th width="15%">Previous Loan</th>
+                <th width="15%">Deduction</th>
                 <th width="15%">Other Expense</th>
                 <th width="20%">Description</th>
-                <th width="20%">Remaining</th>
+                <th width="15%">Remaining</th>
                 <th width="10%">
                     <button type="button" class="btn btn-success btn-sm" id="addEmployeeRow">
                         +
@@ -243,8 +241,6 @@
         </tbody>
     </table>
 </div>
-
-
                             </div>
 
                         </div>
@@ -275,7 +271,7 @@ document.getElementById("entryDate").value =
 $(document).ready(function () {
 
     $('.select2').select2({
-        placeholder: 'Select Delivery Challan',
+        placeholder: 'Select Product',
         allowClear: true,
         width: '100%'
     });
@@ -291,9 +287,11 @@ $(document).ready(function () {
             const qty = parseFloat(
                 $(this).find('.qty-value').val()
             ) || 0;
+            // console.log(qty);
             const amt = parseFloat(
                 $(this).find('.amt-value').val()
             ) || 0;
+            // console.log(amt);
 
             totalQty += qty;
             totalAmt += amt;
@@ -311,274 +309,185 @@ $(document).ready(function () {
     }
 
 
-    $('#loadEntry').click(function () {
+   $('#loadEntry').click(function () {
 
-        const dropdown = $('#delivery_challan');
+    const product = $('#product_id option:selected');
 
-        const vNo = dropdown.val();
+const productId = product.val();
+const batchNo  = product.data('batch');
+const type     = product.data('type');
 
-        const type = dropdown
-            .find(':selected')
-            .data('type');
-        const selectedOption = dropdown.find(':selected');
-        const optionText = selectedOption.text();
+   if (!productId  || !type) {
 
+    alert('Please select Product');
 
-        if (!vNo || !type) {
+    return;
+}
+    const url = "<?php echo e(route('breaking_wage_dc.product')); ?>"
+            + '?product_id=' + productId
+            + '&batch_no=' + encodeURIComponent(batchNo)
+            + '&type=' + type;
+    $('#entriesBody').append(`
+        <tr class="loading-row">
+            <td colspan="10" class="text-center">
+                Loading...
+            </td>
+        </tr>
+    `);
 
-            alert('Please select Delivery Challan');
+    $.ajax({
 
-            return;
+        url: url,
 
-        }
+        type: 'GET',
 
+        success: function (data) {
 
-        const uniqueKey = type + '-' + vNo;
+            $('.loading-row').remove();
 
+            if (data.length === 0) {
 
-        if (
-            $(`#entriesBody tr[data-key="${uniqueKey}"]`).length > 0
-        ) {
+                alert('No pending Delivery Challans found');
 
-            alert(
-                `Delivery Challan ${vNo} is already loaded`
-            );
-
-            return;
-
-        }
-
-
-        const url = "{{ route('autoPasting_wage_dc.vouchers', [
-            'type' => 'TYPE',
-            'v_no' => 'V_NO'
-        ]) }}"
-        .replace('TYPE', type)
-        .replace('V_NO', encodeURIComponent(vNo));
-
-
-        $('#entriesBody').append(`
-
-            <tr data-key="${uniqueKey}"
-                class="loading-row">
-
-                <td colspan="7"
-                    class="text-center">
-
-                    Loading DC ${vNo}...
-
-                </td>
-
-            </tr>
-
-        `);
-
-
-        $.ajax({
-
-            url: url,
-
-            type: 'GET',
-
-            success: function (data) {
-
-                $(
-                    `#entriesBody tr[data-key="${uniqueKey}"]`
-                ).remove();
-
-
-                if (data.length === 0) {
-
-                    alert('No DC details found');
-
-                    return;
-
-                }
-
-
-                let html = '';
-
-
-                data.forEach(function (item) {
-
-                    html += `
-
-                        <tr data-key="${uniqueKey}">
-
-                            <td>
-
-                                <input type="hidden"
-                                       name="v_no[]"
-                                       value="${item.v_no}">
-
-                                ${item.v_no}
-
-                            </td>
-
-
-                            <td>
-
-                                <input type="hidden"
-                                       name="dc_date[]"
-                                       value="${item.date}">
-
-                                ${item.date}
-
-                            </td>
-
-
-                            <td>
-
-                                <input type="hidden"
-                                       name="account_id[]"
-                                       value="${item.account_id}">
-
-                                ${item.account_name}
-
-                            </td>
-
-
-                            <td>
-
-                                <input type="hidden"
-                                       name="product_name[]"
-                                       value="${item.product_name}">
-
-                                ${item.product_name}
-
-                            </td>
-                             <td>
-
-                                <input type="hidden"
-                                       name="batch_no[]"
-                                       value="${item.batch_no}">
-
-                                ${item.batch_no}
-
-                            </td>
-
-
-                            <td>
-
-                                <input type="hidden"
-                                       name="qty[]"
-                                       class="qty-value"
-                                       value="${item.qty}">
-
-                                ${item.qty}
-                                <input type="hidden"
-       name="prod_id[]"
-       value="${item.prod_id}">
-
-<input type="hidden"
-       name="clabour[]"
-       value="${item.clabour}">
-
-                            </td>
-
-
-                            <td>
-
-                                <input type="hidden"
-                                       name="dc_type[]"
-                                       value="${item.type}">
-
-                                ${item.type}
-
-                            </td>
-                              <td>
-
-                                <input type="hidden"
-                                       name="rate[]"
-                                       value="${item.clabour}">
-
-                                ${item.clabour}
-
-                            </td>
-                             <td>
-
-                                <input type="hidden"
-                                       name="amt[]"
-                                       class="amt-value"
-                                       value="${item.qty*item.clabour}">
-
-                                ${item.qty*item.clabour}
-
-                            </td>
-
-
-                            <td>
-
-                                <button type="button"
-                                        class="btn btn-sm btn-danger remove-row">
-
-                                    Remove
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                    `;
-
-                });
-
-
-                $('#entriesBody').append(html);
-                selectedOption.remove();
-                dropdown.val(null).trigger('change');
-
-
-                updateGrandTotal();
-            },
-
-
-            error: function (xhr) {
-
-                $(
-                    `#entriesBody tr[data-key="${uniqueKey}"]`
-                ).remove();
-
-                console.log(xhr.responseText);
-
-                alert('Error loading Delivery Challan');
+                return;
 
             }
 
-        });
+            let html = '';
+
+            data.forEach(function (item) {
+
+                const uniqueKey = item.type + '-' + item.v_no + '-' + item.batch_no + '-' + item.prod_id;
+
+                if ($(`#entriesBody tr[data-key="${uniqueKey}"]`).length) {
+                    return;
+                }
+
+                html += `
+
+<tr data-key="${uniqueKey}">
+
+<td>
+<input type="hidden" name="v_no[]" value="${item.v_no}">
+${item.v_no}
+</td>
+
+<td>
+<input type="hidden" name="dc_date[]" value="${item.date}">
+${item.date}
+</td>
+
+<td>
+<input type="hidden" name="account_id[]" value="${item.account_id}">
+${item.account_name}
+</td>
+
+<td>
+<input type="hidden" name="product_name[]" value="${item.product_name}">
+${item.product_name}
+</td>
+
+<td>
+<input type="hidden" name="batch_no[]" value="${item.batch_no}">
+${item.batch_no}
+</td>
+
+<td>
+<input type="hidden"
+class="qty-value"
+name="qty[]"
+value="${item.qty}">
+${item.qty}
+
+<input type="hidden"
+name="prod_id[]"
+value="${item.prod_id}">
+
+<input type="hidden"
+name="clabour[]"
+value="${item.clabour}">
+</td>
+
+<td>
+<input type="hidden"
+name="dc_type[]"
+value="${item.type}">
+${item.type}
+</td>
+
+<td>
+
+<input type="hidden"
+name="rate[]"
+value="${item.clabour}">
+
+${item.clabour}
+
+</td>
+
+<td>
+
+<input type="hidden"
+class="amt-value"
+name="amt[]"
+value="${item.qty*item.clabour}">
+
+${item.qty*item.clabour}
+
+</td>
+
+<td>
+
+<button
+type="button"
+class="btn btn-danger btn-sm remove-row">
+
+Remove
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+            });
+
+            $('#entriesBody').append(html);
+
+            updateGrandTotal();
+            $('#product_id option:selected').remove();
+
+$('#product_id')
+    .val(null)
+    .trigger('change');
+
+        },
+
+        error: function () {
+
+            $('.loading-row').remove();
+
+            alert('Error loading product.');
+
+        }
 
     });
 
+});
 
-$(document).on('click', '.remove-row', function () {
+$(document).on('click','.remove-row',function(){
 
-    let row = $(this).closest('tr');
+    let key=$(this).closest('tr').data('key');
 
-    let key = row.data('key');              // pharma-123
-    let vNo = row.find('input[name="v_no[]"]').val();
-    let type = row.find('input[name="dc_type[]"]').val();
-
-    // Agar isi DC ki aur rows bhi hain to sab remove karo
-    $('#entriesBody tr[data-key="' + key + '"]').remove();
-
-    // Dropdown me option wapas add karo
-    if ($('#delivery_challan option[value="' + vNo + '"]').length === 0) {
-
-        let text = vNo + ' (' + type + ')';
-
-        $('#delivery_challan').append(
-            $('<option>', {
-                value: vNo,
-                text: text,
-                'data-type': type
-            })
-        );
-    }
+    $('#entriesBody tr[data-key="'+key+'"]').remove();
 
     updateGrandTotal();
+
 });
-    let employees = @json($employees);
+
+let employees = <?php echo json_encode($employees, 15, 512) ?>;
 function employeeRow() {
 
 return `
@@ -631,6 +540,7 @@ class="form-control remaining"
 readonly>
 </td>
 
+
 <td>
 
 <button type="button" class="btn btn-danger removeEmployeeRow">
@@ -679,7 +589,6 @@ $(document).on('keyup change', '.deduction, .otherExp', function () {
     recalculateGrandTotal();
 
 });
-
 function recalculateGrandTotal() {
 
     let original = parseFloat($('#originalGrandTotal').val()) || 0;
@@ -694,20 +603,20 @@ function recalculateGrandTotal() {
 
     });
 
-    let finalTotal = original - totalDeduction - totalOtherExp;
+    let finalTotal = original - totalDeduction + totalOtherExp;
 
     $('#grandTotalAmt').text(finalTotal.toFixed(2));
 }
 $(document).on('click','.removeEmployeeRow',function(){
 
 $(this).closest('tr').remove();
-recalculateGrandTotal();
+    recalculateGrandTotal();
+
 
 });
-
-
 });
 
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/wages/breaking/list.blade.php ENDPATH**/ ?>

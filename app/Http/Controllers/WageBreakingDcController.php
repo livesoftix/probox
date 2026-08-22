@@ -978,7 +978,7 @@ public function report(Request $request)
 
     $WageBreakings = $query
         ->with('employee')
-        ->orderByDesc('date')
+        ->orderByDesc('id')
         ->get();
 
     /*

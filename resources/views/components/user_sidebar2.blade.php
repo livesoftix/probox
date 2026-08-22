@@ -182,7 +182,44 @@
             </li>
             @endif
             
-            
+              <!-- Wages -->
+            @if(auth()->check() && auth()->user()->wages == 1)
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarEmails27" aria-expanded="false" aria-controls="sidebarEmails27"
+                    class="side-nav-link">
+                    <i class="uil-envelope"></i>
+                    <span> Wages </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarEmails27">
+                    <ul class="side-nav-second-level">
+                        @if(in_array('corrugationwages', $userRights))
+                        <li>
+                            <a href="{{ route('corrugation_wage_dc.report') }}">Corrugation</a>
+                        </li>
+                         @endif
+                        @if(in_array('manualpastingwages', $userRights))
+                        <li>
+                            <a href="{{ route('manualPasting_wage_dc.report') }}">Manual Pasting</a>
+                        </li>
+                         @endif
+                         @if(in_array('autopastingwages', $userRights))
+                        <li>
+                            <a href="{{ route('autoPasting_wage_dc.report') }}">Auto Pasting</a>
+                        </li>
+                         @endif
+                         @if(in_array('breakingwages', $userRights))
+                        <li>
+                            <a href="{{ route('breaking_wage_dc.report') }}">Breaking</a>
+                        </li>
+                         @endif
+                       
+                       
+
+                    </ul>
+                </div>
+            </li>
+            @endif
             
             @if(auth()->check() && auth()->user()->wage_calculator == 1)
             <li class="side-nav-item">
