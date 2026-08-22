@@ -246,7 +246,7 @@
                                                             value="{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}_{{ $item->grammage }}"
                                                             data-stock="{{ $item->remain_qty }}"
                                                             data-itemid="{{ $item->item_id }}"
-                                                            {{ $boxValue == ($item->item_id . '_' . $item->width . '_' . $item->length .'_' . round($item->grammage)) ? 'selected' : '' }}
+                                                            {{ $boxValue == ($item->item_id . '_' . $item->width . '_' . $item->length .'_' . $item->grammage) ? 'selected' : '' }}
                                                         >
                                                             {{ $item->item_code }}
                                                             (L:{{ $item->length }} x W:{{ $item->width }})
