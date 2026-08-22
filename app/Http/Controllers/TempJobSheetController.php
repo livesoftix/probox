@@ -594,6 +594,7 @@ $job->breaking = $validated['breaking'] ?? 0;
                     'item_id' => $itemId,
                     'purchase_v_no' => $purchaseVno,
                     'length' => $length,
+                    'grammage'=>$grammage,
                     'width' => $width,
                     'qty' => $qty,
                     'after_cutting' => $afterCutting,

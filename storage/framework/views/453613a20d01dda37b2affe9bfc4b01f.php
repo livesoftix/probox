@@ -780,7 +780,7 @@ class="suggestion-box list-group position-absolute w-100">
 
                                 <strong>
 
-                                    <?php echo e($data->remain_qty); ?>
+                                    <?php echo e(round($data->remain_qty,2)); ?>
 
 
                                 </strong>

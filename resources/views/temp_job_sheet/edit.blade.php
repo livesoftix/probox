@@ -243,7 +243,7 @@
                                                     @foreach($boxboardData as $item)
 
                                                         <option
-                                                            value="{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}"
+                                                            value="{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}_{{ $item->grammage }}"
                                                             data-stock="{{ $item->remain_qty }}"
                                                             data-itemid="{{ $item->item_id }}"
                                                             {{ $boxValue == ($item->item_id . '_' . $item->width . '_' . $item->length .'_' . $item->grammage) ? 'selected' : '' }}

@@ -247,7 +247,7 @@
                                                     <?php $__currentLoopData = $boxboardData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                                         <option
-                                                            value="<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>"
+                                                            value="<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>_<?php echo e($item->grammage); ?>"
                                                             data-stock="<?php echo e($item->remain_qty); ?>"
                                                             data-itemid="<?php echo e($item->item_id); ?>"
                                                             <?php echo e($boxValue == ($item->item_id . '_' . $item->width . '_' . $item->length .'_' . $item->grammage) ? 'selected' : ''); ?>
