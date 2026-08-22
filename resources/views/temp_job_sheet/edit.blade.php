@@ -223,7 +223,7 @@
                                                 $box->item_id . '_' .
                                                 $box->width . '_' .
                                                 $box->length . '_' .
-                                                $box->grammage;
+                                                round($box->grammage);
                                         @endphp
 
                                         <div class="row item-row mb-3">
