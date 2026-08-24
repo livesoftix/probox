@@ -227,8 +227,8 @@
 
     $boxValue =
         $box->item_id . '_' .
-        $box->width . '_' .
-        $box->length . '_' .
+        $formatDimension($box->width) . '_' .
+        $formatDimension($box->length) . '_' .
         round($box->grammage);
 @endphp
 
@@ -252,7 +252,7 @@
                                                             value="{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}_{{ $item->grammage }}"
                                                             data-stock="{{ $item->remain_qty }}"
                                                             data-itemid="{{ $item->item_id }}"
-                                                            data-stock="{{ $boxValue }}}"
+                                                            data-stockvalue="{{ $boxValue }}"
                                                             {{ $boxValue == ($item->item_id . '_' . $item->width . '_' . $item->length .'_' . $item->grammage) ? 'selected' : '' }}
                                                         >
                                                             {{ $item->item_code }}
