@@ -224,13 +224,21 @@
             ? (int) $value
             : $value;
     };
-
-    $boxValue =
-        $box->item_id . '_' .
-        $formatDimension($box->width) . '_' .
-        $formatDimension($box->length) . '_' .
-        round($box->grammage);
 @endphp
+  @php
+        $isSelected =
+            (int) $box->item_id === (int) $item->item_id &&
+            (float) $box->width === (float) $item->width &&
+            (float) $box->length === (float) $item->length &&
+            (float) $box->grammage === (float) $item->grammage;
+
+        $itemValue =
+            $item->item_id . '_' .
+            $formatDimension($item->width) . '_' .
+            $formatDimension($item->length) . '_' .
+            round($item->grammage);
+    @endphp
+
 
                                         <div class="row item-row mb-3">
 
@@ -251,9 +259,9 @@
                                                         <option
                                                             value="{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}_{{ $item->grammage }}"
                                                             data-stock="{{ $item->remain_qty }}"
-                                                            data-itemid="{{ $item->item_id }}"
-                                                            data-stockvalue="{{ $boxValue }}"
-                                                            {{ $boxValue == ($item->item_id . '_' . $item->width . '_' . $item->length .'_' . $item->grammage) ? 'selected' : '' }}
+        data-itemid="{{ $item->item_id }}"
+        data-stockvalue="{{ $itemValue }}"
+        {{ $isSelected ? 'selected' : '' }}
                                                         >
                                                             {{ $item->item_code }}
                                                             (L:{{ $item->length }} x W:{{ $item->width }})
