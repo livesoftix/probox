@@ -184,6 +184,17 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+    <div>
+        Showing {{ $trndtls->firstItem() ?? 0 }}
+        to {{ $trndtls->lastItem() ?? 0 }}
+        of {{ $trndtls->total() }} entries
+    </div>
+
+    <div>
+        {{ $trndtls->links('pagination::bootstrap-5') }}
+    </div>
+</div>
                                 </div>
                             </div>
                         </div>

@@ -98,9 +98,10 @@ $newInvoiceNumber = $lastEntry ? ($lastEntry + 1) : 1;
         $query->where('account_id', $account_id);
     }
     
-   $trndtls = $query->orderBy('date', 'desc')  // First sort by date
-                 ->orderBy('v_no', 'desc')  // Then sort by v_no
-                 ->get();
+   $trndtls = $query->orderBy('date', 'desc')
+                 ->orderBy('v_no', 'desc')
+                 ->paginate(20)
+                 ->withQueryString();
 
 
 
