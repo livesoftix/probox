@@ -227,8 +227,8 @@
 
     $boxValue =
         $box->item_id . '_' .
-        $formatDimension($box->width) . '_' .
-        $formatDimension($box->length) . '_' .
+        $box->width . '_' .
+        $box->length . '_' .
         round($box->grammage);
 @endphp
 
