@@ -225,19 +225,7 @@
             : $value;
     };
 @endphp
-  @php
-        $isSelected =
-            (int) $box->item_id === (int) $item->item_id &&
-            (float) $box->width === (float) $item->width &&
-            (float) $box->length === (float) $item->length &&
-            (float) $box->grammage === (float) $item->grammage;
-
-        $itemValue =
-            $item->item_id . '_' .
-            $formatDimension($item->width) . '_' .
-            $formatDimension($item->length) . '_' .
-            round($item->grammage);
-    @endphp
+  
 
 
                                         <div class="row item-row mb-3">
@@ -255,6 +243,19 @@
                                                     <option value="">Select Item</option>
 
                                                     @foreach($boxboardData as $item)
+                                                    @php
+        $isSelected =
+            (int) $box->item_id === (int) $item->item_id &&
+            (float) $box->width === (float) $item->width &&
+            (float) $box->length === (float) $item->length &&
+            (float) $box->grammage === (float) $item->grammage;
+
+        $itemValue =
+            $item->item_id . '_' .
+            $formatDimension($item->width) . '_' .
+            $formatDimension($item->length) . '_' .
+            round($item->grammage);
+    @endphp
 
                                                         <option
                                                             value="{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}_{{ $item->grammage }}"
