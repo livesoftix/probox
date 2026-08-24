@@ -262,6 +262,7 @@
                                                             data-stock="{{ $item->remain_qty }}"
         data-itemid="{{ $item->item_id }}"
         data-stockvalue="{{ $itemValue }}"
+        data-isselected="{{ $isSelected }}"
         {{ $isSelected ? 'selected' : '' }}
                                                         >
                                                             {{ $item->item_code }}
