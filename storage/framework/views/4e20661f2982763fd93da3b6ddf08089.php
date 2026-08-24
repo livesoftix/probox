@@ -3575,7 +3575,7 @@
                                id="repeat_back_date"
                                name="back_date"
                                class="die-form-control"
-                               readonly>
+                               >
 
                     </div>
 

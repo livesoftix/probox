@@ -222,13 +222,19 @@
 
                                     <?php $__currentLoopData = $job->boxboards; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $box): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                                        <?php
-                                            $boxValue =
-                                                $box->item_id . '_' .
-                                                $box->width . '_' .
-                                                $box->length . '_' .
-                                                $box->grammage;
-                                        ?>
+    <?php
+    $formatDimension = function ($value) {
+        return ((float) $value == floor((float) $value))
+            ? (int) $value
+            : $value;
+    };
+
+    $boxValue =
+        $box->item_id . '_' .
+        $formatDimension($box->width) . '_' .
+        $formatDimension($box->length) . '_' .
+        round($box->grammage);
+?>
 
                                         <div class="row item-row mb-3">
 
