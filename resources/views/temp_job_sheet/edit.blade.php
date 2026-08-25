@@ -248,32 +248,28 @@
         $itemLength = (float) $item->length;
         $itemGrammage = round((float) $item->grammage);
 
+        // Current saved box
         $boxId = (int) $box->item_id;
         $boxWidth = (float) $box->width;
         $boxLength = (float) $box->length;
         $boxGrammage = round((float) $box->grammage);
 
-        // Compare dimensions in either direction
-        $sameDimensions =
-            ($itemWidth == $boxWidth && $itemLength == $boxLength) ||
-            ($itemWidth == $boxLength && $itemLength == $boxWidth);
-
-        $isSelected =
-            $itemId === $boxId &&
-            $itemGrammage === $boxGrammage &&
-            $sameDimensions;
-
+        // Item's value
         $itemValue =
             $itemId . '_' .
             $formatDimension($itemWidth) . '_' .
             $formatDimension($itemLength) . '_' .
             $itemGrammage;
 
+        // Current box's value
         $boxValue =
             $boxId . '_' .
             $formatDimension($boxWidth) . '_' .
             $formatDimension($boxLength) . '_' .
             $boxGrammage;
+
+        // SELECT ONLY IF BOTH VALUES ARE EXACTLY EQUAL
+        $isSelected = ($boxValue === $itemValue);
     @endphp
 
     <option
