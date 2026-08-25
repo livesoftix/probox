@@ -240,34 +240,44 @@
                                                 >
 
                                                     <option value="">Select Item</option>
+@php
+    $formatDimension = function ($value) {
+        $value = (float) $value;
+
+        return $value == floor($value)
+            ? (int) $value
+            : $value;
+    };
+
+    // Existing saved box value
+    $boxValue =
+        (int) $box->item_id . '_' .
+        $formatDimension($box->width) . '_' .
+        $formatDimension($box->length) . '_' .
+        round((float) $box->grammage);
+@endphp
+
 @foreach($boxboardData as $item)
 
     @php
-        // Value coming from the current option
-        $stockValue =
+        // Current option value
+        $itemValue =
             (int) $item->item_id . '_' .
             $formatDimension($item->width) . '_' .
             $formatDimension($item->length) . '_' .
             round((float) $item->grammage);
 
-        // Value coming from existing box record
-        $boxValue =
-            (int) $box->item_id . '_' .
-            $formatDimension($box->width) . '_' .
-            $formatDimension($box->length) . '_' .
-            round((float) $box->grammage);
-
-        // Compare BOX value with STOCK VALUE
-        $isSelected = ($boxValue == $stockValue);
+        // IMPORTANT: compare option value with saved box value
+        $isSelected = ($itemValue == $boxValue);
     @endphp
 
     <option
-        value="{{ $stockValue }}"
+        value="{{ $itemValue }}"
         data-stock="{{ $item->remain_qty }}"
         data-itemid="{{ $item->item_id }}"
-        data-stockvalue="{{ $stockValue }}"
+        data-stockvalue="{{ $boxValue }}"
         data-isselected="{{ $isSelected ? 'yes' : 'no' }}"
-        {{ $isSelected ? 'selected' : '' }}
+        @if($isSelected) selected @endif
     >
         {{ $item->item_code }}
         (L:{{ $item->length }} x W:{{ $item->width }})
