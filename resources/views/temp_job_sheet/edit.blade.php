@@ -241,7 +241,7 @@
                                                 >
 
                                                     <option value="">Select Item</option>
-
+@foreach($boxboardData as $item)
                                                            $itemValue =
             (int) $item->item_id . '_' .
             $formatDimension($item->width) . '_' .
