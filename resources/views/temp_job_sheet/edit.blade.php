@@ -244,32 +244,49 @@
 
     @php
         $itemId = (int) $item->item_id;
+
         $itemWidth = (float) $item->width;
         $itemLength = (float) $item->length;
         $itemGrammage = round((float) $item->grammage);
 
-        // Current saved box
+        /*
+        |--------------------------------------------------------------------------
+        | Current box values
+        |--------------------------------------------------------------------------
+        */
         $boxId = (int) $box->item_id;
         $boxWidth = (float) $box->width;
         $boxLength = (float) $box->length;
         $boxGrammage = round((float) $box->grammage);
 
-        // Item's value
+        /*
+        |--------------------------------------------------------------------------
+        | Item Value
+        |--------------------------------------------------------------------------
+        */
         $itemValue =
             $itemId . '_' .
             $formatDimension($itemWidth) . '_' .
             $formatDimension($itemLength) . '_' .
             $itemGrammage;
 
-        // Current box's value
+        /*
+        |--------------------------------------------------------------------------
+        | Box Value
+        |--------------------------------------------------------------------------
+        */
         $boxValue =
             $boxId . '_' .
             $formatDimension($boxWidth) . '_' .
             $formatDimension($boxLength) . '_' .
             $boxGrammage;
 
-        // SELECT ONLY IF BOTH VALUES ARE EXACTLY EQUAL
-        $isSelected = ($boxValue === $itemValue);
+        /*
+        |--------------------------------------------------------------------------
+        | Compare complete values
+        |--------------------------------------------------------------------------
+        */
+        $isSelected = ($itemValue === $boxValue);
     @endphp
 
     <option
@@ -279,7 +296,7 @@
         data-stockvalue="{{ $itemValue }}"
         data-boxvalue="{{ $boxValue }}"
         data-isselected="{{ $isSelected ? 'yes' : 'no' }}"
-        @if($isSelected) selected @endif
+        @selected($isSelected)
     >
         {{ $item->item_code }}
         (L:{{ $item->length }} x W:{{ $item->width }})
