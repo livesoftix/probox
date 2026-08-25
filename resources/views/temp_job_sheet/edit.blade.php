@@ -240,6 +240,7 @@
                                                 >
 
                                                     <option value="">Select Item</option>
+
 @foreach($boxboardData as $item)
 
     @php
@@ -288,21 +289,6 @@
         {{ $item->item_code }}
         (L:{{ $item->length }} x W:{{ $item->width }})
     </option>
-
-@endforeach
-
-<option
-    value="{{ $itemValue }}"
-    data-stock="{{ $item->remain_qty }}"
-    data-itemid="{{ $item->item_id }}"
-    data-stockvalue="{{ $itemValue }}"
-    data-boxvalue="{{ $boxValue }}"
-    data-isselected="{{ $isSelected ? 'yes' : 'no' }}"
-    @if($isSelected) selected @endif
->
-    {{ $item->item_code }}
-    (L:{{ $item->length }} x W:{{ $item->width }})
-</option>
 
 @endforeach
 
