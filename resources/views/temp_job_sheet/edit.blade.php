@@ -240,23 +240,20 @@
                                                 >
 
                                                     <option value="">Select Item</option>
-
-                                                   @foreach($boxboardData as $item)
+@foreach($boxboardData as $item)
 
     @php
+        $isSelected =
+            (int) $box->item_id == (int) $item->item_id
+            && abs((float) $box->width - (float) $item->width) < 0.001
+            && abs((float) $box->length - (float) $item->length) < 0.001
+            && round((float) $box->grammage) == round((float) $item->grammage);
+
         $itemValue =
             (int) $item->item_id . '_' .
             $formatDimension($item->width) . '_' .
             $formatDimension($item->length) . '_' .
             round((float) $item->grammage);
-
-        $boxValue =
-            (int) $box->item_id . '_' .
-            $formatDimension($box->width) . '_' .
-            $formatDimension($box->length) . '_' .
-            round((float) $box->grammage);
-
-        $isSelected = ($boxValue === $itemValue);
     @endphp
 
     <option
@@ -265,7 +262,7 @@
         data-itemid="{{ $item->item_id }}"
         data-stockvalue="{{ $itemValue }}"
         data-isselected="{{ $isSelected ? 'yes' : 'no' }}"
-        @selected($isSelected)
+        @if($isSelected) selected @endif
     >
         {{ $item->item_code }}
         (L:{{ $item->length }} x W:{{ $item->width }})
