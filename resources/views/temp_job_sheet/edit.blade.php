@@ -243,30 +243,51 @@
 @foreach($boxboardData as $item)
 
     @php
-        $isSelected =
-            (int) $box->item_id == (int) $item->item_id
-            && abs((float) $box->width - (float) $item->width) < 0.001
-            && abs((float) $box->length - (float) $item->length) < 0.001
-            && round((float) $box->grammage) == round((float) $item->grammage);
+    $boxValue =
+        (int) $box->item_id . '_' .
+        $formatDimension($box->width) . '_' .
+        $formatDimension($box->length) . '_' .
+        round((float) $box->grammage);
 
-        $itemValue =
-            (int) $item->item_id . '_' .
-            $formatDimension($item->width) . '_' .
-            $formatDimension($item->length) . '_' .
-            round((float) $item->grammage);
-    @endphp
+    $itemValue =
+        (int) $item->item_id . '_' .
+        $formatDimension($item->width) . '_' .
+        $formatDimension($item->length) . '_' .
+        round((float) $item->grammage);
 
-    <option
-        value="{{ $itemValue }}"
-        data-stock="{{ $item->remain_qty }}"
-        data-itemid="{{ $item->item_id }}"
-        data-stockvalue="{{ $itemValue }}"
-        data-isselected="{{ $isSelected ? 'yes' : 'no' }}"
-        @if($isSelected) selected @endif
-    >
-        {{ $item->item_code }}
-        (L:{{ $item->length }} x W:{{ $item->width }})
-    </option>
+    $isSelected = ($boxValue === $itemValue);
+@endphp
+
+@if($itemValue === '163_25_20.5_280')
+    <div style="background:#fff3cd; padding:10px; margin:5px;">
+        <strong>DEBUG</strong><br>
+        BOX VALUE: [{{ $boxValue }}]<br>
+        ITEM VALUE: [{{ $itemValue }}]<br>
+        MATCH: [{{ $isSelected ? 'YES' : 'NO' }}]<br>
+
+        BOX item_id: [{{ $box->item_id }}]<br>
+        BOX width: [{{ $box->width }}]<br>
+        BOX length: [{{ $box->length }}]<br>
+        BOX grammage: [{{ $box->grammage }}]<br>
+
+        ITEM item_id: [{{ $item->item_id }}]<br>
+        ITEM width: [{{ $item->width }}]<br>
+        ITEM length: [{{ $item->length }}]<br>
+        ITEM grammage: [{{ $item->grammage }}]
+    </div>
+@endif
+
+<option
+    value="{{ $itemValue }}"
+    data-stock="{{ $item->remain_qty }}"
+    data-itemid="{{ $item->item_id }}"
+    data-stockvalue="{{ $itemValue }}"
+    data-isselected="{{ $isSelected ? 'yes' : 'no' }}"
+    @if($isSelected) selected @endif
+>
+    {{ $item->item_code }}
+    (L:{{ $item->length }} x W:{{ $item->width }})
+</option>
 
 @endforeach
 
