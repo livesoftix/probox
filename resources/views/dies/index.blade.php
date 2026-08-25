@@ -2396,7 +2396,7 @@
 
                             <th>Type</th>
 
-                            <th>Repeat Date</th>
+                            <!-- <th>Repeat Date</th> -->
 
                             <th>Repairs</th>
 
@@ -2488,13 +2488,13 @@
 
 
                             {{-- Repeat Date --}}
-                            <td>
+                            <!-- <td>
 
                                 <span class="die-repeat-date">
                                     {{ $die->repeat_date ?? '—' }}
                                 </span>
 
-                            </td>
+                            </td> -->
 
 
                             {{-- Repairs --}}
