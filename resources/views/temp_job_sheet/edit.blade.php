@@ -233,22 +233,7 @@
 @endphp
 
                                         <div class="row item-row mb-3">
-@php
-    $boxValue =
-        (int) $box->item_id . '_' .
-        $formatDimension($box->width) . '_' .
-        $formatDimension($box->length) . '_' .
-        round((float) $box->grammage);
-@endphp
 
-<pre>
-BOX ITEM ID: {{ $box->item_id }}
-BOX WIDTH: {{ $box->width }}
-BOX LENGTH: {{ $box->length }}
-BOX GRAMMAGE: {{ $box->grammage }}
-
-BOX VALUE: {{ $boxValue }}
-</pre>
                                             {{-- ITEM --}}
                                             <div class="col-md-5">
 
