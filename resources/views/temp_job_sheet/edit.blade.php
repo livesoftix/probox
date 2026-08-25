@@ -243,22 +243,37 @@
 @foreach($boxboardData as $item)
 
     @php
-        // Current saved box value
-        $boxValue =
-            (int) $box->item_id . '_' .
-            $formatDimension($box->width) . '_' .
-            $formatDimension($box->length) . '_' .
-            round((float) $box->grammage);
+        $itemId = (int) $item->item_id;
+        $itemWidth = (float) $item->width;
+        $itemLength = (float) $item->length;
+        $itemGrammage = round((float) $item->grammage);
 
-        // Current option value
+        $boxId = (int) $box->item_id;
+        $boxWidth = (float) $box->width;
+        $boxLength = (float) $box->length;
+        $boxGrammage = round((float) $box->grammage);
+
+        // Compare dimensions in either direction
+        $sameDimensions =
+            ($itemWidth == $boxWidth && $itemLength == $boxLength) ||
+            ($itemWidth == $boxLength && $itemLength == $boxWidth);
+
+        $isSelected =
+            $itemId === $boxId &&
+            $itemGrammage === $boxGrammage &&
+            $sameDimensions;
+
         $itemValue =
-            (int) $item->item_id . '_' .
-            $formatDimension($item->width) . '_' .
-            $formatDimension($item->length) . '_' .
-            round((float) $item->grammage);
+            $itemId . '_' .
+            $formatDimension($itemWidth) . '_' .
+            $formatDimension($itemLength) . '_' .
+            $itemGrammage;
 
-        // Compare both complete values
-        $isSelected = ($boxValue === $itemValue);
+        $boxValue =
+            $boxId . '_' .
+            $formatDimension($boxWidth) . '_' .
+            $formatDimension($boxLength) . '_' .
+            $boxGrammage;
     @endphp
 
     <option
@@ -268,7 +283,7 @@
         data-stockvalue="{{ $itemValue }}"
         data-boxvalue="{{ $boxValue }}"
         data-isselected="{{ $isSelected ? 'yes' : 'no' }}"
-        {{ $isSelected ? 'selected' : '' }}
+        @if($isSelected) selected @endif
     >
         {{ $item->item_code }}
         (L:{{ $item->length }} x W:{{ $item->width }})
