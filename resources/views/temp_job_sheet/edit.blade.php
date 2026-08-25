@@ -242,35 +242,54 @@
                                                     <option value="">Select Item</option>
 @foreach($boxboardData as $item)
 
- @php
-    $itemId = (int) $item->item_id;
-    $itemWidth = (float) $item->width;
-    $itemLength = (float) $item->length;
-    $itemGrammage = round((float) $item->grammage);
+    @php
+        $itemId = (int) $item->item_id;
+        $itemWidth = (float) $item->width;
+        $itemLength = (float) $item->length;
+        $itemGrammage = round((float) $item->grammage);
 
-    // Current saved box values
-    $boxId = (int) $box->item_id;
-    $boxWidth = (float) $box->width;
-    $boxLength = (float) $box->length;
-    $boxGrammage = round((float) $box->grammage);
+        $boxId = (int) $box->item_id;
+        $boxWidth = (float) $box->width;
+        $boxLength = (float) $box->length;
+        $boxGrammage = round((float) $box->grammage);
 
-    // Item value
-    $itemValue =
-        $itemId . '_' .
-        $formatDimension($itemWidth) . '_' .
-        $formatDimension($itemLength) . '_' .
-        $itemGrammage;
+        // Compare dimensions in either direction
+        $sameDimensions =
+            ($itemWidth == $boxWidth && $itemLength == $boxLength) ||
+            ($itemWidth == $boxLength && $itemLength == $boxWidth);
 
-    // Saved box value
-    $boxValue =
-        $boxId . '_' .
-        $formatDimension($boxWidth) . '_' .
-        $formatDimension($boxLength) . '_' .
-        $boxGrammage;
+        $isSelected =
+            $itemId === $boxId &&
+            $itemGrammage === $boxGrammage &&
+            $sameDimensions;
 
-    // Direct comparison
-    $isSelected = $itemValue === $boxValue;
-@endphp
+        $itemValue =
+            $itemId . '_' .
+            $formatDimension($itemWidth) . '_' .
+            $formatDimension($itemLength) . '_' .
+            $itemGrammage;
+
+        $boxValue =
+            $boxId . '_' .
+            $formatDimension($boxWidth) . '_' .
+            $formatDimension($boxLength) . '_' .
+            $boxGrammage;
+    @endphp
+
+    <option
+        value="{{ $itemValue }}"
+        data-stock="{{ $item->remain_qty }}"
+        data-itemid="{{ $item->item_id }}"
+        data-stockvalue="{{ $itemValue }}"
+        data-boxvalue="{{ $boxValue }}"
+        data-isselected="{{ $isSelected ? 'yes' : 'no' }}"
+        @if($isSelected) selected @endif
+    >
+        {{ $item->item_code }}
+        (L:{{ $item->length }} x W:{{ $item->width }})
+    </option>
+
+@endforeach
 
 <option
     value="{{ $itemValue }}"
