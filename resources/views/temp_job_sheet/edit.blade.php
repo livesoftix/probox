@@ -218,20 +218,6 @@
 
                                     @foreach($job->boxboards as $box)
 
-    @php
-    $formatDimension = function ($value) {
-        return ((float) $value == floor((float) $value))
-            ? (int) $value
-            : $value;
-    };
-
-    $boxValue =
-        $box->item_id . '_' .
-        $formatDimension($box->width) . '_' .
-        $formatDimension($box->length) . '_' .
-        round($box->grammage);
-@endphp
-
                                         <div class="row item-row mb-3">
 
                                             {{-- ITEM --}}
