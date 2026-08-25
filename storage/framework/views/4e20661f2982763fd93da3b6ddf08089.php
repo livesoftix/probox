@@ -3380,7 +3380,7 @@
 
 
                 
-                <div class="die-detail-item">
+                <!-- <div class="die-detail-item">
 
                     <div class="die-detail-label">
                         Type
@@ -3395,11 +3395,11 @@
 
                     </div>
 
-                </div>
+                </div> -->
 
 
                 
-                <div class="die-detail-item">
+                <!-- <div class="die-detail-item">
 
                     <div class="die-detail-label">
                         Repeat Date
@@ -3410,7 +3410,7 @@
                         —
                     </div>
 
-                </div>
+                </div> -->
 
 
                 

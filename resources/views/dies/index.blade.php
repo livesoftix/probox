@@ -3384,7 +3384,7 @@
 
 
                 {{-- Type --}}
-                <div class="die-detail-item">
+                <!-- <div class="die-detail-item">
 
                     <div class="die-detail-label">
                         Type
@@ -3399,11 +3399,11 @@
 
                     </div>
 
-                </div>
+                </div> -->
 
 
                 {{-- Repeat Date --}}
-                <div class="die-detail-item">
+                <!-- <div class="die-detail-item">
 
                     <div class="die-detail-label">
                         Repeat Date
@@ -3414,7 +3414,7 @@
                         —
                     </div>
 
-                </div>
+                </div> -->
 
 
                 {{-- Total Repairs --}}
