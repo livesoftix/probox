@@ -224,9 +224,13 @@
             ? (int) $value
             : $value;
     };
-@endphp
-  
 
+    $boxValue =
+        $box->item_id . '_' .
+        $formatDimension($box->width) . '_' .
+        $formatDimension($box->length) . '_' .
+        round($box->grammage);
+@endphp
 
                                         <div class="row item-row mb-3">
 
@@ -241,8 +245,11 @@
                                                 >
 
                                                     <option value="">Select Item</option>
-@foreach($boxboardData as $item)
- $itemValue =
+
+                                                   @foreach($boxboardData as $item)
+
+    @php
+        $itemValue =
             (int) $item->item_id . '_' .
             $formatDimension($item->width) . '_' .
             $formatDimension($item->length) . '_' .
@@ -269,7 +276,7 @@
         (L:{{ $item->length }} x W:{{ $item->width }})
     </option>
 
-                                                    @endforeach
+@endforeach
 
                                                 </select>
 
