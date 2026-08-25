@@ -242,32 +242,32 @@
 
                                                     <option value="">Select Item</option>
 
-                                                    @foreach($boxboardData as $item)
-                                                    @php
-        $isSelected =
-            (int) $box->item_id === (int) $item->item_id &&
-            (float) $box->width === (float) $item->width &&
-            (float) $box->length === (float) $item->length &&
-            (float) $box->grammage === (float) $item->grammage;
-
-        $itemValue =
-            $item->item_id . '_' .
+                                                           $itemValue =
+            (int) $item->item_id . '_' .
             $formatDimension($item->width) . '_' .
             $formatDimension($item->length) . '_' .
-            round($item->grammage);
+            round((float) $item->grammage);
+
+        $boxValue =
+            (int) $box->item_id . '_' .
+            $formatDimension($box->width) . '_' .
+            $formatDimension($box->length) . '_' .
+            round((float) $box->grammage);
+
+        $isSelected = ($boxValue === $itemValue);
     @endphp
 
-                                                        <option
-                                                            value="{{ $item->item_id }}_{{ $item->width }}_{{ $item->length }}_{{ $item->grammage }}"
-                                                            data-stock="{{ $item->remain_qty }}"
+    <option
+        value="{{ $itemValue }}"
+        data-stock="{{ $item->remain_qty }}"
         data-itemid="{{ $item->item_id }}"
         data-stockvalue="{{ $itemValue }}"
-        data-isselected="{{ $isSelected }}"
-        {{ $isSelected ? 'selected' : '' }}
-                                                        >
-                                                            {{ $item->item_code }}
-                                                            (L:{{ $item->length }} x W:{{ $item->width }})
-                                                        </option>
+        data-isselected="{{ $isSelected ? 'yes' : 'no' }}"
+        @selected($isSelected)
+    >
+        {{ $item->item_code }}
+        (L:{{ $item->length }} x W:{{ $item->width }})
+    </option>
 
                                                     @endforeach
 
