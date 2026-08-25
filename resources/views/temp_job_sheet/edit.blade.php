@@ -243,51 +243,35 @@
 @foreach($boxboardData as $item)
 
     @php
-    $boxValue =
-        (int) $box->item_id . '_' .
-        $formatDimension($box->width) . '_' .
-        $formatDimension($box->length) . '_' .
-        round((float) $box->grammage);
+        // Value coming from the current option
+        $stockValue =
+            (int) $item->item_id . '_' .
+            $formatDimension($item->width) . '_' .
+            $formatDimension($item->length) . '_' .
+            round((float) $item->grammage);
 
-    $itemValue =
-        (int) $item->item_id . '_' .
-        $formatDimension($item->width) . '_' .
-        $formatDimension($item->length) . '_' .
-        round((float) $item->grammage);
+        // Value coming from existing box record
+        $boxValue =
+            (int) $box->item_id . '_' .
+            $formatDimension($box->width) . '_' .
+            $formatDimension($box->length) . '_' .
+            round((float) $box->grammage);
 
-    $isSelected = ($boxValue === $itemValue);
-@endphp
+        // Compare BOX value with STOCK VALUE
+        $isSelected = ($boxValue == $stockValue);
+    @endphp
 
-@if($itemValue === '163_25_20.5_280')
-    <div style="background:#fff3cd; padding:10px; margin:5px;">
-        <strong>DEBUG</strong><br>
-        BOX VALUE: [{{ $boxValue }}]<br>
-        ITEM VALUE: [{{ $itemValue }}]<br>
-        MATCH: [{{ $isSelected ? 'YES' : 'NO' }}]<br>
-
-        BOX item_id: [{{ $box->item_id }}]<br>
-        BOX width: [{{ $box->width }}]<br>
-        BOX length: [{{ $box->length }}]<br>
-        BOX grammage: [{{ $box->grammage }}]<br>
-
-        ITEM item_id: [{{ $item->item_id }}]<br>
-        ITEM width: [{{ $item->width }}]<br>
-        ITEM length: [{{ $item->length }}]<br>
-        ITEM grammage: [{{ $item->grammage }}]
-    </div>
-@endif
-
-<option
-    value="{{ $itemValue }}"
-    data-stock="{{ $item->remain_qty }}"
-    data-itemid="{{ $item->item_id }}"
-    data-stockvalue="{{ $itemValue }}"
-    data-isselected="{{ $isSelected ? 'yes' : 'no' }}"
-    @if($isSelected) selected @endif
->
-    {{ $item->item_code }}
-    (L:{{ $item->length }} x W:{{ $item->width }})
-</option>
+    <option
+        value="{{ $stockValue }}"
+        data-stock="{{ $item->remain_qty }}"
+        data-itemid="{{ $item->item_id }}"
+        data-stockvalue="{{ $stockValue }}"
+        data-isselected="{{ $isSelected ? 'yes' : 'no' }}"
+        {{ $isSelected ? 'selected' : '' }}
+    >
+        {{ $item->item_code }}
+        (L:{{ $item->length }} x W:{{ $item->width }})
+    </option>
 
 @endforeach
 
