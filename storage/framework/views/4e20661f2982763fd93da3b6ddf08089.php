@@ -2392,7 +2392,7 @@
 
                             <th>Type</th>
 
-                            <th>Repeat Date</th>
+                            <!-- <th>Repeat Date</th> -->
 
                             <th>Repairs</th>
 
@@ -2492,14 +2492,14 @@
 
 
                             
-                            <td>
+                            <!-- <td>
 
                                 <span class="die-repeat-date">
                                     <?php echo e($die->repeat_date ?? '—'); ?>
 
                                 </span>
 
-                            </td>
+                            </td> -->
 
 
                             

@@ -122,7 +122,7 @@
                                 <td>{{ $job->date }}</td>
                                 <td>TJS-{{ $job->v_no }}</td>
                                 <td>{{ $job->product?->prod_name }}</td>
-                                <td>{{ $job->size }}</td>
+                                <td>{{ $job->p_size }}</td>
                                 <td>{{ $job->qty }}</td>
                                 <!-- <td>{{ $job->account->title ?? 'N/A' }}</td> -->
                                 <td>{{ $job->note }}</td>

@@ -229,11 +229,6 @@
             : $value;
     };
 
-    $boxValue =
-        $box->item_id . '_' .
-        $formatDimension($box->width) . '_' .
-        $formatDimension($box->length) . '_' .
-        round($box->grammage);
 ?>
 
                                         <div class="row item-row mb-3">
@@ -250,21 +245,57 @@
 
                                                     <option value="">Select Item</option>
 
-                                                    <?php $__currentLoopData = $boxboardData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+<?php $__currentLoopData = $boxboardData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                                                        <option
-                                                            value="<?php echo e($item->item_id); ?>_<?php echo e($item->width); ?>_<?php echo e($item->length); ?>_<?php echo e($item->grammage); ?>"
-                                                            data-stock="<?php echo e($item->remain_qty); ?>"
-                                                            data-itemid="<?php echo e($item->item_id); ?>"
-                                                            <?php echo e($boxValue == ($item->item_id . '_' . $item->width . '_' . $item->length .'_' . $item->grammage) ? 'selected' : ''); ?>
+    <?php
+        $itemId = (int) $item->item_id;
+        $itemWidth = (float) $item->width;
+        $itemLength = (float) $item->length;
+        $itemGrammage = round((float) $item->grammage);
 
-                                                        >
-                                                            <?php echo e($item->item_code); ?>
+        $boxId = (int) $box->item_id;
+        $boxWidth = (float) $box->width;
+        $boxLength = (float) $box->length;
+        $boxGrammage = round((float) $box->grammage);
 
-                                                            (L:<?php echo e($item->length); ?> x W:<?php echo e($item->width); ?>)
-                                                        </option>
+        // Compare dimensions in either direction
+        $sameDimensions =
+            ($itemWidth == $boxWidth && $itemLength == $boxLength) ||
+            ($itemWidth == $boxLength && $itemLength == $boxWidth);
 
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        $isSelected =
+            $itemId === $boxId &&
+            $itemGrammage === $boxGrammage &&
+            $sameDimensions;
+
+        $itemValue =
+            $itemId . '_' .
+            $formatDimension($itemWidth) . '_' .
+            $formatDimension($itemLength) . '_' .
+            $itemGrammage;
+
+        $boxValue =
+            $boxId . '_' .
+            $formatDimension($boxWidth) . '_' .
+            $formatDimension($boxLength) . '_' .
+            $boxGrammage;
+    ?>
+
+    <option
+        value="<?php echo e($itemValue); ?>"
+        data-stock="<?php echo e($item->remain_qty); ?>"
+        data-itemid="<?php echo e($item->item_id); ?>"
+        data-stockvalue="<?php echo e($itemValue); ?>"
+        data-boxvalue="<?php echo e($boxValue); ?>"
+        data-isselected="<?php echo e($isSelected ? 'yes' : 'no'); ?>"
+        <?php if($isSelected): ?> selected <?php endif; ?>
+    >
+        <?php echo e($item->item_code); ?>
+
+        (L:<?php echo e($item->length); ?> x W:<?php echo e($item->width); ?>)
+    </option>
+
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                                 </select>
 

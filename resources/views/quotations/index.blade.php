@@ -678,7 +678,7 @@
 
                         <div class="quotation-total">
 
-                            Total {{ $grand_total }}
+                            Total 
 
                             <strong>
                                 PKR {{ number_format($grand_total ?? $grand_total ?? 0, 0) }}

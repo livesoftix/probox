@@ -448,7 +448,7 @@
         <div class="company-header">
 
             <div class="company-logo">
-                PB
+                <img src="">
             </div>
 
             <div>
@@ -459,7 +459,7 @@
 
                 <div class="premium-badge">
                     <i class="fas fa-box"></i>
-                    PREMIUM QUOTATION
+                    Printing & Packaging Solution
                 </div>
 
             </div>
