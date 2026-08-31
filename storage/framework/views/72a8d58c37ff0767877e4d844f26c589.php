@@ -456,9 +456,206 @@
 
 
                             </div>
+<!-- wages -->
+                            <hr>
+
+<div class="form-check">
+    <input class="form-check-input"
+           type="checkbox"
+           id="wages"
+           name="wages"
+           value="1"
+           <?php echo e(old('wages', $user->wages) ? 'checked' : ''); ?>>
+
+    <label class="form-check-label" for="wages">
+        Wages
+    </label>
+</div>
+
+<hr>
+
+<!-- Wages -->
+<div id="wages-options"
+     style="display: <?php echo e(old('wages', $user->wages) ? 'block' : 'none'); ?>;">
+
+    <div style="margin-left:25px;">
+        <input type="checkbox"
+               id="corrugationwages"
+               name="permissions[74][level]"
+               value="corrugationwages"
+               <?php echo e(isset($userPermissions['corrugationwages']) ? 'checked' : ''); ?>>
+
+        <label for="corrugationwages">
+            Corrugation
+        </label>
+  
+
+    <div id="corrugationwages-options"
+         style="display: <?php echo e(isset($userPermissions['corrugationwages']) ? 'block' : 'none'); ?>; margin-left:50px;">
+
+        <input type="checkbox"
+               id="add-corrugationwages"
+               name="permissions[74][add]"
+               value="1"
+               <?php echo e($userPermissions['corrugationwages']['add'] ?? 0 ? 'checked' : ''); ?>>
+
+        <label for="add-corrugationwages">Add</label>
+        <br>
+
+        <input type="checkbox"
+               id="edit-corrugationwages"
+               name="permissions[74][edit]"
+               value="1"
+               <?php echo e($userPermissions['corrugationwages']['edit'] ?? 0 ? 'checked' : ''); ?>>
+
+        <label for="edit-corrugationwages">Edit</label>
+        <br>
+
+        <input type="checkbox"
+               id="del-corrugationwages"
+               name="permissions[74][del]"
+               value="1"
+               <?php echo e($userPermissions['corrugationwages']['del'] ?? 0 ? 'checked' : ''); ?>>
+
+        <label for="del-corrugationwages">Delete</label>
+        <br>
+
+    </div>
+</div>
+    <!--  manual pasting -->
+    <div style="margin-left:25px;">
+        <input type="checkbox"
+               id="manualpastingwages"
+               name="permissions[75][level]"
+               value="manualpastingwages"
+               <?php echo e(isset($userPermissions['manualpastingwages']) ? 'checked' : ''); ?>>
+     <label for="manualpastingwages">
+            Manual Pasting
+        </label>
+    
+
+    <div id="manualpastingwages-options"
+         style="display: <?php echo e(isset($userPermissions['manualpastingwages']) ? 'block' : 'none'); ?>; margin-left:50px;">
+
+        <input type="checkbox"
+               id="add-manualpastingwages"
+               name="permissions[75][add]"
+               value="1"
+               <?php echo e($userPermissions['manualpastingwages']['add'] ?? 0 ? 'checked' : ''); ?>>
+
+        <label for="add-manualpastingwages">Add</label>
+        <br>
+
+        <input type="checkbox"
+               id="edit-manualpastingwages"
+               name="permissions[75][edit]"
+               value="1"
+               <?php echo e($userPermissions['manualpastingwages']['edit'] ?? 0 ? 'checked' : ''); ?>>
+
+        <label for="edit-manualpastingwages">Edit</label>
+        <br>
+
+        <input type="checkbox"
+               id="del-manualpastingwages"
+               name="permissions[75][del]"
+               value="1"
+               <?php echo e($userPermissions['manualpastingwages']['del'] ?? 0 ? 'checked' : ''); ?>>
+
+        <label for="del-manualpastingwages">Delete</label>
+        <br>
+
+    </div>
+</div>
+
+    <div style="margin-left:25px;">
+        <input type="checkbox"
+               id="autopastingwages"
+               name="permissions[76][level]"
+               value="autopastingwages"
+               <?php echo e(isset($userPermissions['manualpastingwages']) ? 'checked' : ''); ?>>
+         <label for="autopastingwages">
+            Auto Pasting
+        </label>
+    
+
+    <div id="autopastingwages-options"
+         style="display: <?php echo e(isset($userPermissions['autopastingwages']) ? 'block' : 'none'); ?>; margin-left:50px;">
+
+        <input type="checkbox"
+               id="add-autopastingwages"
+               name="permissions[76][add]"
+               value="1"
+               <?php echo e($userPermissions['autopastingwages']['add'] ?? 0 ? 'checked' : ''); ?>>
+
+        <label for="add-autopastingwages">Add</label>
+        <br>
+
+        <input type="checkbox"
+               id="edit-autopastingwages"
+               name="permissions[76][edit]"
+               value="1"
+               <?php echo e($userPermissions['autopastingwages']['edit'] ?? 0 ? 'checked' : ''); ?>>
+
+        <label for="edit-autopastingwages">Edit</label>
+        <br>
+
+        <input type="checkbox"
+               id="del-autopastingwages"
+               name="permissions[76][del]"
+               value="1"
+               <?php echo e($userPermissions['autopastingwages']['del'] ?? 0 ? 'checked' : ''); ?>>
+
+        <label for="del-autopastingwages">Delete</label>
+        <br>
+
+    </div>
+</div>
+<div style="margin-left:25px;">
+        <input type="checkbox"
+               id="breakingwages"
+               name="permissions[77][level]"
+               value="breakingwages"
+               <?php echo e(isset($userPermissions['breakingwages']) ? 'checked' : ''); ?>>
+    <label for="breakingwages">
+            Breaking
+        </label>
+    </div>
+
+    <div id="breakingwages-options"
+         style="display: <?php echo e(isset($userPermissions['breakingwages']) ? 'block' : 'none'); ?>; margin-left:50px;">
+
+        <input type="checkbox"
+               id="add-breakingwages"
+               name="permissions[77][add]"
+               value="1"
+               <?php echo e($userPermissions['breakingwages']['add'] ?? 0 ? 'checked' : ''); ?>>
+
+        <label for="add-breakingwages">Add</label>
+        <br>
+
+        <input type="checkbox"
+               id="edit-breakingwages"
+               name="permissions[77][edit]"
+               value="1"
+               <?php echo e($userPermissions['breakingwages']['edit'] ?? 0 ? 'checked' : ''); ?>>
+
+        <label for="edit-breakingwages">Edit</label>
+        <br>
+
+        <input type="checkbox"
+               id="del-breakingwages"
+               name="permissions[77][del]"
+               value="1"
+               <?php echo e($userPermissions['breakingwages']['del'] ?? 0 ? 'checked' : ''); ?>>
+
+        <label for="del-breakingwages">Delete</label>
+        <br>
+</div>
+</div>
 
 
 
+<!-- end wages -->
                             <hr>
                             <div class="form-check">
                                 <!-- Remove the extra " after the checked condition -->
@@ -1436,6 +1633,7 @@
             { id: 'jobSheet', options: 'jobSheet-options' },
             { id: 'attendanceSystem', options: 'attendanceSystem-container' },
             { id: 'setup', options: 'setup-options' },
+            { id: 'wages', options: 'wages-options' },
             { id: 'setupDepartment', options: 'setup-department-options' },
             { id: 'employeeDepartment', options: 'employee-department-options' }
         ];
@@ -1499,6 +1697,11 @@
 
             // Waste Sale section
             ['waste', 'waste-options'],
+
+            ['corrugationwages', 'corrugationwages-options'],
+            ['manualpastingwages', 'manualpastingwages-options'],
+            ['autopastingwages', 'autopastingwages-options'],
+            ['breakingwages', 'breakingwages-options'], 
 
             // Gate Ex section
             ['gate', 'gateEx-options'],
