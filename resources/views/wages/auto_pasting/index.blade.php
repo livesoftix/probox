@@ -141,7 +141,7 @@
             // Add to processed entries
             $processedEntries[] = $entryKey;
                         $depcontractor = \App\Models\EmployeeType::where('department_id', 9)
-    ->where('designation_id', 10)
+    ->where('designation_id', 22)
     ->firstOrFail();
   $contractorAccountId = $depcontractor->cnic_no;
 $acc = \App\Models\Employees::where('id', $contractorAccountId)->firstOrFail();
