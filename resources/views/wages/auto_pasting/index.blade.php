@@ -118,7 +118,7 @@
                                         <tr>
                                             <th>Date</th>
                                             <th>Auto Pasting DC</th>
-                                            <th>Contractor</th>
+                                            <th>Foreman/th>
                                             <th>Amount</th>
                                             <th>Action</th>
                                         </tr>

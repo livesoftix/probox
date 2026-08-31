@@ -4,7 +4,8 @@
         ? \App\Models\Right::where('user_id', auth()->id())->pluck('app_name')->toArray() 
         : [];
 ?>
-
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <div class="leftside-menu">
     <!-- Brand Logo Light -->
     <a href="index.html" class="logo logo-light">
@@ -181,7 +182,44 @@
             </li>
             <?php endif; ?>
             
-            
+              <!-- Wages -->
+            <?php if(auth()->check() && auth()->user()->wages == 1): ?>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarEmails27" aria-expanded="false" aria-controls="sidebarEmails27"
+                    class="side-nav-link">
+                    <i class="uil-envelope"></i>
+                    <span> Wages </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarEmails27">
+                    <ul class="side-nav-second-level">
+                        <?php if(in_array('corrugationwages', $userRights)): ?>
+                        <li>
+                            <a href="<?php echo e(route('corrugation_wage_dc.report')); ?>">Corrugation</a>
+                        </li>
+                         <?php endif; ?>
+                        <?php if(in_array('manualpastingwages', $userRights)): ?>
+                        <li>
+                            <a href="<?php echo e(route('manualPasting_wage_dc.report')); ?>">Manual Pasting</a>
+                        </li>
+                         <?php endif; ?>
+                         <?php if(in_array('autopastingwages', $userRights)): ?>
+                        <li>
+                            <a href="<?php echo e(route('autoPasting_wage_dc.report')); ?>">Auto Pasting</a>
+                        </li>
+                         <?php endif; ?>
+                         <?php if(in_array('breakingwages', $userRights)): ?>
+                        <li>
+                            <a href="<?php echo e(route('breaking_wage_dc.report')); ?>">Breaking</a>
+                        </li>
+                         <?php endif; ?>
+                       
+                       
+
+                    </ul>
+                </div>
+            </li>
+            <?php endif; ?>
             
             <?php if(auth()->check() && auth()->user()->wage_calculator == 1): ?>
             <li class="side-nav-item">
@@ -356,6 +394,22 @@
                     </a>
                 </li>
             <?php endif; ?>
+            <?php if(auth()->check() && auth()->user()->product_freezing == 1): ?>
+                        <li class="side-nav-item">
+                            <a href="<?php echo e(route('product-freezing.index')); ?>" class="side-nav-link">
+                            <i class="uil-snowflake"></i>
+                             <span> Product Freezing </span>
+                            </a>
+                        </li>
+            <?php endif; ?>
+            <?php if(auth()->check() && auth()->user()->die_section == 1): ?>
+                        <li class="side-nav-item">
+                            <a href="<?php echo e(route('dies.index')); ?>" class="side-nav-link">
+                            <i class="fas fa-scissors"></i>
+                             <span> Die Section </span>
+                            </a>
+                        </li>
+            <?php endif; ?>
              <?php if(auth()->check() && auth()->user()->job_detail == 1): ?>
 
 
@@ -385,6 +439,11 @@
                         <?php if(in_array('generaljobSheet', $userRights)): ?>
                         <li>
                             <a href="<?php echo e(route('general_job_sheet.report')); ?>">General Job Sheet</a>
+                        </li>
+                        <?php endif; ?>
+                        <?php if(in_array('tempjobSheet', $userRights)): ?>
+                        <li>
+                            <a href="<?php echo e(route('tempjob.report')); ?>">New Job Sheet</a>
                         </li>
                         <?php endif; ?>
                     </ul>

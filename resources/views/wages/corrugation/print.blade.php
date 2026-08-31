@@ -306,7 +306,7 @@ No Employee Deduction
 
 </table>
 <div class="section-title">
-    Contractor Detail
+    Foreman Detail
 </div>
 
 <table>
@@ -338,7 +338,7 @@ No Employee Deduction
 
         <tr>
             <td colspan="4" style="text-align:center">
-                No Contractor Entry Found
+                No Foreman Entry Found
             </td>
         </tr>
 
