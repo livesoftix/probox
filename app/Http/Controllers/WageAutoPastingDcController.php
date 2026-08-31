@@ -128,7 +128,7 @@ $usedVouchers = WageAutoPastingDc::select('v_no', 'dc_type')
         ->sortByDesc('date')
         ->values();
 $employees = Employees::whereHas('employeeType', function ($query) {
-    $query->where('department_id', 19);
+    $query->where('department_id', 9);
 })->get();
 
     return view(
@@ -155,7 +155,7 @@ public function edit($b_no)
 
     // Employees
     $employees = Employees::whereHas('employeeType', function ($query) {
-        $query->where('department_id', 19);
+        $query->where('department_id', 9);
     })->get();
 
     // Delivery Challans except already used
@@ -289,8 +289,8 @@ public function update(Request $request, $b_no)
 
         WageAutoPastingDc::where('b_no',$b_no)->delete();
 
-        $contractor = EmployeeType::where('department_id',19)
-            ->where('designation_id',10)
+        $contractor = EmployeeType::where('department_id',9)
+            ->where('designation_id',22)
             ->firstOrFail();
 
         $contractorAccountId = $contractor->cnic_no;
@@ -590,6 +590,7 @@ public function getVoucherDetails($type, $v_no)
 
 public function store(Request $request)
 {
+  
     $request->validate([
         'date' => 'required|date',
         'prepared_by' => 'required|string|max:255',
@@ -608,8 +609,8 @@ public function store(Request $request)
 
     DB::transaction(function () use ($request) {
 
-        $contractor = EmployeeType::where('department_id', 19)
-            ->where('designation_id', 10)
+        $contractor = EmployeeType::where('department_id', 9)
+            ->where('designation_id', 22)
             ->firstOrFail();
         // dd($contractor);
 

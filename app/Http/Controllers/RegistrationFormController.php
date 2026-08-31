@@ -92,8 +92,10 @@ class RegistrationFormController extends Controller
             $productMaster->emboss = $request->emboss ?? 0;
             $productMaster->emboss_rate = $request->emboss ? (is_numeric($request->emboss_rate) ? (float)$request->emboss_rate : null) : null;
 
+        $productMaster->manual_pasting = $request->manual_pasting;
         $productMaster->manual_pasting_rate = $request->manual_pasting_rate;
 
+        $productMaster->auto_pasting = $request->auto_pasting;
         $productMaster->auto_pasting_rate = $request->auto_pasting_rate;
 
          $productMaster->is_pinned = $request->is_pinned ?? 0;
@@ -256,7 +258,9 @@ class RegistrationFormController extends Controller
     $productMaster->emboss = $request->emboss ?? 0;
     $productMaster->emboss_rate = $request->emboss ? (is_numeric($request->emboss_rate) ? (float)$request->emboss_rate : null) : null;
 
+        $productMaster->manual_pasting = $request->manual_pasting;
         $productMaster->manual_pasting_rate = $request->manual_pasting_rate;
+        $productMaster->auto_pasting = $request->auto_pasting;
         $productMaster->auto_pasting_rate = $request->auto_pasting_rate;
         
          $productMaster->is_pinned = $request->is_pinned ?? 0;

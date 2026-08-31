@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <!-- start page title -->
     <div class="row">
@@ -19,18 +17,20 @@
     </div>
     <!-- end page title -->
 
-    @if (session('success'))
+    <?php if(session('success')): ?>
         <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show" role="alert">
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
         </div>
-    @endif
-     @if (session('error'))
+    <?php endif; ?>
+     <?php if(session('error')): ?>
         <div class="alert alert-danger alert-dismissible text-bg-danger border-0 fade show" role="alert">
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-            {{ session('error') }}
+            <?php echo e(session('error')); ?>
+
         </div>
-    @endif
+    <?php endif; ?>
 
     <!-- Search Form -->
     <div class="row">
@@ -38,7 +38,7 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="col-12">
-                        <form action="{{ route('autoPasting_wage_dc.report') }}" method="GET" class="form-inline" id="search-form">
+                        <form action="<?php echo e(route('autoPasting_wage_dc.report')); ?>" method="GET" class="form-inline" id="search-form">
       <div class="row">
 
     <div class="form-group col-xl-2">
@@ -46,7 +46,7 @@
         <input type="date"
                class="form-control"
                name="start_date"
-               value="{{ request('start_date') }}">
+               value="<?php echo e(request('start_date')); ?>">
     </div>
 
     <div class="form-group col-xl-2">
@@ -54,7 +54,7 @@
         <input type="date"
                class="form-control"
                name="end_date"
-               value="{{ request('end_date') }}">
+               value="<?php echo e(request('end_date')); ?>">
     </div>
 
     <div class="form-group col-xl-3">
@@ -63,13 +63,13 @@
         <select name="v_no" class="form-control select2">
             <option value="">Select Voucher</option>
 
-            @foreach($vNoList as $voucher)
+            <?php $__currentLoopData = $vNoList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $voucher): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option
-                    value="{{ $voucher->dc_type }}|{{ $voucher->b_no }}"
-                    {{ request('v_no') == $voucher->dc_type.'|'.$voucher->b_no ? 'selected' : '' }}>
-                    {{ $voucher->b_no }} ({{ ucfirst($voucher->dc_type) }})
+                    value="<?php echo e($voucher->dc_type); ?>|<?php echo e($voucher->b_no); ?>"
+                    <?php echo e(request('v_no') == $voucher->dc_type.'|'.$voucher->b_no ? 'selected' : ''); ?>>
+                    <?php echo e($voucher->b_no); ?> (<?php echo e(ucfirst($voucher->dc_type)); ?>)
                 </option>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </select>
     </div>
 
@@ -78,15 +78,15 @@
 
         <select name="status" class="form-control select2">
             <option value="">All</option>
-            <option value="official" {{ request('status')=='official'?'selected':'' }}>Official</option>
-            <option value="unofficial" {{ request('status')=='unofficial'?'selected':'' }}>Unofficial</option>
+            <option value="official" <?php echo e(request('status')=='official'?'selected':''); ?>>Official</option>
+            <option value="unofficial" <?php echo e(request('status')=='unofficial'?'selected':''); ?>>Unofficial</option>
         </select>
     </div>
 
     <div class="form-group mt-3">
         <button class="btn btn-primary">Search</button>
 
-        <a href="{{ route('autoPasting_wage_dc.list') }}"
+        <a href="<?php echo e(route('autoPasting_wage_dc.list')); ?>"
            class="btn btn-success"
            onclick="return checkPermission()">
             Add New
@@ -124,12 +124,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-    @php
+    <?php
         $processedEntries = []; // Array to track processed entries
-    @endphp
+    ?>
     
-    @foreach ($WageAutoPastings as $general)
-        @php
+    <?php $__currentLoopData = $WageAutoPastings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $general): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php
             // Create a unique key for each entry (adjust based on what makes an entry unique)
             $entryKey = $general->b_no . '-' . $general->employee_name . '-' . $general->total_amount;
             
@@ -152,31 +152,31 @@ $contractor = \App\Models\TRNDTL::with('accounts')
     ->where('v_type', 'Wage Auto Pasting DC')
     ->where('account_id', $acc_id)
     ->first();
-        @endphp
+        ?>
         
         <tr>
-            <td>{{ \Carbon\Carbon::parse($general->updated_at)->format('Y-m-d') ?? 'N/A' }}</td>
-            <td>{{ $general->v_type ?? 'N/A' }}-{{ $general->b_no ?? 'N/A' }}</td>
-              <td>{{ $contractor?->accounts?->title }}</td>
-            <td>{{ $general->total_amount - $general->total_deduction }}</td>
+            <td><?php echo e(\Carbon\Carbon::parse($general->updated_at)->format('Y-m-d') ?? 'N/A'); ?></td>
+            <td><?php echo e($general->v_type ?? 'N/A'); ?>-<?php echo e($general->b_no ?? 'N/A'); ?></td>
+              <td><?php echo e($contractor?->accounts?->title); ?></td>
+            <td><?php echo e($general->total_amount - $general->total_deduction); ?></td>
             <td class="no-print">
-            <a href="{{ route('autoPasting_wage_dc.edit', $general->b_no) }}"
+            <a href="<?php echo e(route('autoPasting_wage_dc.edit', $general->b_no)); ?>"
             class="btn btn-warning btn-sm">
             Edit
             </a>
-            <a href="{{ route('autoPasting_wage_dc.print', $general->b_no) }}"
+            <a href="<?php echo e(route('autoPasting_wage_dc.print', $general->b_no)); ?>"
             target="_blank"
             class="btn btn-primary btn-sm">
             Print
             </a>
-                <form action="{{ route('autoPasting_wage_dc.destroy', $general->id) }}" method="POST" style="display:inline-block;" onclick="return confirm('Are you sure you want to delete this transaction?')">
-                    @csrf
-                    @method('DELETE')
+                <form action="<?php echo e(route('autoPasting_wage_dc.destroy', $general->id)); ?>" method="POST" style="display:inline-block;" onclick="return confirm('Are you sure you want to delete this transaction?')">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('DELETE'); ?>
                     <button type="submit" class="btn btn-danger btn-sm"    onclick="return checkPermissionDel()">Delete</button>
                 </form>
             </td>
         </tr>
-    @endforeach
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </tbody>
                                 </table>
                                 <!-- Second Table -->
@@ -193,7 +193,7 @@ $contractor = \App\Models\TRNDTL::with('accounts')
 <script>
 
   function checkPermission() {
-        @php
+        <?php
         $isAdmin = auth()->user()->is_admin;
         $canAdd = true;
 
@@ -203,9 +203,9 @@ $contractor = \App\Models\TRNDTL::with('accounts')
                 ->first();
             $canAdd = $userRights && $userRights->add == 1;
         }
-    @endphp
+    ?>
         
-        if (!@json($canAdd)) {
+        if (!<?php echo json_encode($canAdd, 15, 512) ?>) {
             alert('You do not have Permission to Add');
             return false; // Prevent the default action (navigation)
         }
@@ -214,7 +214,7 @@ $contractor = \App\Models\TRNDTL::with('accounts')
     
     
     function checkPermissionEdit() {
-        @php
+        <?php
         $isAdmin = auth()->user()->is_admin;
         $canAdd = true;
 
@@ -224,9 +224,9 @@ $contractor = \App\Models\TRNDTL::with('accounts')
                 ->first();
             $canAdd = $userRights && $userRights->edit == 1;
         }
-    @endphp
+    ?>
         
-        if (!@json($canAdd)) {
+        if (!<?php echo json_encode($canAdd, 15, 512) ?>) {
             alert('You do not have Permission to Edit');
             return false; // Prevent the default action (navigation)
         }
@@ -238,7 +238,7 @@ $contractor = \App\Models\TRNDTL::with('accounts')
         
         
         
-        @php
+        <?php
         $isAdmin = auth()->user()->is_admin;
         $canAdd = true;
 
@@ -248,8 +248,8 @@ $contractor = \App\Models\TRNDTL::with('accounts')
                 ->first();
             $canAdd = $userRights && $userRights->del == 1;
         }
-    @endphp
-        if (!@json($canAdd)) {
+    ?>
+        if (!<?php echo json_encode($canAdd, 15, 512) ?>) {
             alert('You do not have Permission to Delete');
             return false; // Prevent the default action (navigation)
         }
@@ -338,4 +338,5 @@ document.getElementById('end_date').value = today;
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/wages/auto_pasting/index.blade.php ENDPATH**/ ?>

@@ -129,7 +129,7 @@ $pharmaDC = DeliveryMaster::with([
         ->values();
 // dd($deliverychallans);
 $employees = Employees::whereHas('employeeType', function ($query) {
-    $query->where('department_id', 13);
+    $query->where('department_id', 11);
 })->get();
 
     return view(
@@ -311,7 +311,7 @@ public function store(Request $request)
 
     DB::transaction(function () use ($request) {
 
-        $contractor = EmployeeType::where('department_id', 13)
+        $contractor = EmployeeType::where('department_id', 11)
             ->where('designation_id', 10)
             ->firstOrFail();
         // dd($contractor);
@@ -487,7 +487,7 @@ public function edit($b_no)
 
     // Employees
     $employees = Employees::whereHas('employeeType', function ($query) {
-        $query->where('department_id', 13);
+        $query->where('department_id', 11);
     })->get();
 
     // Delivery Challans except already used

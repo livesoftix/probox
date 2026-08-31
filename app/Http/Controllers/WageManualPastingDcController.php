@@ -140,7 +140,7 @@ $pharmaDC = DeliveryMaster::with([
 // dd($deliverychallans);
 
 $employees = Employees::whereHas('employeeType', function ($query) {
-    $query->where('department_id', 18);
+    $query->where('department_id', 5);
 })->get();
 
     return view(
@@ -322,8 +322,8 @@ public function store(Request $request)
 
     DB::transaction(function () use ($request) {
 
-        $contractor = EmployeeType::where('department_id', 18)
-            ->where('designation_id', 10)
+        $contractor = EmployeeType::where('department_id', 5)
+            ->where('designation_id', 34)
             ->firstOrFail();
         // dd($contractor);
 
@@ -503,7 +503,7 @@ public function edit($b_no)
 
     // Employees
     $employees = Employees::whereHas('employeeType', function ($query) {
-        $query->where('department_id', 18);
+        $query->where('department_id', 5);
     })->get();
 
     // Delivery Challans except already used
@@ -646,7 +646,7 @@ public function update(Request $request, $b_no)
         WageManualPastingDc::where('b_no',$b_no)->delete();
 
         $contractor = EmployeeType::where('department_id',18)
-            ->where('designation_id',10)
+            ->where('designation_id',34)
             ->firstOrFail();
 
         $contractorAccountId = $contractor->cnic_no;

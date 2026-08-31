@@ -53,7 +53,7 @@ class ProductMaster extends Model
         'lam_win',
         'emboss',
         'emboss_rate',
-        'job_assign','status'
+        'job_assign','status','manual_pasting','auto_pasting'
     ];
     public function country()
     {

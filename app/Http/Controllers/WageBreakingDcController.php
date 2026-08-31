@@ -159,7 +159,7 @@ public function index()
     */
 
     $employees = Employees::whereHas('employeeType', function ($query) {
-        $query->where('department_id', 20);
+        $query->where('department_id', 12);
     })->get();
 
     return view(
@@ -330,7 +330,7 @@ public function store(Request $request)
 
     DB::transaction(function () use ($request) {
 
-        $contractor = EmployeeType::where('department_id', 20)
+        $contractor = EmployeeType::where('department_id', 12)
             ->where('designation_id', 10)
             ->firstOrFail();
         // dd($contractor);
@@ -517,7 +517,7 @@ public function edit($b_no)
 
     // Employees
     $employees = Employees::whereHas('employeeType', function ($query) {
-        $query->where('department_id', 20);
+        $query->where('department_id', 12);
     })->get();
 
     /*
@@ -1110,7 +1110,7 @@ public function report(Request $request)
     */
 
     $employeeList = Employees::whereHas('employeeType', function ($query) {
-        $query->where('department_id', 20);
+        $query->where('department_id', 12);
     })
     ->orderBy('fname')
     ->orderBy('lname')
@@ -1198,7 +1198,7 @@ public function print($b_no)
         ->whereNotNull('employee_id')
         ->get();
 
-        $depcontractor = EmployeeType::where('department_id', 20)
+        $depcontractor = EmployeeType::where('department_id', 12)
             ->where('designation_id', 10)
             ->firstOrFail();
         // dd($contractor);

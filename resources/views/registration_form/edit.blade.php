@@ -377,32 +377,32 @@
                                         step="any" value="{{ $product->breaking_rate }}">
                                 </div>
                             </div>
-
-
-
-
- </div>
-
-                       
-
-
-
-
-                        <div class="mb-3">
+                             <div class="form-check">
+                                <input type="hidden" name="auto_pasting" value="0"> <!-- Hidden input for unchecked value -->
+                                <input class="form-check-input" type="checkbox" id="auto_pasting" name="auto_pasting" value="1" {{ $product->auto_pasting ? 'checked' : '' }}>
+                                <label class="form-check-label" for="auto_pasting">Auto Pasting</label>
+                            </div>
+                            <div id="autopastingFields" style="{{ $product->auto_pasting_rate ? 'display:block;' : 'display:none;' }}">                                                        
+                            <div class="mb-3">
                             <label for="auto_pasting_rate" class="form-label">Per CTN Auto Pasting Rate</label>
                             <input type="number" id="auto_pasting_rate" class="form-control" name="auto_pasting_rate"
                                 step="any" value="{{ $product->auto_pasting_rate }}">
                         </div>
 
-
-                        <div class="mb-3">
+                            </div>
+                             <div class="form-check">
+                                <input type="hidden" name="manual_pasting" value="0"> <!-- Hidden input for unchecked value -->
+                                <input class="form-check-input" type="checkbox" id="manual_pasting" name="manual_pasting" value="1" {{ $product->manual_pasting ? 'checked' : '' }}>
+                                <label class="form-check-label" for="manual_pasting">Manual Pasting</label>
+                            </div>  
+                          <div id="manualpastingFields" style="{{ $product->manual_pasting_rate ? 'display:block;' : 'display:none;' }}">        
+                             <div class="mb-3">
                             <label for="manual_pasting_rate" class="form-label">Per CTN Manual Pasting Rate</label>
                             <input type="number" id="manual_pasting_rate" class="form-control"
                                 name="manual_pasting_rate" step="any" value="{{ $product->manual_pasting_rate }}">
                         </div>
-
-
-
+ </div>
+</div>
 
                         <!-- Rate Field -->
                         <div class="mb-3">
@@ -625,6 +625,30 @@
                     corrugationFields.style.display = 'none'; // Hide the fields
                 }
             });
+
+            const pastingCheckbox = document.getElementById('auto_pasting');
+    const autopastingFields = document.getElementById('autopastingFields');
+
+    // Add event listener to the checkbox
+    pastingCheckbox.addEventListener('change', function() {
+        if (pastingCheckbox.checked) {
+            autopastingFields.style.display = 'block'; // Show the fields
+        } else {
+            autopastingFields.style.display = 'none'; // Hide the fields
+        }
+    });
+
+const mpastingCheckbox = document.getElementById('manual_pasting');
+    const manualpastingFields = document.getElementById('manualpastingFields');
+
+    // Add event listener to the checkbox
+    mpastingCheckbox.addEventListener('change', function() {
+        if (mpastingCheckbox.checked) {
+            manualpastingFields.style.display = 'block'; // Show the fields
+        } else {
+            manualpastingFields.style.display = 'none'; // Hide the fields
+        }
+    });
 
             document.getElementById('itemTitle').addEventListener('change', function() {
                 var selectedOption = this.options[this.selectedIndex];
