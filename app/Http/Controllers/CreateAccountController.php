@@ -72,6 +72,7 @@ class CreateAccountController extends Controller
     $user->employee = in_array('Employee', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->report = in_array('Report', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->job_detail = $request->has('job_detail') ? 1 : 0;
+    $user->wages = $request->has('wages');
     
 
    $user->boxboard_stock_report =
@@ -168,6 +169,7 @@ public function edit($id)
         'Employee Department' => $user->employee_department,
         'BoxboardStockReport' => $user->boxboard_stock_report,
         'Die Section'         => $user->die_section,
+        'Wages' => $user->wages,
     ];
 
     return view('create_account.edit', compact('user', 'navigationOptions', 'rights'));
@@ -216,6 +218,7 @@ public function update(Request $request, $id)
         'setupDepartment' => 'setup_department',
         'employeeDepartment' => 'employee_department',
         'BoxboardStockReport' => 'boxboard_stock_report',
+        'wages' => 'wages',
     ];
 
     // dd($navigationOptions);
