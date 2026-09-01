@@ -1,3 +1,4 @@
+```blade
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,6 +31,7 @@
 
         .company-table {
             width: 100%;
+            border-collapse: collapse;
         }
 
         .company-logo {
@@ -46,11 +48,15 @@
         .company-name {
             font-size: 23px;
             font-weight: bold;
-            margin-left: 12px;
+            padding-left: 12px;
         }
 
-        .company-name span {
-            color: #dda42e;
+        .company-name .box {
+            color: red;
+        }
+
+        .company-name .normal {
+            color: #000000;
         }
 
         .quotation-heading {
@@ -65,6 +71,8 @@
             margin-top: 5px;
         }
 
+        /* ================= INFORMATION ================= */
+
         .info-box {
             background: #f1f4f8;
             padding: 15px;
@@ -73,6 +81,22 @@
 
         .info-table {
             width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .info-table td {
+            width: 50%;
+            vertical-align: top;
+            padding: 0;
+        }
+
+        .info-table td:first-child {
+            padding-right: 20px;
+        }
+
+        .info-table td:last-child {
+            padding-left: 20px;
         }
 
         .info-label {
@@ -86,6 +110,8 @@
             font-size: 13px;
             font-weight: bold;
         }
+
+        /* ================= ITEMS ================= */
 
         table.items {
             width: 100%;
@@ -131,6 +157,8 @@
             font-weight: bold;
         }
 
+        /* ================= DESCRIPTION ================= */
+
         .description-box {
             background: #f5f7f9;
             border-left: 4px solid #dda42e;
@@ -149,6 +177,8 @@
         .description-content {
             line-height: 1.6;
         }
+
+        /* ================= FOOTER ================= */
 
         .footer {
             margin-top: 35px;
@@ -180,16 +210,17 @@
 
             <td width="60">
 
-                <div class="company-logo">
-                    PB
-                </div>
+                 <div class="company-logo">
+<img src="<?php echo e(public_path('assets/images/prologo.jpg')); ?>"
+     width="60"
+     height="55">            </div>
 
             </td>
 
             <td>
 
                 <div class="company-name">
-                    Pro-Box <span>Packages</span>
+                    <span class="normal">Pro-</span><span class="box">Box</span><span class="normal"> Packages</span>
                 </div>
 
             </td>
@@ -199,9 +230,7 @@
                 QUOTATION
 
                 <div class="quotation-number">
-
                     #<?php echo e($quotation->quotation_no); ?>
-
 
                 </div>
 
@@ -222,32 +251,30 @@
 
         <tr>
 
-            <td width="50%">
+            
+            <td>
 
                 <div class="info-label">
-                    Party / Client
+                    TO CLIENT
                 </div>
 
                 <div class="info-value">
-
                     <?php echo e($quotation->party_name ?? 'N/A'); ?>
-
 
                 </div>
 
             </td>
 
 
-            <td width="50%">
+            
+            <td>
 
                 <div class="info-label">
-                    Date
+                    DATE
                 </div>
 
                 <div class="info-value">
-
                     <?php echo e(\Carbon\Carbon::parse($quotation->quotation_date)->format('d M Y')); ?>
-
 
                 </div>
 
@@ -280,13 +307,7 @@
                 Rate
             </th>
 
-            <th width="10%" class="text-right">
-                Qty
-            </th>
-
-            <th width="17%" class="text-right">
-                Total
-            </th>
+           
 
         </tr>
 
@@ -311,43 +332,21 @@
             <tr>
 
                 <td>
-
                     <div class="item-name">
                         <?php echo e($item->item_name); ?>
 
                     </div>
-
                 </td>
 
                 <td>
-
                     <div class="details">
-
                         <?php echo e($item->item_details ?? '-'); ?>
 
-
                     </div>
-
                 </td>
 
                 <td class="text-right">
-
                     PKR <?php echo e(number_format($rate, 2)); ?>
-
-
-                </td>
-
-                <td class="text-right">
-
-                    <?php echo e(number_format($qty, 0)); ?>
-
-
-                </td>
-
-                <td class="text-right">
-
-                    PKR <?php echo e(number_format($total, 2)); ?>
-
 
                 </td>
 
@@ -358,9 +357,7 @@
             <tr>
 
                 <td colspan="5" style="text-align:center;">
-
                     No items found.
-
                 </td>
 
             </tr>
@@ -368,26 +365,7 @@
         <?php endif; ?>
 
 
-        
-
-        <tr class="total-row">
-
-            <td colspan="4" class="text-right">
-
-                <strong>
-                    GRAND TOTAL
-                </strong>
-
-            </td>
-
-            <td class="text-right grand-total">
-
-                PKR <?php echo e(number_format($grandTotal, 2)); ?>
-
-
-            </td>
-
-        </tr>
+       
 
     </tbody>
 
@@ -401,15 +379,11 @@
     <div class="description-box">
 
         <div class="description-title">
-
             Description / Payment Terms
-
         </div>
 
         <div class="description-content">
-
             <?php echo nl2br(e($quotation->description)); ?>
-
 
         </div>
 
@@ -430,4 +404,5 @@
 
 
 </body>
-</html><?php /**PATH C:\laragon\www\probox\resources\views/quotations/pdf.blade.php ENDPATH**/ ?>
+</html>
+<?php /**PATH C:\laragon\www\probox\resources\views/quotations/pdf.blade.php ENDPATH**/ ?>

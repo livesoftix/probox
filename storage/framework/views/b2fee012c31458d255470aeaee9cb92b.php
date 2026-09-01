@@ -107,17 +107,17 @@
         box-shadow: 0 5px 15px rgba(15, 30, 55, 0.18);
     }
 
-    .company-name {
-        margin: 0;
-        font-size: 26px;
-        font-weight: 800;
-        color: #0f1e37;
-        line-height: 1.1;
-    }
+        .company-name {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 800;
+    color: #000;
+    line-height: 1.1;
+}
 
-    .company-name span {
-        color: #dda42e;
-    }
+  .company-name span {
+    color: #e9252b;
+}
 
     .premium-badge {
         display: inline-flex;
@@ -132,17 +132,67 @@
         letter-spacing: .4px;
         margin-top: 5px;
     }
+/* Information */
+.quotation-info {
+    background: #f1f4f8;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-top: 20px;
+    margin-bottom: 22px;
+}
 
-    /* Information */
-    .quotation-info {
-        background: #f1f4f8;
-        border-radius: 12px;
-        padding: 18px 20px;
-        margin-top: 20px;
-        margin-bottom: 22px;
+.quotation-info .row {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.quotation-info .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+.info-item {
+    margin-bottom: 0;
+}
+
+.info-label {
+    display: block;
+    color: #526d89;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 4px;
+}
+
+.info-value {
+    color: #0f1e37;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Keep Date + Client on same row while printing */
+@media print {
+
+    .quotation-info .row {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        width: 100% !important;
     }
 
-    .info-item {
+    .quotation-info .col-md-6 {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        width: 50% !important;
+    }
+
+    .quotation-info {
+        background: #f1f4f8 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+   .info-item {
         margin-bottom: 13px;
     }
 
@@ -389,6 +439,17 @@
         .table-wrapper {
             overflow-x: auto;
         }
+        .company-name {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 800;
+    color: #000;
+    line-height: 1.1;
+}
+
+.company-name span {
+    color: #e9252b;
+}
     }
 </style>
 
@@ -431,13 +492,6 @@
     PDF
 
 </a>
-                <a href="<?php echo e(route('quotations.edit', $quotation->id)); ?>"
-                   class="btn-quotation">
-
-                    <i class="fas fa-edit"></i>
-                    Edit
-
-                </a>
 
             </div>
 
@@ -447,19 +501,17 @@
         
         <div class="company-header">
 
-            <div class="company-logo">
-                PB
+            <div >
+               <img src="<?php echo e(asset('assets/images/prologo.jpg')); ?>" alt="Logo" height="50" width="60" class="bg-white" />
             </div>
 
             <div>
 
-                <h2 class="company-name">
-                    Pro-Box <span>Packages</span>
-                </h2>
+               <h2 class="company-name"> Pro-<span>Box</span> Packages </h2>
 
                 <div class="premium-badge">
                     <i class="fas fa-box"></i>
-                    PREMIUM QUOTATION
+                    Printing & Packaging Solution
                 </div>
 
             </div>
@@ -468,93 +520,38 @@
 
 
         
-        <div class="quotation-info">
+<div class="quotation-info">
+    <div class="row">
 
-            <div class="row">
+        
+        <div class="col-md-6">
+            <div class="info-item">
+                <span class="info-label">Date</span>
 
-                
-                <div class="col-md-6">
+                <div class="info-value">
+                    <i class="far fa-calendar-alt me-1"
+                       style="color:#526d89;"></i>
 
-                    <div class="info-item">
-
-                        <span class="info-label">
-                            Date
-                        </span>
-
-                        <div class="info-value">
-
-                            <i class="far fa-calendar-alt me-1"
-                               style="color:#526d89;"></i>
-
-                            <?php echo e(\Carbon\Carbon::parse($quotation->date)->format('d M Y')); ?>
-
-
-                        </div>
-
-                    </div>
-
-
-                    
-                    <div class="info-item">
-
-                        <span class="info-label">
-                            Package
-                        </span>
-
-                        <div class="info-value package-value">
-
-                            <i class="fas fa-box"></i>
-
-                            Pro-Box Premium
-
-                        </div>
-
-                    </div>
+                    <?php echo e(\Carbon\Carbon::parse($quotation->date)->format('d M Y')); ?>
 
                 </div>
-
-
-                
-                <div class="col-md-6">
-
-                    <div class="info-item">
-
-                        <span class="info-label">
-                            Party / Client
-                        </span>
-
-                        <div class="info-value">
-
-                            <?php echo e($quotation->party->title ?? $quotation->party->name ?? 'N/A'); ?>
-
-
-                        </div>
-
-                    </div>
-
-
-                    
-                    <div class="info-item">
-
-                        <span class="info-label">
-                            Reference
-                        </span>
-
-                        <div class="info-value">
-
-                            #PB-<?php echo e(str_pad($quotation->id, 4, '0', STR_PAD_LEFT)); ?>
-
-
-                        </div>
-
-                    </div>
-
-                </div>
-
             </div>
-
         </div>
 
+        
+        <div class="col-md-6">
+            <div class="info-item">
+                <span class="info-label">To Client</span>
+
+                <div class="info-value">
+                    <?php echo e($quotation->party_name ?? 'N/A'); ?>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
         
         <div class="table-wrapper">
@@ -577,13 +574,7 @@
                             Rate
                         </th>
 
-                        <th class="amount">
-                            Qty
-                        </th>
-
-                        <th class="amount">
-                            Total
-                        </th>
+                      
 
                     </tr>
 
@@ -625,15 +616,7 @@
 
                             </td>
 
-                            <td class="amount">
-                                <?php echo e(number_format($qty, 0)); ?>
-
-                            </td>
-
-                            <td class="amount">
-                                PKR <?php echo e(number_format($total, 2)); ?>
-
-                            </td>
+                     
 
                         </tr>
 
@@ -656,7 +639,7 @@
 
 
                     
-                    <tr class="grand-total-row">
+                    <!-- <tr class="grand-total-row">
 
                         <td colspan="4"
                             class="grand-total-label">
@@ -672,7 +655,7 @@
 
                         </td>
 
-                    </tr>
+                    </tr> -->
 
                 </tbody>
 

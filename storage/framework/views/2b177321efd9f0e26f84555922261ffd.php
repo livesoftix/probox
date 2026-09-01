@@ -681,8 +681,7 @@
 
                         <div class="quotation-total">
 
-                            Total <?php echo e($grand_total); ?>
-
+                            Total 
 
                             <strong>
                                 PKR <?php echo e(number_format($grand_total ?? $grand_total ?? 0, 0)); ?>

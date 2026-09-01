@@ -441,7 +441,7 @@
 
                     <label class="quotation-label">
 
-                        Party / Client Name
+                        To Client
 
                         <span class="required">*</span>
 
