@@ -254,10 +254,7 @@
 
             <tr>
 
-                <td width="55%">
-                    <span class="info-label">From:</span>
-                    Pro-Box Packages
-                </td>
+                
 
                 <td width="45%">
                     <span class="info-label">To:</span>

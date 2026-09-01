@@ -274,48 +274,178 @@
        PRINT
     ========================================================= */
 
-    @media print {
+   @media print {
 
-        body {
-            background: #fff !important;
-            margin: 0;
-            padding: 0;
-        }
-
-        .quotation-wrapper {
-            max-width: 100%;
-            margin: 0;
-        }
-
-        .quotation-card {
-            box-shadow: none;
-            padding: 35px 40px;
-        }
-
-        .no-print {
-            display: none !important;
-        }
-
-        .quotation-header {
-            border-bottom: 1px solid #ddd !important;
-        }
-
-        .quotation-table th {
-            background: #d3d3d3 !important;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-
-        .quotation-table th,
-        .quotation-table td {
-            border: 1px solid #222 !important;
-        }
-
-        .quotation-notes {
-            page-break-inside: avoid;
-        }
-
+    @page {
+        size: A4;
+        margin: 15mm;
     }
+
+    html,
+    body {
+        background: #fff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100%;
+    }
+
+    .quotation-wrapper {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .quotation-card {
+        width: 100% !important;
+        max-width: none !important;
+        box-shadow: none !important;
+        padding: 25px 30px !important;
+        margin: 0 !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+
+    /* =========================================================
+       PRINT HEADER
+    ========================================================== */
+
+    .quotation-header {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+
+        width: 100% !important;
+
+        padding-bottom: 20px !important;
+
+        border-bottom: 1px solid #ddd !important;
+    }
+
+
+    /* LEFT SIDE */
+
+    .company-left {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+
+        width: 60% !important;
+        flex: 0 0 60% !important;
+
+        gap: 15px !important;
+    }
+
+    .company-logo {
+        display: block !important;
+
+        width: 65px !important;
+        height: 65px !important;
+
+        object-fit: contain !important;
+
+        flex-shrink: 0 !important;
+    }
+
+    .company-name {
+        margin: 0 !important;
+
+        font-size: 25px !important;
+        line-height: 1.1 !important;
+
+        white-space: nowrap !important;
+    }
+
+    .company-tagline {
+        margin-top: 5px !important;
+        font-size: 11px !important;
+    }
+
+
+    /* RIGHT SIDE */
+
+    .quotation-heading {
+        display: block !important;
+
+        width: 40% !important;
+        flex: 0 0 40% !important;
+
+        text-align: right !important;
+    }
+
+    .quotation-heading h1 {
+        margin: 0 !important;
+
+        font-size: 38px !important;
+        line-height: 1.1 !important;
+
+        white-space: nowrap !important;
+    }
+
+    .quotation-number {
+        margin-top: 5px !important;
+
+        font-size: 13px !important;
+
+        text-align: right !important;
+    }
+
+
+    /* =========================================================
+       QUOTATION INFO
+    ========================================================== */
+
+    .quotation-info {
+        margin-top: 25px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .quotation-info-row {
+        display: flex !important;
+        align-items: center !important;
+
+        font-size: 18px !important;
+    }
+
+
+    /* =========================================================
+       TABLE
+    ========================================================== */
+
+    .quotation-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+    }
+
+    .quotation-table th {
+        background: #d3d3d3 !important;
+        color: #000 !important;
+
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+
+        border: 1px solid #222 !important;
+    }
+
+    .quotation-table td {
+        border: 1px solid #222 !important;
+        color: #000 !important;
+    }
+
+
+    /* =========================================================
+       NOTES
+    ========================================================== */
+
+    .quotation-notes {
+        page-break-inside: avoid !important;
+    }
+
+}
 
 
     /* =========================================================
@@ -457,22 +587,7 @@
         ========================================================== --}}
 
         <div class="quotation-info">
-
-            {{-- FROM --}}
-            <div class="quotation-info-row">
-
-                <span class="quotation-info-label">
-                    From:
-                </span>
-
-                <span class="quotation-info-value">
-                    Pro-Box Packages
-                </span>
-
-            </div>
-
-
-            {{-- TO --}}
+        {{-- TO --}}
             <div class="quotation-info-row">
 
                 <span class="quotation-info-label">

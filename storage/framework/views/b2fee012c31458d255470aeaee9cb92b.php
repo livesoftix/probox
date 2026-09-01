@@ -3,62 +3,101 @@
 <?php $__env->startSection('content'); ?>
 
 <style>
+
     body {
         background: #f3f6fa;
     }
 
     .quotation-wrapper {
-        max-width: 920px;
+        max-width: 1050px;
         margin: 30px auto;
     }
 
     .quotation-card {
         background: #fff;
-        border-radius: 18px;
-        padding: 40px;
+        padding: 45px 50px;
         box-shadow: 0 8px 35px rgba(15, 30, 55, 0.08);
     }
 
-    /* Top navigation */
-    .quotation-top {
+
+    /* =========================================================
+       TOP HEADER
+    ========================================================= */
+
+    .quotation-header {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        padding-bottom: 25px;
-        border-bottom: 1px solid #dfe5ec;
+        padding-bottom: 22px;
+        border-bottom: 1px solid #ddd;
     }
 
-    .back-link {
-        color: #526d89;
-        text-decoration: none;
-        font-size: 16px;
-        display: inline-flex;
+    .company-left {
+        display: flex;
         align-items: center;
-        gap: 5px;
-        margin-bottom: 10px;
+        gap: 15px;
     }
 
-    .back-link:hover {
-        color: #0f1e37;
+    .company-logo {
+        width: 65px;
+        height: 65px;
+        object-fit: contain;
     }
 
-    .quotation-title {
+    .company-name {
         margin: 0;
         font-size: 25px;
-        font-weight: 700;
-        color: #0f1e37;
+        font-weight: 800;
+        color: #000;
+        line-height: 1.1;
     }
+
+    .company-name span {
+        color: #e9252b;
+    }
+
+    .company-tagline {
+        margin-top: 5px;
+        font-size: 11px;
+        color: #526d89;
+        font-weight: 600;
+    }
+
+    .quotation-heading {
+        text-align: right;
+    }
+
+    .quotation-heading h1 {
+        margin: 0;
+        font-size: 38px;
+        font-weight: 800;
+        color: #000;
+        letter-spacing: .5px;
+    }
+
+    .quotation-number {
+        margin-top: 5px;
+        font-size: 13px;
+        color: #526d89;
+    }
+
+
+    /* =========================================================
+       TOP ACTIONS
+    ========================================================= */
 
     .top-actions {
         display: flex;
+        justify-content: flex-end;
         gap: 8px;
+        margin-top: 18px;
     }
 
     .btn-quotation {
         border: 1px solid #d7e0eb;
         background: #fff;
         color: #0f1e37;
-        border-radius: 10px;
+        border-radius: 9px;
         padding: 8px 16px;
         font-weight: 600;
         text-decoration: none;
@@ -84,245 +123,104 @@
         color: #fff;
     }
 
-    /* Company Header */
-    .company-header {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 23px 0 18px;
-        border-bottom: 1px solid #dfe5ec;
-    }
 
-    .company-logo {
-        width: 57px;
-        height: 57px;
-        border-radius: 15px;
-        background: #0f1e37;
-        color: #dda42e;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 25px;
-        font-weight: 800;
-        box-shadow: 0 5px 15px rgba(15, 30, 55, 0.18);
-    }
-
-        .company-name {
-    margin: 0;
-    font-size: 26px;
-    font-weight: 800;
-    color: #000;
-    line-height: 1.1;
-}
-
-  .company-name span {
-    color: #e9252b;
-}
-
-    .premium-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #f1f4f8;
-        color: #526d89;
-        border-radius: 20px;
-        padding: 4px 12px;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: .4px;
-        margin-top: 5px;
-    }
-/* Information */
-.quotation-info {
-    background: #f1f4f8;
-    border-radius: 12px;
-    padding: 18px 20px;
-    margin-top: 20px;
-    margin-bottom: 22px;
-}
-
-.quotation-info .row {
-    display: flex;
-    flex-wrap: nowrap;
-    width: 100%;
-}
-
-.quotation-info .col-md-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-
-.info-item {
-    margin-bottom: 0;
-}
-
-.info-label {
-    display: block;
-    color: #526d89;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    margin-bottom: 4px;
-}
-
-.info-value {
-    color: #0f1e37;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-/* Keep Date + Client on same row while printing */
-@media print {
-
-    .quotation-info .row {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        width: 100% !important;
-    }
-
-    .quotation-info .col-md-6 {
-        flex: 0 0 50% !important;
-        max-width: 50% !important;
-        width: 50% !important;
-    }
+    /* =========================================================
+       QUOTATION INFORMATION
+    ========================================================= */
 
     .quotation-info {
-        background: #f1f4f8 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
-}
-   .info-item {
-        margin-bottom: 13px;
+        margin-top: 25px;
+        margin-bottom: 20px;
     }
 
-    .info-item:last-child {
-        margin-bottom: 0;
-    }
-
-    .info-label {
-        display: block;
-        color: #526d89;
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: .5px;
-        margin-bottom: 4px;
-    }
-
-    .info-value {
-        color: #0f1e37;
-        font-size: 16px;
-        font-weight: 600;
-    }
-
-    .package-value {
+    .quotation-info-row {
         display: flex;
         align-items: center;
-        gap: 5px;
+        margin-bottom: 5px;
+        font-size: 18px;
+        color: #000;
     }
 
-    .package-value i {
-        color: #dda42e;
+    .quotation-info-label {
+        font-weight: 700;
+        min-width: 55px;
     }
 
-    /* Items table */
+    .quotation-info-value {
+        font-weight: 400;
+    }
+
+
+    /* =========================================================
+       ITEMS TABLE
+    ========================================================= */
+
     .quotation-table {
         width: 100%;
         border-collapse: collapse;
+        margin-top: 5px;
     }
 
-    .quotation-table thead th {
-        color: #526d89;
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: .5px;
-        font-weight: 600;
-        padding: 10px 7px;
-        border-bottom: 1px solid #d5dce5;
+    .quotation-table th {
+        background: #d3d3d3;
+        color: #000;
+        font-size: 17px;
+        font-weight: 700;
+        text-align: left;
+        padding: 12px 16px;
+        border: 1px solid #222;
     }
 
-    .quotation-table tbody td {
-        padding: 13px 7px;
-        color: #0f1e37;
-        font-size: 14px;
-        border-bottom: 1px solid #e0e5eb;
+    .quotation-table td {
+        color: #000;
+        font-size: 17px;
+        padding: 12px 16px;
+        border: 1px solid #222;
         vertical-align: middle;
     }
 
-    .quotation-table tbody tr:last-child td {
-        border-bottom: 2px solid #0f1e37;
+    .quotation-table th:first-child {
+        width: 43%;
+    }
+
+    .quotation-table th:last-child {
+        width: 57%;
     }
 
     .item-name {
         font-weight: 700;
     }
 
-    .details-text {
-        color: #526d89;
+    .item-details {
+        font-weight: 400;
     }
 
-    .amount {
-        text-align: right;
-        white-space: nowrap;
-    }
 
-    .grand-total-row td {
-        border-bottom: 1px solid #dfe5ec !important;
-        padding-top: 18px !important;
-        padding-bottom: 18px !important;
-    }
+    /* =========================================================
+       NOTES
+    ========================================================= */
 
-    .grand-total-label {
-        text-align: right;
-        font-size: 14px;
-        font-weight: 700;
-        color: #0f1e37;
-    }
-
-    .grand-total {
-        text-align: right;
-        color: #dda42e;
-        font-size: 18px;
-        font-weight: 800;
-        white-space: nowrap;
-    }
-
-    /* Description */
-    .description-box {
-        background: #f5f7f9;
-        border-left: 4px solid #dda42e;
-        border-radius: 11px;
-        padding: 18px 22px;
-        margin-top: 22px;
-    }
-
-    .description-title {
-        color: #526d89;
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: .5px;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-
-    .description-title i {
-        color: #526d89;
-        margin-right: 5px;
-    }
-
-    .description-content {
-        color: #0f1e37;
-        font-size: 14px;
+    .quotation-notes {
+        margin-top: 32px;
+        font-size: 17px;
         line-height: 1.7;
-        white-space: pre-line;
+        color: #000;
     }
 
-    /* Bottom actions */
+    .quotation-notes strong {
+        font-weight: 700;
+    }
+
+
+    /* =========================================================
+       BOTTOM ACTIONS
+    ========================================================= */
+
     .bottom-actions {
         display: flex;
         gap: 10px;
-        padding-top: 20px;
-        margin-top: 28px;
+        padding-top: 25px;
+        margin-top: 30px;
         border-top: 1px solid #dfe5ec;
     }
 
@@ -371,42 +269,188 @@
         text-decoration: none;
     }
 
-    /* Empty items */
-    .empty-items {
-        text-align: center;
-        padding: 25px;
-        color: #8a98a9;
+
+    /* =========================================================
+       PRINT
+    ========================================================= */
+
+   @media print {
+
+    @page {
+        size: A4;
+        margin: 15mm;
     }
 
-    /* Print */
-    @media print {
-
-        body {
-            background: #fff !important;
-        }
-
-        .quotation-wrapper {
-            margin: 0;
-            max-width: 100%;
-        }
-
-        .quotation-card {
-            box-shadow: none;
-            padding: 20px;
-        }
-
-        .no-print {
-            display: none !important;
-        }
-
-        .quotation-top {
-            padding-bottom: 15px;
-        }
-
-        .company-header {
-            padding-top: 15px;
-        }
+    html,
+    body {
+        background: #fff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100%;
     }
+
+    .quotation-wrapper {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .quotation-card {
+        width: 100% !important;
+        max-width: none !important;
+        box-shadow: none !important;
+        padding: 25px 30px !important;
+        margin: 0 !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+
+    /* =========================================================
+       PRINT HEADER
+    ========================================================== */
+
+    .quotation-header {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+
+        width: 100% !important;
+
+        padding-bottom: 20px !important;
+
+        border-bottom: 1px solid #ddd !important;
+    }
+
+
+    /* LEFT SIDE */
+
+    .company-left {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+
+        width: 60% !important;
+        flex: 0 0 60% !important;
+
+        gap: 15px !important;
+    }
+
+    .company-logo {
+        display: block !important;
+
+        width: 65px !important;
+        height: 65px !important;
+
+        object-fit: contain !important;
+
+        flex-shrink: 0 !important;
+    }
+
+    .company-name {
+        margin: 0 !important;
+
+        font-size: 25px !important;
+        line-height: 1.1 !important;
+
+        white-space: nowrap !important;
+    }
+
+    .company-tagline {
+        margin-top: 5px !important;
+        font-size: 11px !important;
+    }
+
+
+    /* RIGHT SIDE */
+
+    .quotation-heading {
+        display: block !important;
+
+        width: 40% !important;
+        flex: 0 0 40% !important;
+
+        text-align: right !important;
+    }
+
+    .quotation-heading h1 {
+        margin: 0 !important;
+
+        font-size: 38px !important;
+        line-height: 1.1 !important;
+
+        white-space: nowrap !important;
+    }
+
+    .quotation-number {
+        margin-top: 5px !important;
+
+        font-size: 13px !important;
+
+        text-align: right !important;
+    }
+
+
+    /* =========================================================
+       QUOTATION INFO
+    ========================================================== */
+
+    .quotation-info {
+        margin-top: 25px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .quotation-info-row {
+        display: flex !important;
+        align-items: center !important;
+
+        font-size: 18px !important;
+    }
+
+
+    /* =========================================================
+       TABLE
+    ========================================================== */
+
+    .quotation-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+    }
+
+    .quotation-table th {
+        background: #d3d3d3 !important;
+        color: #000 !important;
+
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+
+        border: 1px solid #222 !important;
+    }
+
+    .quotation-table td {
+        border: 1px solid #222 !important;
+        color: #000 !important;
+    }
+
+
+    /* =========================================================
+       NOTES
+    ========================================================== */
+
+    .quotation-notes {
+        page-break-inside: avoid !important;
+    }
+
+}
+
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
 
     @media (max-width: 768px) {
 
@@ -415,21 +459,24 @@
         }
 
         .quotation-card {
-            padding: 20px;
+            padding: 25px;
         }
 
-        .quotation-top {
+        .quotation-header {
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
-        .top-actions {
-            width: 100%;
+        .quotation-heading {
+            text-align: left;
         }
 
-        .top-actions .btn-quotation {
-            flex: 1;
-            justify-content: center;
+        .quotation-heading h1 {
+            font-size: 30px;
+        }
+
+        .quotation-info-row {
+            font-size: 16px;
         }
 
         .quotation-table {
@@ -439,18 +486,9 @@
         .table-wrapper {
             overflow-x: auto;
         }
-        .company-name {
-    margin: 0;
-    font-size: 26px;
-    font-weight: 800;
-    color: #000;
-    line-height: 1.1;
-}
 
-.company-name span {
-    color: #e9252b;
-}
     }
+
 </style>
 
 
@@ -458,40 +496,50 @@
 
     <div class="quotation-card">
 
+
         
-        <div class="quotation-top">
 
-            <div>
+        <div class="quotation-header">
 
-                <a href="<?php echo e(route('quotations.index')); ?>" class="back-link no-print">
-                    <i class="fas fa-arrow-left"></i>
-                    Back
-                </a>
+            
+            <div class="company-left">
 
-                <h1 class="quotation-title">
-                    Quotation
+                <img
+                    src="<?php echo e(asset('assets/images/prologo.jpg')); ?>"
+                    alt="Pro-Box Packages"
+                    class="company-logo"
+                >
+
+                <div>
+
+                    <h2 class="company-name">
+                        Pro-<span>Box</span> Packages
+                    </h2>
+
+                    <div class="company-tagline">
+                        Printing & Packaging Solution
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            
+            <div class="quotation-heading">
+
+                <h1>
+                    QUOTATION
                 </h1>
 
-            </div>
+                <?php if(!empty($quotation->quotation_no)): ?>
 
-            <div class="top-actions no-print">
+                    <div class="quotation-number">
+                        Quotation No:
+                        <strong><?php echo e($quotation->quotation_no); ?></strong>
+                    </div>
 
-                <button type="button"
-                        class="btn-quotation"
-                        onclick="window.print()">
-
-                    <i class="fas fa-print"></i>
-                    Print
-
-                </button>
-
-                <a href="<?php echo e(route('quotations.pdf', $quotation->id)); ?>"
-   class="btn-quotation btn-gold">
-
-    <i class="fas fa-file-pdf"></i>
-    PDF
-
-</a>
+                <?php endif; ?>
 
             </div>
 
@@ -499,61 +547,76 @@
 
 
         
-        <div class="company-header">
 
-            <div >
-               <img src="<?php echo e(asset('assets/images/prologo.jpg')); ?>" alt="Logo" height="50" width="60" class="bg-white" />
-            </div>
+        <div class="top-actions no-print">
 
-            <div>
+            <a
+                href="<?php echo e(route('quotations.index')); ?>"
+                class="btn-quotation"
+            >
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
 
-               <h2 class="company-name"> Pro-<span>Box</span> Packages </h2>
+            <button
+                type="button"
+                class="btn-quotation"
+                onclick="window.print()"
+            >
+                <i class="fas fa-print"></i>
+                Print
+            </button>
 
-                <div class="premium-badge">
-                    <i class="fas fa-box"></i>
-                    Printing & Packaging Solution
-                </div>
-
-            </div>
+            <a
+                href="<?php echo e(route('quotations.pdf', $quotation->id)); ?>"
+                class="btn-quotation btn-gold"
+            >
+                <i class="fas fa-file-pdf"></i>
+                PDF
+            </a>
 
         </div>
 
 
         
-<div class="quotation-info">
-    <div class="row">
 
+        <div class="quotation-info">
         
-        <div class="col-md-6">
-            <div class="info-item">
-                <span class="info-label">Date</span>
+            <div class="quotation-info-row">
 
-                <div class="info-value">
-                    <i class="far fa-calendar-alt me-1"
-                       style="color:#526d89;"></i>
+                <span class="quotation-info-label">
+                    To:
+                </span>
 
-                    <?php echo e(\Carbon\Carbon::parse($quotation->date)->format('d M Y')); ?>
-
-                </div>
-            </div>
-        </div>
-
-        
-        <div class="col-md-6">
-            <div class="info-item">
-                <span class="info-label">To Client</span>
-
-                <div class="info-value">
+                <span class="quotation-info-value">
                     <?php echo e($quotation->party_name ?? 'N/A'); ?>
 
-                </div>
+                </span>
+
             </div>
+
+
+            
+            <div class="quotation-info-row">
+
+                <span class="quotation-info-label">
+                    Date:
+                </span>
+
+                <span class="quotation-info-value">
+
+                    <?php echo e(\Carbon\Carbon::parse($quotation->quotation_date)->format('d F Y')); ?>
+
+
+                </span>
+
+            </div>
+
         </div>
 
-    </div>
-</div>
 
         
+
         <div class="table-wrapper">
 
             <table class="quotation-table">
@@ -562,19 +625,13 @@
 
                     <tr>
 
-                        <th style="width:25%;">
+                        <th>
                             Item
                         </th>
 
-                        <th style="width:38%;">
-                            Details
+                        <th>
+                            Description
                         </th>
-
-                        <th class="amount">
-                            Rate
-                        </th>
-
-                      
 
                     </tr>
 
@@ -582,41 +639,27 @@
 
                 <tbody>
 
-                    <?php
-                        $grandTotal = 0;
-                    ?>
-
                     <?php $__empty_1 = true; $__currentLoopData = $quotation->details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-
-                        <?php
-                            $rate = (float) $item->rate;
-                            $qty = (float) $item->qty;
-                            $total = $rate * $qty;
-                            $grandTotal += $total;
-                        ?>
 
                         <tr>
 
                             <td>
+
                                 <div class="item-name">
                                     <?php echo e($item->item_name); ?>
 
                                 </div>
+
                             </td>
 
                             <td>
-                                <div class="details-text">
-                                    <?php echo e($item->details ?: '-'); ?>
+
+                                <div class="item-details">
+                                    <?php echo e($item->item_details ?: '-'); ?>
 
                                 </div>
-                            </td>
-
-                            <td class="amount">
-                                PKR <?php echo e(number_format($rate, 2)); ?>
 
                             </td>
-
-                     
 
                         </tr>
 
@@ -624,38 +667,15 @@
 
                         <tr>
 
-                            <td colspan="5">
+                            <td colspan="2">
 
-                                <div class="empty-items">
-                                    <i class="fas fa-box-open me-1"></i>
-                                    No quotation items found.
-                                </div>
+                                No quotation items found.
 
                             </td>
 
                         </tr>
 
                     <?php endif; ?>
-
-
-                    
-                    <!-- <tr class="grand-total-row">
-
-                        <td colspan="4"
-                            class="grand-total-label">
-
-                            Grand Total
-
-                        </td>
-
-                        <td class="grand-total">
-
-                            PKR <?php echo e(number_format($grandTotal, 2)); ?>
-
-
-                        </td>
-
-                    </tr> -->
 
                 </tbody>
 
@@ -665,54 +685,59 @@
 
 
         
-        <?php if(!empty($quotation->description)): ?>
 
-            <div class="description-box">
+        <div class="quotation-notes">
 
-                <div class="description-title">
+            <?php if(!empty($quotation->description)): ?>
 
-                    <i class="fas fa-file-alt"></i>
-
-                    Description / Terms
-
-                </div>
-
-                <div class="description-content">
-
-                    <?php echo e($quotation->description); ?>
+                <?php echo nl2br(e($quotation->description)); ?>
 
 
-                </div>
+            <?php else: ?>
 
-            </div>
+                Thank you for choosing
+                <strong>Pro-Box Packages</strong>.
+                We look forward to serving you.
 
-        <?php endif; ?>
+            <?php endif; ?>
+
+        </div>
 
 
         
+
         <div class="bottom-actions no-print">
 
-            <a href="<?php echo e(route('quotations.edit', $quotation->id)); ?>"
-               class="btn-dark">
+            <a
+                href="<?php echo e(route('quotations.edit', $quotation->id)); ?>"
+                class="btn-dark"
+            >
 
                 <i class="fas fa-edit"></i>
+
                 Edit
 
             </a>
 
 
-            <form action="<?php echo e(route('quotations.destroy', $quotation->id)); ?>"
-                  method="POST"
-                  onsubmit="return confirm('Are you sure you want to delete this quotation?');"
-                  style="display:inline;">
+            <form
+                action="<?php echo e(route('quotations.destroy', $quotation->id)); ?>"
+                method="POST"
+                onsubmit="return confirm('Are you sure you want to delete this quotation?');"
+                style="display:inline;"
+            >
 
                 <?php echo csrf_field(); ?>
+
                 <?php echo method_field('DELETE'); ?>
 
-                <button type="submit"
-                        class="btn-danger-custom">
+                <button
+                    type="submit"
+                    class="btn-danger-custom"
+                >
 
                     <i class="fas fa-trash"></i>
+
                     Delete
 
                 </button>
@@ -720,14 +745,15 @@
             </form>
 
 
-            <a href="<?php echo e(route('quotations.index')); ?>"
-               class="btn-close-custom">
-
+            <a
+                href="<?php echo e(route('quotations.index')); ?>"
+                class="btn-close-custom"
+            >
                 Close
-
             </a>
 
         </div>
+
 
     </div>
 
