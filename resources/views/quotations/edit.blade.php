@@ -636,7 +636,7 @@
                                 >
                             </div>
 
-                            <div>
+                            <!-- <div>
                                 <input
                                     type="number"
                                     name="items[0][qty]"
@@ -646,11 +646,11 @@
                                     step="1"
                                     required
                                 >
-                            </div>
+                            </div> -->
 
-                            <div class="item-total">
+                            <!-- <div class="item-total">
                                 PKR <span class="row-total">0</span>
-                            </div>
+                            </div> -->
 
                             <div>
                                 <button
@@ -933,36 +933,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     >
 
                 </div>
-
-
-                <div>
-
-                    <input
-                        type="number"
-                        name="items[${itemIndex}][qty]"
-                        class="item-input item-qty"
-                        placeholder="1"
-                        min="1"
-                        step="1"
-                        value="1"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="item-total">
-
-                    PKR
-
-                    <span class="row-total">
-                        0
-                    </span>
-
-                </div>
-
-
-                <div>
+       <div>
 
                     <button
                         type="button"
