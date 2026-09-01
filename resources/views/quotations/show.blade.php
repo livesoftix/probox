@@ -58,7 +58,7 @@
 
     .company-tagline {
         margin-top: 5px;
-        font-size: 11px;
+        font-size: 14px;
         color: #526d89;
         font-weight: 600;
     }
@@ -77,7 +77,7 @@
 
     .quotation-number {
         margin-top: 5px;
-        font-size: 13px;
+        font-size: 14px;
         color: #526d89;
     }
 
@@ -443,6 +443,31 @@
 
     .quotation-notes {
         page-break-inside: avoid !important;
+    }
+     .table-wrapper {
+        overflow: visible !important;
+        width: 100% !important;
+    }
+
+    .quotation-table {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        table-layout: fixed !important;
+    }
+
+    .quotation-table th,
+    .quotation-table td {
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
+        word-break: normal !important;
+        white-space: normal !important;
+    }
+
+    .item-details {
+        white-space: normal !important;
+        overflow-wrap: break-word !important;
+        word-break: break-word !important;
     }
 
 }
