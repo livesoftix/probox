@@ -104,7 +104,7 @@
                             <div class="col-md-8">
 
                                 <label class="form-label">
-                                    Party Name
+                                    To Client
                                     <span class="text-danger">*</span>
                                 </label>
 

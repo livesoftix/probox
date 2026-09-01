@@ -441,7 +441,7 @@
 
                     <label class="quotation-label">
 
-                        Party / Client Name
+                        To Client
 
                         <span class="required">*</span>
 
@@ -485,9 +485,9 @@
 
                     <div>Rate (PKR)</div>
 
-                    <div>Qty</div>
+                    <!-- <div>Qty</div>
 
-                    <div>Total</div>
+                    <div>Total</div> -->
 
                     <div></div>
 
@@ -581,34 +581,6 @@
 
                             </div>
 
-
-                            
-                            <div>
-
-                                <input
-                                    type="number"
-                                    name="items[<?php echo e($index); ?>][qty]"
-                                    class="item-input item-qty"
-                                    placeholder="1"
-                                    min="1"
-                                    step="1"
-                                    value="<?php echo e($item['qty'] ?? 1); ?>"
-                                    required
-                                >
-
-                            </div>
-
-
-                            
-                            <div class="item-total">
-
-                                PKR
-
-                                <span class="row-total">
-                                    0
-                                </span>
-
-                            </div>
 
 
                             
