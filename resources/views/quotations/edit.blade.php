@@ -485,9 +485,9 @@
 
                     <div>Rate (PKR)</div>
 
-                    <div>Qty</div>
+                    <!-- <div>Qty</div>
 
-                    <div>Total</div>
+                    <div>Total</div> -->
 
                     <div></div>
 
@@ -581,34 +581,6 @@
 
                             </div>
 
-
-                            {{-- Qty --}}
-                            <div>
-
-                                <input
-                                    type="number"
-                                    name="items[{{ $index }}][qty]"
-                                    class="item-input item-qty"
-                                    placeholder="1"
-                                    min="1"
-                                    step="1"
-                                    value="{{ $item['qty'] ?? 1 }}"
-                                    required
-                                >
-
-                            </div>
-
-
-                            {{-- Total --}}
-                            <div class="item-total">
-
-                                PKR
-
-                                <span class="row-total">
-                                    0
-                                </span>
-
-                            </div>
 
 
                             {{-- Remove --}}
