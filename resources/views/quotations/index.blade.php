@@ -558,17 +558,7 @@
             </button>
 
 
-            {{-- New Quotation --}}
-            <a
-                href="{{ route('quotations.create') }}"
-                class="header-new-btn"
-            >
-
-                <i class="fas fa-plus"></i>
-
-                New Quotation
-
-            </a>
+         
 
         </div>
 

@@ -435,9 +435,9 @@
 
                     <div>Rate (PKR)</div>
 
-                    <div>Qty</div>
+                    <!-- <div>Qty</div>
 
-                    <div>Total</div>
+                    <div>Total</div> -->
 
                     <div></div>
 
@@ -494,7 +494,7 @@
 
 
                         
-                        <div>
+                        <!-- <div>
 
                             <input
                                 type="number"
@@ -508,14 +508,14 @@
                             >
 
                         </div>
-
+ -->
 
                         
-                        <div class="item-total">
+                        <!-- <div class="item-total">
 
                             PKR <span class="row-total">0</span>
 
-                        </div>
+                        </div> -->
 
 
                         
@@ -710,7 +710,7 @@ document.addEventListener('DOMContentLoaded', function () {
     */
 
     addItemButton.addEventListener('click', function () {
-
+console.log("kxn");
         const row = document.createElement('div');
 
         row.className = 'quotation-item-row';
@@ -757,32 +757,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 >
 
             </div>
-
-
-            <div>
-
-                <input
-                    type="number"
-                    name="items[${itemIndex}][qty]"
-                    class="item-input item-qty"
-                    placeholder="1"
-                    min="1"
-                    step="1"
-                    value="1"
-                    required
-                >
-
-            </div>
-
-
-            <div class="item-total">
-
-                PKR <span class="row-total">0</span>
-
-            </div>
-
-
-            <div>
+       <div>
 
                 <button
                     type="button"
