@@ -558,17 +558,7 @@
             </button>
 
 
-            
-            <a
-                href="<?php echo e(route('quotations.create')); ?>"
-                class="header-new-btn"
-            >
-
-                <i class="fas fa-plus"></i>
-
-                New Quotation
-
-            </a>
+         
 
         </div>
 
@@ -699,7 +689,7 @@
                     
                     <div class="quotation-card-middle">
 
-                        <div class="quotation-total">
+                        <!-- <div class="quotation-total">
 
                             Total 
 
@@ -708,7 +698,7 @@
 
                             </strong>
 
-                        </div>
+                        </div> -->
 
 
                         <div class="quotation-item-count">

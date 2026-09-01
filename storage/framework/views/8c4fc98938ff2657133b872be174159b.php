@@ -18,44 +18,90 @@
         box-shadow: 0 8px 30px rgba(15, 31, 55, 0.08);
     }
 
-    /* Header */
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
     .quotation-header {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 18px;
-        padding-bottom: 25px;
-        border-bottom: 1px solid #dce3eb;
+        padding: 20px 0;
+        border-bottom: 1px solid #dfe5ec;
         margin-bottom: 38px;
     }
 
-    .quotation-back {
-        color: #52657a;
-        font-size: 26px;
-        text-decoration: none;
-        width: 35px;
+    .company-section {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .logo-wrapper {
+        width: 60px;
+        height: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .quotation-back:hover {
-        color: #0d1b35;
+    .logo-wrapper img {
+        display: block;
+        object-fit: contain;
     }
 
-    .quotation-title {
+    .brand-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .company-name {
         margin: 0;
-        color: #0d1b35;
-        font-size: 28px;
-        font-weight: 700;
-        letter-spacing: -0.3px;
+        font-size: 26px;
+        font-weight: 800;
+        color: #000;
+        line-height: 1.1;
     }
 
-    .quotation-title i {
-        margin-right: 8px;
+    .company-name span {
+        color: #e9252b;
     }
 
-    /* Labels */
+    .premium-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f1f4f8;
+        color: #526d89;
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .4px;
+        margin-top: 6px;
+        width: fit-content;
+    }
+
+    .premium-badge i {
+        color: #dda42e;
+    }
+
+    .quotation-heading {
+        text-align: right;
+    }
+
     .quotation-label {
+        font-size: 28px;
+        font-weight: 800;
+        color: #0f1e37;
+        letter-spacing: 1px;
+    }
+
+    /* =========================================================
+       LABELS
+    ========================================================= */
+
+    .form-label-custom {
         display: block;
         color: #0d1b35;
         font-size: 16px;
@@ -63,11 +109,14 @@
         margin-bottom: 8px;
     }
 
-    .quotation-label .required {
+    .form-label-custom .required {
         color: #e53935;
     }
 
-    /* Inputs */
+    /* =========================================================
+       INPUTS
+    ========================================================= */
+
     .quotation-input {
         width: 100%;
         height: 50px;
@@ -87,9 +136,12 @@
         box-shadow: 0 0 0 3px rgba(43, 76, 112, 0.07);
     }
 
-    /* Items section */
+    /* =========================================================
+       ITEMS SECTION
+    ========================================================= */
+
     .items-section {
-        margin-top: 54px;
+        margin-top: 35px;
         background: #f3f6fa;
         border-radius: 12px;
         padding: 24px;
@@ -111,7 +163,7 @@
 
     .items-table-header {
         display: grid;
-        grid-template-columns: 1.05fr 1.5fr .55fr .55fr .75fr 25px;
+        grid-template-columns: 1fr 2fr 40px;
         gap: 14px;
         padding: 0 8px 12px;
         border-bottom: 1px solid #d6dfe9;
@@ -127,35 +179,33 @@
 
     .quotation-item-row {
         display: grid;
-        grid-template-columns: 1.05fr 1.5fr .55fr .55fr .75fr 25px;
+        grid-template-columns: 1fr 2fr 40px;
         gap: 14px;
         align-items: center;
         padding: 9px 8px;
         border-bottom: 1px solid #d6dfe9;
     }
 
-    .item-input {
+    .item-input,
+    .item-select {
         width: 100%;
-        height: 39px;
+        height: 42px;
         border: none;
         border-radius: 8px;
         background: #ffffff;
         padding: 0 11px;
         color: #17263d;
-        font-size: 16px;
+        font-size: 15px;
         outline: none;
     }
 
-    .item-input:focus {
+    .item-input:focus,
+    .item-select:focus {
         box-shadow: 0 0 0 2px rgba(43, 76, 112, .12);
     }
 
-    .item-total {
-        font-size: 16px;
-        font-weight: 700;
-        color: #0d1b35;
-        white-space: nowrap;
-        text-align: right;
+    .item-select {
+        cursor: pointer;
     }
 
     .remove-item {
@@ -189,7 +239,10 @@
         color: #0d1b35;
     }
 
-    /* Description */
+    /* =========================================================
+       DESCRIPTION / NOTES
+    ========================================================= */
+
     .description-section {
         margin-top: 24px;
         background: #f7f9fb;
@@ -218,13 +271,17 @@
         padding: 0 4px;
         color: #17263d;
         font-size: 15px;
+        line-height: 1.6;
     }
 
     .description-textarea::placeholder {
         color: #748399;
     }
 
-    /* Footer */
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
     .quotation-footer {
         margin-top: 34px;
         padding-top: 24px;
@@ -272,7 +329,10 @@
         color: #0d1b35;
     }
 
-    /* Validation */
+    /* =========================================================
+       VALIDATION
+    ========================================================= */
+
     .quotation-error-box {
         background: #fff1f1;
         border: 1px solid #f2caca;
@@ -287,19 +347,9 @@
         padding: 0;
     }
 
-    /* Responsive */
-    @media (max-width: 900px) {
-
-        .quotation-card {
-            padding: 30px 25px;
-        }
-
-        .items-table-header,
-        .quotation-item-row {
-            grid-template-columns: 1fr 1.3fr .7fr .7fr .8fr 25px;
-            gap: 8px;
-        }
-    }
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
 
     @media (max-width: 700px) {
 
@@ -313,11 +363,18 @@
         }
 
         .quotation-header {
-            margin-bottom: 25px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
         }
 
-        .quotation-title {
-            font-size: 23px;
+        .quotation-heading {
+            text-align: left;
+            width: 100%;
+        }
+
+        .quotation-label {
+            font-size: 24px;
         }
 
         .items-section {
@@ -327,7 +384,7 @@
 
         .items-table-header,
         .quotation-item-row {
-            min-width: 800px;
+            min-width: 650px;
         }
 
         .description-section {
@@ -342,32 +399,54 @@
     <div class="quotation-card">
 
         
-        
-        
 
         <div class="quotation-header">
 
-            <a
-                href="<?php echo e(route('quotations.index')); ?>"
-                class="quotation-back"
-                title="Back"
-            >
-                <i class="fas fa-arrow-left"></i>
-            </a>
+            
+            <div class="company-section">
 
-            <h1 class="quotation-title">
+                <div class="logo-wrapper">
 
-                <i class="fas fa-pen text-dark"></i>
+                    <img
+                        src="<?php echo e(asset('assets/images/prologo.jpg')); ?>"
+                        alt="Pro-Box Packages"
+                        width="60"
+                        height="50"
+                    >
 
-                Edit Quotation
+                </div>
 
-            </h1>
+                <div class="brand-info">
+
+                    <h2 class="company-name">
+                        Pro-<span>Box</span> Packages
+                    </h2>
+
+                    <div class="premium-badge">
+
+                        <i class="fas fa-box"></i>
+
+                        Printing & Packaging Solution
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            
+            <div class="quotation-heading">
+
+                <div class="quotation-label">
+                    QUOTATION
+                </div>
+
+            </div>
 
         </div>
 
 
-        
-        
         
 
         <?php if($errors->any()): ?>
@@ -394,8 +473,6 @@
 
 
         
-        
-        
 
         <form
             action="<?php echo e(route('quotations.update', $quotation->id)); ?>"
@@ -409,15 +486,13 @@
 
 
             
-            
-            
 
             <div class="row">
 
                 
                 <div class="col-md-6 mb-3">
 
-                    <label class="quotation-label">
+                    <label class="form-label-custom">
 
                         Date
 
@@ -439,7 +514,7 @@
                 
                 <div class="col-md-6 mb-3">
 
-                    <label class="quotation-label">
+                    <label class="form-label-custom">
 
                         To Client
 
@@ -462,8 +537,6 @@
 
 
             
-            
-            
 
             <div class="items-section">
 
@@ -471,7 +544,7 @@
 
                     <i class="fas fa-list-ul"></i>
 
-                    Items & Rates
+                    Item Details
 
                 </div>
 
@@ -479,15 +552,13 @@
                 
                 <div class="items-table-header">
 
-                    <div>Item Name</div>
+                    <div>
+                        Item
+                    </div>
 
-                    <div>Details</div>
-
-                    <div>Rate (PKR)</div>
-
-                    <!-- <div>Qty</div>
-
-                    <div>Total</div> -->
+                    <div>
+                        Details
+                    </div>
 
                     <div></div>
 
@@ -498,13 +569,6 @@
                 <div id="quotationItems">
 
                     <?php
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | If validation fails, show old submitted items.
-                        | Otherwise show database items.
-                        |--------------------------------------------------------------------------
-                        */
 
                         $oldItems = old('items');
 
@@ -520,8 +584,6 @@
                                     return [
                                         'item_name' => $item->item_name,
                                         'details' => $item->item_details,
-                                        'rate' => $item->rate,
-                                        'qty' => $item->qty,
                                     ];
 
                                 })
@@ -539,14 +601,49 @@
                             
                             <div>
 
-                                <input
-                                    type="text"
+                                <select
                                     name="items[<?php echo e($index); ?>][item_name]"
-                                    class="item-input"
-                                    placeholder="Item name"
-                                    value="<?php echo e($item['item_name'] ?? ''); ?>"
+                                    class="item-select"
                                     required
                                 >
+
+                                    <option value="">
+                                        Select Item
+                                    </option>
+
+                                    <option
+                                        value="Product Name"
+                                        <?php echo e(($item['item_name'] ?? '') == 'Product Name' ? 'selected' : ''); ?>
+
+                                    >
+                                        Product Name
+                                    </option>
+
+                                    <option
+                                        value="Minimum Order Quantity (MOQ)"
+                                        <?php echo e(($item['item_name'] ?? '') == 'Minimum Order Quantity (MOQ)' ? 'selected' : ''); ?>
+
+                                    >
+                                        Minimum Order Quantity (MOQ)
+                                    </option>
+
+                                    <option
+                                        value="Product Detail"
+                                        <?php echo e(($item['item_name'] ?? '') == 'Product Detail' ? 'selected' : ''); ?>
+
+                                    >
+                                        Product Detail
+                                    </option>
+
+                                    <option
+                                        value="Product Rate"
+                                        <?php echo e(($item['item_name'] ?? '') == 'Product Rate' ? 'selected' : ''); ?>
+
+                                    >
+                                        Product Rate
+                                    </option>
+
+                                </select>
 
                             </div>
 
@@ -558,29 +655,12 @@
                                     type="text"
                                     name="items[<?php echo e($index); ?>][details]"
                                     class="item-input"
-                                    placeholder="Details"
+                                    placeholder="Enter details"
                                     value="<?php echo e($item['details'] ?? ''); ?>"
-                                >
-
-                            </div>
-
-
-                            
-                            <div>
-
-                                <input
-                                    type="number"
-                                    name="items[<?php echo e($index); ?>][rate]"
-                                    class="item-input item-rate"
-                                    placeholder="0"
-                                    min="0"
-                                    step="0.01"
-                                    value="<?php echo e($item['rate'] ?? 0); ?>"
                                     required
                                 >
 
                             </div>
-
 
 
                             
@@ -606,60 +686,63 @@
                         <div class="quotation-item-row">
 
                             <div>
-                                <input
-                                    type="text"
+
+                                <select
                                     name="items[0][item_name]"
-                                    class="item-input"
-                                    placeholder="Item name"
+                                    class="item-select"
                                     required
                                 >
+
+                                    <option value="">
+                                        Select Item
+                                    </option>
+
+                                    <option value="Product Name">
+                                        Product Name
+                                    </option>
+
+                                    <option value="Minimum Order Quantity (MOQ)">
+                                        Minimum Order Quantity (MOQ)
+                                    </option>
+
+                                    <option value="Product Detail">
+                                        Product Detail
+                                    </option>
+
+                                    <option value="Product Rate">
+                                        Product Rate
+                                    </option>
+
+                                </select>
+
                             </div>
 
+
                             <div>
+
                                 <input
                                     type="text"
                                     name="items[0][details]"
                                     class="item-input"
-                                    placeholder="Details"
-                                >
-                            </div>
-
-                            <div>
-                                <input
-                                    type="number"
-                                    name="items[0][rate]"
-                                    class="item-input item-rate"
-                                    value="0"
-                                    min="0"
-                                    step="0.01"
+                                    placeholder="Enter details"
                                     required
                                 >
+
                             </div>
+
 
                             <div>
-                                <input
-                                    type="number"
-                                    name="items[0][qty]"
-                                    class="item-input item-qty"
-                                    value="1"
-                                    min="1"
-                                    step="1"
-                                    required
-                                >
-                            </div>
 
-                            <div class="item-total">
-                                PKR <span class="row-total">0</span>
-                            </div>
-
-                            <div>
                                 <button
                                     type="button"
                                     class="remove-item"
                                     title="Remove Item"
                                 >
+
                                     <i class="fas fa-times"></i>
+
                                 </button>
+
                             </div>
 
                         </div>
@@ -686,8 +769,6 @@
 
 
             
-            
-            
 
             <div class="description-section">
 
@@ -695,21 +776,19 @@
 
                     <i class="fas fa-file-alt"></i>
 
-                    Description / Payment Terms
+                    Notes
 
                 </div>
 
                 <textarea
                     name="description"
                     class="description-textarea"
-                    placeholder="e.g. Payment due within 15 days. Thank you for your business!"
-                ><?php echo e(old('description', $quotation->description)); ?></textarea>
+                    placeholder="Enter notes..."
+                ><?php echo e(old('description', $quotation->description ?: 'Thank you for choosing Pro-Box Packages. We look forward to serving you.')); ?></textarea>
 
             </div>
 
 
-            
-            
             
 
             <div class="quotation-footer">
@@ -746,8 +825,6 @@
 
 
 
-
-
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -773,110 +850,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Calculate Row Total
-    |--------------------------------------------------------------------------
-    */
-
-    function calculateRowTotal(row) {
-
-        const rateInput =
-            row.querySelector('.item-rate');
-
-        const qtyInput =
-            row.querySelector('.item-qty');
-
-        const totalElement =
-            row.querySelector('.row-total');
-
-
-        if (!rateInput || !qtyInput || !totalElement) {
-            return;
-        }
-
-
-        const rate =
-            parseFloat(rateInput.value) || 0;
-
-        const qty =
-            parseFloat(qtyInput.value) || 0;
-
-
-        const total =
-            rate * qty;
-
-
-        totalElement.textContent =
-            total.toLocaleString(
-                'en-PK',
-                {
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 2
-                }
-            );
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Bind Row
-    |--------------------------------------------------------------------------
-    */
-
-    function bindRow(row) {
-
-        const rate =
-            row.querySelector('.item-rate');
-
-        const qty =
-            row.querySelector('.item-qty');
-
-
-        if (!rate || !qty) {
-            return;
-        }
-
-
-        rate.addEventListener(
-            'input',
-            function () {
-
-                calculateRowTotal(row);
-
-            }
-        );
-
-
-        qty.addEventListener(
-            'input',
-            function () {
-
-                calculateRowTotal(row);
-
-            }
-        );
-
-
-        calculateRowTotal(row);
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Bind Existing Rows
-    |--------------------------------------------------------------------------
-    */
-
-    itemsContainer
-        .querySelectorAll('.quotation-item-row')
-        .forEach(function (row) {
-
-            bindRow(row);
-
-        });
-
-
-    /*
-    |--------------------------------------------------------------------------
     | Add New Item
     |--------------------------------------------------------------------------
     */
@@ -896,13 +869,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 <div>
 
-                    <input
-                        type="text"
+                    <select
                         name="items[${itemIndex}][item_name]"
-                        class="item-input"
-                        placeholder="Item name"
+                        class="item-select"
                         required
                     >
+
+                        <option value="">
+                            Select Item
+                        </option>
+
+                        <option value="Product Name">
+                            Product Name
+                        </option>
+
+                        <option value="Minimum Order Quantity (MOQ)">
+                            Minimum Order Quantity (MOQ)
+                        </option>
+
+                        <option value="Product Detail">
+                            Product Detail
+                        </option>
+
+                        <option value="Product Rate">
+                            Product Rate
+                        </option>
+
+                    </select>
 
                 </div>
 
@@ -913,51 +906,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         type="text"
                         name="items[${itemIndex}][details]"
                         class="item-input"
-                        placeholder="Details"
-                    >
-
-                </div>
-
-
-                <div>
-
-                    <input
-                        type="number"
-                        name="items[${itemIndex}][rate]"
-                        class="item-input item-rate"
-                        placeholder="0"
-                        min="0"
-                        step="0.01"
-                        value="0"
+                        placeholder="Enter details"
                         required
                     >
-
-                </div>
-
-
-                <div>
-
-                    <input
-                        type="number"
-                        name="items[${itemIndex}][qty]"
-                        class="item-input item-qty"
-                        placeholder="1"
-                        min="1"
-                        step="1"
-                        value="1"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="item-total">
-
-                    PKR
-
-                    <span class="row-total">
-                        0
-                    </span>
 
                 </div>
 
@@ -980,10 +931,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             itemsContainer.appendChild(row);
-
-
-            bindRow(row);
-
 
             itemIndex++;
 
@@ -1018,14 +965,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 );
 
 
-            /*
-            | Keep at least one row
-            */
-
+            // Keep at least one row
             if (rows.length <= 1) {
-
                 return;
-
             }
 
 

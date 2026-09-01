@@ -1,414 +1,362 @@
-```blade
 <!DOCTYPE html>
 <html>
 <head>
-
     <meta charset="UTF-8">
 
-    <title>
-        Quotation {{ $quotation->quotation_no }}
-    </title>
+    <title>Quotation - {{ $quotation->quotation_no }}</title>
 
     <style>
 
         @page {
-            margin: 30px;
+            margin: 35px 40px;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             font-family: DejaVu Sans, sans-serif;
-            color: #0f1e37;
-            font-size: 13px;
+            color: #000;
             margin: 0;
+            padding: 0;
+            font-size: 13px;
         }
 
-        .header {
-            border-bottom: 2px solid #0f1e37;
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        .quotation-header {
+            width: 100%;
+            border-bottom: 1px solid #d8d8d8;
             padding-bottom: 18px;
-            margin-bottom: 22px;
+            margin-bottom: 18px;
         }
 
-        .company-table {
+        .header-table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .company-logo {
-            width: 55px;
-            height: 55px;
-            background: #0f1e37;
-            color: #dda42e;
-            text-align: center;
+        .header-left {
+            width: 60%;
             vertical-align: middle;
-            font-size: 22px;
-            font-weight: bold;
+        }
+
+        .header-right {
+            width: 40%;
+            vertical-align: middle;
+            text-align: right;
+        }
+
+        .company-section {
+            width: 100%;
+        }
+
+        .logo {
+            width: 60px;
+            height: 50px;
+            object-fit: contain;
+            vertical-align: middle;
+        }
+
+        .company-info {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 12px;
         }
 
         .company-name {
+            margin: 0;
             font-size: 23px;
             font-weight: bold;
-            padding-left: 12px;
+            color: #000;
         }
 
         .company-name .box {
-            color: red;
+            color: #e9252b;
         }
 
-        .company-name .normal {
-            color: #000000;
+        .premium-badge {
+            margin-top: 5px;
+            font-size: 9px;
+            color: #526d89;
         }
 
         .quotation-heading {
-            text-align: right;
-            font-size: 22px;
+            font-size: 28px;
             font-weight: bold;
+            color: #000;
+            letter-spacing: 1px;
         }
 
-        .quotation-number {
-            color: #526d89;
-            font-size: 11px;
-            margin-top: 5px;
-        }
+        /* =========================================================
+           QUOTATION INFORMATION
+        ========================================================= */
 
-        /* ================= INFORMATION ================= */
-
-        .info-box {
-            background: #f1f4f8;
-            padding: 15px;
-            margin-bottom: 22px;
+        .quotation-info {
+            width: 100%;
+            margin-bottom: 18px;
         }
 
         .info-table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
         }
 
         .info-table td {
-            width: 50%;
+            padding: 3px 0;
+            font-size: 13px;
             vertical-align: top;
-            padding: 0;
-        }
-
-        .info-table td:first-child {
-            padding-right: 20px;
-        }
-
-        .info-table td:last-child {
-            padding-left: 20px;
         }
 
         .info-label {
-            color: #526d89;
-            font-size: 9px;
-            text-transform: uppercase;
-            margin-bottom: 5px;
+            font-weight: bold;
         }
 
-        .info-value {
+        /* =========================================================
+           ITEMS TABLE
+        ========================================================= */
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+
+        .items-table th {
+            background: #d3d3d3;
+            border: 1px solid #222;
+            padding: 9px 12px;
+            text-align: left;
             font-size: 13px;
             font-weight: bold;
         }
 
-        /* ================= ITEMS ================= */
-
-        table.items {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        table.items th {
-            background: #0f1e37;
-            color: white;
-            padding: 10px 7px;
-            font-size: 10px;
-            text-align: left;
-        }
-
-        table.items td {
-            padding: 10px 7px;
-            border-bottom: 1px solid #dfe5ec;
+        .items-table td {
+            border: 1px solid #222;
+            padding: 8px 12px;
+            font-size: 13px;
             vertical-align: middle;
-        }
-
-        .text-right {
-            text-align: right !important;
         }
 
         .item-name {
             font-weight: bold;
         }
 
-        .details {
-            color: #526d89;
+        .item-description {
+            font-weight: normal;
         }
 
-        .total-row td {
-            border-top: 2px solid #0f1e37;
-            border-bottom: none;
-            padding-top: 15px;
-        }
+        /* =========================================================
+           NOTES
+        ========================================================= */
 
-        .grand-total {
-            color: #dda42e;
-            font-size: 17px;
-            font-weight: bold;
-        }
-
-        /* ================= DESCRIPTION ================= */
-
-        .description-box {
-            background: #f5f7f9;
-            border-left: 4px solid #dda42e;
-            padding: 14px 16px;
-            margin-top: 25px;
-        }
-
-        .description-title {
-            color: #526d89;
-            font-size: 10px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .description-content {
+        .notes {
+            margin-top: 28px;
+            font-size: 13px;
             line-height: 1.6;
         }
 
-        /* ================= FOOTER ================= */
-
-        .footer {
-            margin-top: 35px;
-            border-top: 1px solid #dfe5ec;
-            padding-top: 12px;
-            text-align: center;
-            color: #8a98a9;
-            font-size: 9px;
+        .notes strong {
+            font-weight: bold;
         }
-         .premium-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #f1f4f8;
-        color: #526d89;
-        border-radius: 20px;
-        padding: 4px 12px;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: .4px;
-        margin-top: 5px;
-    }
+
+        /* =========================================================
+           PRINT
+        ========================================================= */
+
+        @media print {
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .quotation-header {
+                border-bottom: 1px solid #d8d8d8;
+            }
+
+        }
 
     </style>
-
 </head>
 
 <body>
 
-@php
-    $grandTotal = 0;
-@endphp
+    {{-- =========================================================
+         HEADER
+    ========================================================= --}}
 
+    <div class="quotation-header">
 
-{{-- ================= HEADER ================= --}}
-
-<div class="header">
-
-    <table class="company-table">
-
-        <tr>
-
-            <td width="60">
-
-                 <div class="company-logo">
-<img src="{{ public_path('assets/images/prologo.jpg') }}"
-     width="60"
-     height="55">            </div>
-
-            </td>
-
-            <td>
-
-                <div class="company-name">
-                    <span class="normal">Pro-</span><span class="box">Box</span><span class="normal"> Packages</span>
-                </div>
-                  <div class="premium-badge">
-                    <i class="fas fa-box"></i>
-                    Printing & Packaging Solution
-                </div>
-
-            </td>
-
-            <td class="quotation-heading">
-
-                QUOTATION
-
-                <div class="quotation-number">
-                    #{{ $quotation->quotation_no }}
-                </div>
-
-            </td>
-
-        </tr>
-
-    </table>
-
-</div>
-
-
-{{-- ================= INFORMATION ================= --}}
-
-<div class="info-box">
-
-    <table class="info-table">
-
-        <tr>
-
-            {{-- TO CLIENT --}}
-            <td>
-
-                <div class="info-label">
-                    TO CLIENT
-                </div>
-
-                <div class="info-value">
-                    {{ $quotation->party_name ?? 'N/A' }}
-                </div>
-
-            </td>
-
-
-            {{-- DATE --}}
-            <td>
-
-                <div class="info-label">
-                    DATE
-                </div>
-
-                <div class="info-value">
-                    {{ \Carbon\Carbon::parse($quotation->quotation_date)->format('d M Y') }}
-                </div>
-
-            </td>
-
-        </tr>
-
-    </table>
-
-</div>
-
-
-{{-- ================= ITEMS ================= --}}
-
-<table class="items">
-
-    <thead>
-
-        <tr>
-
-            <th width="25%">
-                Item
-            </th>
-
-            <th width="35%">
-                Details
-            </th>
-
-            <th width="13%" class="text-right">
-                Rate
-            </th>
-
-           
-
-        </tr>
-
-    </thead>
-
-    <tbody>
-
-        @forelse($quotation->details as $item)
-
-            @php
-
-                $rate = (float) $item->rate;
-
-                $qty = (float) $item->qty;
-
-                $total = $rate * $qty;
-
-                $grandTotal += $total;
-
-            @endphp
+        <table class="header-table">
 
             <tr>
 
-                <td>
-                    <div class="item-name">
-                        {{ $item->item_name }}
+                {{-- LEFT: LOGO + COMPANY --}}
+                <td class="header-left">
+
+                    <div class="company-section">
+
+                        {{-- 
+                            For DomPDF:
+                            use public_path() instead of asset()
+                        --}}
+
+                        <img
+                            src="{{ public_path('assets/images/prologo.jpg') }}"
+                            class="logo"
+                            alt="Pro-Box Logo"
+                        >
+
+                        <div class="company-info">
+
+                            <div class="company-name">
+                                Pro-<span class="box">Box</span> Packages
+                            </div>
+
+                            <div class="premium-badge">
+                                Printing &amp; Packaging Solution
+                            </div>
+
+                        </div>
+
                     </div>
+
                 </td>
 
-                <td>
-                    <div class="details">
-                        {{ $item->item_details ?? '-' }}
-                    </div>
-                </td>
 
-                <td class="text-right">
-                    PKR {{ number_format($rate, 2) }}
+                {{-- RIGHT: QUOTATION --}}
+                <td class="header-right">
+
+                    <div class="quotation-heading">
+                        QUOTATION
+                    </div>
+
                 </td>
 
             </tr>
 
-        @empty
-
-            <tr>
-
-                <td colspan="5" style="text-align:center;">
-                    No items found.
-                </td>
-
-            </tr>
-
-        @endforelse
-
-
-       
-
-    </tbody>
-
-</table>
-
-
-{{-- ================= DESCRIPTION ================= --}}
-
-@if(!empty($quotation->description))
-
-    <div class="description-box">
-
-        <div class="description-title">
-            Description / Payment Terms
-        </div>
-
-        <div class="description-content">
-            {!! nl2br(e($quotation->description)) !!}
-        </div>
+        </table>
 
     </div>
 
-@endif
+
+    {{-- =========================================================
+         QUOTATION INFORMATION
+    ========================================================= --}}
+
+    <div class="quotation-info">
+
+        <table class="info-table">
+
+            <tr>
+
+                <td width="55%">
+                    <span class="info-label">From:</span>
+                    Pro-Box Packages
+                </td>
+
+                <td width="45%">
+                    <span class="info-label">To:</span>
+                    {{ $quotation->party_name ?? 'N/A' }}
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    <span class="info-label">Date:</span>
+
+                    {{ \Carbon\Carbon::parse(
+                        $quotation->quotation_date
+                    )->format('d F Y') }}
+
+                </td>
+
+                <td>
+                    <span class="info-label">Quotation No:</span>
+                    {{ $quotation->quotation_no }}
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
 
 
-{{-- ================= FOOTER ================= --}}
+    {{-- =========================================================
+         ITEMS
+    ========================================================= --}}
 
-<div class="footer">
+    <table class="items-table">
 
-    Pro-Box Packages &nbsp; | &nbsp;
-    Quotation {{ $quotation->quotation_no }}
+        <thead>
 
-</div>
+            <tr>
+
+                <th width="42%">
+                    Item
+                </th>
+
+                <th width="58%">
+                    Description
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @forelse($quotation->details as $item)
+
+                <tr>
+
+                    <td class="item-name">
+                        {{ $item->item_name }}
+                    </td>
+
+                    <td class="item-description">
+                        {{ $item->item_details ?? '-' }}
+                    </td>
+
+                </tr>
+
+            @empty
+
+                <tr>
+
+                    <td colspan="2" style="text-align:center;">
+                        No quotation items found.
+                    </td>
+
+                </tr>
+
+            @endforelse
+
+        </tbody>
+
+    </table>
+
+
+    {{-- =========================================================
+         NOTES
+    ========================================================= --}}
+
+    @if(!empty($quotation->description))
+
+        <div class="notes">
+
+            {!! nl2br(e($quotation->description)) !!}
+
+        </div>
+
+    @endif
 
 
 </body>

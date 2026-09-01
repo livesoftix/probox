@@ -686,7 +686,7 @@
                     {{-- Total --}}
                     <div class="quotation-card-middle">
 
-                        <div class="quotation-total">
+                        <!-- <div class="quotation-total">
 
                             Total 
 
@@ -694,7 +694,7 @@
                                 PKR {{ number_format($grand_total ?? $grand_total ?? 0, 0) }}
                             </strong>
 
-                        </div>
+                        </div> -->
 
 
                         <div class="quotation-item-count">

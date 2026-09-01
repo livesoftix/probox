@@ -3,322 +3,397 @@
 <?php $__env->startSection('content'); ?>
 
 <style>
+
+.quotation-page {
+    background: #f1f4f8;
+    min-height: calc(100vh - 70px);
+    padding: 30px 15px;
+}
+
+.quotation-card {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px 42px;
+    box-shadow: 0 8px 30px rgba(15, 31, 55, 0.08);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.quotation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #dfe5ec;
+}
+
+.company-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-wrapper {
+    width: 60px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-wrapper img {
+    display: block;
+    object-fit: contain;
+}
+
+.brand-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.company-name {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 800;
+    color: #000;
+    line-height: 1.1;
+}
+
+.company-name span {
+    color: #e9252b;
+}
+
+.premium-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f4f8;
+    color: #526d89;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .4px;
+    margin-top: 6px;
+    width: fit-content;
+}
+
+.premium-badge i {
+    color: #dda42e;
+}
+
+.quotation-heading {
+    text-align: right;
+}
+
+.quotation-label {
+    display: block;
+    color: #0d1b35;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* =========================================================
+   FORM LABELS
+========================================================= */
+
+.form-label-custom {
+    display: block;
+    color: #0d1b35;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.required {
+    color: #e53935;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.quotation-input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #d8e0e9;
+    border-radius: 11px;
+    background: #fbfcfe;
+    padding: 0 18px;
+    color: #17263d;
+    font-size: 17px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.quotation-input:focus {
+    border-color: #8da0b8;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(43, 76, 112, 0.07);
+}
+
+/* =========================================================
+   ITEMS SECTION
+========================================================= */
+
+.items-section {
+    margin-top: 40px;
+    background: #f3f6fa;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.items-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #0d1b35;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 28px;
+}
+
+.items-heading i {
+    font-size: 17px;
+}
+
+/* Table Header */
+
+.items-table-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 40px;
+    gap: 14px;
+    padding: 0 8px 12px;
+    border-bottom: 1px solid #d6dfe9;
+}
+
+.items-table-header div {
+    color: #52657a;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+}
+
+/* Item Row */
+
+.quotation-item-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 40px;
+    gap: 14px;
+    align-items: center;
+    padding: 9px 8px;
+    border-bottom: 1px solid #d6dfe9;
+}
+
+/* Item Dropdown */
+
+.item-input {
+    width: 100%;
+    height: 42px;
+    border: none;
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 0 11px;
+    color: #17263d;
+    font-size: 15px;
+    outline: none;
+}
+
+.item-input:focus {
+    box-shadow: 0 0 0 2px rgba(43, 76, 112, .12);
+}
+
+/* Details */
+
+.details-input {
+    width: 100%;
+    height: 42px;
+    border: none;
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 0 11px;
+    color: #17263d;
+    font-size: 15px;
+    outline: none;
+}
+
+.details-input:focus {
+    box-shadow: 0 0 0 2px rgba(43, 76, 112, .12);
+}
+
+/* Remove */
+
+.remove-item {
+    border: none;
+    background: transparent;
+    color: #e7a5aa;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.remove-item:hover {
+    color: #dc3545;
+}
+
+/* Add Item */
+
+.add-item-btn {
+    margin-top: 15px;
+    border: 1px dashed #cfd9e5;
+    background: transparent;
+    border-radius: 10px;
+    color: #52657a;
+    padding: 8px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.add-item-btn:hover {
+    background: #ffffff;
+    border-color: #9eafc3;
+    color: #0d1b35;
+}
+
+/* =========================================================
+   DESCRIPTION / NOTES
+========================================================= */
+
+.description-section {
+    margin-top: 24px;
+    background: #f7f9fb;
+    border-left: 4px solid #d8a536;
+    border-radius: 12px;
+    padding: 20px 24px 24px;
+}
+
+.description-heading {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #0d1b35;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.description-textarea {
+    width: 100%;
+    min-height: 95px;
+    resize: vertical;
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 0 4px;
+    color: #17263d;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.description-textarea::placeholder {
+    color: #748399;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.quotation-footer {
+    margin-top: 34px;
+    padding-top: 24px;
+    border-top: 1px solid #dce3eb;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.save-btn {
+    height: 48px;
+    padding: 0 27px;
+    border: none;
+    border-radius: 11px;
+    background: #0d1b35;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.save-btn:hover {
+    background: #172b4d;
+    transform: translateY(-1px);
+}
+
+.cancel-btn {
+    height: 48px;
+    padding: 0 27px;
+    border: 1px solid #d6dfe9;
+    border-radius: 11px;
+    background: #ffffff;
+    color: #0d1b35;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cancel-btn:hover {
+    background: #f6f8fa;
+    color: #0d1b35;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
     .quotation-page {
-        background: #f1f4f8;
-        min-height: calc(100vh - 70px);
-        padding: 30px 15px;
+        padding: 15px;
     }
 
     .quotation-card {
-        max-width: 1100px;
-        margin: 0 auto;
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 40px 42px;
-        box-shadow: 0 8px 30px rgba(15, 31, 55, 0.08);
+        padding: 25px 18px;
+        border-radius: 15px;
     }
 
-    /* Header */
     .quotation-header {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-        padding-bottom: 25px;
-        border-bottom: 1px solid #dce3eb;
-        margin-bottom: 38px;
+        margin-bottom: 25px;
     }
 
-    .quotation-back {
-        color: #52657a;
-        font-size: 26px;
-        text-decoration: none;
-        width: 35px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .quotation-back:hover {
-        color: #0d1b35;
-    }
-
-    .quotation-title {
-        margin: 0;
-        color: #0d1b35;
-        font-size: 28px;
-        font-weight: 700;
-        letter-spacing: -0.3px;
-    }
-
-    .quotation-title i {
-        margin-right: 8px;
-    }
-
-    /* Labels */
     .quotation-label {
-        display: block;
-        color: #0d1b35;
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 8px;
+        font-size: 22px;
     }
 
-    .quotation-label .required {
-        color: #e53935;
+    .company-name {
+        font-size: 22px;
     }
 
-    /* Inputs */
-    .quotation-input {
-        width: 100%;
-        height: 50px;
-        border: 1px solid #d8e0e9;
-        border-radius: 11px;
-        background: #fbfcfe;
-        padding: 0 18px;
-        color: #17263d;
-        font-size: 17px;
-        outline: none;
-        transition: all 0.2s ease;
-    }
-
-    .quotation-input:focus {
-        border-color: #8da0b8;
-        background: #ffffff;
-        box-shadow: 0 0 0 3px rgba(43, 76, 112, 0.07);
-    }
-
-    /* Items section */
     .items-section {
-        margin-top: 54px;
-        background: #f3f6fa;
-        border-radius: 12px;
-        padding: 24px;
+        padding: 15px;
+        overflow-x: auto;
     }
 
-    .items-heading {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #0d1b35;
-        font-size: 17px;
-        font-weight: 700;
-        margin-bottom: 28px;
-    }
-
-    .items-heading i {
-        font-size: 17px;
-    }
-
-    .items-table-header {
-        display: grid;
-        grid-template-columns: 1.05fr 1.5fr .55fr .55fr .75fr 25px;
-        gap: 14px;
-        padding: 0 8px 12px;
-        border-bottom: 1px solid #d6dfe9;
-    }
-
-    .items-table-header div {
-        color: #52657a;
-        font-size: 13px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: .3px;
-    }
-
+    .items-table-header,
     .quotation-item-row {
-        display: grid;
-        grid-template-columns: 1.05fr 1.5fr .55fr .55fr .75fr 25px;
-        gap: 14px;
-        align-items: center;
-        padding: 9px 8px;
-        border-bottom: 1px solid #d6dfe9;
+        min-width: 650px;
     }
 
-    .item-input {
-        width: 100%;
-        height: 39px;
-        border: none;
-        border-radius: 8px;
-        background: #ffffff;
-        padding: 0 11px;
-        color: #17263d;
-        font-size: 16px;
-        outline: none;
-    }
-
-    .item-input:focus {
-        box-shadow: 0 0 0 2px rgba(43, 76, 112, .12);
-    }
-
-    .item-total {
-        font-size: 16px;
-        font-weight: 700;
-        color: #0d1b35;
-        white-space: nowrap;
-        text-align: right;
-    }
-
-    .remove-item {
-        border: none;
-        background: transparent;
-        color: #e7a5aa;
-        font-size: 18px;
-        cursor: pointer;
-        padding: 0;
-    }
-
-    .remove-item:hover {
-        color: #dc3545;
-    }
-
-    .add-item-btn {
-        margin-top: 15px;
-        border: 1px dashed #cfd9e5;
-        background: transparent;
-        border-radius: 10px;
-        color: #52657a;
-        padding: 8px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: all .2s ease;
-    }
-
-    .add-item-btn:hover {
-        background: #ffffff;
-        border-color: #9eafc3;
-        color: #0d1b35;
-    }
-
-    /* Description */
     .description-section {
-        margin-top: 24px;
-        background: #f7f9fb;
-        border-left: 4px solid #d8a536;
-        border-radius: 12px;
-        padding: 20px 24px 24px;
+        padding: 18px;
     }
+}
 
-    .description-heading {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        color: #0d1b35;
-        font-size: 16px;
-        font-weight: 700;
-        margin-bottom: 10px;
-    }
-
-    .description-textarea {
-        width: 100%;
-        min-height: 95px;
-        resize: vertical;
-        border: none;
-        background: transparent;
-        outline: none;
-        padding: 0 4px;
-        color: #17263d;
-        font-size: 15px;
-    }
-
-    .description-textarea::placeholder {
-        color: #748399;
-    }
-
-    /* Footer */
-    .quotation-footer {
-        margin-top: 34px;
-        padding-top: 24px;
-        border-top: 1px solid #dce3eb;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .save-btn {
-        height: 48px;
-        padding: 0 27px;
-        border: none;
-        border-radius: 11px;
-        background: #0d1b35;
-        color: #ffffff;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all .2s ease;
-    }
-
-    .save-btn:hover {
-        background: #172b4d;
-        transform: translateY(-1px);
-    }
-
-    .cancel-btn {
-        height: 48px;
-        padding: 0 27px;
-        border: 1px solid #d6dfe9;
-        border-radius: 11px;
-        background: #ffffff;
-        color: #0d1b35;
-        font-size: 16px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .cancel-btn:hover {
-        background: #f6f8fa;
-        color: #0d1b35;
-    }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-
-        .quotation-card {
-            padding: 30px 25px;
-        }
-
-        .items-table-header,
-        .quotation-item-row {
-            grid-template-columns: 1fr 1.3fr .7fr .7fr .8fr 25px;
-            gap: 8px;
-        }
-    }
-
-    @media (max-width: 700px) {
-
-        .quotation-page {
-            padding: 15px;
-        }
-
-        .quotation-card {
-            padding: 25px 18px;
-            border-radius: 15px;
-        }
-
-        .quotation-header {
-            margin-bottom: 25px;
-        }
-
-        .quotation-title {
-            font-size: 23px;
-        }
-
-        .items-section {
-            padding: 15px;
-            overflow-x: auto;
-        }
-
-        .items-table-header,
-        .quotation-item-row {
-            min-width: 800px;
-        }
-
-        .description-section {
-            padding: 18px;
-        }
-    }
 </style>
 
 
@@ -332,24 +407,52 @@
 
         <div class="quotation-header">
 
-            <a href="<?php echo e(route('quotations.index')); ?>"
-               class="quotation-back"
-               title="Back">
+            
+            <div class="company-section">
 
-                <i class="fas fa-arrow-left"></i>
+                <div class="logo-wrapper">
 
-            </a>
+                    <img src="<?php echo e(asset('assets/images/prologo.jpg')); ?>"
+                         alt="Logo"
+                         width="60"
+                         height="50">
 
-            <h1 class="quotation-title">
+                </div>
 
-                <i class="fas fa-pen text-dark"></i>
+                <div class="brand-info">
 
-                New Quotation
+                    <h2 class="company-name">
+                        Pro-<span>Box</span> Packages
+                    </h2>
 
-            </h1>
+                    <div class="premium-badge">
+
+                        <i class="fas fa-box"></i>
+
+                        Printing & Packaging Solution
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            
+            <div class="quotation-heading">
+
+                <div class="quotation-label">
+                    QUOTATION
+                </div>
+
+            </div>
 
         </div>
 
+
+        
+        
+        
 
         <form action="<?php echo e(route('quotations.store')); ?>"
               method="POST"
@@ -367,7 +470,7 @@
                 
                 <div class="col-md-6 mb-3">
 
-                    <label class="quotation-label">
+                    <label class="form-label-custom">
 
                         Date
 
@@ -389,9 +492,9 @@
                 
                 <div class="col-md-6 mb-3">
 
-                    <label class="quotation-label">
+                    <label class="form-label-custom">
 
-                        Party / Client Name
+                        To Client
 
                         <span class="required">*</span>
 
@@ -421,7 +524,7 @@
 
                     <i class="fas fa-list-ul"></i>
 
-                    Items & Rates
+                    Items & Details
 
                 </div>
 
@@ -429,15 +532,13 @@
                 
                 <div class="items-table-header">
 
-                    <div>Item Name</div>
+                    <div>
+                        Item
+                    </div>
 
-                    <div>Details</div>
-
-                    <div>Rate (PKR)</div>
-
-                    <!-- <div>Qty</div>
-
-                    <div>Total</div> -->
+                    <div>
+                        Details
+                    </div>
 
                     <div></div>
 
@@ -447,18 +548,39 @@
                 
                 <div id="quotationItems">
 
+                    
                     <div class="quotation-item-row">
 
                         
                         <div>
 
-                            <input
-                                type="text"
+                            <select
                                 name="items[0][item_name]"
                                 class="item-input"
-                                placeholder="Item name"
                                 required
                             >
+
+                                <option value="">
+                                    Select Item
+                                </option>
+
+                                <option value="Product Name">
+                                    Product Name
+                                </option>
+
+                                <option value="Minimum Order Quantity (MOQ)">
+                                    Minimum Order Quantity (MOQ)
+                                </option>
+
+                                <option value="Product Detail">
+                                    Product Detail
+                                </option>
+
+                                <option value="Product Rate">
+                                    Product Rate
+                                </option>
+
+                            </select>
 
                         </div>
 
@@ -469,53 +591,12 @@
                             <input
                                 type="text"
                                 name="items[0][details]"
-                                class="item-input"
-                                placeholder="Details"
-                            >
-
-                        </div>
-
-
-                        
-                        <div>
-
-                            <input
-                                type="number"
-                                name="items[0][rate]"
-                                class="item-input item-rate"
-                                placeholder="0"
-                                min="0"
-                                step="0.01"
-                                value="0"
+                                class="details-input"
+                                placeholder="Enter details"
                                 required
                             >
 
                         </div>
-
-
-                        
-                        <!-- <div>
-
-                            <input
-                                type="number"
-                                name="items[0][qty]"
-                                class="item-input item-qty"
-                                placeholder="1"
-                                min="1"
-                                step="1"
-                                value="1"
-                                required
-                            >
-
-                        </div>
- -->
-
-                        
-                        <!-- <div class="item-total">
-
-                            PKR <span class="row-total">0</span>
-
-                        </div> -->
 
 
                         
@@ -564,15 +645,16 @@
 
                     <i class="fas fa-file-alt"></i>
 
-                    Description / Payment Terms
+                    Notes
 
                 </div>
+
 
                 <textarea
                     name="description"
                     class="description-textarea"
-                    placeholder="e.g. Payment due within 15 days. Thank you for your business!"
-                ><?php echo e(old('description')); ?></textarea>
+                    placeholder="Enter quotation notes..."
+                ><?php echo e(old('description', 'Thank you for choosing Pro-Box Packages. We look forward to serving you.')); ?></textarea>
 
             </div>
 
@@ -624,93 +706,17 @@ document.addEventListener('DOMContentLoaded', function () {
     let itemIndex = 1;
 
     const itemsContainer = document.getElementById('quotationItems');
-
     const addItemButton = document.getElementById('addItem');
 
 
     /*
     |--------------------------------------------------------------------------
-    | Calculate Row Total
-    |--------------------------------------------------------------------------
-    */
-
-    function calculateRowTotal(row) {
-
-        const rateInput = row.querySelector('.item-rate');
-
-        const qtyInput = row.querySelector('.item-qty');
-
-        const totalElement = row.querySelector('.row-total');
-
-
-        const rate = parseFloat(rateInput.value) || 0;
-
-        const qty = parseFloat(qtyInput.value) || 0;
-
-        const total = rate * qty;
-
-
-        totalElement.textContent = total.toLocaleString(
-            'en-PK',
-            {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 2
-            }
-        );
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Bind Calculation
-    |--------------------------------------------------------------------------
-    */
-
-    function bindRow(row) {
-
-        const rate = row.querySelector('.item-rate');
-
-        const qty = row.querySelector('.item-qty');
-
-
-        rate.addEventListener('input', function () {
-
-            calculateRowTotal(row);
-
-        });
-
-
-        qty.addEventListener('input', function () {
-
-            calculateRowTotal(row);
-
-        });
-
-
-        calculateRowTotal(row);
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Existing Row
-    |--------------------------------------------------------------------------
-    */
-
-    const firstRow =
-        itemsContainer.querySelector('.quotation-item-row');
-
-    bindRow(firstRow);
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Add New Item
+    | Add Item
     |--------------------------------------------------------------------------
     */
 
     addItemButton.addEventListener('click', function () {
-console.log("kxn");
+
         const row = document.createElement('div');
 
         row.className = 'quotation-item-row';
@@ -720,13 +726,33 @@ console.log("kxn");
 
             <div>
 
-                <input
-                    type="text"
+                <select
                     name="items[${itemIndex}][item_name]"
                     class="item-input"
-                    placeholder="Item name"
                     required
                 >
+
+                    <option value="">
+                        Select Item
+                    </option>
+
+                    <option value="Product Name">
+                        Product Name
+                    </option>
+
+                    <option value="Minimum Order Quantity (MOQ)">
+                        Minimum Order Quantity (MOQ)
+                    </option>
+
+                    <option value="Product Detail">
+                        Product Detail
+                    </option>
+
+                    <option value="Product Rate">
+                        Product Rate
+                    </option>
+
+                </select>
 
             </div>
 
@@ -736,28 +762,15 @@ console.log("kxn");
                 <input
                     type="text"
                     name="items[${itemIndex}][details]"
-                    class="item-input"
-                    placeholder="Details"
+                    class="details-input"
+                    placeholder="Enter details"
+                    required
                 >
 
             </div>
 
 
             <div>
-
-                <input
-                    type="number"
-                    name="items[${itemIndex}][rate]"
-                    class="item-input item-rate"
-                    placeholder="0"
-                    min="0"
-                    step="0.01"
-                    value="0"
-                    required
-                >
-
-            </div>
-       <div>
 
                 <button
                     type="button"
@@ -775,10 +788,6 @@ console.log("kxn");
 
 
         itemsContainer.appendChild(row);
-
-
-        bindRow(row);
-
 
         itemIndex++;
 
@@ -806,7 +815,12 @@ console.log("kxn");
             itemsContainer.querySelectorAll('.quotation-item-row');
 
 
-        // Keep at least one item row
+        /*
+        |--------------------------------------------------------------------------
+        | Keep at least one row
+        |--------------------------------------------------------------------------
+        */
+
         if (rows.length <= 1) {
 
             return;
@@ -820,9 +834,11 @@ console.log("kxn");
 
     });
 
+
 });
 
 </script>
 
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\probox\resources\views/quotations/create.blade.php ENDPATH**/ ?>

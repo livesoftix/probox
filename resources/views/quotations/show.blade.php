@@ -3,62 +3,101 @@
 @section('content')
 
 <style>
+
     body {
         background: #f3f6fa;
     }
 
     .quotation-wrapper {
-        max-width: 920px;
+        max-width: 1050px;
         margin: 30px auto;
     }
 
     .quotation-card {
         background: #fff;
-        border-radius: 18px;
-        padding: 40px;
+        padding: 45px 50px;
         box-shadow: 0 8px 35px rgba(15, 30, 55, 0.08);
     }
 
-    /* Top navigation */
-    .quotation-top {
+
+    /* =========================================================
+       TOP HEADER
+    ========================================================= */
+
+    .quotation-header {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        padding-bottom: 25px;
-        border-bottom: 1px solid #dfe5ec;
+        padding-bottom: 22px;
+        border-bottom: 1px solid #ddd;
     }
 
-    .back-link {
-        color: #526d89;
-        text-decoration: none;
-        font-size: 16px;
-        display: inline-flex;
+    .company-left {
+        display: flex;
         align-items: center;
-        gap: 5px;
-        margin-bottom: 10px;
+        gap: 15px;
     }
 
-    .back-link:hover {
-        color: #0f1e37;
+    .company-logo {
+        width: 65px;
+        height: 65px;
+        object-fit: contain;
     }
 
-    .quotation-title {
+    .company-name {
         margin: 0;
         font-size: 25px;
-        font-weight: 700;
-        color: #0f1e37;
+        font-weight: 800;
+        color: #000;
+        line-height: 1.1;
     }
+
+    .company-name span {
+        color: #e9252b;
+    }
+
+    .company-tagline {
+        margin-top: 5px;
+        font-size: 11px;
+        color: #526d89;
+        font-weight: 600;
+    }
+
+    .quotation-heading {
+        text-align: right;
+    }
+
+    .quotation-heading h1 {
+        margin: 0;
+        font-size: 38px;
+        font-weight: 800;
+        color: #000;
+        letter-spacing: .5px;
+    }
+
+    .quotation-number {
+        margin-top: 5px;
+        font-size: 13px;
+        color: #526d89;
+    }
+
+
+    /* =========================================================
+       TOP ACTIONS
+    ========================================================= */
 
     .top-actions {
         display: flex;
+        justify-content: flex-end;
         gap: 8px;
+        margin-top: 18px;
     }
 
     .btn-quotation {
         border: 1px solid #d7e0eb;
         background: #fff;
         color: #0f1e37;
-        border-radius: 10px;
+        border-radius: 9px;
         padding: 8px 16px;
         font-weight: 600;
         text-decoration: none;
@@ -84,245 +123,104 @@
         color: #fff;
     }
 
-    /* Company Header */
-    .company-header {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 23px 0 18px;
-        border-bottom: 1px solid #dfe5ec;
-    }
 
-    .company-logo {
-        width: 57px;
-        height: 57px;
-        border-radius: 15px;
-        background: #0f1e37;
-        color: #dda42e;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 25px;
-        font-weight: 800;
-        box-shadow: 0 5px 15px rgba(15, 30, 55, 0.18);
-    }
-
-        .company-name {
-    margin: 0;
-    font-size: 26px;
-    font-weight: 800;
-    color: #000;
-    line-height: 1.1;
-}
-
-  .company-name span {
-    color: #e9252b;
-}
-
-    .premium-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #f1f4f8;
-        color: #526d89;
-        border-radius: 20px;
-        padding: 4px 12px;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: .4px;
-        margin-top: 5px;
-    }
-/* Information */
-.quotation-info {
-    background: #f1f4f8;
-    border-radius: 12px;
-    padding: 18px 20px;
-    margin-top: 20px;
-    margin-bottom: 22px;
-}
-
-.quotation-info .row {
-    display: flex;
-    flex-wrap: nowrap;
-    width: 100%;
-}
-
-.quotation-info .col-md-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-
-.info-item {
-    margin-bottom: 0;
-}
-
-.info-label {
-    display: block;
-    color: #526d89;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    margin-bottom: 4px;
-}
-
-.info-value {
-    color: #0f1e37;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-/* Keep Date + Client on same row while printing */
-@media print {
-
-    .quotation-info .row {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        width: 100% !important;
-    }
-
-    .quotation-info .col-md-6 {
-        flex: 0 0 50% !important;
-        max-width: 50% !important;
-        width: 50% !important;
-    }
+    /* =========================================================
+       QUOTATION INFORMATION
+    ========================================================= */
 
     .quotation-info {
-        background: #f1f4f8 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
-}
-   .info-item {
-        margin-bottom: 13px;
+        margin-top: 25px;
+        margin-bottom: 20px;
     }
 
-    .info-item:last-child {
-        margin-bottom: 0;
-    }
-
-    .info-label {
-        display: block;
-        color: #526d89;
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: .5px;
-        margin-bottom: 4px;
-    }
-
-    .info-value {
-        color: #0f1e37;
-        font-size: 16px;
-        font-weight: 600;
-    }
-
-    .package-value {
+    .quotation-info-row {
         display: flex;
         align-items: center;
-        gap: 5px;
+        margin-bottom: 5px;
+        font-size: 18px;
+        color: #000;
     }
 
-    .package-value i {
-        color: #dda42e;
+    .quotation-info-label {
+        font-weight: 700;
+        min-width: 55px;
     }
 
-    /* Items table */
+    .quotation-info-value {
+        font-weight: 400;
+    }
+
+
+    /* =========================================================
+       ITEMS TABLE
+    ========================================================= */
+
     .quotation-table {
         width: 100%;
         border-collapse: collapse;
+        margin-top: 5px;
     }
 
-    .quotation-table thead th {
-        color: #526d89;
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: .5px;
-        font-weight: 600;
-        padding: 10px 7px;
-        border-bottom: 1px solid #d5dce5;
+    .quotation-table th {
+        background: #d3d3d3;
+        color: #000;
+        font-size: 17px;
+        font-weight: 700;
+        text-align: left;
+        padding: 12px 16px;
+        border: 1px solid #222;
     }
 
-    .quotation-table tbody td {
-        padding: 13px 7px;
-        color: #0f1e37;
-        font-size: 14px;
-        border-bottom: 1px solid #e0e5eb;
+    .quotation-table td {
+        color: #000;
+        font-size: 17px;
+        padding: 12px 16px;
+        border: 1px solid #222;
         vertical-align: middle;
     }
 
-    .quotation-table tbody tr:last-child td {
-        border-bottom: 2px solid #0f1e37;
+    .quotation-table th:first-child {
+        width: 43%;
+    }
+
+    .quotation-table th:last-child {
+        width: 57%;
     }
 
     .item-name {
         font-weight: 700;
     }
 
-    .details-text {
-        color: #526d89;
+    .item-details {
+        font-weight: 400;
     }
 
-    .amount {
-        text-align: right;
-        white-space: nowrap;
-    }
 
-    .grand-total-row td {
-        border-bottom: 1px solid #dfe5ec !important;
-        padding-top: 18px !important;
-        padding-bottom: 18px !important;
-    }
+    /* =========================================================
+       NOTES
+    ========================================================= */
 
-    .grand-total-label {
-        text-align: right;
-        font-size: 14px;
-        font-weight: 700;
-        color: #0f1e37;
-    }
-
-    .grand-total {
-        text-align: right;
-        color: #dda42e;
-        font-size: 18px;
-        font-weight: 800;
-        white-space: nowrap;
-    }
-
-    /* Description */
-    .description-box {
-        background: #f5f7f9;
-        border-left: 4px solid #dda42e;
-        border-radius: 11px;
-        padding: 18px 22px;
-        margin-top: 22px;
-    }
-
-    .description-title {
-        color: #526d89;
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: .5px;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-
-    .description-title i {
-        color: #526d89;
-        margin-right: 5px;
-    }
-
-    .description-content {
-        color: #0f1e37;
-        font-size: 14px;
+    .quotation-notes {
+        margin-top: 32px;
+        font-size: 17px;
         line-height: 1.7;
-        white-space: pre-line;
+        color: #000;
     }
 
-    /* Bottom actions */
+    .quotation-notes strong {
+        font-weight: 700;
+    }
+
+
+    /* =========================================================
+       BOTTOM ACTIONS
+    ========================================================= */
+
     .bottom-actions {
         display: flex;
         gap: 10px;
-        padding-top: 20px;
-        margin-top: 28px;
+        padding-top: 25px;
+        margin-top: 30px;
         border-top: 1px solid #dfe5ec;
     }
 
@@ -371,42 +269,58 @@
         text-decoration: none;
     }
 
-    /* Empty items */
-    .empty-items {
-        text-align: center;
-        padding: 25px;
-        color: #8a98a9;
-    }
 
-    /* Print */
+    /* =========================================================
+       PRINT
+    ========================================================= */
+
     @media print {
 
         body {
             background: #fff !important;
+            margin: 0;
+            padding: 0;
         }
 
         .quotation-wrapper {
-            margin: 0;
             max-width: 100%;
+            margin: 0;
         }
 
         .quotation-card {
             box-shadow: none;
-            padding: 20px;
+            padding: 35px 40px;
         }
 
         .no-print {
             display: none !important;
         }
 
-        .quotation-top {
-            padding-bottom: 15px;
+        .quotation-header {
+            border-bottom: 1px solid #ddd !important;
         }
 
-        .company-header {
-            padding-top: 15px;
+        .quotation-table th {
+            background: #d3d3d3 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
+
+        .quotation-table th,
+        .quotation-table td {
+            border: 1px solid #222 !important;
+        }
+
+        .quotation-notes {
+            page-break-inside: avoid;
+        }
+
     }
+
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
 
     @media (max-width: 768px) {
 
@@ -415,21 +329,24 @@
         }
 
         .quotation-card {
-            padding: 20px;
+            padding: 25px;
         }
 
-        .quotation-top {
+        .quotation-header {
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
-        .top-actions {
-            width: 100%;
+        .quotation-heading {
+            text-align: left;
         }
 
-        .top-actions .btn-quotation {
-            flex: 1;
-            justify-content: center;
+        .quotation-heading h1 {
+            font-size: 30px;
+        }
+
+        .quotation-info-row {
+            font-size: 16px;
         }
 
         .quotation-table {
@@ -439,18 +356,9 @@
         .table-wrapper {
             overflow-x: auto;
         }
-        .company-name {
-    margin: 0;
-    font-size: 26px;
-    font-weight: 800;
-    color: #000;
-    line-height: 1.1;
-}
 
-.company-name span {
-    color: #e9252b;
-}
     }
+
 </style>
 
 
@@ -458,100 +366,148 @@
 
     <div class="quotation-card">
 
-        {{-- ================= TOP ================= --}}
-        <div class="quotation-top">
 
-            <div>
+        {{-- =========================================================
+             HEADER
+        ========================================================== --}}
 
-                <a href="{{ route('quotations.index') }}" class="back-link no-print">
-                    <i class="fas fa-arrow-left"></i>
-                    Back
-                </a>
+        <div class="quotation-header">
 
-                <h1 class="quotation-title">
-                    Quotation
+            {{-- LEFT: LOGO + COMPANY --}}
+            <div class="company-left">
+
+                <img
+                    src="{{ asset('assets/images/prologo.jpg') }}"
+                    alt="Pro-Box Packages"
+                    class="company-logo"
+                >
+
+                <div>
+
+                    <h2 class="company-name">
+                        Pro-<span>Box</span> Packages
+                    </h2>
+
+                    <div class="company-tagline">
+                        Printing & Packaging Solution
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {{-- RIGHT: QUOTATION --}}
+            <div class="quotation-heading">
+
+                <h1>
+                    QUOTATION
                 </h1>
 
-            </div>
+                @if(!empty($quotation->quotation_no))
 
-            <div class="top-actions no-print">
+                    <div class="quotation-number">
+                        Quotation No:
+                        <strong>{{ $quotation->quotation_no }}</strong>
+                    </div>
 
-                <button type="button"
-                        class="btn-quotation"
-                        onclick="window.print()">
-
-                    <i class="fas fa-print"></i>
-                    Print
-
-                </button>
-
-                <a href="{{ route('quotations.pdf', $quotation->id) }}"
-   class="btn-quotation btn-gold">
-
-    <i class="fas fa-file-pdf"></i>
-    PDF
-
-</a>
+                @endif
 
             </div>
 
         </div>
 
 
-        {{-- ================= COMPANY HEADER ================= --}}
-        <div class="company-header">
+        {{-- =========================================================
+             ACTION BUTTONS
+        ========================================================== --}}
 
-            <div >
-               <img src="{{ asset('assets/images/prologo.jpg') }}" alt="Logo" height="50" width="60" class="bg-white" />
-            </div>
+        <div class="top-actions no-print">
 
-            <div>
+            <a
+                href="{{ route('quotations.index') }}"
+                class="btn-quotation"
+            >
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
 
-               <h2 class="company-name"> Pro-<span>Box</span> Packages </h2>
+            <button
+                type="button"
+                class="btn-quotation"
+                onclick="window.print()"
+            >
+                <i class="fas fa-print"></i>
+                Print
+            </button>
 
-                <div class="premium-badge">
-                    <i class="fas fa-box"></i>
-                    Printing & Packaging Solution
-                </div>
-
-            </div>
+            <a
+                href="{{ route('quotations.pdf', $quotation->id) }}"
+                class="btn-quotation btn-gold"
+            >
+                <i class="fas fa-file-pdf"></i>
+                PDF
+            </a>
 
         </div>
 
 
-        {{-- ================= QUOTATION INFO ================= --}}
-<div class="quotation-info">
-    <div class="row">
+        {{-- =========================================================
+             QUOTATION INFO
+        ========================================================== --}}
 
-        {{-- Date --}}
-        <div class="col-md-6">
-            <div class="info-item">
-                <span class="info-label">Date</span>
+        <div class="quotation-info">
 
-                <div class="info-value">
-                    <i class="far fa-calendar-alt me-1"
-                       style="color:#526d89;"></i>
+            {{-- FROM --}}
+            <div class="quotation-info-row">
 
-                    {{ \Carbon\Carbon::parse($quotation->date)->format('d M Y') }}
-                </div>
+                <span class="quotation-info-label">
+                    From:
+                </span>
+
+                <span class="quotation-info-value">
+                    Pro-Box Packages
+                </span>
+
             </div>
-        </div>
 
-        {{-- To Client --}}
-        <div class="col-md-6">
-            <div class="info-item">
-                <span class="info-label">To Client</span>
 
-                <div class="info-value">
+            {{-- TO --}}
+            <div class="quotation-info-row">
+
+                <span class="quotation-info-label">
+                    To:
+                </span>
+
+                <span class="quotation-info-value">
                     {{ $quotation->party_name ?? 'N/A' }}
-                </div>
+                </span>
+
             </div>
+
+
+            {{-- DATE --}}
+            <div class="quotation-info-row">
+
+                <span class="quotation-info-label">
+                    Date:
+                </span>
+
+                <span class="quotation-info-value">
+
+                    {{ \Carbon\Carbon::parse($quotation->quotation_date)->format('d F Y') }}
+
+                </span>
+
+            </div>
+
         </div>
 
-    </div>
-</div>
 
-        {{-- ================= ITEMS ================= --}}
+        {{-- =========================================================
+             ITEMS
+        ========================================================== --}}
+
         <div class="table-wrapper">
 
             <table class="quotation-table">
@@ -560,19 +516,13 @@
 
                     <tr>
 
-                        <th style="width:25%;">
+                        <th>
                             Item
                         </th>
 
-                        <th style="width:38%;">
-                            Details
+                        <th>
+                            Description
                         </th>
-
-                        <th class="amount">
-                            Rate
-                        </th>
-
-                      
 
                     </tr>
 
@@ -580,38 +530,25 @@
 
                 <tbody>
 
-                    @php
-                        $grandTotal = 0;
-                    @endphp
-
                     @forelse($quotation->details as $item)
-
-                        @php
-                            $rate = (float) $item->rate;
-                            $qty = (float) $item->qty;
-                            $total = $rate * $qty;
-                            $grandTotal += $total;
-                        @endphp
 
                         <tr>
 
                             <td>
+
                                 <div class="item-name">
                                     {{ $item->item_name }}
                                 </div>
+
                             </td>
 
                             <td>
-                                <div class="details-text">
-                                    {{ $item->details ?: '-' }}
+
+                                <div class="item-details">
+                                    {{ $item->item_details ?: '-' }}
                                 </div>
-                            </td>
 
-                            <td class="amount">
-                                PKR {{ number_format($rate, 2) }}
                             </td>
-
-                     
 
                         </tr>
 
@@ -619,37 +556,15 @@
 
                         <tr>
 
-                            <td colspan="5">
+                            <td colspan="2">
 
-                                <div class="empty-items">
-                                    <i class="fas fa-box-open me-1"></i>
-                                    No quotation items found.
-                                </div>
+                                No quotation items found.
 
                             </td>
 
                         </tr>
 
                     @endforelse
-
-
-                    {{-- Grand Total --}}
-                    <!-- <tr class="grand-total-row">
-
-                        <td colspan="4"
-                            class="grand-total-label">
-
-                            Grand Total
-
-                        </td>
-
-                        <td class="grand-total">
-
-                            PKR {{ number_format($grandTotal, 2) }}
-
-                        </td>
-
-                    </tr> -->
 
                 </tbody>
 
@@ -658,54 +573,63 @@
         </div>
 
 
-        {{-- ================= DESCRIPTION / TERMS ================= --}}
-        @if(!empty($quotation->description))
+        {{-- =========================================================
+             NOTES / DESCRIPTION
+        ========================================================== --}}
 
-            <div class="description-box">
+        <div class="quotation-notes">
 
-                <div class="description-title">
+            @if(!empty($quotation->description))
 
-                    <i class="fas fa-file-alt"></i>
+                {!! nl2br(e($quotation->description)) !!}
 
-                    Description / Terms
+            @else
 
-                </div>
+                Thank you for choosing
+                <strong>Pro-Box Packages</strong>.
+                We look forward to serving you.
 
-                <div class="description-content">
+            @endif
 
-                    {{ $quotation->description }}
-
-                </div>
-
-            </div>
-
-        @endif
+        </div>
 
 
-        {{-- ================= BOTTOM ACTIONS ================= --}}
+        {{-- =========================================================
+             BOTTOM ACTIONS
+        ========================================================== --}}
+
         <div class="bottom-actions no-print">
 
-            <a href="{{ route('quotations.edit', $quotation->id) }}"
-               class="btn-dark">
+            <a
+                href="{{ route('quotations.edit', $quotation->id) }}"
+                class="btn-dark"
+            >
 
                 <i class="fas fa-edit"></i>
+
                 Edit
 
             </a>
 
 
-            <form action="{{ route('quotations.destroy', $quotation->id) }}"
-                  method="POST"
-                  onsubmit="return confirm('Are you sure you want to delete this quotation?');"
-                  style="display:inline;">
+            <form
+                action="{{ route('quotations.destroy', $quotation->id) }}"
+                method="POST"
+                onsubmit="return confirm('Are you sure you want to delete this quotation?');"
+                style="display:inline;"
+            >
 
                 @csrf
+
                 @method('DELETE')
 
-                <button type="submit"
-                        class="btn-danger-custom">
+                <button
+                    type="submit"
+                    class="btn-danger-custom"
+                >
 
                     <i class="fas fa-trash"></i>
+
                     Delete
 
                 </button>
@@ -713,14 +637,15 @@
             </form>
 
 
-            <a href="{{ route('quotations.index') }}"
-               class="btn-close-custom">
-
+            <a
+                href="{{ route('quotations.index') }}"
+                class="btn-close-custom"
+            >
                 Close
-
             </a>
 
         </div>
+
 
     </div>
 
