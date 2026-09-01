@@ -710,7 +710,7 @@ document.addEventListener('DOMContentLoaded', function () {
     */
 
     addItemButton.addEventListener('click', function () {
-
+console.log("kxn");
         const row = document.createElement('div');
 
         row.className = 'quotation-item-row';

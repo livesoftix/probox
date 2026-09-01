@@ -371,6 +371,31 @@
         background: #cf2227;
         color: #ffffff;
     }
+            .company-name {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 800;
+    color: #000;
+    line-height: 1.1;
+}
+
+  .company-name span {
+    color: #e9252b;
+}
+
+    .premium-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f1f4f8;
+        color: #526d89;
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .4px;
+        margin-top: 5px;
+    }
 
     /* =========================================================
        EMPTY STATE
@@ -499,22 +524,17 @@
 
         <div class="brand-left">
 
-            <div class="brand-logo">
-                PB
+              <div >
+               <img src="{{ asset('assets/images/prologo.jpg') }}" alt="Logo" height="50" width="60" class="bg-white" />
             </div>
 
             <div class="brand-info">
 
-                <h2 class="brand-name">
-                    Pro-Box <span class="gold">Packages</span>
-                </h2>
+                <h2 class="company-name"> Pro-<span>Box</span> Packages </h2>
 
                 <div class="premium-badge">
-
-                    <i class="fas fa-briefcase"></i>
-
-                    PREMIUM QUOTATION
-
+                    <i class="fas fa-box"></i>
+                    Printing & Packaging Solution
                 </div>
 
             </div>
