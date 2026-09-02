@@ -454,6 +454,12 @@
                     <span> Quotations </span>
                 </a>
             </li>
+              <li class="side-nav-item">
+                <a href="{{ route('purchase_orders.index') }}" class="side-nav-link">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span> Purchase Orders </span>
+                </a>
+            </li>
             <li class="side-nav-item">
                 <a href="{{ route('packaging-specs.index') }}" class="side-nav-link">
                     <i class="uil-box"></i>

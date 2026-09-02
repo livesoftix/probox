@@ -105,6 +105,7 @@ use App\Http\Controllers\WageManualPastingDcController;
 use App\Http\Controllers\WageAutoPastingDcController;
 use App\Http\Controllers\WageBreakingDcController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\DieController;
 use Illuminate\Support\Facades\Artisan;
 
@@ -197,6 +198,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('/probox/quotations', QuotationController::class);
     Route::get('/probox/quotation/{id}', [QuotationController::class, 'show'])
     ->name('quotation.show');
+    Route::resource('/probox/purchase_orders', PurchaseOrderController::class);
+    Route::get('/probox/purchase_orders/{id}/print', [PurchaseOrderController::class, 'print'])
+    ->name('purchase_orders.print');
+    Route::get('/probox/purchase_orders/{id}', [PurchaseOrderController::class, 'show'])
+    ->name('purchase_orders.show');
     Route::get(
     '/probox/quotations/{id}/pdf',
     [QuotationController::class, 'pdf']
