@@ -876,240 +876,50 @@
                             </div>
                             <hr>
 
-                            <!-- Purchase Options -->
-                            <div id="purchase-options"
-                                style="display: <?php echo e(in_array('Purchase', old('navigationOptions', $navigationOptions)) ? 'block' : 'none'); ?>;">
-                                <!-- Boxboard -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="boxboard" name="permissions[19][level]" value="Boxboard"
-                                        <?php echo e(isset($userPermissions['Boxboard']) ? 'checked' : ''); ?>>
-                                    <label for="boxboard">Boxboard</label>
-                                </div>
-                                <div id="boxboard-options"
-                                    style="display: <?php echo e(isset($userPermissions['Boxboard']) ? 'block' : 'none'); ?>; margin-left: 50px;">
-                                    <input type="checkbox" id="add-boxboard" name="permissions[19][add]" value="1" <?php echo e($userPermissions['Boxboard']['add'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="add-boxboard">Add</label><br>
-                                    <input type="checkbox" id="edit-boxboard" name="permissions[19][edit]" value="1" <?php echo e($userPermissions['Boxboard']['edit'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="edit-boxboard">Edit</label><br>
-                                    <input type="checkbox" id="del-boxboard" name="permissions[19][del]" value="1" <?php echo e($userPermissions['Boxboard']['del'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="del-boxboard">Delete</label><br>
-                                </div>
+           <hr>
 
-                                <!-- Disposable Purchase -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="disposablePurchase" name="permissions[53][level]" value="DisposablePurchase" <?php echo e(isset($userPermissions['DisposablePurchase']) ? 'checked' : ''); ?>>
-                                    <label for="disposablePurchase">Disposable Purchase</label>
-                                </div>
-                                <div id="disposablePurchase-options" style="display: <?php echo e(isset($userPermissions['DisposablePurchase']) ? 'block' : 'none'); ?>; margin-left: 50px;">
-                                    <input type="checkbox" id="add-disposablePurchase" name="permissions[53][add]" value="1" <?php echo e($userPermissions['DisposablePurchase']['add'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="add-disposablePurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-disposablePurchase" name="permissions[53][edit]" value="1" <?php echo e($userPermissions['DisposablePurchase']['edit'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="edit-disposablePurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-disposablePurchase" name="permissions[53][del]" value="1" <?php echo e($userPermissions['DisposablePurchase']['del'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="del-disposablePurchase">Delete</label><br>
-                                </div>
-
-                                <!-- Purchase Return -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="purchaseReturn" name="permissions[20][level]"
-                                        value="PurchaseReturn" <?php echo e(isset($userPermissions['PurchaseReturn']) ? 'checked'
-                                        : ''); ?>>
-                                    <label for="purchaseReturn">Purchase Return</label>
-                                </div>
-                                <div id="purchaseReturn-options"
-                                    style="display: <?php echo e(isset($userPermissions['PurchaseReturn']) ? 'block' : 'none'); ?>; margin-left: 50px;">
-                                    <input type="checkbox" id="add-purchaseReturn" name="permissions[20][add]" value="1"
-                                        <?php echo e($userPermissions['PurchaseReturn']['add'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="add-purchaseReturn">Add</label><br>
-                                    <input type="checkbox" id="edit-purchaseReturn" name="permissions[20][edit]"
-                                        value="1" <?php echo e($userPermissions['PurchaseReturn']['edit'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="edit-purchaseReturn">Edit</label><br>
-                                    <input type="checkbox" id="del-purchaseReturn" name="permissions[20][del]" value="1"
-                                        <?php echo e($userPermissions['PurchaseReturn']['del'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="del-purchaseReturn">Delete</label><br>
-                                </div>
-
-                                <!-- Purchase Plate -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="purchasePlate" name="permissions[21][level]"
-                                        value="PurchasePlate" <?php echo e(isset($userPermissions['PurchasePlate']) ? 'checked'
-                                        : ''); ?>>
-                                    <label for="purchasePlate">Purchase Plate</label>
-                                </div>
-                                <div id="purchasePlate-options"
-                                    style="display: <?php echo e(isset($userPermissions['PurchasePlate']) ? 'block' : 'none'); ?>; margin-left: 50px;">
-                                    <input type="checkbox" id="add-purchasePlate" name="permissions[21][add]" value="1"
-                                        <?php echo e($userPermissions['PurchasePlate']['add'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="add-purchasePlate">Add</label><br>
-                                    <input type="checkbox" id="edit-purchasePlate" name="permissions[21][edit]"
-                                        value="1" <?php echo e($userPermissions['PurchasePlate']['edit'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="edit-purchasePlate">Edit</label><br>
-                                    <input type="checkbox" id="del-purchasePlate" name="permissions[21][del]" value="1"
-                                        <?php echo e($userPermissions['PurchasePlate']['del'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="del-purchasePlate">Delete</label><br>
-                                </div>
-
-                                <!-- Glue Purchase -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="gluePurchase" name="permissions[22][level]"
-                                        value="GluePurchase" <?php echo e(isset($userPermissions['GluePurchase']) ? 'checked' : ''); ?>>
-                                    <label for="gluePurchase">Glue Purchase</label>
-                                </div>
-                                <div id="gluePurchase-options"
-                                    style="display: <?php echo e(isset($userPermissions['GluePurchase']) ? 'block' : 'none'); ?>; margin-left: 50px;">
-                                    <input type="checkbox" id="add-gluePurchase" name="permissions[22][add]" value="1"
-                                        <?php echo e($userPermissions['GluePurchase']['add'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="add-gluePurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-gluePurchase" name="permissions[22][edit]" value="1"
-                                        <?php echo e($userPermissions['GluePurchase']['edit'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="edit-gluePurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-gluePurchase" name="permissions[22][del]" value="1"
-                                        <?php echo e($userPermissions['GluePurchase']['del'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="del-gluePurchase">Delete</label><br>
-                                </div>
-
-                                <!-- Ink Purchase -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="inkPurchase" name="permissions[23][level]"
-                                        value="InkPurchase" <?php echo e(isset($userPermissions['InkPurchase']) ? 'checked' : ''); ?>>
-                                    <label for="inkPurchase">Ink Purchase</label>
-                                </div>
-                                <div id="inkPurchase-options"
-                                    style="display: <?php echo e(isset($userPermissions['InkPurchase']) ? 'block' : 'none'); ?>; margin-left: 50px;">
-                                    <input type="checkbox" id="add-inkPurchase" name="permissions[23][add]" value="1" <?php echo e($userPermissions['InkPurchase']['add'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="add-inkPurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-inkPurchase" name="permissions[23][edit]" value="1"
-                                        <?php echo e($userPermissions['InkPurchase']['edit'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="edit-inkPurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-inkPurchase" name="permissions[23][del]" value="1" <?php echo e($userPermissions['InkPurchase']['del'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="del-inkPurchase">Delete</label><br>
-                                </div>
-
-                                <!-- Lamination Purchase -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="laminationPurchase" name="permissions[24][level]"
-                                        value="LaminationPurchase" <?php echo e(isset($userPermissions['LaminationPurchase'])
-                                        ? 'checked' : ''); ?>>
-                                    <label for="laminationPurchase">Lamination Purchase</label>
-                                </div>
-                                <div id="laminationPurchase-options"
-                                    style="display: <?php echo e(isset($userPermissions['LaminationPurchase']) ? 'block' : 'none'); ?>; margin-left: 50px;">
-                                    <input type="checkbox" id="add-laminationPurchase" name="permissions[24][add]"
-                                        value="1" <?php echo e($userPermissions['LaminationPurchase']['add'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="add-laminationPurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-laminationPurchase" name="permissions[24][edit]"
-                                        value="1" <?php echo e($userPermissions['LaminationPurchase']['edit'] ?? 0 ? 'checked'
-                                        : ''); ?>>
-                                    <label for="edit-laminationPurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-laminationPurchase" name="permissions[24][del]"
-                                        value="1" <?php echo e($userPermissions['LaminationPurchase']['del'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="del-laminationPurchase">Delete</label><br>
-                                </div>
-
-                                <!-- Corrugation Purchase -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="corrugationPurchase" name="permissions[25][level]"
-                                        value="CorrugationPurchase" <?php echo e(isset($userPermissions['CorrugationPurchase'])
-                                        ? 'checked' : ''); ?>>
-                                    <label for="corrugationPurchase">Corrugation Purchase</label>
-                                </div>
-                                <div id="corrugationPurchase-options"
-                                    style="display: <?php echo e(isset($userPermissions['CorrugationPurchase']) ? 'block' : 'none'); ?>; margin-left: 50px;">
-                                    <input type="checkbox" id="add-corrugationPurchase" name="permissions[25][add]"
-                                        value="1" <?php echo e($userPermissions['CorrugationPurchase']['add'] ?? 0 ? 'checked'
-                                        : ''); ?>>
-                                    <label for="add-corrugationPurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-corrugationPurchase" name="permissions[25][edit]"
-                                        value="1" <?php echo e($userPermissions['CorrugationPurchase']['edit'] ?? 0 ? 'checked'
-                                        : ''); ?>>
-                                    <label for="edit-corrugationPurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-corrugationPurchase" name="permissions[25][del]"
-                                        value="1" <?php echo e($userPermissions['CorrugationPurchase']['del'] ?? 0 ? 'checked'
-                                        : ''); ?>>
-                                    <label for="del-corrugationPurchase">Delete</label><br>
-                                </div>
-
-                                <!-- Shipper Purchase -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="shipperPurchase" name="permissions[26][level]"
-                                        value="ShipperPurchase" <?php echo e(isset($userPermissions['ShipperPurchase'])
-                                        ? 'checked' : ''); ?>>
-                                    <label for="shipperPurchase">Shipper Purchase</label>
-                                </div>
-                                <div id="shipperPurchase-options"
-                                    style="display: <?php echo e(isset($userPermissions['ShipperPurchase']) ? 'block' : 'none'); ?>; margin-left: 50px;">
-                                    <input type="checkbox" id="add-shipperPurchase" name="permissions[26][add]"
-                                        value="1" <?php echo e($userPermissions['ShipperPurchase']['add'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="add-shipperPurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-shipperPurchase" name="permissions[26][edit]"
-                                        value="1" <?php echo e($userPermissions['ShipperPurchase']['edit'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="edit-shipperPurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-shipperPurchase" name="permissions[26][del]"
-                                        value="1" <?php echo e($userPermissions['ShipperPurchase']['del'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="del-shipperPurchase">Delete</label><br>
-                                </div>
-
-
-
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="dyePurchase" name="permissions[52][level]"
-                                        value="dyePurchase" <?php echo e(isset($userPermissions['dyePurchase']) ? 'checked' : ''); ?>>
-                                    <label for="dyePurchase">Dye Purchase</label>
-                                </div>
-                                <div id="dyePurchase-options"
-                                    style="display: <?php echo e(isset($userPermissions['dyePurchase']) ? 'block' : 'none'); ?>; margin-left: 50px;">
-                                    <input type="checkbox" id="add-dyePurchase" name="permissions[52][add]" value="1" <?php echo e($userPermissions['dyePurchase']['add'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="add-dyePurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-dyePurchase" name="permissions[52][edit]" value="1"
-                                        <?php echo e($userPermissions['dyePurchase']['edit'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="edit-dyePurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-dyePurchase" name="permissions[52][del]" value="1" <?php echo e($userPermissions['dyePurchase']['del'] ?? 0 ? 'checked' : ''); ?>>
-                                    <label for="del-dyePurchase">Delete</label><br>
-                                </div>
-
-
-                            </div>
-                            <hr>
-                            <div class="form-check">
-    <input class="form-check-input" type="checkbox"
-        id="purchaseOrder"
-        name="purchaseOrder"
-        value="1"
-        <?php echo e(old('purchaseOrder', $user->purchase_order) ? 'checked' : ''); ?>>
+<div class="form-check">
+    <input class="form-check-input"
+           type="checkbox"
+           id="purchaseOrder"
+           name="purchaseOrder"
+           value="1"
+           <?php echo e(old('purchaseOrder', $user->purchase_order) ? 'checked' : ''); ?>>
 
     <label class="form-check-label" for="purchaseOrder">
         Purchase Order
     </label>
 </div>
+
 <div id="purchaseOrder-options"
-    style="display: <?php echo e(old('purchaseOrder', $user->product_freezing) ? 'block' : 'none'); ?>; margin-left:25px;">
+     style="display: <?php echo e(old('purchaseOrder', $user->purchase_order) ? 'block' : 'none'); ?>; margin-left:25px;">
 
     <input type="hidden"
-       name="permissions[78][level]"
-       value="purchaseOrder">
+           name="permissions[78][level]"
+           value="PurchaseOrder">
+
     <input type="checkbox"
-        id="add-purchaseOrder"
-        name="permissions[78][add]"
-        value="1"
-        <?php echo e($userPermissions['purchaseOrder']['add'] ?? 0 ? 'checked' : ''); ?>>
+           id="add-purchaseOrder"
+           name="permissions[78][add]"
+           value="1"
+           <?php echo e(($userPermissions['PurchaseOrder']['add'] ?? 0) ? 'checked' : ''); ?>>
     <label for="add-purchaseOrder">Add</label>
     <br>
 
     <input type="checkbox"
-        id="edit-purchaseOrder"
-        name="permissions[78][edit]"
-        value="1"
-        <?php echo e($userPermissions['purchaseOrder']['edit'] ?? 0 ? 'checked' : ''); ?>>
+           id="edit-purchaseOrder"
+           name="permissions[78][edit]"
+           value="1"
+           <?php echo e(($userPermissions['PurchaseOrder']['edit'] ?? 0) ? 'checked' : ''); ?>>
     <label for="edit-purchaseOrder">Edit</label>
     <br>
 
     <input type="checkbox"
-        id="del-purchaseOrder"
-        name="permissions[78][del]"
-        value="1"
-        <?php echo e($userPermissions['purchaseOrder']['del'] ?? 0 ? 'checked' : ''); ?>>
+           id="del-purchaseOrder"
+           name="permissions[78][del]"
+           value="1"
+           <?php echo e(($userPermissions['PurchaseOrder']['del'] ?? 0) ? 'checked' : ''); ?>>
     <label for="del-purchaseOrder">Delete</label>
-
 </div>
                             <hr>
                             <div class="form-check">

@@ -945,256 +945,50 @@
                             </div>
                             <hr>
 
-                            <!-- Purchase Options -->
-                            <div id="purchase-options"
-                                style="display: {{ in_array('Purchase', old('navigationOptions', $navigationOptions)) ? 'block' : 'none' }};">
-                                <!-- Boxboard -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="boxboard" name="permissions[19][level]" value="Boxboard"
-                                        {{ isset($userPermissions['Boxboard']) ? 'checked' : '' }}>
-                                    <label for="boxboard">Boxboard</label>
-                                </div>
-                                <div id="boxboard-options"
-                                    style="display: {{ isset($userPermissions['Boxboard']) ? 'block' : 'none' }}; margin-left: 50px;">
-                                    <input type="checkbox" id="add-boxboard" name="permissions[19][add]" value="1" {{
-                                        $userPermissions['Boxboard']['add'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="add-boxboard">Add</label><br>
-                                    <input type="checkbox" id="edit-boxboard" name="permissions[19][edit]" value="1" {{
-                                        $userPermissions['Boxboard']['edit'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="edit-boxboard">Edit</label><br>
-                                    <input type="checkbox" id="del-boxboard" name="permissions[19][del]" value="1" {{
-                                        $userPermissions['Boxboard']['del'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="del-boxboard">Delete</label><br>
-                                </div>
+           <hr>
 
-                                <!-- Disposable Purchase -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="disposablePurchase" name="permissions[53][level]" value="DisposablePurchase" {{ isset($userPermissions['DisposablePurchase']) ? 'checked' : '' }}>
-                                    <label for="disposablePurchase">Disposable Purchase</label>
-                                </div>
-                                <div id="disposablePurchase-options" style="display: {{ isset($userPermissions['DisposablePurchase']) ? 'block' : 'none' }}; margin-left: 50px;">
-                                    <input type="checkbox" id="add-disposablePurchase" name="permissions[53][add]" value="1" {{ $userPermissions['DisposablePurchase']['add'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="add-disposablePurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-disposablePurchase" name="permissions[53][edit]" value="1" {{ $userPermissions['DisposablePurchase']['edit'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="edit-disposablePurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-disposablePurchase" name="permissions[53][del]" value="1" {{ $userPermissions['DisposablePurchase']['del'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="del-disposablePurchase">Delete</label><br>
-                                </div>
-
-                                <!-- Purchase Return -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="purchaseReturn" name="permissions[20][level]"
-                                        value="PurchaseReturn" {{ isset($userPermissions['PurchaseReturn']) ? 'checked'
-                                        : '' }}>
-                                    <label for="purchaseReturn">Purchase Return</label>
-                                </div>
-                                <div id="purchaseReturn-options"
-                                    style="display: {{ isset($userPermissions['PurchaseReturn']) ? 'block' : 'none' }}; margin-left: 50px;">
-                                    <input type="checkbox" id="add-purchaseReturn" name="permissions[20][add]" value="1"
-                                        {{ $userPermissions['PurchaseReturn']['add'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="add-purchaseReturn">Add</label><br>
-                                    <input type="checkbox" id="edit-purchaseReturn" name="permissions[20][edit]"
-                                        value="1" {{ $userPermissions['PurchaseReturn']['edit'] ?? 0 ? 'checked' : ''
-                                        }}>
-                                    <label for="edit-purchaseReturn">Edit</label><br>
-                                    <input type="checkbox" id="del-purchaseReturn" name="permissions[20][del]" value="1"
-                                        {{ $userPermissions['PurchaseReturn']['del'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="del-purchaseReturn">Delete</label><br>
-                                </div>
-
-                                <!-- Purchase Plate -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="purchasePlate" name="permissions[21][level]"
-                                        value="PurchasePlate" {{ isset($userPermissions['PurchasePlate']) ? 'checked'
-                                        : '' }}>
-                                    <label for="purchasePlate">Purchase Plate</label>
-                                </div>
-                                <div id="purchasePlate-options"
-                                    style="display: {{ isset($userPermissions['PurchasePlate']) ? 'block' : 'none' }}; margin-left: 50px;">
-                                    <input type="checkbox" id="add-purchasePlate" name="permissions[21][add]" value="1"
-                                        {{ $userPermissions['PurchasePlate']['add'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="add-purchasePlate">Add</label><br>
-                                    <input type="checkbox" id="edit-purchasePlate" name="permissions[21][edit]"
-                                        value="1" {{ $userPermissions['PurchasePlate']['edit'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="edit-purchasePlate">Edit</label><br>
-                                    <input type="checkbox" id="del-purchasePlate" name="permissions[21][del]" value="1"
-                                        {{ $userPermissions['PurchasePlate']['del'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="del-purchasePlate">Delete</label><br>
-                                </div>
-
-                                <!-- Glue Purchase -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="gluePurchase" name="permissions[22][level]"
-                                        value="GluePurchase" {{ isset($userPermissions['GluePurchase']) ? 'checked' : ''
-                                        }}>
-                                    <label for="gluePurchase">Glue Purchase</label>
-                                </div>
-                                <div id="gluePurchase-options"
-                                    style="display: {{ isset($userPermissions['GluePurchase']) ? 'block' : 'none' }}; margin-left: 50px;">
-                                    <input type="checkbox" id="add-gluePurchase" name="permissions[22][add]" value="1"
-                                        {{ $userPermissions['GluePurchase']['add'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="add-gluePurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-gluePurchase" name="permissions[22][edit]" value="1"
-                                        {{ $userPermissions['GluePurchase']['edit'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="edit-gluePurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-gluePurchase" name="permissions[22][del]" value="1"
-                                        {{ $userPermissions['GluePurchase']['del'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="del-gluePurchase">Delete</label><br>
-                                </div>
-
-                                <!-- Ink Purchase -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="inkPurchase" name="permissions[23][level]"
-                                        value="InkPurchase" {{ isset($userPermissions['InkPurchase']) ? 'checked' : ''
-                                        }}>
-                                    <label for="inkPurchase">Ink Purchase</label>
-                                </div>
-                                <div id="inkPurchase-options"
-                                    style="display: {{ isset($userPermissions['InkPurchase']) ? 'block' : 'none' }}; margin-left: 50px;">
-                                    <input type="checkbox" id="add-inkPurchase" name="permissions[23][add]" value="1" {{
-                                        $userPermissions['InkPurchase']['add'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="add-inkPurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-inkPurchase" name="permissions[23][edit]" value="1"
-                                        {{ $userPermissions['InkPurchase']['edit'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="edit-inkPurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-inkPurchase" name="permissions[23][del]" value="1" {{
-                                        $userPermissions['InkPurchase']['del'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="del-inkPurchase">Delete</label><br>
-                                </div>
-
-                                <!-- Lamination Purchase -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="laminationPurchase" name="permissions[24][level]"
-                                        value="LaminationPurchase" {{ isset($userPermissions['LaminationPurchase'])
-                                        ? 'checked' : '' }}>
-                                    <label for="laminationPurchase">Lamination Purchase</label>
-                                </div>
-                                <div id="laminationPurchase-options"
-                                    style="display: {{ isset($userPermissions['LaminationPurchase']) ? 'block' : 'none' }}; margin-left: 50px;">
-                                    <input type="checkbox" id="add-laminationPurchase" name="permissions[24][add]"
-                                        value="1" {{ $userPermissions['LaminationPurchase']['add'] ?? 0 ? 'checked' : ''
-                                        }}>
-                                    <label for="add-laminationPurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-laminationPurchase" name="permissions[24][edit]"
-                                        value="1" {{ $userPermissions['LaminationPurchase']['edit'] ?? 0 ? 'checked'
-                                        : '' }}>
-                                    <label for="edit-laminationPurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-laminationPurchase" name="permissions[24][del]"
-                                        value="1" {{ $userPermissions['LaminationPurchase']['del'] ?? 0 ? 'checked' : ''
-                                        }}>
-                                    <label for="del-laminationPurchase">Delete</label><br>
-                                </div>
-
-                                <!-- Corrugation Purchase -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="corrugationPurchase" name="permissions[25][level]"
-                                        value="CorrugationPurchase" {{ isset($userPermissions['CorrugationPurchase'])
-                                        ? 'checked' : '' }}>
-                                    <label for="corrugationPurchase">Corrugation Purchase</label>
-                                </div>
-                                <div id="corrugationPurchase-options"
-                                    style="display: {{ isset($userPermissions['CorrugationPurchase']) ? 'block' : 'none' }}; margin-left: 50px;">
-                                    <input type="checkbox" id="add-corrugationPurchase" name="permissions[25][add]"
-                                        value="1" {{ $userPermissions['CorrugationPurchase']['add'] ?? 0 ? 'checked'
-                                        : '' }}>
-                                    <label for="add-corrugationPurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-corrugationPurchase" name="permissions[25][edit]"
-                                        value="1" {{ $userPermissions['CorrugationPurchase']['edit'] ?? 0 ? 'checked'
-                                        : '' }}>
-                                    <label for="edit-corrugationPurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-corrugationPurchase" name="permissions[25][del]"
-                                        value="1" {{ $userPermissions['CorrugationPurchase']['del'] ?? 0 ? 'checked'
-                                        : '' }}>
-                                    <label for="del-corrugationPurchase">Delete</label><br>
-                                </div>
-
-                                <!-- Shipper Purchase -->
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="shipperPurchase" name="permissions[26][level]"
-                                        value="ShipperPurchase" {{ isset($userPermissions['ShipperPurchase'])
-                                        ? 'checked' : '' }}>
-                                    <label for="shipperPurchase">Shipper Purchase</label>
-                                </div>
-                                <div id="shipperPurchase-options"
-                                    style="display: {{ isset($userPermissions['ShipperPurchase']) ? 'block' : 'none' }}; margin-left: 50px;">
-                                    <input type="checkbox" id="add-shipperPurchase" name="permissions[26][add]"
-                                        value="1" {{ $userPermissions['ShipperPurchase']['add'] ?? 0 ? 'checked' : ''
-                                        }}>
-                                    <label for="add-shipperPurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-shipperPurchase" name="permissions[26][edit]"
-                                        value="1" {{ $userPermissions['ShipperPurchase']['edit'] ?? 0 ? 'checked' : ''
-                                        }}>
-                                    <label for="edit-shipperPurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-shipperPurchase" name="permissions[26][del]"
-                                        value="1" {{ $userPermissions['ShipperPurchase']['del'] ?? 0 ? 'checked' : ''
-                                        }}>
-                                    <label for="del-shipperPurchase">Delete</label><br>
-                                </div>
-
-
-
-                                <div style="margin-left: 25px;">
-                                    <input type="checkbox" id="dyePurchase" name="permissions[52][level]"
-                                        value="dyePurchase" {{ isset($userPermissions['dyePurchase']) ? 'checked' : ''
-                                        }}>
-                                    <label for="dyePurchase">Dye Purchase</label>
-                                </div>
-                                <div id="dyePurchase-options"
-                                    style="display: {{ isset($userPermissions['dyePurchase']) ? 'block' : 'none' }}; margin-left: 50px;">
-                                    <input type="checkbox" id="add-dyePurchase" name="permissions[52][add]" value="1" {{
-                                        $userPermissions['dyePurchase']['add'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="add-dyePurchase">Add</label><br>
-                                    <input type="checkbox" id="edit-dyePurchase" name="permissions[52][edit]" value="1"
-                                        {{ $userPermissions['dyePurchase']['edit'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="edit-dyePurchase">Edit</label><br>
-                                    <input type="checkbox" id="del-dyePurchase" name="permissions[52][del]" value="1" {{
-                                        $userPermissions['dyePurchase']['del'] ?? 0 ? 'checked' : '' }}>
-                                    <label for="del-dyePurchase">Delete</label><br>
-                                </div>
-
-
-                            </div>
-                            <hr>
-                            <div class="form-check">
-    <input class="form-check-input" type="checkbox"
-        id="purchaseOrder"
-        name="purchaseOrder"
-        value="1"
-        {{ old('purchaseOrder', $user->purchase_order) ? 'checked' : '' }}>
+<div class="form-check">
+    <input class="form-check-input"
+           type="checkbox"
+           id="purchaseOrder"
+           name="purchaseOrder"
+           value="1"
+           {{ old('purchaseOrder', $user->purchase_order) ? 'checked' : '' }}>
 
     <label class="form-check-label" for="purchaseOrder">
         Purchase Order
     </label>
 </div>
+
 <div id="purchaseOrder-options"
-    style="display: {{ old('purchaseOrder', $user->product_freezing) ? 'block' : 'none' }}; margin-left:25px;">
+     style="display: {{ old('purchaseOrder', $user->purchase_order) ? 'block' : 'none' }}; margin-left:25px;">
 
     <input type="hidden"
-       name="permissions[78][level]"
-       value="purchaseOrder">
+           name="permissions[78][level]"
+           value="PurchaseOrder">
+
     <input type="checkbox"
-        id="add-purchaseOrder"
-        name="permissions[78][add]"
-        value="1"
-        {{ $userPermissions['purchaseOrder']['add'] ?? 0 ? 'checked' : '' }}>
+           id="add-purchaseOrder"
+           name="permissions[78][add]"
+           value="1"
+           {{ ($userPermissions['PurchaseOrder']['add'] ?? 0) ? 'checked' : '' }}>
     <label for="add-purchaseOrder">Add</label>
     <br>
 
     <input type="checkbox"
-        id="edit-purchaseOrder"
-        name="permissions[78][edit]"
-        value="1"
-        {{ $userPermissions['purchaseOrder']['edit'] ?? 0 ? 'checked' : '' }}>
+           id="edit-purchaseOrder"
+           name="permissions[78][edit]"
+           value="1"
+           {{ ($userPermissions['PurchaseOrder']['edit'] ?? 0) ? 'checked' : '' }}>
     <label for="edit-purchaseOrder">Edit</label>
     <br>
 
     <input type="checkbox"
-        id="del-purchaseOrder"
-        name="permissions[78][del]"
-        value="1"
-        {{ $userPermissions['purchaseOrder']['del'] ?? 0 ? 'checked' : '' }}>
+           id="del-purchaseOrder"
+           name="permissions[78][del]"
+           value="1"
+           {{ ($userPermissions['PurchaseOrder']['del'] ?? 0) ? 'checked' : '' }}>
     <label for="del-purchaseOrder">Delete</label>
-
 </div>
                             <hr>
                             <div class="form-check">

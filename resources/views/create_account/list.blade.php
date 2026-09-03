@@ -978,10 +978,10 @@
 <!-- Purchase Order -->
 <div class="form-check">
     <input class="form-check-input"
-        type="checkbox"
-        id="purchaseOrder"
-        name="purchaseOrder"
-        value="1">
+           type="checkbox"
+           id="purchaseOrder"
+           name="navigationOptions[]"
+           value="PurchaseOrder">
 
     <label class="form-check-label" for="purchaseOrder">
         Purchase Order
@@ -992,29 +992,32 @@
 
 <div id="purchaseOrder-options" style="display:none; margin-left:25px;">
 
-    <!-- ADD THIS -->
+    <!-- IMPORTANT: Controller requires permissions.*.level -->
     <input type="hidden"
-        name="permissions[78][level]"
-        value="Purchase Order">
+           name="permissions[78][level]"
+           value="PurchaseOrder">
 
     <input type="checkbox"
-        id="add-purchaseOrder"
-        name="permissions[78][add]"
-        value="1">
+           id="add-purchaseOrder"
+           name="permissions[78][add]"
+           value="1">
+
     <label for="add-purchaseOrder">Add</label>
     <br>
 
     <input type="checkbox"
-        id="edit-purchaseOrder"
-        name="permissions[78][edit]"
-        value="1">
+           id="edit-purchaseOrder"
+           name="permissions[78][edit]"
+           value="1">
+
     <label for="edit-purchaseOrder">Edit</label>
     <br>
 
     <input type="checkbox"
-        id="del-purchaseOrder"
-        name="permissions[78][del]"
-        value="1">
+           id="del-purchaseOrder"
+           name="permissions[78][del]"
+           value="1">
+
     <label for="del-purchaseOrder">Delete</label>
 
 </div>
