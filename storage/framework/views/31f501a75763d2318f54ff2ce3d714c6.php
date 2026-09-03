@@ -975,21 +975,27 @@
                                 </div>
                             </div>
                   <hr>
-                  <!-- Prchase Order -->
+<!-- Purchase Order -->
 <div class="form-check">
-    <input class="form-check-input" type="checkbox"
+    <input class="form-check-input"
+        type="checkbox"
         id="purchaseOrder"
         name="purchaseOrder"
         value="1">
 
     <label class="form-check-label" for="purchaseOrder">
-        Product Freezing
+        Purchase Order
     </label>
 </div>
 
 <hr>
 
 <div id="purchaseOrder-options" style="display:none; margin-left:25px;">
+
+    <!-- ADD THIS -->
+    <input type="hidden"
+        name="permissions[78][level]"
+        value="Purchase Order">
 
     <input type="checkbox"
         id="add-purchaseOrder"
@@ -1012,6 +1018,7 @@
     <label for="del-purchaseOrder">Delete</label>
 
 </div>
+
 <hr>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="inventory"
@@ -1669,6 +1676,10 @@ toggleOptions('tempjob', 'tempjob-options');
     });
     document.getElementById('productFreezing').addEventListener('change', function () {
         var setupOptions = document.getElementById('productFreezing-options');
+        setupOptions.style.display = this.checked ? 'block' : 'none';
+    });
+     document.getElementById('purchaseOrder').addEventListener('change', function () {
+        var setupOptions = document.getElementById('purchaseOrder-options');
         setupOptions.style.display = this.checked ? 'block' : 'none';
     });
 
