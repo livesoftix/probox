@@ -68,6 +68,7 @@ class CreateAccountController extends Controller
     $user->product_registration = in_array('Product Registration', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->die_section = in_array('Die Section', $validatedData['navigationOptions'] ?? []) ? 1 : 0; 
     $user->product_freezing = in_array('Product Freezing', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
+    $user->purchase_order = in_array('Purchase Order', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->setup = in_array('Set up', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->employee = in_array('Employee', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
     $user->report = in_array('Report', $validatedData['navigationOptions'] ?? []) ? 1 : 0;
@@ -210,6 +211,7 @@ public function update(Request $request, $id)
         'inventory' => 'inventory',
         'productRegistration' => 'product_registration',
         'productFreezing' => 'product_freezing',  
+        'purchaseOrder' => 'purchase_order',
         'dieSection' => 'die_section',    
         'setup' => 'setup',
         'report' => 'report',

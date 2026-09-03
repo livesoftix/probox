@@ -974,15 +974,45 @@
                                     <label for="del-dyePurchase">Delete</label><br>
                                 </div>
                             </div>
+                  <hr>
+                  <!-- Prchase Order -->
+<div class="form-check">
+    <input class="form-check-input" type="checkbox"
+        id="purchaseOrder"
+        name="purchaseOrder"
+        value="1">
 
+    <label class="form-check-label" for="purchaseOrder">
+        Product Freezing
+    </label>
+</div>
 
+<hr>
 
+<div id="purchaseOrder-options" style="display:none; margin-left:25px;">
 
+    <input type="checkbox"
+        id="add-purchaseOrder"
+        name="permissions[78][add]"
+        value="1">
+    <label for="add-purchaseOrder">Add</label>
+    <br>
 
+    <input type="checkbox"
+        id="edit-purchaseOrder"
+        name="permissions[78][edit]"
+        value="1">
+    <label for="edit-purchaseOrder">Edit</label>
+    <br>
 
+    <input type="checkbox"
+        id="del-purchaseOrder"
+        name="permissions[78][del]"
+        value="1">
+    <label for="del-purchaseOrder">Delete</label>
 
-
-                            <hr>
+</div>
+<hr>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="inventory"
                                     name="navigationOptions[]" value="Inventory">

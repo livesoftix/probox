@@ -1156,6 +1156,48 @@
                             </div>
                             <hr>
                             <div class="form-check">
+    <input class="form-check-input" type="checkbox"
+        id="purchaseOrder"
+        name="purchaseOrder"
+        value="1"
+        {{ old('purchaseOrder', $user->purchase_order) ? 'checked' : '' }}>
+
+    <label class="form-check-label" for="purchaseOrder">
+        Purchase Order
+    </label>
+</div>
+<div id="purchaseOrder-options"
+    style="display: {{ old('purchaseOrder', $user->product_freezing) ? 'block' : 'none' }}; margin-left:25px;">
+
+    <input type="hidden"
+       name="permissions[78][level]"
+       value="purchaseOrder">
+    <input type="checkbox"
+        id="add-purchaseOrder"
+        name="permissions[78][add]"
+        value="1"
+        {{ $userPermissions['purchaseOrder']['add'] ?? 0 ? 'checked' : '' }}>
+    <label for="add-purchaseOrder">Add</label>
+    <br>
+
+    <input type="checkbox"
+        id="edit-purchaseOrder"
+        name="permissions[78][edit]"
+        value="1"
+        {{ $userPermissions['purchaseOrder']['edit'] ?? 0 ? 'checked' : '' }}>
+    <label for="edit-purchaseOrder">Edit</label>
+    <br>
+
+    <input type="checkbox"
+        id="del-purchaseOrder"
+        name="permissions[78][del]"
+        value="1"
+        {{ $userPermissions['purchaseOrder']['del'] ?? 0 ? 'checked' : '' }}>
+    <label for="del-purchaseOrder">Delete</label>
+
+</div>
+                            <hr>
+                            <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="inventory" name="inventory"
                                     value="1" {{ old('inventory', $user->inventory) ? 'checked' : '' }}>
                                 <label class="form-check-label" for="inventory">Inventory</label>
@@ -1254,9 +1296,6 @@
         Product Freezing
     </label>
 </div>
-
-<hr>
-
 <div id="productFreezing-options"
     style="display: {{ old('productFreezing', $user->product_freezing) ? 'block' : 'none' }}; margin-left:25px;">
 
@@ -1743,6 +1782,7 @@
             { id: 'gateEx', options: 'gateExx-options' },
             { id: 'gatePass', options: 'gatePass-options' },
             { id: 'purchase', options: 'purchase-options' },
+            { id: 'purchaseOrder', options: 'purchaseOrder-options' },
             { id: 'inventory', options: 'inventory-options' },
             { id: 'productRegistration', options: 'productRegistration-options' },
             { id: 'productFreezing', options: 'productFreezing-options' },

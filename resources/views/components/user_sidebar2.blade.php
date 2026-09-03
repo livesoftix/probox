@@ -450,6 +450,14 @@
                 </div>
             </li>
             @endif
+             @if(auth()->check() && auth()->user()->purchase_order == 1)
+                <li class="side-nav-item">
+                    <a href="{{ route('purchase_orders.index') }}" class="side-nav-link">
+                        <i class="uil-calender"></i>
+                        <span> Purchase Orders </span>
+                    </a>
+                </li>
+            @endif
             
             @if(auth()->check() && auth()->user()->attendance_system == 1)
              <li class="side-nav-item">
