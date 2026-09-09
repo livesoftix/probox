@@ -34,7 +34,8 @@ class BoxboardReportStockController extends Controller
         'grammage',
         'remain_qty',
         'total_wt'
-    );
+    )
+    ->where('remain_qty', '>', 0);
 
 if ($request->filled('garmmage')) {
     $boxboardQuery->where('grammage', $request->garmmage);
@@ -79,7 +80,6 @@ if ($request->filled('length') && $request->filled('width')) {
 }
 $boxboardData = $boxboardQuery
     ->orderBy('item_code', 'asc')
-     ->havingRaw('SUM(qty) > 0')
     ->get();
 
         // Accounts List
