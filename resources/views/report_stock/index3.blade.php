@@ -803,7 +803,7 @@ class="suggestion-box list-group position-absolute w-100">
 
                         <tr>
 
-                            <td colspan="3">
+                            <td colspan="4">
 
                                 <strong>Total</strong>
 
