@@ -819,7 +819,7 @@ class="suggestion-box list-group position-absolute w-100">
 
                             </td>
 
-                            <td>
+                            <!-- <td>
 
                                 <strong>
 
@@ -827,7 +827,7 @@ class="suggestion-box list-group position-absolute w-100">
 
                                 </strong>
 
-                            </td>
+                            </td> -->
 
                         </tr>
 
