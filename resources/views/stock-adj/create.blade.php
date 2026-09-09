@@ -98,6 +98,10 @@
         <label for="width" class="form-label">Width</label>
         <input type="number" id="width" class="form-control" name="width" step="any" readonly>
     </div>
+      <div class="col-md-4 mb-3">
+        <label for="grammage" class="form-label">Grammage</label>
+        <input type="number" id="grammage" class="form-control" name="grammage" step="any" readonly>
+    </div>
 </div>
 
 <!-- Plate Fields -->
@@ -169,6 +173,7 @@
             <th>Item</th>
             <th>Length</th>
             <th>Width</th>
+            <th>Grammage</th>
             <!-- <th>Size</th> -->
             <th>Stock Qty</th>
             <th>Adjust Qty</th>
@@ -275,6 +280,10 @@ $('#addRow').click(function () {
         + $('#width').val()
         + '<input type="hidden" name="width[]" value="'+$('#width').val()+'">'
         + '</td>';
+    row += '<td>'
+        + $('#grammage').val()
+        + '<input type="hidden" name="grammage[]" value="' + $('#grammage').val() + '">'
+        + '</td>';
 
     // row += '<td>'
     //     + $('#size').val()
@@ -314,6 +323,7 @@ row += '<input type="hidden" name="description[]" value="'+$('#description').val
     $('#item_id').val('');
     $('#length').val('');
     $('#width').val('');
+    $('#grammage').val('');
     // $('#size').val('');
     $('#product_name').val('');
     $('#country_name').val('');
@@ -515,6 +525,7 @@ $('#product_type').change(function() {
                         text: displayText,
                         'data-length': value.length,
                         'data-width': value.width,
+                        'data-grammage': value.grammage,
                         'data-item-id': value.item_id,
                         'data-remain-qty': value.remain_qty || 0
                     }));
@@ -562,6 +573,7 @@ $('#product_type').change(function() {
         if (purchaseType === 'Purchase Boxboard') {
             $('#length').val(selectedOption.data('length'));
             $('#width').val(selectedOption.data('width'));
+            $('#grammage').val(selectedOption.data('grammage'));
         } 
         else if (purchaseType === 'Purchase Plate') {
             $.ajax({

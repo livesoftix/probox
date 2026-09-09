@@ -97,6 +97,11 @@
                                                     <label for="width" class="form-label">Width</label>
                                                     <input type="number" id="width" class="form-control" name="width" step="any" value="" >
                                                 </div>
+                                                  <div class="col-md-4 mb-3">
+        <label for="grammage" class="form-label">Grammage</label>
+        <input type="number" id="grammage" class="form-control"
+               name="grammage" step="any" value="" readonly>
+    </div>
                                             </div>
 
                                             <!-- Plate Fields -->
@@ -169,6 +174,7 @@
         <th>Item</th>
         <th>Length</th>
         <th>Width</th>
+        <th>Grammage</th>
         <!-- <th>Size</th> -->
         <th>Qty</th>
         <th>Type</th>
@@ -214,7 +220,13 @@
 <input type="hidden" name="width[]" value="{{ $detail->width }}">
 
 </td>
+<td>
 
+{{ $detail->grammage }}
+
+<input type="hidden" name="grammage[]" value="{{ $detail->grammage }}">
+
+</td>
 <!-- <td>
 
 {{ $detail->size }}
@@ -311,6 +323,7 @@ $('#addRow').click(function () {
     let itemId      = $('#item_name option:selected').data('item-id');
     let length      = $('#length').val();
     let width       = $('#width').val();
+    let grammage       = $('#grammage').val();
     let size        = $('#size').val();
     let qty         = $('#qty').val();
     let description = $('#description').val();
@@ -344,7 +357,10 @@ $('#addRow').click(function () {
             <input type="hidden" name="width[]" value="${width}">
         </td>
 
-        
+        <td>
+            ${grammage}
+            <input type="hidden" name="grammage[]" value="${grammage}">
+        </td>
 
         <td>
             ${qty}
@@ -373,6 +389,7 @@ $('#addRow').click(function () {
     $('#length').val('');
     $('#width').val('');
     $('#size').val('');
+    $('#grammage').val('');
     $('#product_name').val('');
     $('#country_name').val('');
     $('#qty').val('');
@@ -414,6 +431,9 @@ function loadUpdatedStock()
 
             if(res.width){
                 $('#width').val(res.width);
+            }
+            if(res.grammage){
+                $('#grammage').val(res.grammage);
             }
 
             if(res.size){
@@ -459,7 +479,7 @@ function loadUpdatedStock()
         
         // Clear fields when changing product type (except when reverting to original)
         if (selectedType !== originalProductType) {
-            $('#length, #width, #product_name, #country_name, #size, #total_qty').val('');
+            $('#length, #width,#grammage, #product_name, #country_name, #size, #total_qty').val('');
             $('#item_name').empty().append('<option value="">Select</option>');
         }
         
@@ -501,7 +521,7 @@ function loadUpdatedStock()
     $('#size_fields').hide();
 
     // Clear previous values
-    $('#length,#width,#product_name,#country_name,#size,#total_qty').val('');
+    $('#length,#width,#grammage,#product_name,#country_name,#size,#total_qty').val('');
 
     switch(selectedType){
 
@@ -621,6 +641,7 @@ function loadUpdatedStock()
     'data-item-id': value.item_id,   // <-- Add this
     'data-length': value.length,
     'data-width': value.width,
+     'data-grammage': value.grammage,
     'data-remain-qty': value.remain_qty || 0
 }));
                     } else if (purchaseType === 'Lamination Purchase' || purchaseType === 'Corrugation Purchase') {
@@ -665,6 +686,7 @@ function loadUpdatedStock()
         if (purchaseType === 'Purchase Boxboard') {
             $('#length').val(selectedOption.data('length'));
             $('#width').val(selectedOption.data('width'));
+            $('#grammage').val(selectedOption.data('grammage'));
         } 
         else if (purchaseType === 'Purchase Plate') {
             $.ajax({

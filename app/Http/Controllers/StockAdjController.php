@@ -164,6 +164,7 @@ public function store(Request $request)
                 'length' => $request->length[$key] ?? null,
 
                 'width' => $request->width[$key] ?? null,
+                'grammage' => $request->grammage[$key] ?? null,
 
                 'product_name' => $request->product_name[$key] ?? null,
 
@@ -261,6 +262,7 @@ public function edit($id)
                 'length'=>$request->length[$key] ?? null,
 
                 'width'=>$request->width[$key] ?? null,
+                'grammage'=>$request->grammage[$key] ?? null,
 
                 'product_name'=>$request->product_name[$key] ?? null,
 
@@ -411,6 +413,7 @@ public function getUpdatedStock(Request $request)
                     'length',
                     'width',
                     'remain_qty',
+                    'grammage',
                 ])->get();
             }
             // For Lamination and Corrugation, include size
