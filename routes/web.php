@@ -142,7 +142,7 @@ Route::get('/probox', function () {
 
 Route::get('/probox/create-storage-link', [StorageLinkController::class, 'createLink']);
 
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin','subscription'])->group(function () {
     Route::get('/probox/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard.admin');
     Route::get('/probox/create_account', [CreateAccountController::class, 'index'])->name('create_account.list');
     Route::get('/probox/create_account/reports', [CreateAccountController::class, 'reports'])->name('create_account.reports');
