@@ -65,7 +65,7 @@
                                             
                                             
                                             <div class="mb-3">
-                                                <label for="product_type" class="sr-only">Purchase Type</label>
+                                                <label for="product_type" class="sr-only">Voucher Type</label>
                                                 <select name="product_type" class="form-control select2" data-toggle="select2" id="product_type">
                                                     <option value="">Select</option>
                                                     <option value="Purchase Boxboard" >Purchase Boxboard</option>
@@ -76,6 +76,7 @@
                                                     <option value="Corrugation Purchase" >Corrugation Purchase</option>
                                                     <option value="Shipper Purchase" >Shipper Purchase</option>
                                                     <option value="Dye Purchase">Dye Purchase</option>
+                                                    <option value="Others">Others</option>
                                                 </select>
                                             </div>
 
@@ -84,6 +85,7 @@
                                                 <select name="item_name" class="form-control select2" data-toggle="select2" id="item_name" >
                                                     <option value="" selected></option>
                                                 </select>
+                                                <input type="hidden" name="item_id" id="item_id">
                                             </div>
 
                                             <!-- Boxboard Fields -->
@@ -96,6 +98,11 @@
                                                     <label for="width" class="form-label">Width</label>
                                                     <input type="number" id="width" class="form-control" name="width" step="any" value="" >
                                                 </div>
+                                                  <div class="col-md-4 mb-3">
+        <label for="grammage" class="form-label">Grammage</label>
+        <input type="number" id="grammage" class="form-control"
+               name="grammage" step="any" value="" readonly>
+    </div>
                                             </div>
 
                                             <!-- Plate Fields -->
@@ -117,7 +124,17 @@
                                                     <input type="number" id="size" class="form-control" name="size" step="any" value="" >
                                                 </div>
                                             </div>
-  <div class="col-md-4 mb-3"  >
+                                            <!-- Common Quantity Field -->
+                                            <div class="row">
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="total_qty" class="form-label">Total Qty</label>
+                                                    <input type="number" id="total_qty" class="form-control" name="total_qty" step="any" value="" readonly>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="qty" class="form-label">Quantity</label>
+                                                    <input type="number" id="qty" class="form-control" name="qty" step="any" value="">
+                                                </div>
+                                                <div class="col-md-4 mb-3"  >
     <label>Adjustment Type</label>
 
     <select class="form-control select2" id="adjustment_type" data-toggle="select2">
@@ -125,16 +142,6 @@
         <option value="IN">IN</option>
     </select>
 </div>
-                                            <!-- Common Quantity Field -->
-                                            <div class="row">
-                                                <div class="col-md-6 mb-3">
-                                                    <label for="total_qty" class="form-label">Total Qty</label>
-                                                    <input type="number" id="total_qty" class="form-control" name="total_qty" step="any" value="" readonly>
-                                                </div>
-                                                <div class="col-md-6 mb-3">
-                                                    <label for="qty" class="form-label">Quantity</label>
-                                                    <input type="number" id="qty" class="form-control" name="qty" step="any" value="">
-                                                </div>
                                             </div>
                                             
                                             <div class="mb-3" style="display:none">
@@ -168,7 +175,8 @@
         <th>Item</th>
         <th>Length</th>
         <th>Width</th>
-        <th>Size</th>
+        <th>Grammage</th>
+        <!-- <th>Size</th> -->
         <th>Qty</th>
         <th>Type</th>
         <th>Action</th>
@@ -217,15 +225,22 @@
 <input type="hidden" name="width[]" value="<?php echo e($detail->width); ?>">
 
 </td>
-
 <td>
+
+<?php echo e($detail->grammage); ?>
+
+
+<input type="hidden" name="grammage[]" value="<?php echo e($detail->grammage); ?>">
+
+</td>
+<!-- <td>
 
 <?php echo e($detail->size); ?>
 
 
 <input type="hidden" name="size[]" value="<?php echo e($detail->size); ?>">
 
-</td>
+</td> -->
 
 <td>
 
@@ -288,9 +303,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     qtyInput.addEventListener('input', function() {
         const totalQty = parseFloat(totalQtyInput.value) || 0;
+        const adjtype = document.getElementById('adjustment_type').value;
         const qty = parseFloat(this.value) || 0;
         
-        if (qty > totalQty) {
+        if (qty > totalQty && adjtype != "IN") {
             this.value = totalQty;
             alert('Quantity cannot exceed Total Quantity');
         }
@@ -298,10 +314,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Optional: Also validate when leaving the field (on blur)
     qtyInput.addEventListener('blur', function() {
+        const adjtype = document.getElementById('adjustment_type').value;
         const totalQty = parseFloat(totalQtyInput.value) || 0;
         const qty = parseFloat(this.value) || 0;
         
-        if (qty > totalQty) {
+        if (qty > totalQty && adjtype != "IN") {
             this.value = totalQty;
             alert('Quantity cannot exceed Total Quantity');
         }
@@ -312,12 +329,14 @@ $('#addRow').click(function () {
 
     let productType = $('#product_type').val();
     let itemName    = $('#item_name').val();
-    let itemId      = $('#item_name option:selected').data('id');
+    let itemId      = $('#item_name option:selected').data('item-id');
     let length      = $('#length').val();
     let width       = $('#width').val();
+    let grammage       = $('#grammage').val();
     let size        = $('#size').val();
     let qty         = $('#qty').val();
     let description = $('#description').val();
+    console.log("item id " + itemId);
 
     if(productType == '' || itemName == '' || qty == ''){
         alert('Please fill required fields.');
@@ -348,8 +367,8 @@ $('#addRow').click(function () {
         </td>
 
         <td>
-            ${size}
-            <input type="hidden" name="size[]" value="${size}">
+            ${grammage}
+            <input type="hidden" name="grammage[]" value="${grammage}">
         </td>
 
         <td>
@@ -375,9 +394,11 @@ $('#addRow').click(function () {
     $('#product_type').val('').trigger('change');
     $('#item_name').empty().append('<option value="">Select</option>').trigger('change');
 
+    $('#item_id').val('');
     $('#length').val('');
     $('#width').val('');
     $('#size').val('');
+    $('#grammage').val('');
     $('#product_name').val('');
     $('#country_name').val('');
     $('#qty').val('');
@@ -420,6 +441,9 @@ function loadUpdatedStock()
             if(res.width){
                 $('#width').val(res.width);
             }
+            if(res.grammage){
+                $('#grammage').val(res.grammage);
+            }
 
             if(res.size){
                 $('#size').val(res.size);
@@ -448,6 +472,15 @@ function loadUpdatedStock()
     // Product type change handler
     $('#product_type').change(function() {
         var selectedType = $(this).val();
+         if (selectedType === 'Others') {
+    $('#total_qty')
+        .prop('readonly', false)
+        .val('');
+} else {
+    $('#total_qty')
+        .prop('readonly', true)
+        .val('');
+}
         
         // Hide all fields first
         $('[id^="purchase_"]').hide();
@@ -455,7 +488,7 @@ function loadUpdatedStock()
         
         // Clear fields when changing product type (except when reverting to original)
         if (selectedType !== originalProductType) {
-            $('#length, #width, #product_name, #country_name, #size, #total_qty').val('');
+            $('#length, #width,#grammage, #product_name, #country_name, #size, #total_qty').val('');
             $('#item_name').empty().append('<option value="">Select</option>');
         }
         
@@ -480,6 +513,9 @@ function loadUpdatedStock()
                 case 'Corrugation Purchase':
                     $('#size_fields').show();
                     break;
+                case 'Others':
+                    $('#size_fields').show();
+                    break;
             }
         }
     });
@@ -494,7 +530,7 @@ function loadUpdatedStock()
     $('#size_fields').hide();
 
     // Clear previous values
-    $('#length,#width,#product_name,#country_name,#size,#total_qty').val('');
+    $('#length,#width,#grammage,#product_name,#country_name,#size,#total_qty').val('');
 
     switch(selectedType){
 
@@ -510,6 +546,12 @@ function loadUpdatedStock()
         case 'Corrugation Purchase':
             $('#size_fields').show();
             break;
+        case 'Others':
+               $('#purchase_boxboard').show();
+
+               $('#length, #width').prop('readonly', false);
+               break;
+        
     }
 
     if(selectedType){
@@ -532,6 +574,44 @@ function loadUpdatedStock()
     });
 
     function loadItems(purchaseType) {
+
+     // OTHERS - ALL ITEM MASTER
+    // ============================
+       if (purchaseType === 'Others') {
+
+        $.ajax({
+            url: '/probox/get-all-items',
+            type: 'GET',
+            dataType: 'json',
+
+            success: function (data) {
+
+                let $select = $('#item_name')
+                    .empty()
+                    .append('<option value="">Select</option>');
+
+                $.each(data, function (key, item) {
+
+                    $select.append($('<option>', {
+                        value: item.item_code,
+                        text: item.item_code,
+                        'data-item-id': item.id,
+                        'data-remain-qty': 0
+                    }));
+                });
+
+                $select.trigger('change');
+                
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseText);
+            }
+        });
+
+        return;
+    }
+
         var viewMap = {
             'Purchase Boxboard': { view: 'boxboard_view', itemColumn: 'item_code' },
             'Purchase Plate': { view: 'plate_view', itemColumn: 'item_code' },
@@ -567,9 +647,10 @@ function loadUpdatedStock()
                        $select.append($('<option>', {
     value: itemValue,
     text: displayText,
-    'data-id': value.item_id,   // <-- Add this
+    'data-item-id': value.item_id,   // <-- Add this
     'data-length': value.length,
     'data-width': value.width,
+     'data-grammage': value.grammage,
     'data-remain-qty': value.remain_qty || 0
 }));
                     } else if (purchaseType === 'Lamination Purchase' || purchaseType === 'Corrugation Purchase') {
@@ -578,12 +659,14 @@ function loadUpdatedStock()
                             value: itemValue,
                             text: displayText,
                             'data-remain-qty': value.remain_qty || 0,
-                            'data-size': value.size || ''
+                            'data-size': value.size || '',
+                             'data-item-id': value.item_id,
                         }));
                     } else {
                         $select.append($('<option>', {
                             value: itemValue,
                             text: displayText,
+                            'data-item-id': value.item_id,
                             'data-remain-qty': value.remain_qty || 0
                         }));
                     }
@@ -605,12 +688,14 @@ function loadUpdatedStock()
     function loadItemDetails(purchaseType, itemValue) {
         var selectedOption = $('#item_name option:selected');
         var remainQty = selectedOption.data('remain-qty') || 0;
-        
+        var itemId = selectedOption.data('item-id') || 0;
         $('#total_qty').val(remainQty);
+         $('#item_id').val(itemId);
         
         if (purchaseType === 'Purchase Boxboard') {
             $('#length').val(selectedOption.data('length'));
             $('#width').val(selectedOption.data('width'));
+            $('#grammage').val(selectedOption.data('grammage'));
         } 
         else if (purchaseType === 'Purchase Plate') {
             $.ajax({

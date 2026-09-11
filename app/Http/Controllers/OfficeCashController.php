@@ -200,4 +200,15 @@ public function delete($id)
     
     return redirect()->route('office_cash.reports')->with('success', 'Transaction deleted successfully!');
 }
+public function checkEmployeeEntry(Request $request)
+{
+    $exists = TRNDTL::where('v_type', 'OC')
+        ->where('account_id', $request->account_id)
+        ->whereDate('date', $request->date)
+        ->exists();
+
+    return response()->json([
+        'exists' => $exists
+    ]);
+}
 }

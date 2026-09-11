@@ -207,7 +207,7 @@
 
         invoiceInput.value = invoiceCounter;
 
-        addEntryButton.addEventListener('click', function () {
+        addEntryButton.addEventListener('click', async function () {
             const dateInput = document.getElementById('entryDate');
             const party = document.getElementById('entryParty');
             const description = document.getElementById('entryDescription').value;
@@ -233,6 +233,22 @@
                 return;
             }
 
+ try {
+    const response = await fetch(
+        `{{ route('office_cash.check_employee_entry') }}?account_id=${selectedAccountParty}&date=${dateInput.value}`
+    );
+
+    const result = await response.json();
+
+    if (result.exists) {
+        alert('This employee already has an Office Cash entry on this date.');
+        return;
+    }
+} catch (error) {
+    console.error(error);
+    alert('Unable to check existing employee entry.');
+    return;
+}
             const invoiceNumber = invoiceCounter++;
             invoiceInput.value = invoiceNumber;
 

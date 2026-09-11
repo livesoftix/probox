@@ -163,7 +163,7 @@
         const today = new Date().toISOString().split('T')[0];
 
         // Set the value of the input field to the current date
-        document.getElementById('entryDate').value = today;
+        // document.getElementById('entryDate').value = today;
         document.addEventListener('DOMContentLoaded', function () {
             const fileInput = document.getElementById('uploadFile');
             const imagePreview = document.getElementById('imagePreview');
@@ -217,16 +217,34 @@
     }
 
     // Add entry event
-    addEntryButton.addEventListener('click', function () {
+   addEntryButton.addEventListener('click', async function () {
         const date = document.getElementById('entryDate').value;
         const cashId = document.getElementById('entryCash').value;
         const description = document.getElementById('entryDescription').value;
         const amount = parseFloat(document.getElementById('entryAmount').value);
+        const accountId = document.getElementById('entryParty').value;
+        const currentVoucherNo = document.getElementById('currentVoucherNo').value;
 
         if (!date || !cashId || !lockedAccountId || !description || isNaN(amount)) {
             alert('Please fill in all fields.');
             return;
         }
+try {
+    const response = await fetch(
+        `{{ route('office_cash.check_employee_entry') }}?account_id=${accountId}&date=${date}&v_no=${currentVoucherNo}`
+    );
+
+    const result = await response.json();
+
+    if (result.exists) {
+        alert('This employee already has an Office Cash entry on this date.');
+        return;
+    }
+} catch (error) {
+    console.error(error);
+    alert('Unable to check existing employee entry.');
+    return;
+}
 
         // Add new entry to the table
         const newRow = entriesTable.insertRow();
@@ -244,6 +262,7 @@
                 <input type="hidden" name="entries[${Date.now()}][account]" value="${lockedAccountId}">
                 <input type="hidden" name="entries[${Date.now()}][description]" value="${description}">
                 <input type="hidden" name="entries[${Date.now()}][debit]" value="${amount.toFixed(2)}">
+                <input type="hidden" id="currentVoucherNo" value="{{ $voucher->first()->v_no }}">
             </td>
         `;
 
