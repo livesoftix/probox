@@ -156,7 +156,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth','subscription')->group(function () {
     
     Route::get('/probox/salary_calc', [SalaryCalculatorController::class, 'index'])->name('salary_calc.list');
     Route::post('/probox/salary_calc', [SalaryCalculatorController::class, 'store'])->name('salary_calc.store');
