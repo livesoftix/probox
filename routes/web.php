@@ -442,7 +442,7 @@ Route::put('/probox/tempjob/{id}', [TempJobSheetController::class, 'update'])
     Route::put('/probox/office_cash/{v_no}/update', [OfficeCashController::class, 'update'])->name('office_cash.update');
     Route::get('/probox/office_cash/{id}', [OfficeCashController::class, 'destroy'])->name('office_cash.destroy');
     Route::delete('/probox/office_cash-delete/{id}', [OfficeCashController::class, 'delete'])->name('office_cash.delete');
-    Route::get('/printingcell/office-cash/check-employee-entry', [OfficeCashController::class, 'checkEmployeeEntry'])
+    Route::get('/probox/office-cash/check-employee-entry', [OfficeCashController::class, 'checkEmployeeEntry'])
     ->name('office_cash.check_employee_entry');
     
     Route::get('/probox/bank_recipt', [BankReciptController::class, 'index'])->name('bank_recipt.list');
