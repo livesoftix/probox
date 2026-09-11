@@ -10,9 +10,9 @@ class CheckSubscription
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!env('SOFTWARE_ACTIVE', true)) {
-            return response()->view('subscription-expired', [], 403);
-        }
+        if (env('SOFTWARE_ACTIVE', true) == false) {
+         return response()->view('subscription-expired', [], 403);
+       }
 
         return $next($request);
     }
