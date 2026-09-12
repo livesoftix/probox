@@ -242,12 +242,12 @@
 
     if (result.exists) {
         alert('This employee already has an Office Cash entry on this date.');
-        return;
+        // return;
     }
 } catch (error) {
     console.error(error);
     alert('Unable to check existing employee entry.');
-    return;
+    // return;
 }
             const invoiceNumber = invoiceCounter++;
             invoiceInput.value = invoiceNumber;
