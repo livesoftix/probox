@@ -205,6 +205,7 @@ public function checkEmployeeEntry(Request $request)
     $exists = TRNDTL::where('v_type', 'OC')
         ->where('account_id', $request->account_id)
         ->whereDate('date', $request->date)
+        ->where('debit', $request->amount)
         ->exists();
 
     return response()->json([

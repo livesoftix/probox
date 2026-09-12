@@ -235,7 +235,7 @@
 
  try {
     const response = await fetch(
-        `{{ route('office_cash.check_employee_entry') }}?account_id=${selectedAccountParty}&date=${dateInput.value}`
+        `{{ route('office_cash.check_employee_entry') }}?account_id=${selectedAccountParty}&date=${dateInput.value}&amount=${amount}`
     );
 
     const result = await response.json();
