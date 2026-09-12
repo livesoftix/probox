@@ -136,6 +136,10 @@ Route::get('/probox/migrate', function () {
 
 Route::get('/probox/backup', [BackupController::class, 'runBackup'])->name('admin.backup');
 
+Route::get('/', function () {
+    return redirect('/probox');
+});
+
 Route::get('/probox', function () {
     return redirect()->route('login');
 });
