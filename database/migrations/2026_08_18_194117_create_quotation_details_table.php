@@ -8,6 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (!Schema::hasTable('quotations')) {
+            return;
+        }
         Schema::create('quotation_details', function (Blueprint $table) {
 
             $table->id();

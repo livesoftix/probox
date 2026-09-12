@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('packaging_specs', function (Blueprint $table) {
-          $table->string('uv_size')->nullable();
-        $table->tinyInteger('varnish')->default(0);
-        });
+        if (Schema::hasTable('packaging_specs')) {
+            Schema::table('packaging_specs', function (Blueprint $table) {
+                if (!Schema::hasColumn('packaging_specs', 'uv_size')) {
+                    $table->string('uv_size')->nullable();
+                }
+                if (!Schema::hasColumn('packaging_specs', 'varnish')) {
+                    $table->tinyInteger('varnish')->default(0);
+                }
+            });
+        }
     }
 
     /**

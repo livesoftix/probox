@@ -13,7 +13,7 @@ class PurchaseOrderController extends Controller
      */
     public function index()
     {
-        $purchaseOrders = PurchaseOrder::with('preparedBy')
+        $purchaseOrders = PurchaseOrder::with(['preparedBy', 'items'])
             ->latest('id')
             ->paginate(15);
 
