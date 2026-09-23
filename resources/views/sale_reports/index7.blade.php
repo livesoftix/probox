@@ -378,7 +378,8 @@
                                                 @php
                                                     $trnDetail = $trnDetails->firstWhere('r_id', $data->billing_no); //where('v_no', $data->v_no);
                                                     $acc = $trnDetail->accounts->title ?? 'N/A';
-                                                    $gt = $grandTotalByVNo[$data->v_no] ?? 0;
+                                                    // $gt = $grandTotalByVNo[$data->v_no] ?? 0;
+                                                    $gt = $grandTotalByBillingNo[$data->billing_no] ?? 0;
                                                     $pb = $trnDetail->pre_balance ?? 'N/A';
                                                     $rateMissing = !isset($data->rate) || $data->rate === null;
                                                     $amountMissing = !isset($data->total) || $data->total === null;
