@@ -281,7 +281,7 @@
 
                                         @foreach ($trnDetails as $data1)
                                             @php
-                                                $saleInvoice = $saleInvoices->firstWhere('v_no', $data1->v_no);
+                                                $saleInvoice = $saleInvoices->firstWhere('billing_no', $data1->r_id); //where('v_no', $data1->v_no)
                                                 $itemTitle = $saleInvoice->itemType->type_title ?? 'N/A';
                                                 $accountTitle = $data1->accounts->title ?? 'N/A';
                                             @endphp
@@ -363,7 +363,12 @@
                                                         $grandSalesTaxByVNo[$invoice->v_no] = 0;
                                                         $grandValueWithTaxByVNo[$invoice->v_no] = 0;
                                                     }
-                                                    $grandTotalByVNo[$invoice->v_no] += $amount;
+                                                    // $grandTotalByVNo[$invoice->v_no] += $amount;
+                                                    $billingNo = $invoice->billing_no;
+                                                    if (!isset($grandTotalByBillingNo[$billingNo])) {
+                                                        $grandTotalByBillingNo[$billingNo] = 0;
+                                                    }
+                                                    $grandTotalByBillingNo[$billingNo] += $amount;
                                                     $grandSalesTaxByVNo[$invoice->v_no] += $salesTax;
                                                     $grandValueWithTaxByVNo[$invoice->v_no] += $valueWithTax;
                                                 }
@@ -371,7 +376,7 @@
 
                                             @foreach ($filteredInvoices as $index => $data)
                                                 @php
-                                                    $trnDetail = $trnDetails->firstWhere('v_no', $data->v_no);
+                                                    $trnDetail = $trnDetails->firstWhere('r_id', $data->billing_no); //where('v_no', $data->v_no);
                                                     $acc = $trnDetail->accounts->title ?? 'N/A';
                                                     $gt = $grandTotalByVNo[$data->v_no] ?? 0;
                                                     $pb = $trnDetail->pre_balance ?? 'N/A';
