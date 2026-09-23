@@ -181,6 +181,9 @@
                                                     $saleInvoicesForVNo = $saleInvoices->where('v_no', $data1->v_no);
                                                     $uniqueItemTitles = []; // Array to store unique item titles for the current v_no
                                                     $itemTitles = ''; // Initialize the itemTitles variable outside the loop
+                                                    $invoiceAmount = $saleInvoicesForVNo->sum(function ($invoice) {
+                                                    return (float) ($invoice->rate ?? 0) * (float) ($invoice->total ?? 0);
+                                                    });
                                                 @endphp
                                                 @foreach ($saleInvoicesForVNo as $saleInvoice)
                                                     @php
@@ -203,7 +206,8 @@
                                                             -{{ $data1->v_no }}</td>
                                                         <td>{{ $data1->accounts->title ?? 'N/A' }}</td>
                                                         <td>{{ implode(', ', $uniqueItemTitles) ?? 'N/A' }}</td>
-                                                        <td>{{ number_format($data1->debit ?? 'N/A') }}</td>
+                                                        <!-- <td>{{ number_format($data1->debit ?? 'N/A') }}</td> -->
+                                                         <td>{{ number_format($invoiceAmount, 2) }}</td>
                                                         <td>
                                                             @php
                                                                 $billingNo =
@@ -232,14 +236,6 @@
                                                 @endif
                                             @endforeach
                                         </tbody>
-
-
-
-
-
-
-
-
                                     </table>
                                     <!-- Second Table -->
                                     <table id="combined-data-table-2"
