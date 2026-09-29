@@ -447,6 +447,35 @@
                                                         <td colspan="2" style="font-weight: bold;">
                                                             {{ number_format($gt, 2) }}</td>
                                                     </tr>
+                                                    @if ($showPrevBalance == '1')
+    <tr class="default-row print-prev-balance">
+        <td colspan="6" style="text-align: right; font-weight: bold;">
+            Previous Balance:
+        </td>
+        <td colspan="2" style="font-weight: bold;">
+            {{ number_format((float) $pb, 2) }}
+        </td>
+    </tr>
+
+    <tr class="default-row print-total">
+        <td colspan="6" style="text-align: right; font-weight: bold;">
+            Total:
+        </td>
+        <td colspan="2" style="font-weight: bold;">
+            {{ number_format((float) $gt + (float) $pb, 2) }}
+        </td>
+    </tr>
+@else
+    <tr class="default-row print-total">
+        <td colspan="6" style="text-align: right; font-weight: bold;">
+            Total:
+        </td>
+        <td colspan="2" style="font-weight: bold;">
+            {{ number_format((float) $gt, 2) }}
+        </td>
+    </tr>
+@endif
+
                                                     {{-- <tr class="official-row" style="display: none;">
                                                         <td colspan="6" style="text-align: right; font-weight: bold;">
                                                             Grand Total Amount:</td>
@@ -596,6 +625,7 @@
             const defaultHeaders = document.getElementById('default-headers');
             const officialHeaders = document.getElementById('official-headers');
             const defaultRows = document.querySelectorAll('.default-row');
+            const prevBalanceRows = document.querySelectorAll('.print-prev-balance, .print-total');
             const officialRows = document.querySelectorAll('.official-row');
 
             secondTable.style.display = 'table';
@@ -613,6 +643,9 @@
                 defaultHeaders.style.display = 'table-row';
                 officialHeaders.style.display = 'none';
                 defaultRows.forEach(row => row.style.display = 'table-row');
+                document.querySelectorAll('.print-prev-balance, .print-total').forEach(row => {
+    row.style.display = 'table-row';
+});
                 officialRows.forEach(row => row.style.display = 'none');
             }
 
@@ -621,7 +654,16 @@
             const headerContent3 = printHeader3.outerHTML;
 
             // Build paginated table HTML: 9 rows for first page, 23 rows for subsequent pages
-            const rowsToPrint = Array.from(secondTable.querySelectorAll(selectedHeading === 'ProBox Packages official' ? '.official-row' : '.default-row'));
+            const rowsToPrint = Array.from(
+    secondTable.querySelectorAll(
+        selectedHeading === 'ProBox Packages official'
+            ? '.official-row'
+            : '.default-row'
+    )
+).filter(row => {
+    return getComputedStyle(row).display !== 'none';
+});
+
             const headerHtml = selectedHeading === 'ProBox Packages official' ? officialHeaders.outerHTML : defaultHeaders.outerHTML;
 
             let paginatedTableHtml = '';
@@ -829,6 +871,18 @@
                 -webkit-print-color-adjust: exact; 
                 print-color-adjust: exact; 
             }
+            .print-prev-balance,
+.print-total {
+    display: none !important;
+}
+
+@media print {
+    .print-prev-balance,
+    .print-total {
+        display: table-row !important;
+    }
+}
+
         </style>
     </head>
     <body>
@@ -886,7 +940,14 @@
             printHeader3.style.display = 'none';
             defaultHeaders.style.display = 'table-row';
             officialHeaders.style.display = 'none';
-            defaultRows.forEach(row => row.style.display = 'table-row');
+            defaultRows.forEach(row => {
+    row.style.display = 'table-row';
+});
+
+document.querySelectorAll('.print-prev-balance, .print-total').forEach(row => {
+    row.style.display = 'table-row';
+});
+
             officialRows.forEach(row => row.style.display = 'none');
         }
 
