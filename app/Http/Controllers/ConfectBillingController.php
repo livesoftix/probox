@@ -359,9 +359,23 @@ $saleInvoices->transform(function ($invoice) {
         // Only calculate if showPrevBalance is enabled
         if ($showPrevBalance == 1) {
             $prevBalance = DB::table('t_r_n_d_t_l_s')
-                ->where('account_id', $accId)
+                ->where(function ($query) use ($accId) {
+                    $query->where('account_id', $accId)
+                          ->orWhere('cash_id', $accId);
+                })
                 ->where('date', '<', $trnDate)
-                ->sum(DB::raw('IFNULL(debit,0) - IFNULL(credit,0)'));
+                ->when($status, function ($q) use ($status) {
+                    return $q->where('status', $status);
+                })
+                ->selectRaw("
+                    SUM(
+                        CASE 
+                            WHEN cash_id = ? AND account_id != ? THEN IFNULL(credit, 0) - IFNULL(debit, 0)
+                            ELSE IFNULL(debit, 0) - IFNULL(credit, 0)
+                        END
+                    ) as prev_bal
+                ", [$accId, $accId])
+                ->value('prev_bal') ?? 0;
 
             $prevBalances[$trn->id] = $prevBalance;
         } else {
