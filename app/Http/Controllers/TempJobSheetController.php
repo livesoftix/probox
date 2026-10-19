@@ -142,32 +142,32 @@ $boxboardData = DB::table('boxboard_stock_qty')
         'after_cutting.*' => 'nullable|numeric',
         'ups'      =>'nullable|numeric',
           // Process Details
-    'lamination' => 'nullable|boolean',
+    'lamination' => 'nullable',
     'lsize' => 'nullable|numeric',
-    'litem' => 'nullable|integer',
+    'litem' => 'nullable',
 
-    'corrugation' => 'nullable|boolean',
+    'corrugation' => 'nullable',
     'csize' => 'nullable|numeric',
-    'citem' => 'nullable|integer',
+    'citem' => 'nullable',
 
     'color' => 'nullable|numeric',
-    'noColor' => 'nullable|boolean',
+    'noColor' => 'nullable',
 
-    'window' => 'nullable|boolean',
-    'glass_win' => 'nullable|boolean',
-    'lam_win' => 'nullable|boolean',
+    'window' => 'nullable',
+    'glass_win' => 'nullable',
+    'lam_win' => 'nullable',
 
-    'uv' => 'nullable|boolean',
-    'simple' => 'nullable|boolean',
-    'spot' => 'nullable|boolean',
-    'tripof' => 'nullable|boolean',
+    'uv' => 'nullable',
+    'simple' => 'nullable',
+    'spot' => 'nullable',
+    'tripof' => 'nullable',
 
-    'varnish' => 'nullable|boolean',
+    'varnish' => 'nullable',
 
-    'emboss' => 'nullable|boolean',
+    'emboss' => 'nullable',
     'emboss_rate' => 'nullable|numeric',
 
-    'breaking' => 'nullable|boolean',
+    'breaking' => 'nullable',
     ]);
 
     // dd($validated);
@@ -187,6 +187,12 @@ $boxboardData = DB::table('boxboard_stock_qty')
             ?? ((TempJobSheet::max('id') ?? 0) + 1);
 
         $job->job_id = $validated['job_id'] ?? null;
+        if (!empty($validated['job_id'])) {
+            $product = ProductMaster::find($validated['job_id']);
+            if ($product && !empty($product->aid)) {
+                $job->account_id = $product->aid;
+            }
+        }
         $job->size = $validated['size'] ?? null;
         $job->qty = $validated['qty'] ?? 0;
 
@@ -197,34 +203,34 @@ $boxboardData = DB::table('boxboard_stock_qty')
    PROCESS DETAILS
 ========================== */
 
-$job->lamination = $validated['lamination'] ?? 0;
+$job->lamination = $request->boolean('lamination') ? 1 : 0;
 $job->lam_size   = $validated['lsize'] ?? null;
 $job->lam_item   = $validated['litem'] ?? null;
 
-$job->corrugation = $validated['corrugation'] ?? 0;
+$job->corrugation = $request->boolean('corrugation') ? 1 : 0;
 $job->curr_size   = $validated['csize'] ?? null;
 $job->curr_item   = $validated['citem'] ?? null;
 
-$job->color    = $validated['noColor'] ?? 0;
+$job->color    = $request->boolean('noColor') ? 1 : 0;
 $job->color_no = $validated['color'] ?? null;
 
-$job->window    = $validated['window'] ?? 0;
-$job->glass_win = $validated['glass_win'] ?? 0;
-$job->lam_window = $validated['lam_win'] ?? 0;
+$job->window    = $request->boolean('window') ? 1 : 0;
+$job->glass_win = $request->boolean('glass_win') ? 1 : 0;
+$job->lam_window = $request->boolean('lam_win') ? 1 : 0;
 
-$job->uv     = $request->has('uv');
-$job->simple = $request->has('simple');
-$job->spot   = $request->has('spot');
-$job->tripof = $request->has('tripof');
+$job->uv     = $request->boolean('uv') ? 1 : 0;
+$job->simple = $request->boolean('simple') ? 1 : 0;
+$job->spot   = $request->boolean('spot') ? 1 : 0;
+$job->tripof = $request->boolean('tripof') ? 1 : 0;
 
-$job->varnish = $validated['varnish'] ?? 0;
+$job->varnish = $request->boolean('varnish') ? 1 : 0;
 
-$job->emboss = $validated['emboss'] ?? 0;
+$job->emboss = $request->boolean('emboss') ? 1 : 0;
 
 // if column exists
 // $job->emboss_rate = $validated['emboss_rate'] ?? null;
 
-$job->breaking = $validated['breaking'] ?? 0;
+$job->breaking = $request->boolean('breaking') ? 1 : 0;
 
        
         $job->note = $validated['note'] ?? null;
@@ -366,32 +372,32 @@ $job->breaking = $validated['breaking'] ?? 0;
         'after_cutting.*' => 'nullable|numeric',
 
         // Process Details
-        'lamination' => 'nullable|boolean',
+        'lamination' => 'nullable',
         'lsize' => 'nullable|numeric',
-        'litem' => 'nullable|integer',
+        'litem' => 'nullable',
 
-        'corrugation' => 'nullable|boolean',
+        'corrugation' => 'nullable',
         'csize' => 'nullable|numeric',
-        'citem' => 'nullable|integer',
+        'citem' => 'nullable',
 
         'color' => 'nullable|numeric',
-        'noColor' => 'nullable|boolean',
+        'noColor' => 'nullable',
 
-        'window' => 'nullable|boolean',
-        'glass_win' => 'nullable|boolean',
-        'lam_win' => 'nullable|boolean',
+        'window' => 'nullable',
+        'glass_win' => 'nullable',
+        'lam_win' => 'nullable',
 
-        'uv' => 'nullable|boolean',
-        'simple' => 'nullable|boolean',
-        'spot' => 'nullable|boolean',
-        'tripof' => 'nullable|boolean',
+        'uv' => 'nullable',
+        'simple' => 'nullable',
+        'spot' => 'nullable',
+        'tripof' => 'nullable',
 
-        'varnish' => 'nullable|boolean',
+        'varnish' => 'nullable',
 
-        'emboss' => 'nullable|boolean',
+        'emboss' => 'nullable',
         'emboss_rate' => 'nullable|numeric',
 
-        'breaking' => 'nullable|boolean',
+        'breaking' => 'nullable',
     ]);
 
     DB::beginTransaction();

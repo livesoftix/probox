@@ -29,6 +29,16 @@
 
             <div class="a4-sheet">
 
+            @if ($errors->any())
+                <div class="alert alert-danger text-white">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form action="{{ route('tempjob.store') }}" method="POST">
                 @csrf
 
@@ -317,9 +327,9 @@
         </div>
         
     <div class="form-check">
-        <input type="checkbox" name="uv" id="uv" >
         <input type="hidden" name="uv" value="0">
-        <label class="form-check-label">UV</label>
+        <input class="form-check-input" type="checkbox" name="uv" id="uv" value="1">
+        <label class="form-check-label" for="uv">UV</label>
     </div>
     
 
@@ -345,8 +355,8 @@
     <div class="col-md-2 mb-3">
         <div class="form-check">
             <input type="hidden" name="tripof" value="0">
-            <input type="checkbox" name="tripof" id="tripof" >
-            <label>Trip Of</label>
+            <input class="form-check-input" type="checkbox" name="tripof" id="tripof" value="1">
+            <label class="form-check-label" for="tripof">Trip Of</label>
         </div>
     </div>
 
@@ -433,16 +443,15 @@
                                                                 <div id="windowOptions"
                                     style="display: none; margin-top: 10px; margin-bottom: 10px; margin-left: 20px;">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="glass_win" name="glass_win"
-                                            value="1" >
-                                            <input type="hidden" name="glass_win" value="0">
+                                        <input type="hidden" name="glass_win" value="0">
+                                        <input class="form-check-input" type="checkbox" id="glass_win" name="glass_win" value="1">
                                         <label class="form-check-label" for="glass_win">Glass Window</label>
                                     </div>
                                     <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="lam_win" name="lam_win" value="1">
-                                            <input type="hidden" name="lam_win" value="0">
-                                            <label class="form-check-label" for="lam_win">Lamination Window</label>
-                                        </div>
+                                        <input type="hidden" name="lam_win" value="0">
+                                        <input class="form-check-input" type="checkbox" id="lam_win" name="lam_win" value="1">
+                                        <label class="form-check-label" for="lam_win">Lamination Window</label>
+                                    </div>
                                     <div id="glassWinRateContainer" style="display: none;">
                                         <div class="form-check">
                                             <label for="Glass_w_rate" class="form-label">Glass Window Rate</label>
