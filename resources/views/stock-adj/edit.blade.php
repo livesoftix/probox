@@ -527,6 +527,7 @@ function loadUpdatedStock()
 
         case 'Purchase Boxboard':
             $('#purchase_boxboard').show();
+            $('#length, #width, #grammage').prop('readonly', true);
             break;
 
         case 'Purchase Plate':
@@ -540,7 +541,7 @@ function loadUpdatedStock()
         case 'Others':
                $('#purchase_boxboard').show();
 
-               $('#length, #width').prop('readonly', false);
+               $('#length, #width, #grammage').prop('readonly', false);
                break;
         
     }
@@ -587,7 +588,8 @@ function loadUpdatedStock()
                         value: item.item_code,
                         text: item.item_code,
                         'data-item-id': item.id,
-                        'data-remain-qty': 0
+                        'data-remain-qty': 0,
+                        'data-grammage': item.gramage || ''
                     }));
                 });
 
@@ -687,6 +689,9 @@ function loadUpdatedStock()
             $('#length').val(selectedOption.data('length'));
             $('#width').val(selectedOption.data('width'));
             $('#grammage').val(selectedOption.data('grammage'));
+        } 
+        else if (purchaseType === 'Others') {
+            $('#grammage').val(selectedOption.data('grammage') || '');
         } 
         else if (purchaseType === 'Purchase Plate') {
             $.ajax({

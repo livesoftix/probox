@@ -445,7 +445,7 @@ public function getUpdatedStock(Request $request)
     $items = ItemMaster::select(
             'id',
             'item_code',
-            
+            'gramage'
         )
         ->orderBy('item_code', 'asc')
         ->get();

@@ -413,7 +413,7 @@ $('#product_type').change(function() {
     // Hide all fields first
     $('[id^="purchase_"]').hide();
     $('#size_fields').hide();
-    $('#length, #width, #product_name, #country_name, #size, #total_qty').val('');
+    $('#length, #width, #grammage, #product_name, #country_name, #size, #total_qty').val('');
     
     // Clear quantity when product type changes
     $('#qty').val('0');
@@ -429,6 +429,7 @@ $('#product_type').change(function() {
         switch(selectedType) {
             case 'Purchase Boxboard':
                 $('#purchase_boxboard').show();
+                $('#length, #width, #grammage').prop('readonly', true);
                 break;
             case 'Purchase Plate':
                 $('#purchase_plate').show();
@@ -440,7 +441,7 @@ $('#product_type').change(function() {
             case 'Others':
                $('#purchase_boxboard').show();
 
-               $('#length, #width').prop('readonly', false);
+               $('#length, #width, #grammage').prop('readonly', false);
                break;
         }
     }
@@ -470,7 +471,8 @@ $('#product_type').change(function() {
                         value: item.item_code,
                         text: item.item_code,
                         'data-item-id': item.id,
-                        'data-remain-qty': 0
+                        'data-remain-qty': 0,
+                        'data-grammage': item.gramage || ''
                     }));
                 });
 
@@ -595,7 +597,10 @@ $('#product_type').change(function() {
                 }
             });
         }
-        else if (purchaseType === 'Lamination Purchase' || purchaseType === 'Corrugation Purchase' ||  purchaseType === 'Others') {
+        else if (purchaseType === 'Others') {
+            $('#grammage').val(selectedOption.data('grammage') || '');
+        }
+        else if (purchaseType === 'Lamination Purchase' || purchaseType === 'Corrugation Purchase') {
             $('#size').val(selectedOption.data('size') || '');
         }
     }
