@@ -424,8 +424,6 @@ PRODUCTION BY
 </div>
 
 </div>
-
-</div>
 @include('product_freezing.modal_edit', [
     'productFreezing' => $productFreezing,
     'products' => $products

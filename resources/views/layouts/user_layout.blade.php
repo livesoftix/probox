@@ -91,7 +91,7 @@
 </div>
 
         <div class="content-page">
-            <div class="content">
+            <div class="content" style="padding-top: 55px;">
 
                 <!-- Start Content-->
 

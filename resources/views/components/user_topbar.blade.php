@@ -1,3 +1,13 @@
+<style>
+    .navbar-custom {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 1002 !important;
+    }
+</style>
 <div class="navbar-custom">
     <div class="topbar container-fluid">
         <div class="d-flex align-items-center gap-lg-2 gap-1">
