@@ -53,7 +53,7 @@
                                     <option value="">Select</option>
                                     @foreach ($accounts as $account)
                                         <option value="{{ $account->id }}"
-                                            {{ old('account', $product->account_id ?? ($product->account->id ?? null)) == $account->id ? 'selected' : '' }}>
+                                            {{ old('account', $product->aid ?? ($product->account_id ?? ($product->account->id ?? null))) == $account->id ? 'selected' : '' }}>
                                             {{ $account->title }}
                                         </option>
                                     @endforeach
@@ -99,8 +99,8 @@
 
                             <!-- Item Type Dropdown -->
                             <div class="mb-3">
-                                <label for="itemTitle" class="form-label">Item Type</label>
-                                <select name="item" class="form-control select2" data-toggle="select2" id="itemTitle">
+                                <label for="mainItemTitle" class="form-label">Item Type</label>
+                                <select name="item" class="form-control select2" data-toggle="select2" id="mainItemTitle">
                                     <option value="">Select</option>
                                     @foreach ($itemsAll as $item)
                                         <option value="{{ $item->id }}" data-grammage="{{ $item->grammage }}"
@@ -163,7 +163,7 @@
                                     <div class="mb-3">
                                         <label for="litem" class="form-label">Item Type</label>
                                         <select name="litem" class="form-control select2" data-toggle="select2"
-                                            id="itemTitle">
+                                            id="litemTitle">
                                             <option value="">Select</option>
                                             @foreach ($items as $item)
                                                 <option value="{{ $item->id }}" data-rate="{{ $item->purchase }}"
@@ -255,7 +255,7 @@
                                     <div class="mb-3">
                                         <label for="citem" class="form-label">Item Type</label>
                                         <select name="citem" class="form-control select2" data-toggle="select2"
-                                            id="itemTitle">
+                                            id="citemTitle">
                                             <option value="">Select</option>
                                             @foreach ($itemsCo as $item)
                                                 <option value="{{ $item->id }}" data-rate="{{ $item->purchase }}"
@@ -650,14 +650,23 @@ const mpastingCheckbox = document.getElementById('manual_pasting');
         }
     });
 
-            document.getElementById('itemTitle').addEventListener('change', function() {
-                var selectedOption = this.options[this.selectedIndex];
-                var rate = selectedOption.getAttribute('data-rate');
-                var grammage = selectedOption.getAttribute('data-grammage');
+            const mainItemSelect = document.getElementById('mainItemTitle') || document.getElementById('itemTitle');
+            if (mainItemSelect) {
+                mainItemSelect.addEventListener('change', function() {
+                    var selectedOption = this.options[this.selectedIndex];
+                    if (selectedOption) {
+                        var rate = selectedOption.getAttribute('data-rate');
+                        var grammage = selectedOption.getAttribute('data-grammage');
 
-                document.getElementById('rate').value = rate;
-                document.getElementById('grammage').value = grammage;
-            });
+                        if (rate !== null && rate !== '' && rate !== 'null') {
+                            document.getElementById('rate').value = rate;
+                        }
+                        if (grammage !== null && grammage !== '' && grammage !== 'null') {
+                            document.getElementById('grammage').value = grammage;
+                        }
+                    }
+                });
+            }
         });
 
         // Function to handle UV checkbox changes
