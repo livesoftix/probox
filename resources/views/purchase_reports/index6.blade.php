@@ -63,9 +63,9 @@
                                 <label for="v_no" class="sr-only">Voucher Number</label>
                                 <select name="v_no" class="form-control select2" data-toggle="select2">
                                     <option value="">Select Voucher</option>
-                                    @foreach($vNo as $vNo)
-                                        <option value="{{ $vNo }}" {{ request()->get('v_no') == $vNo ? 'selected' : '' }}>
-                                            {{ $vNo }}
+                                    @foreach($vNo as $voucherNo)
+                                        <option value="{{ $voucherNo }}" {{ request()->get('v_no') == $voucherNo ? 'selected' : '' }}>
+                                            {{ $voucherNo }}
                                         </option>
                                     @endforeach
                                 </select>

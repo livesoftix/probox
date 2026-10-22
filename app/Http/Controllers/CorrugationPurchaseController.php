@@ -36,15 +36,10 @@ class CorrugationPurchaseController extends Controller
     }
     public function store(Request $request)
     {
-        $lastEntry = TRNDTL::where('v_type', $request->v_type)
-            ->orderBy('id', 'desc')
-            ->first();
-
-        if ($lastEntry && is_numeric($lastEntry->v_no)) {
-            $lastInvoiceNumber = (int) $lastEntry->v_no;
-        } else {
-            $lastInvoiceNumber = 0;
-        }
+        $vType = $request->v_type ?? 'CPN';
+        $maxTrndtl = TRNDTL::where('v_type', $vType)->max(DB::raw('CAST(v_no AS UNSIGNED)'));
+        $maxCorrugation = CorrugationPurchase::max(DB::raw('CAST(vorcher_no AS UNSIGNED)'));
+        $lastInvoiceNumber = max((int)$maxTrndtl, (int)$maxCorrugation);
         $newInvoiceNumber = $lastInvoiceNumber + 1;
 
         foreach ($request->entries as $index => $entry) {
@@ -60,7 +55,7 @@ class CorrugationPurchaseController extends Controller
                 'amount' => $entry['amount'] ?? 0,
                 'vorcher_no' => $newInvoiceNumber,
                 'freight' => $entry['freight'] ?? null,
-                'date'=>$entry['date']
+                'v_date' => $entry['date'] ?? null
             ]);
 
             $trndtl = TRNDTL::create([
@@ -117,7 +112,17 @@ class CorrugationPurchaseController extends Controller
         $v_no = $request->input('v_no');
     $account_id = $request->input('account_id');
 
-        $query = TRNDTL::where('v_type', 'CPN')->where('debit', 0)->where('account_id', '!=', 35)->with('corrugationpurchases');
+        $erpParam = ErpParam::first();
+        $PurfreightExp = $erpParam ? $erpParam->pur_freight_exp : null;
+
+        $query = TRNDTL::where('v_type', 'CPN')
+            ->where('debit', 0)
+            ->where('description', '!=', 'Freight')
+            ->when($PurfreightExp, function ($q) use ($PurfreightExp) {
+                return $q->where('account_id', '!=', $PurfreightExp);
+            })
+            ->where('account_id', '!=', 35)
+            ->with('corrugationpurchases');
 
         if ($startDate && $endDate) {
             $query->whereBetween('date', [$startDate, $endDate]);
@@ -166,9 +171,19 @@ class CorrugationPurchaseController extends Controller
     public function edit($v_no)
     {
         $loggedInUser = Auth::user();
-        $voucher = TRNDTL::where('v_no', $v_no)->where('v_type', 'CPN')->where('account_id', '!=', 35)->where('debit', 0)->get();
-        $items = ItemMaster::all();
         $erpParams = ErpParam::with('level2')->get();
+        $purFreightExp = $erpParams->isNotEmpty() ? $erpParams->first()->pur_freight_exp : null;
+
+        $voucher = TRNDTL::where('v_no', $v_no)
+            ->where('v_type', 'CPN')
+            ->where('debit', 0)
+            ->where('description', '!=', 'Freight')
+            ->when($purFreightExp, function ($q) use ($purFreightExp) {
+                return $q->where('account_id', '!=', $purFreightExp);
+            })
+            ->where('account_id', '!=', 35)
+            ->get();
+        $items = ItemMaster::all();
         $accountMasters = collect();
         $accountSuppliers = collect();
         $purchaseAccount = null;
