@@ -200,8 +200,7 @@ public function store(Request $request)
             'old_vno' => $data['old_vno'][$index],
             'product_name' => $productId ?? 'N/A',
             'item' => $data['item_id'][$index] ?? 'N/A',
-            'box' => $data['box'][
-                ndex] ?? 'N/A',
+            'box' => $data['box'][$index] ?? 'N/A',
             'packing' => $data['packing'][$index] ?? 'N/A',
             'po_no' => $data['po_no'][$index] ?? 'N/A',
             'total' => $data['total'][$index] ?? 0,
