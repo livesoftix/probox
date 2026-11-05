@@ -160,7 +160,7 @@ public function reports(Request $request)
     } 
     if ($productName) {
     $query->whereHas('deliveryDetails', function ($q) use ($productName) {
-        $q->where('prod_name', $productName);
+        $q->where('product_name', $productName);
     });
    }  
     $countQuery = clone $query;

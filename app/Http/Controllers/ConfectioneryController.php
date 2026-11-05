@@ -153,7 +153,7 @@ class ConfectioneryController extends Controller
         }
         if ($productName) {
            $query->whereHas('confectioneryDetails', function ($q) use ($productName) {
-           $q->where('prod_name', $productName);
+           $q->where('product_name', $productName);
        });
        } 
 
