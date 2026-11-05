@@ -89,8 +89,8 @@
                                             data-toggle="select2">
                                             <option value="">Select a Product</option>
                                             @foreach ($productNames as $product)
-                                                <option value="{{ $product->prod_name }}"
-                                                    {{ request('productName') == $product->prod_name ? 'selected' : '' }}>
+                                                <option value="{{ $product->id }}"
+                                                    {{ request('productName') == $product->id ? 'selected' : '' }}>
                                                     {{ $product->prod_name }} <!-- Display product name -->
                                                 </option>
                                             @endforeach
