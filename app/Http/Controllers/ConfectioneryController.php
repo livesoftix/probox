@@ -193,7 +193,7 @@ if ($v_no && $totalRecords <= 50) {
 }else{
     $driverdetails='';
 }
-$productNames = ProductMaster::select('prod_name')->distinct()->get();
+$productNames = ProductMaster::select(['prod_name', 'id'])->distinct()->get();
 // dd($driverdetails);
         return view('sale_reports.index5', [
             'trndtl' => $trndtl,
