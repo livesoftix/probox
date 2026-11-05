@@ -269,9 +269,34 @@ public function store(Request $request)
     }
 
     // Get TRNDTL records first
-    $trnDetails = $trndtlQuery->orderBy('date', 'desc')->orderBy('v_no', 'desc')      ->get();
+    // $trnDetails = $trndtlQuery->orderBy('date', 'desc')->orderBy('v_no', 'desc')      ->get();
+    // STEP 1: Clone query
+$countQuery = clone $trndtlQuery;
+
+// STEP 2: Count records
+$totalRecords = $countQuery->count();
+
+// STEP 3: Pagination condition
+if ($v_no && $totalRecords <= 50) {
+
+    // Small voucher: No pagination
+    $trnDetails = $trndtlQuery
+        ->orderBy('date', 'desc')
+        ->orderBy('v_no', 'desc')
+        ->get();
+
+} else {
+
+    // Large data: Pagination
+    $trnDetails = $trndtlQuery
+        ->orderBy('date', 'desc')
+        ->orderBy('v_no', 'desc')
+        ->paginate(20)
+        ->appends($request->all());
+}
 
     // Get the v_nos from the filtered TRNDTL records
+    // $filteredVNos = $trnDetails->pluck('v_no')->unique()->toArray();
     $filteredVNos = $trnDetails->pluck('v_no')->unique()->toArray();
 
     // Query for SaleInvoice with relationships

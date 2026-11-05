@@ -535,6 +535,11 @@
 
 
                                     </table>
+                                    <div class="mt-3 mx-auto">
+    @if ($trnDetails instanceof \Illuminate\Pagination\LengthAwarePaginator)
+        {{ $trnDetails->links() }}
+    @endif
+</div>
 
                                 </div>
                             </div>
