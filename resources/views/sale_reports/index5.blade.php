@@ -84,7 +84,7 @@
                                     </div>
                                     <!-- Product Name Dropdown -->
                                     <div class="form-group col-xl-2">
-                                        <label for="productName" class="form-label">Product Name</label>
+                                        <label for="productName" class="sr-only">Product Name</label>
                                         <select id="productName" class="form-control select2" name="productName"
                                             data-toggle="select2">
                                             <option value="">Select a Product</option>
