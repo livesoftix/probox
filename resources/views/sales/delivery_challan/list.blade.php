@@ -57,11 +57,7 @@
         <option value="">Select</option>
     </select>
 </div>
-                            <!-- Supplier Selection -->
-                            
-                            
-                            
-                            
+                            <!-- Supplier Selection -->               
                             <div class="mb-3">
                                 <label for="itemTitle" class="form-label">Item Type</label>
                                 <select name="item" class="form-control select2" data-toggle="select2" id="itemTitle" required>

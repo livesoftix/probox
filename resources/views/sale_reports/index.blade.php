@@ -82,10 +82,19 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <!-- P.O -->
-
-
-
+                                    <div class="form-group col-xl-2">
+                                        <label for="productName" class="sr-only">Product Name</label>
+                                        <select id="productName" class="form-control select2" name="productName"
+                                            data-toggle="select2">
+                                            <option value="">Select a Product</option>
+                                            @foreach ($productNames as $product)
+                                                <option value="{{ $product->prod_name }}"
+                                                    {{ request('productName') == $product->prod_name ? 'selected' : '' }}>
+                                                    {{ $product->prod_name }} <!-- Display product name -->
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="form-group col-xl-2">
                                         <label for="batch_no" class="sr-only">Batch No</label>
                                         <select name="batch_no" class="form-control select2" data-toggle="select2"

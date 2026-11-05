@@ -119,6 +119,7 @@ public function reports(Request $request)
     $accountId = $request->input('account'); // New item filter
     $po = $request->input('batch_no'); // New PO filter
     $v_no = $request->input('v_no');
+    $productName = $request->input('productName');
 
     // Get unique P.O numbers
     $poNumbers = DeliveryDetail::distinct()->pluck('batch_no');
@@ -156,8 +157,14 @@ public function reports(Request $request)
         $query->whereHas('deliveryDetails', function ($q) use ($v_no) {
             $q->where('v_no', $v_no);
         });
-    }
+    } 
+    if ($productName) {
+    $query->whereHas('deliveryDetails', function ($q) use ($productName) {
+        $q->where('prod_name', $productName);
+    });
+}
 
+    
     
     $countQuery = clone $query;
 
@@ -195,9 +202,8 @@ if ($v_no && $totalRecords <= 50) {
 }else{
     $driverdetails='';
 }
-// dd($driverdetails);
+$productNames = ProductMaster::select('prod_name')->distinct()->get();
     
-
     return view('sale_reports.index', [
         'trndtl' => $trndtl,
         'startDate' => $startDate,
@@ -211,7 +217,8 @@ if ($v_no && $totalRecords <= 50) {
         'po' => $po,
         'vNoList' => $vNoList,
         'poNumbers' => $poNumbers,
-        'driverdetails'=>$driverdetails
+        'driverdetails'=>$driverdetails,
+        'productNames'=>$productNames
     ]);
 }
 
