@@ -162,10 +162,7 @@ public function reports(Request $request)
     $query->whereHas('deliveryDetails', function ($q) use ($productName) {
         $q->where('prod_name', $productName);
     });
-}
-
-    
-    
+   }  
     $countQuery = clone $query;
 
 // STEP 2: count records (after filters)

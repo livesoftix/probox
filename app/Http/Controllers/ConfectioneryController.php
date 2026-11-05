@@ -120,6 +120,7 @@ class ConfectioneryController extends Controller
         $accountId = $request->input('account');
         $po = $request->input('po_no');
         $v_no = $request->input('v_no');
+        $productName = $request->input('productName');
 
         $poNumbers = ConfectioneryDetail::distinct()->pluck('po_no');
         $query = ConfectioneryMaster::with('confectioneryDetails');
@@ -150,6 +151,11 @@ class ConfectioneryController extends Controller
                 $q->where('account_id', $accountId);
             });
         }
+        if ($productName) {
+           $query->whereHas('confectioneryDetails', function ($q) use ($productName) {
+           $q->where('prod_name', $productName);
+       });
+       } 
 
         // $trndtl = $query->orderBy('date', 'desc')
         //     ->orderBy('v_no', 'desc')
@@ -187,6 +193,7 @@ if ($v_no && $totalRecords <= 50) {
 }else{
     $driverdetails='';
 }
+$productNames = ProductMaster::select('prod_name')->distinct()->get();
 // dd($driverdetails);
         return view('sale_reports.index5', [
             'trndtl' => $trndtl,
@@ -201,7 +208,8 @@ if ($v_no && $totalRecords <= 50) {
             'vNoList' => $vNoList,
             'poNumbers' => $poNumbers,
             'accounts' => $accounts,
-            'driverdetails'=>$driverdetails
+            'driverdetails'=>$driverdetails,
+            'productNames'=>$productNames
         ]);
     }
 
