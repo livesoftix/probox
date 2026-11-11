@@ -21,7 +21,7 @@ class PlateReturnController extends Controller
         $loggedInUser = Auth::user();
         $items = ItemMaster::all();
         $erpParams = ErpParam::with('level2')->get();
-        $product = ProductMaster::where('status','active')->get();
+        $product = ProductMaster::all();
         $countries = Country::all();
         $accountMasters = collect();
         $accountSuppliers = collect();
@@ -107,7 +107,7 @@ class PlateReturnController extends Controller
     
      public function reports(Request $request)
     {
-         $products = ProductMaster::where('status','active')->get();
+         $products = ProductMaster::all();
          $countries = Country::all();
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');

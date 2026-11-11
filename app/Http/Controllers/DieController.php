@@ -24,7 +24,6 @@ class DieController extends Controller
 
     $products = ProductMaster::with('items')
         ->whereNotNull('item_id')
-        ->where('status','active')
         ->orderBy('item_id')
         ->get([
             'id',
