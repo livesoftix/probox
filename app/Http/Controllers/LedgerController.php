@@ -38,7 +38,7 @@ class LedgerController extends Controller
 
         // $trndtls = $trndtls->orderBy('date')->get();
         $trndtls = $trndtls
-    ->orderBy('v_date', 'asc')
+    ->orderBy('date', 'asc')
     ->orderBy('v_no', 'asc')
     ->get();
 
