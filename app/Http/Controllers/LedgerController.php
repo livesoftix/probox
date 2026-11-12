@@ -36,7 +36,11 @@ class LedgerController extends Controller
             $trndtls->where('status', $status);
         }
 
-        $trndtls = $trndtls->orderBy('date')->get();
+        // $trndtls = $trndtls->orderBy('date')->get();
+        $trndtls = $trndtls
+    ->orderBy('v_date', 'asc')
+    ->orderBy('v_no', 'asc')
+    ->get();
 
         // ====== FIXED OPENING BALANCE CALCULATION ======
         // Get ALL transactions before the start_date (sorted by date)
