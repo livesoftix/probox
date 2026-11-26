@@ -49,25 +49,25 @@ class OfficeCashController extends Controller
 
 $lastEntry = TRNDTL::where('v_type', 'OC')->max('v_no');
 $newInvoiceNumber = $lastEntry ? ($lastEntry + 1) : 1;
+DB::transaction(function () use ($request, $newInvoiceNumber, $filePath) {
 
+    foreach ($request->entries as $index => $entry) {
+        TRNDTL::create([
+            'v_no' => $newInvoiceNumber,
+            'v_type' => 'OC',
+            'preparedby' => auth()->user()->name,
+            'date' => now(),
+            'cash_id' => $entry['cash'],
+            'account_id' => $entry['account'],
+            'description' => $entry['description'],
+            'debit' => $entry['debit'],
+            'credit' => '0',
+            'status' => 'unofficial',
+            'file_id' => $filePath,
+        ]);
+    }
 
-
-
-        foreach ($request->entries as $index => $entry) {
-            TRNDTL::create([
-    'v_no' => $newInvoiceNumber,
-    'v_type' => 'OC',
-    'preparedby' => auth()->user()->name, // Get the user's name instead of ID
-    'date' => now(), // Using Carbon's now()
-    'cash_id' => $entry['cash'],
-    'account_id' => $entry['account'],
-    'description' => $entry['description'],
-    'debit' => $entry['debit'],
-    'credit' => '0',
-    'status' => 'unofficial',
-    'file_id' => $filePath,
-]);
-        }
+});
 
         return redirect()->route('office_cash.reports')->with('success', '' . $request->v_type . '-' . $newInvoiceNumber . ' has been saved successfully.');
     }

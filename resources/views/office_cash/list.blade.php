@@ -252,25 +252,30 @@
             const invoiceNumber = invoiceCounter++;
             invoiceInput.value = invoiceNumber;
 
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td>${invoiceNumber}</td>
-                <td>${dateInput.value}</td>
-                <td>${selectedCashOption}</td>
-                <td>${selectedParty}</td>
-                <td>${description}</td>
-                <td>${amount.toFixed(2)}</td>
-                <td>
-                    <button type="button" class="btn btn-danger delete-entry">Delete</button>
-                    <input type="hidden" name="entries[${Date.now()}][date]" value="${dateInput.value}">
-                    <input type="hidden" name="entries[${Date.now()}][cash]" value="${selectedCashBank}">
-                    <input type="hidden" name="entries[${Date.now()}][account]" value="${selectedAccountParty}">
-                    <input type="hidden" name="entries[${Date.now()}][description]" value="${description}">
-                    <input type="hidden" name="entries[${Date.now()}][debit]" value="${amount.toFixed(2)}">
-                    <input type="hidden" name="entries[${Date.now()}][v_type]" value="${invoiceType}">
-                </td>
-            `;
-            entriesTable.appendChild(newRow);
+// Use ONE key for all fields belonging to this entry
+const entryKey = invoiceNumber;
+
+const newRow = document.createElement('tr');
+newRow.innerHTML = `
+    <td>${invoiceNumber}</td>
+    <td>${dateInput.value}</td>
+    <td>${selectedCashOption}</td>
+    <td>${selectedParty}</td>
+    <td>${description}</td>
+    <td>${amount.toFixed(2)}</td>
+    <td>
+        <button type="button" class="btn btn-danger delete-entry">Delete</button>
+
+        <input type="hidden" name="entries[${entryKey}][date]" value="${dateInput.value}">
+        <input type="hidden" name="entries[${entryKey}][cash]" value="${selectedCashBank}">
+        <input type="hidden" name="entries[${entryKey}][account]" value="${selectedAccountParty}">
+        <input type="hidden" name="entries[${entryKey}][description]" value="${description}">
+        <input type="hidden" name="entries[${entryKey}][debit]" value="${amount.toFixed(2)}">
+        <input type="hidden" name="entries[${entryKey}][v_type]" value="${invoiceType}">
+    </td>
+`;
+
+entriesTable.appendChild(newRow);
 
             totalAmount += amount;
             totalAmountDisplay.textContent = totalAmount.toFixed(2);

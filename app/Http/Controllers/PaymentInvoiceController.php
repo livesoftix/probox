@@ -206,9 +206,6 @@ public function reports(Request $request)
         'accountId' => $accountId,
     ]);
 }
-
-
-
 public function edit($v_no)
 {
     $loggedInUser = Auth::user();
@@ -238,8 +235,6 @@ public function edit($v_no)
     // Pass v_no explicitly to the view
     return view('purchase_reports.edit', compact('v_no', 'loggedInUser', 'voucher', 'erpParams', 'accountMasters', 'accountSuppliers', 'purchaseAccount', 'items'));
 }
-
-
 
 public function update(Request $request, $id)
 {
