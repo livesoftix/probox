@@ -4,6 +4,8 @@ use App\Models\ProductFreezing;
 use App\Models\ProductMaster;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductFreezingController extends Controller
 {
@@ -56,49 +58,51 @@ public function index(Request $request)
         'slipNo'
     ));
 }
-
 public function store(Request $request)
 {
     $request->validate([
-
         'date' => 'required|date',
-
-        'slip_no' => 'required',
-
-        'product_id' => 'required|exists:product_master,id',
-
+        'slip_no' => 'required|string',
+        'product_ids' => 'required|array|min:1',
+        'product_ids.*' => 'required|exists:product_master,id',
         'description' => 'nullable|string',
-
         'prepared_by' => 'nullable|string|max:255',
-
         'production_by' => 'nullable|string|max:255',
-
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
     ]);
 
-    ProductFreezing::create([
+    $imagePath = null;
 
-        'date' => $request->date,
+    // Upload image if provided
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('product_freezing', 'public');
+    }
 
-        'slip_no' => $request->slip_no,
+    DB::transaction(function () use ($request, $imagePath) {
 
-        'product_id' => $request->product_id,
+        foreach ($request->product_ids as $productId) {
 
-        'description' => $request->description,
+            ProductFreezing::create([
+                'date' => $request->date,
+                'slip_no' => $request->slip_no,
+                'product_id' => $productId,
+                'description' => $request->description,
+                'prepared_by' => $request->prepared_by,
+                'production_by' => $request->production_by,
+                'image' => $imagePath,
+            ]);
 
-        'prepared_by' => $request->prepared_by,
+            ProductMaster::where('id', $productId)
+                ->update([
+                    'status' => 'Inactive'
+                ]);
+        }
 
-        'production_by' => $request->production_by,
-
-    ]);
-
-    ProductMaster::where('id', $request->product_id)
-        ->update([
-            'status' => 'Inactive'
-        ]);
+    });
 
     return redirect()
         ->route('product-freezing.index')
-        ->with('success', 'Product freezed successfully.');
+        ->with('success', 'Product freezing slip saved successfully.');
 }
 
 public function show($id)

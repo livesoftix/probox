@@ -4,7 +4,7 @@
 
         <div class="modal-content shadow-lg border-0 rounded-3">
 
-            <form action="{{ route('product-freezing.store') }}" method="POST">
+            <form action="{{ route('product-freezing.store') }}" method="POST" enctype="multipart/form-data">
 
                 @csrf
 
@@ -85,35 +85,27 @@ $slipNo = 'PF-' . str_pad((\App\Models\ProductFreezing::max('id') ?? 0) + 1, 5, 
                         </div>
 
                         <!-- Product -->
-                        <div class="col-md-12 mb-3">
+<div class="col-md-12 mb-3">
+    <label class="form-label fw-semibold">
+        Product Name <span class="text-danger">*</span>
+    </label>
 
-                            <label class="form-label fw-semibold">
+    <select name="product_ids[]"
+            id="product_ids"
+            class="form-control modal-product"
+            multiple
+            required>
 
-                                Product Name <span class="text-danger">*</span>
+        @foreach($products as $product)
+            <option value="{{ $product->id }}"
+                    data-status="{{ strtolower($product->status) }}">
+                {{ $product->prod_name }} ({{ ucfirst($product->status) }})
+            </option>
+        @endforeach
+    </select>
 
-                            </label>
-
-                            <select name="product_id"
-                                    id="product_id"
-                                    class="form-control select2" data-toggle="select2"
-                                    required>
-
-                                <option value="">Select Product</option>
-
-                                @foreach($products as $product)
-
-                                    <option value="{{ $product->id }}"
-                                            data-status="{{ $product->status }}">
-
-                                        {{ $product->prod_name }}
-
-                                    </option>
-
-                                @endforeach
-
-                            </select>
-
-                        </div>
+    <small class="text-muted">You can select multiple products.</small>
+</div>
 
                         <!-- Description -->
                         <div class="col-md-12 mb-3">
@@ -132,6 +124,24 @@ $slipNo = 'PF-' . str_pad((\App\Models\ProductFreezing::max('id') ?? 0) + 1, 5, 
                         </div>
 
                     </div>
+
+                     <!-- Image Upload -->
+<div class="col-md-12 mb-3">
+    <label class="form-label fw-semibold">Upload Image</label>
+
+    <input type="file"
+           name="image"
+           id="freezing_image"
+           class="form-control"
+           accept="image/*">
+
+    <div class="mt-2">
+        <img id="freezing_image_preview"
+             src=""
+             alt="Image Preview"
+             style="display:none; max-width:250px; max-height:200px; border-radius:8px;">
+    </div>
+</div>
 
                     <!-- Authorization -->
 
@@ -241,36 +251,72 @@ $slipNo = 'PF-' . str_pad((\App\Models\ProductFreezing::max('id') ?? 0) + 1, 5, 
 
 $(document).ready(function () {
 
-    $('#product_id').select2({
-
-        dropdownParent: $('#freezeModal'),
-        width: '100%'
-
+    // Product filter dropdown
+    $('.product-filter').select2({
+        width: '100%',
+        placeholder: 'All Products',
+        allowClear: true
     });
 
-    $('#product_id').change(function () {
+    // Multiple products inside freezing modal
+    $('#product_ids').select2({
+        dropdownParent: $('#freezeModal'),
+        width: '100%',
+        placeholder: 'Select Products',
+        closeOnSelect: false
+    });
 
-        let status = $(this).find(':selected').data('status');
+    // Update status based on selected products
+    $('#product_ids').on('change', function () {
 
-        if (status === 'active') {
+        let selectedOptions = $(this).find(':selected');
+        let statuses = selectedOptions.map(function () {
+            return $(this).data('status');
+        }).get();
 
-            $('#status').val('inactive');
-
-        } else {
-
-            $('#status').val(status ?? '');
-
+        if (statuses.length === 0) {
+            $('#status').val('Inactive');
+            return;
         }
 
-    });
-    $('#freezeModal').on('shown.bs.modal', function () {
+        let allActive = statuses.every(status => status === 'active');
 
-    $('#product_id').select2({
-        dropdownParent: $('#freezeModal'),
-        width: '100%'
+        if (allActive) {
+            $('#status').val('Inactive');
+        } else if (statuses.every(status => status === 'inactive')) {
+            $('#status').val('Inactive');
+        } else {
+            $('#status').val('Mixed');
+        }
     });
 
-});
+    // Image preview
+    $('#freezing_image').on('change', function () {
+
+        let file = this.files[0];
+
+        if (!file) {
+            $('#freezing_image_preview').hide().attr('src', '');
+            return;
+        }
+
+        if (!file.type.startsWith('image/')) {
+            alert('Please select an image file.');
+            this.value = '';
+            $('#freezing_image_preview').hide().attr('src', '');
+            return;
+        }
+
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#freezing_image_preview')
+                .attr('src', e.target.result)
+                .show();
+        };
+
+        reader.readAsDataURL(file);
+    });
 
 });
 </script>
