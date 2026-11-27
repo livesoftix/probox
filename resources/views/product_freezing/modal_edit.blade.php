@@ -247,23 +247,3 @@
     </div>
 
 </div>
-
-
-
-<script>
-
-$(document).ready(function () {
-
-    $('.modal').on('shown.bs.modal', function () {
-
-        $(this).find('.edit-select2').select2({
-
-            dropdownParent: $(this),
-            width: '100%'
-
-        });
-
-    });
-
-});
-</script>

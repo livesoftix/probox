@@ -243,26 +243,60 @@
 <link rel="stylesheet"
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
  $(document).ready(function () {
 
-    // Filter dropdown
-    $('.product-filter').select2({
-        width: '100%',
-        placeholder: 'All Products',
-        allowClear: true
+    // Product filter
+    $('.product-filter').each(function () {
+        if (!$(this).hasClass('select2-hidden-accessible')) {
+            $(this).select2({
+                width: '100%',
+                placeholder: 'All Products',
+                allowClear: true
+            });
+        }
     });
 
-    // Modal dropdown
-    $('#freezeModal .modal-product').select2({
-        dropdownParent: $('#freezeModal'),
-        width: '100%'
+    // Create modal product dropdown
+    $('#freezeModal .modal-product').each(function () {
+        if (!$(this).hasClass('select2-hidden-accessible')) {
+            $(this).select2({
+                dropdownParent: $('#freezeModal'),
+                width: '100%',
+                placeholder: 'Search and add products...',
+                closeOnSelect: false
+            });
+        }
     });
 
-    // Status change inside modal
+    // Initialize edit modal product dropdown when modal opens
+    $(document).on('shown.bs.modal', '[id^="editModal"]', function () {
+
+        let modal = $(this);
+
+        modal.find('.edit-select2').each(function () {
+
+            let select = $(this);
+
+            if (select.hasClass('select2-hidden-accessible')) {
+                return;
+            }
+
+            select.select2({
+                dropdownParent: modal,
+                width: '100%',
+                placeholder: 'Search product by name...',
+                allowClear: true
+            });
+
+        });
+
+    });
+
+    // Status change inside create modal
     $('#freezeModal').on('change', '#product_id', function () {
 
         let status = $(this).find(':selected').data('status');
