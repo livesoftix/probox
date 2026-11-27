@@ -251,7 +251,196 @@ $slipNo = 'PF-' . str_pad((\App\Models\ProductFreezing::max('id') ?? 0) + 1, 5, 
     </div>
 
 </div>
+<style>
 
+/* ==========================================
+   PRODUCT SELECT - PROFESSIONAL DESIGN
+========================================== */
+
+/* Main container */
+#product_ids + .select2-container {
+    width: 100% !important;
+}
+
+/* Selection box */
+#product_ids + .select2-container .select2-selection--multiple {
+    min-height: 48px !important;
+    padding: 7px 10px !important;
+    background: #ffffff !important;
+    border: 1px solid #d6dce5 !important;
+    border-radius: 9px !important;
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    box-shadow: none !important;
+}
+
+/* Selected products - individual tags */
+#product_ids + .select2-container .select2-selection__choice {
+    display: inline-flex !important;
+    align-items: center !important;
+    float: none !important;
+    margin: 3px 4px 3px 0 !important;
+    padding: 7px 11px !important;
+    background: #f0f5ff !important;
+    border: 1px solid #d6e4ff !important;
+    border-radius: 7px !important;
+    color: #244a82 !important;
+    font-size: 13px !important;
+    font-family: inherit !important;
+    font-weight: 600 !important;
+    line-height: 19px !important;
+    max-width: 100% !important;
+}
+
+/* Selected product text */
+#product_ids + .select2-container .select2-selection__choice span {
+    color: #244a82 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+
+/* Remove button */
+#product_ids + .select2-container .select2-selection__choice__remove {
+    position: static !important;
+    order: -1 !important;
+    border: none !important;
+    margin-right: 8px !important;
+    color: #647da5 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+}
+
+/* Remove hover */
+#product_ids + .select2-container .select2-selection__choice__remove:hover {
+    color: #dc3545 !important;
+    background: transparent !important;
+}
+
+/* Inline search input */
+#product_ids + .select2-container .select2-search--inline {
+    display: inline-flex !important;
+    align-items: center !important;
+    flex: 1 1 180px !important;
+    min-width: 160px !important;
+    margin: 2px 0 !important;
+}
+
+/* Actual typing field */
+#product_ids + .select2-container .select2-search__field {
+    width: 100% !important;
+    min-width: 150px !important;
+    height: 34px !important;
+    margin: 0 !important;
+    padding: 5px 7px !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    font-size: 14px !important;
+    font-family: inherit !important;
+    font-weight: 400 !important;
+    color: #343a40 !important;
+}
+
+/* Placeholder */
+#product_ids + .select2-container .select2-search__field::placeholder {
+    color: #98a2b3 !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+}
+
+/* Focus on entire box */
+#product_ids + .select2-container.select2-container--focus
+.select2-selection--multiple {
+    border-color: #86b7fe !important;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.09) !important;
+}
+
+/* ==========================================
+   SEARCH DROPDOWN
+========================================== */
+
+/* Dropdown panel */
+.select2-container--open .select2-dropdown {
+    border: 1px solid #dce3ec !important;
+    border-radius: 9px !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 24px rgba(25, 40, 65, 0.12) !important;
+    background: #ffffff !important;
+}
+
+/* Search area */
+.select2-container--open .select2-search--dropdown {
+    padding: 12px !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #edf0f4 !important;
+}
+
+/* Search input */
+.select2-container--open .select2-search__field {
+    width: 100% !important;
+    height: 42px !important;
+    padding: 9px 13px !important;
+    border: 1px solid #d6dce5 !important;
+    border-radius: 7px !important;
+    background: #f9fafc !important;
+    font-family: inherit !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #343a40 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Search focus */
+.select2-container--open .select2-search__field:focus {
+    background: #ffffff !important;
+    border-color: #86b7fe !important;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.08) !important;
+}
+
+/* Results area */
+.select2-results__options {
+    max-height: 260px !important;
+    overflow-y: auto !important;
+}
+
+/* Individual result */
+.select2-results__option {
+    padding: 10px 14px !important;
+    font-family: inherit !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    line-height: 20px !important;
+    color: #394354 !important;
+    transition: background 0.15s ease !important;
+}
+
+/* Hover result */
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background: #edf4ff !important;
+    color: #24569a !important;
+}
+
+/* Already selected */
+.select2-container--default .select2-results__option[aria-selected="true"] {
+    background: #f5f7fa !important;
+    color: #8792a2 !important;
+}
+
+/* Scrollbar */
+.select2-results__options::-webkit-scrollbar {
+    width: 6px;
+}
+
+.select2-results__options::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+    </style>
 <!-- Select2 -->
  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -312,11 +501,12 @@ $('#product_ids').on('select2:select', function () {
             $('#status').val('Mixed');
         }
     });
-    $('#product_ids').select2({
+$('#product_ids').select2({
     dropdownParent: $('#freezeModal'),
     width: '100%',
-    placeholder: 'Search and select products',
-    closeOnSelect: false
+    placeholder: 'Search and add products...',
+    closeOnSelect: false,
+    allowClear: true
 });
 // Image preview
 $('#freezing_image').on('change', function () {
