@@ -154,8 +154,6 @@ $slipNo = 'PF-' . str_pad((\App\Models\ProductFreezing::max('id') ?? 0) + 1, 5, 
         </div>
     </div>
 </div>
-
-
                     <!-- Authorization -->
 
                     <div class="mt-3">
