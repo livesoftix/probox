@@ -138,7 +138,8 @@
                             <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                     <tr>
-                                          <th>Sr</th>
+                                <th>Sr</th>
+                                <th>Id</th>
                                 <th>Name</th>
                                 <th style="display:none">CNIC</th>
                                 
@@ -155,6 +156,7 @@
                                     @foreach ($employeeTypes as $employeeType)
                                     <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $employeeType->id }}</td>
                                 <td>{{ $employeeType->employee->fname ?? 'N/A'}}</td>
                                 <td style="display:none">{{ $employeeType->employee->cnic_no ?? 'N/A'}}</td>
                                 
