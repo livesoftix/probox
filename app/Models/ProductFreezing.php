@@ -14,7 +14,7 @@ class ProductFreezing extends Model
     'product_id',
     'description',
     'prepared_by',
-    'production_by',
+    'production_by','image'
     ];
     public function product()
 {
