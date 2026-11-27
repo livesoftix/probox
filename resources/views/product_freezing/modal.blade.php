@@ -124,8 +124,7 @@ $slipNo = 'PF-' . str_pad((\App\Models\ProductFreezing::max('id') ?? 0) + 1, 5, 
                         </div>
 
                     </div>
-
-                     <!-- Image Upload -->
+<!-- Image Upload -->
 <div class="col-md-12 mb-3">
     <label class="form-label fw-semibold">Upload Image</label>
 
@@ -135,13 +134,27 @@ $slipNo = 'PF-' . str_pad((\App\Models\ProductFreezing::max('id') ?? 0) + 1, 5, 
            class="form-control"
            accept="image/*">
 
-    <div class="mt-2">
-        <img id="freezing_image_preview"
-             src=""
-             alt="Image Preview"
-             style="display:none; max-width:250px; max-height:200px; border-radius:8px;">
+    <div id="freezing_image_container" class="mt-3" style="display:none;">
+        <div class="position-relative d-inline-block">
+
+            <img id="freezing_image_preview"
+                 src=""
+                 alt="Image Preview"
+                 style="max-width:250px; max-height:200px; border-radius:8px; border:1px solid #dee2e6;">
+
+            <!-- Remove Icon Overlay -->
+            <button type="button"
+                    id="remove_freezing_image"
+                    class="btn btn-danger btn-sm rounded-circle position-absolute"
+                    style="top:-8px; right:-8px; width:28px; height:28px; padding:0; display:flex; align-items:center; justify-content:center;"
+                    title="Remove Image">
+                <i class="bi bi-x-lg"></i>
+            </button>
+
+        </div>
     </div>
 </div>
+
 
                     <!-- Authorization -->
 
@@ -289,34 +302,47 @@ $(document).ready(function () {
             $('#status').val('Mixed');
         }
     });
+    $('#product_ids').select2({
+    dropdownParent: $('#freezeModal'),
+    width: '100%',
+    placeholder: 'Search and select products',
+    closeOnSelect: false
+});
+// Image preview
+$('#freezing_image').on('change', function () {
 
-    // Image preview
-    $('#freezing_image').on('change', function () {
+    let file = this.files[0];
 
-        let file = this.files[0];
+    if (!file) {
+        $('#freezing_image_container').hide();
+        $('#freezing_image_preview').attr('src', '');
+        return;
+    }
 
-        if (!file) {
-            $('#freezing_image_preview').hide().attr('src', '');
-            return;
-        }
+    if (!file.type.startsWith('image/')) {
+        alert('Please select a valid image file.');
+        this.value = '';
+        $('#freezing_image_container').hide();
+        $('#freezing_image_preview').attr('src', '');
+        return;
+    }
 
-        if (!file.type.startsWith('image/')) {
-            alert('Please select an image file.');
-            this.value = '';
-            $('#freezing_image_preview').hide().attr('src', '');
-            return;
-        }
+    let reader = new FileReader();
 
-        let reader = new FileReader();
+    reader.onload = function (e) {
+        $('#freezing_image_preview').attr('src', e.target.result);
+        $('#freezing_image_container').show();
+    };
 
-        reader.onload = function (e) {
-            $('#freezing_image_preview')
-                .attr('src', e.target.result)
-                .show();
-        };
+    reader.readAsDataURL(file);
+});
 
-        reader.readAsDataURL(file);
-    });
+// Remove image using overlay icon
+$('#remove_freezing_image').on('click', function () {
+    $('#freezing_image').val('');
+    $('#freezing_image_preview').attr('src', '');
+    $('#freezing_image_container').hide();
+});
 
 });
 </script>
