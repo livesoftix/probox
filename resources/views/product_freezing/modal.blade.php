@@ -270,12 +270,24 @@ $(document).ready(function () {
     });
 
     // Multiple products inside freezing modal
-    $('#product_ids').select2({
-        dropdownParent: $('#freezeModal'),
-        width: '100%',
-        placeholder: 'Select Products',
-        closeOnSelect: false
-    });
+$('#product_ids').select2({
+    dropdownParent: $('#freezeModal'),
+    width: '100%',
+    placeholder: 'Search products by name or code...',
+    closeOnSelect: false,
+    allowClear: true
+});
+
+// After selecting a product, keep focus in the search field
+$('#product_ids').on('select2:select', function () {
+    let select = $(this);
+
+    setTimeout(function () {
+        select.next('.select2-container')
+            .find('.select2-search__field')
+            .focus();
+    }, 50);
+});
 
     // Update status based on selected products
     $('#product_ids').on('change', function () {
