@@ -165,6 +165,70 @@
     </div>
 
 </div>
+<style>
+
+/* Edit product select box */
+.edit-select2 + .select2-container {
+    width: 100% !important;
+}
+
+.edit-select2 + .select2-container .select2-selection--single {
+    height: 42px !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 10px !important;
+    background: #fff !important;
+}
+
+/* Selected product font */
+.edit-select2 + .select2-container .select2-selection__rendered {
+    color: #343a40 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: 40px !important;
+    padding-left: 2px !important;
+}
+
+/* Arrow */
+.edit-select2 + .select2-container .select2-selection__arrow {
+    height: 40px !important;
+}
+
+/* Dropdown search */
+.select2-container--open .select2-search--dropdown {
+    padding: 8px !important;
+}
+
+.select2-container--open .select2-search__field {
+    height: 38px !important;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 6px !important;
+    outline: none !important;
+}
+
+/* Focus effect */
+.edit-select2 + .select2-container.select2-container--focus
+.select2-selection--single {
+    border-color: #86b7fe !important;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.12) !important;
+}
+
+/* Options */
+.select2-results__option {
+    font-size: 13.5px !important;
+    padding: 9px 12px !important;
+}
+
+/* Hover */
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #edf4ff !important;
+    color: #244c85 !important;
+}
+</style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
