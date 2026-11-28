@@ -156,33 +156,39 @@
 
     <label class="form-label fw-semibold">Freezing Image</label>
 
-    <div id="freezingImageWrapper" class="mb-2"
+    <div id="freezingImageWrapper{{ $row->id }}"
+         class="mb-2"
          style="{{ $row->image ? '' : 'display:none;' }} position:relative; width:fit-content;">
 
-        <img id="freezingEditPreview"
+        <img id="freezingEditPreview{{ $row->id }}"
              src="{{ $row->image ? asset('storage/' . $row->image) : '' }}"
              style="max-height:250px; max-width:100%; border:1px solid #ddd; padding:5px; border-radius:8px;">
 
         <button type="button"
-                id="removeFreezingImage"
-                class="btn btn-danger btn-sm"
-                style="position:absolute; top:5px; right:5px; border-radius:50%;"
+                class="remove-freezing-image"
+                data-id="{{ $row->id }}"
                 title="Remove image">
-            <i class="bi bi-x-lg"></i>
+
+            &times;
+
         </button>
 
     </div>
 
-    <input type="hidden" name="remove_image" id="removeFreezingImageFlag" value="0">
+    <input type="hidden"
+           name="remove_image"
+           id="removeFreezingImageFlag{{ $row->id }}"
+           value="0">
 
     <input type="file"
            name="image"
-           id="freezingEditImage"
-           class="form-control"
+           id="freezingEditImage{{ $row->id }}"
+           class="form-control freezing-image-input mt-2"
+           data-id="{{ $row->id }}"
            accept="image/*">
 
     <small class="text-muted">
-        Select a new image to replace the existing one, or click × to remove it.
+        Select a new image to replace it, or click × to remove.
     </small>
 
 </div>
@@ -282,36 +288,68 @@
     </div>
 
 </div>
+<style>
+    .remove-freezing-image {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 26px;
+        height: 26px;
+        padding: 0;
+        margin: 0;
+        border: none;
+        border-radius: 50%;
+        background: #dc3545;
+        color: #fff;
+        font-size: 19px;
+        font-weight: bold;
+        line-height: 26px;
+        text-align: center;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+    }
+
+    .remove-freezing-image:hover {
+        background: #bb2d3b;
+    }
+</style>
 <script>
- $(document).ready(function () {
+$(document).on('change', '.freezing-image-input', function () {
 
-    // Preview newly selected image
-    $('#freezingEditImage').on('change', function () {
+    let id = $(this).data('id');
+    let file = this.files[0];
 
-        let file = this.files[0];
+    if (!file) return;
 
-        if (!file) return;
+    let reader = new FileReader();
 
-        let reader = new FileReader();
+    reader.onload = function (e) {
 
-        reader.onload = function (e) {
-            $('#freezingEditPreview').attr('src', e.target.result);
-            $('#freezingImageWrapper').show();
-            $('#removeFreezingImageFlag').val('0');
-        };
+        $('#freezingEditPreview' + id)
+            .attr('src', e.target.result);
 
-        reader.readAsDataURL(file);
-    });
+        $('#freezingImageWrapper' + id).show();
 
-    // Remove existing/selected image
-    $('#removeFreezingImage').on('click', function () {
+        $('#removeFreezingImageFlag' + id).val('0');
+    };
 
-        $('#freezingEditImage').val('');
-        $('#freezingEditPreview').attr('src', '');
-        $('#freezingImageWrapper').hide();
-        $('#removeFreezingImageFlag').val('1');
+    reader.readAsDataURL(file);
+});
 
-    });
+$(document).on('click', '.remove-freezing-image', function () {
+
+    let id = $(this).data('id');
+
+    $('#freezingEditImage' + id).val('');
+
+    $('#freezingEditPreview' + id).attr('src', '');
+
+    $('#freezingImageWrapper' + id).hide();
+
+    $('#removeFreezingImageFlag' + id).val('1');
 
 });
 </script>
