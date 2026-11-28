@@ -132,74 +132,83 @@ public function show($id)
     );
 }
 
- public function update(Request $request, $id)
+
+public function update(Request $request, $id)
 {
+    $row = ProductFreezing::findOrFail($id);
+
     $request->validate([
-
-        'date'            => 'required|date',
-
-        'product_id'      => 'required|exists:product_master,id',
-
-        'status'          => 'required|in:Active,Inactive',
-
-        'description'     => 'nullable|string',
-
-        'prepared_by'     => 'nullable|string|max:255',
-
-        'production_by'   => 'nullable|string|max:255',
-
+        'date'          => 'required|date',
+        'product_id'    => 'required|exists:product_masters,id',
+        'status'        => 'required|in:Active,Inactive,active,inactive',
+        'description'   => 'nullable|string',
+        'prepared_by'   => 'nullable|string|max:255',
+        'production_by'  => 'nullable|string|max:255',
+        'image'          => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
     ]);
 
-    $freezing = ProductFreezing::findOrFail($id);
+    $oldProductId = $row->product_id;
+    $newProductId = $request->product_id;
 
-    /*
-    |--------------------------------------------------------------------------
-    | If product is changed, restore old product status first
-    |--------------------------------------------------------------------------
-    */
+    $oldImagePath = $row->image;
+    $newImagePath = $oldImagePath;
 
-    if ($freezing->product_id != $request->product_id) {
-
-        ProductMaster::where('id', $freezing->product_id)
-            ->update([
-                'status' => 'Active'
-            ]);
+    // Upload replacement image if selected
+    if ($request->hasFile('image')) {
+        $newImagePath = $request->file('image')
+            ->store('product_freezing', 'public');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Update Product Freezing
-    |--------------------------------------------------------------------------
-    */
+    \DB::beginTransaction();
 
-    $freezing->update([
+    try {
 
-        'date'            => $request->date,
-
-        'product_id'      => $request->product_id,
-
-        'description'     => $request->description,
-
-        'prepared_by'     => $request->prepared_by,
-
-        'production_by'   => $request->production_by,
-
-    ]);
-
-    /*
-    |--------------------------------------------------------------------------
-    | Update Selected Product Status
-    |--------------------------------------------------------------------------
-    */
-
-    ProductMaster::where('id', $request->product_id)
-        ->update([
-            'status' => $request->status
+        // Update freezing slip
+        $row->update([
+            'date'         => $request->date,
+            'product_id'   => $newProductId,
+            'description'  => $request->description,
+            'prepared_by'  => $request->input('prepared_by', $row->prepared_by),
+            'production_by' => $request->input('production_by', $row->production_by),
+            'image'        => $newImagePath,
         ]);
 
-    return redirect()
-        ->route('product-freezing.index')
-        ->with('success', 'Product Freezing updated successfully.');
+        // If product changed, restore old product status
+        if ($oldProductId != $newProductId) {
+            ProductMaster::where('id', $oldProductId)
+                ->update(['status' => 'Active']);
+        }
+
+        // Update selected product status
+        ProductMaster::where('id', $newProductId)
+            ->update([
+                'status' => ucfirst(strtolower($request->status))
+            ]);
+
+        \DB::commit();
+
+        // Delete previous image after successful update
+        if ($request->hasFile('image') && $oldImagePath) {
+            Storage::disk('public')->delete($oldImagePath);
+        }
+
+        return redirect()
+            ->route('product-freezing.index')
+            ->with('success', 'Product Freezing Slip updated successfully.');
+
+    } catch (\Exception $e) {
+
+        \DB::rollBack();
+
+        // Delete newly uploaded image if update failed
+        if ($request->hasFile('image') && $newImagePath && $newImagePath != $oldImagePath) {
+            Storage::disk('public')->delete($newImagePath);
+        }
+
+        return back()
+            ->withInput()
+            ->with('error', 'Failed to update Product Freezing Slip: ' . $e->getMessage());
+    }
 }
     public function destroy($id)
 {
