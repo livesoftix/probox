@@ -11,7 +11,7 @@
         <div class="modal-content shadow-lg border-0 rounded-3">
 
             <form action="{{ route('product-freezing.update',$row->id) }}"
-                  method="POST">
+                  method="POST" enctype="multipart/form-data">
 
                 @csrf
                 @method('PUT')
@@ -151,6 +151,35 @@
                                       rows="4">{{ $row->description }}</textarea>
 
                         </div>
+                        <!-- Image -->
+<div class="col-md-12 mb-3">
+
+    <label class="form-label fw-semibold">Freezing Image</label>
+
+    @if($row->image)
+        <div class="mb-3">
+            <img src="{{ asset('storage/' . $row->image) }}"
+                 id="freezingEditPreview"
+                 style="max-height:250px; max-width:100%; border:1px solid #ddd; padding:5px; border-radius:8px;">
+        </div>
+    @else
+        <div class="mb-3">
+            <img id="freezingEditPreview"
+                 style="display:none; max-height:250px; max-width:100%; border:1px solid #ddd; padding:5px; border-radius:8px;">
+        </div>
+    @endif
+
+    <input type="file"
+           name="image"
+           id="freezingEditImage"
+           class="form-control"
+           accept="image/*">
+
+    <small class="text-muted">
+        Leave empty to keep current image.
+    </small>
+
+</div>
 
                     </div>
 
@@ -247,3 +276,37 @@
     </div>
 
 </div>
+<script>
+    $(document).on('change', '.edit-image-input', function () {
+    let input = this;
+    let previewId = $(this).data('preview');
+    let preview = document.getElementById(previewId);
+
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+});
+
+$(document).on('change', '#freezingEditImage', function () {
+    let input = this;
+    let preview = document.getElementById('freezingEditPreview');
+
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+});
+</script>
