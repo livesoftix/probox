@@ -144,7 +144,8 @@ public function update(Request $request, $id)
         'description'   => 'nullable|string',
         'prepared_by'   => 'nullable|string|max:255',
         'production_by'  => 'nullable|string|max:255',
-        'image'          => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+        'image'         => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+        'remove_image'  => 'nullable|in:0,1',
     ]);
 
     $oldProductId = $row->product_id;
@@ -155,8 +156,16 @@ public function update(Request $request, $id)
 
     // Upload replacement image if selected
     if ($request->hasFile('image')) {
+
         $newImagePath = $request->file('image')
             ->store('product_freezing', 'public');
+
+    }
+    // Remove existing image if requested and no new image uploaded
+    elseif ($request->remove_image == '1') {
+
+        $newImagePath = null;
+
     }
 
     \DB::beginTransaction();
@@ -165,31 +174,35 @@ public function update(Request $request, $id)
 
         // Update freezing slip
         $row->update([
-            'date'         => $request->date,
-            'product_id'   => $newProductId,
-            'description'  => $request->description,
-            'prepared_by'  => $request->input('prepared_by', $row->prepared_by),
+            'date'          => $request->date,
+            'product_id'    => $newProductId,
+            'description'   => $request->description,
+            'prepared_by'   => $request->input('prepared_by', $row->prepared_by),
             'production_by' => $request->input('production_by', $row->production_by),
-            'image'        => $newImagePath,
+            'image'         => $newImagePath,
         ]);
 
         // If product changed, restore old product status
         if ($oldProductId != $newProductId) {
+
             ProductMaster::where('id', $oldProductId)
                 ->update(['status' => 'Active']);
+
         }
 
         // Update selected product status
         ProductMaster::where('id', $newProductId)
             ->update([
-                'status' => ucfirst(strtolower($request->status))
+                'status' => strtolower($request->status)
             ]);
 
         \DB::commit();
 
-        // Delete previous image after successful update
-        if ($request->hasFile('image') && $oldImagePath) {
+        // Delete previous image after successful update (replacement or removal)
+        if ($oldImagePath && $oldImagePath != $newImagePath) {
+
             Storage::disk('public')->delete($oldImagePath);
+
         }
 
         return redirect()
@@ -202,7 +215,9 @@ public function update(Request $request, $id)
 
         // Delete newly uploaded image if update failed
         if ($request->hasFile('image') && $newImagePath && $newImagePath != $oldImagePath) {
+
             Storage::disk('public')->delete($newImagePath);
+
         }
 
         return back()
