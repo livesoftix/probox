@@ -151,26 +151,24 @@
                                       rows="4">{{ $row->description }}</textarea>
 
                         </div>
-<!-- Image -->
+<!-- Freezing Image -->
 <div class="col-md-12 mb-3">
 
     <label class="form-label fw-semibold">Freezing Image</label>
 
     <div id="freezingImageWrapper{{ $row->id }}"
-         class="mb-2"
-         style="{{ $row->image ? '' : 'display:none;' }} position:relative; width:fit-content;">
+         class="freezing-preview-box"
+         style="{{ $row->image ? '' : 'display:none;' }}">
 
         <img id="freezingEditPreview{{ $row->id }}"
-             src="{{ $row->image ? asset('storage/' . $row->image) : '' }}"
-             style="max-height:250px; max-width:100%; border:1px solid #ddd; padding:5px; border-radius:8px;">
+             src="{{ $row->image ? \Illuminate\Support\Facades\Storage::disk('public')->url($row->image) : '' }}"
+             alt="Freezing Image Preview">
 
         <button type="button"
                 class="remove-freezing-image"
                 data-id="{{ $row->id }}"
-                title="Remove image">
-
+                title="Remove Image">
             &times;
-
         </button>
 
     </div>
@@ -185,10 +183,10 @@
            id="freezingEditImage{{ $row->id }}"
            class="form-control freezing-image-input mt-2"
            data-id="{{ $row->id }}"
-           accept="image/*">
+           accept="image/jpeg,image/png,image/webp">
 
     <small class="text-muted">
-        Select a new image to replace it, or click × to remove.
+        Choose a new image to replace the current image, or press × to remove it.
     </small>
 
 </div>
@@ -289,32 +287,55 @@
 
 </div>
 <style>
-    .remove-freezing-image {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        width: 26px;
-        height: 26px;
-        padding: 0;
-        margin: 0;
-        border: none;
-        border-radius: 50%;
-        background: #dc3545;
-        color: #fff;
-        font-size: 19px;
-        font-weight: bold;
-        line-height: 26px;
-        text-align: center;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.25);
-    }
+.freezing-preview-box {
+    position: relative;
+    width: 320px;
+    height: 230px;
+    max-width: 100%;
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
 
-    .remove-freezing-image:hover {
-        background: #bb2d3b;
-    }
+.freezing-preview-box img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.remove-freezing-image {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    background: #dc3545;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    font-size: 18px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+
+.remove-freezing-image:hover {
+    background: #b02a37;
+}
 </style>
 <script>
 $(document).on('change', '.freezing-image-input', function () {
@@ -328,10 +349,12 @@ $(document).on('change', '.freezing-image-input', function () {
 
     reader.onload = function (e) {
 
-        $('#freezingEditPreview' + id)
-            .attr('src', e.target.result);
+        let preview = document.getElementById('freezingEditPreview' + id);
+        let wrapper = document.getElementById('freezingImageWrapper' + id);
 
-        $('#freezingImageWrapper' + id).show();
+        preview.src = e.target.result;
+
+        wrapper.style.display = 'flex';
 
         $('#removeFreezingImageFlag' + id).val('0');
     };

@@ -184,17 +184,15 @@
 
     <!-- Edit -->
 
-    <button type="button"
-            class="btn btn-warning btn-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#editModal{{ $row->id }}"
-            title="Edit">
+<button type="button"
+        class="btn btn-warning btn-sm open-freezing-edit"
+        data-modal-id="editModal{{ $row->id }}"
+        title="Edit">
 
-        <i class="bi bi-pencil-square"></i>
+    <i class="bi bi-pencil-square"></i>
+    Edit
 
-        Edit
-
-    </button>
+</button>
 
     <!-- Delete -->
 
@@ -307,6 +305,55 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         }
 
     });
+// Open Edit Modal manually
+$(document).on('click', '.open-freezing-edit', function () {
+
+    let modalId = $(this).data('modal-id');
+    let modal = $('#' + modalId);
+
+    if (!modal.length) {
+        console.error('Edit modal not found:', modalId);
+        return;
+    }
+
+    // Remove previous manual backdrop
+    $('.freezing-manual-backdrop').remove();
+
+    // Hide other edit modals
+    $('.modal[id^="editModal"]').removeClass('show').hide();
+
+    // Open selected modal
+    modal.css('display', 'block');
+    modal.addClass('show');
+
+    modal.attr({
+        'aria-modal': 'true',
+        'role': 'dialog'
+    });
+
+    $('body').addClass('modal-open');
+
+    // Add backdrop
+    $('<div class="modal-backdrop fade show freezing-manual-backdrop"></div>')
+        .appendTo('body');
+
+    // Initialize Select2 inside edit modal
+    modal.find('.edit-select2').each(function () {
+
+        if (!$(this).hasClass('select2-hidden-accessible')) {
+
+            $(this).select2({
+                dropdownParent: modal,
+                width: '100%',
+                placeholder: 'Search product by name...',
+                allowClear: true
+            });
+
+        }
+
+    });
+
+});
 
 });
     </script>
